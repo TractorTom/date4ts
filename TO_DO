@@ -1,4 +1,5 @@
 Création du package :
-- Ajouter man (documentation)
-- Compléter NAMESPACE et DESCRIPTION
-- Tester
+- compléter les tests de combine2ts
+    --> faire un test avec des fréquences décimal et des starts / ends décimaux
+    --> recopier tous les test effectuées avec fréquence 12 sur tous les autres types de base
+- faire les tests pour setValue_ts

@@ -1,9 +1,79 @@
 
+#' Change certaines valeurs d'un ts
+#'
+#' @description La fonction `setValue_ts` modifie la ou les valeurs d'un objet ts à une date donnée.
+#'
+#' @param dataTS un objet ts
+#' @param date une date au format c(AAAA, MM)
+#' @param value un vecteur de même type que le ts `dataTS`
+#'
+#' @return En sortie, la fonction retourne l'objet `dataTS` n objet ts modifié avec les valeurs de `value` imputés à partir de la date `date`.
+#' @export
+#'
+#' @examples
+#' ev_pib |> setValue_ts(date = c(2021, 2), value = c(1, 2, 3))
 setValue_ts <- function(dataTS, date, value){
-    dataTS |>
-        window(start = date, end = nextDate(date, frequency = 12, lag = length(value) - 1)) <- value
-        return(dataTS)
+    outputTS <- dataTS
+    outputTS |>
+        stats::window(start = date, end = ts4conj::nextDate(date, frequency = stats::frequency(dataTS), lag = length(value) - 1L), extend = TRUE) <- value
+
+    return(outputTS)
 }
 
-combine2ts <- function(a, b) return(c(a, b) |> ts(start = start(a), frequency = frequency(a)))
+#' Combiner 2 ts
+#'
+#' @description La fonction `combine2ts` combine (comme c()) 2 time series de même fréquence.
+#'
+#' @param a un objet ts
+#' @param b un objet ts
+#'
+#' @return En sortie, la fonction retourne un ts qui contient les valeurs de `a` aux temps de `a` et les valeurs de `b` aux temps de `b`.
+#' @details Si `a` et `b` ont une période en commun, les valeurs de `b` écrasent celles de a sur la période concernée.
+#' Si il existe une période sur laquelle ni `a` ni `b` ne prennent de valeur (mais qu'il existe des valeurs à des dates ultérieures et antérieures) alors le ts en sortie prendra NA sur cette période.
+#' @export
+#'
+#' @examples
+#' #La temporalité du second ts n'est pas prise en compte
+# x1 <- ts(rep(1, 4), start = 2000, frequency = 12)
+# x2 <- ts(rep(2, 4), start = 2020, frequency = 12)
+# combine2ts(x1, x2)
+#'
+#' #Attention aux NA présent en début ou fin de ts !
+#' ev_pib |> combine2ts(x1)
+combine2ts <- function(a, b){
+    if (!(stats::is.ts(a) & stats::is.ts(b)) |
+        stats::is.mts(a) | stats::is.mts(b)) stop("Les objets a et b doivent être des ts unidimensionels.")
+    if (frequency(a) != frequency(b)) stop("Les objets a et b doivent avoir la même fréquence.")
+    if (typeof(a) != typeof(b)) stop("Les objets a et b doivent être de même type.")
 
+    temporalConsistence <- (ts4conj::getTimeUnits(stats::start(a), frequency = stats::frequency(a)) -
+                                ts4conj::getTimeUnits(stats::start(b), frequency = stats::frequency(b))) * stats::frequency(a)
+    if (!isTRUE(all.equal(temporalConsistence, as.integer(temporalConsistence))))
+        stop("Les objets a et b doivent être cohérents temporellement.")
+
+    outputTS <- a
+
+    if (is.raw(a)){
+        a <- a |> as.integer() |> ts(start = stats::start(a), frequency = stats::frequency(a))
+        b <- b |> as.integer() |> ts(start = stats::start(b), frequency = stats::frequency(b))
+        outputTS <- combine2ts(a, b)
+        outputTS <- outputTS |> as.raw() |> ts(start = start(outputTS), frequency = stats::frequency(outputTS))
+    }
+    else if (isTRUE(all.equal(stats::frequency(a), as.integer(stats::frequency(a))))){
+        outputTS |>
+            stats::window(start = stats::start(b), end = stats::end(b), extend = T) <- b
+    } else if (is.numeric(stats::frequency(outputTS))){
+
+        outputDF <- cbind(a, b) |> as.data.frame()
+        if (sum(is.na(outputDF$a) & (!is.na(outputDF$b))) > 0) warning("extending time series when replacing values")
+
+        outputDF$res <- outputDF$a
+        outputDF$res[!is.na(outputDF$b)] <- outputDF$b[!is.na(outputDF$b)]
+
+        outputTS <- ts(outputDF$res,
+           frequency = stats::frequency(a),
+           start = min(ts4conj::getTimeUnits(stats::start(a), frequency = stats::frequency(a)),
+                       ts4conj::getTimeUnits(stats::start(b), frequency = stats::frequency(b))))
+    }
+    return(outputTS)
+}

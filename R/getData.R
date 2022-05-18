@@ -15,19 +15,19 @@ nextDate <- function(date, frequency, lag = 1){
 }
 
 firstDate <- function(dataTS){
-    timeTS <- time(zoo::na.trim(dataTS))
+    timeTS <- dataTS |> zoo::na.trim() |> stats::time()
     firstTime <- timeTS[1]
-    return(c(firstTime %/% 1, (firstTime %% 1) * frequency(dataTS) + 1))
+    return(c(firstTime %/% 1, (firstTime %% 1) * stats::frequency(dataTS) + 1))
 }
 
 lastDate <- function(dataTS){
-    timeTS <- time(zoo::na.trim(dataTS))
+    timeTS <- dataTS |> zoo::na.trim() |> stats::time()
     lastTime <- timeTS[length(timeTS)]
-    return(c(lastTime %/% 1, (lastTime %% 1) * frequency(dataTS) + 1))
+    return(c(lastTime %/% 1, (lastTime %% 1) * stats::frequency(dataTS) + 1))
 }
 
 getValue_ts <- function(dataTS, date, nb = 1){
     return(dataTS |>
-               window(start = date, end = nextDate(date, frequency = 12, lag = nb - 1)) |>
+               stats::window(start = date, end = ts4conj::nextDate(date, frequency = 12, lag = nb - 1)) |>
                as.numeric())
 }
