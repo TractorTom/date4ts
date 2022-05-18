@@ -1,0 +1,23 @@
+Package: ts4conj
+Title: Outils de gestion des ts aux enquêtes de conjoncture
+Version: 0.0.0.9000
+Authors@R: 
+    person("Tanguy", "Barthelemy", email = "tanguy.barthelemy@insee.fr", role = c("aut", "cre"))
+Description: Ce package propose des outils pour gérer les dates aux enquêtes de conjoncture.
+    On utilise que des dates mensuelles ou trimestrielles sous la forme c(2022, 9) pour septembre 2022 ou c(2021, 2) pour le deuxième trimestre 2021 selon la fréquence.
+    L'idée générale est de se passer des dates "2021-07-01" ou 2021.5833333 qui sont soit trop contraignantes, soit trop imprécises selon les arrondies.
+    On cherche à trouver un compromis entre simplicité, précision et utilisation des fonctions stats de base de création et de gestion des ts (ts, window).
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Imports:
+    base, 
+    stats, 
+    zoo
+Depends: 
+    R (>= 2.10)
+LazyData: true
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
