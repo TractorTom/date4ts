@@ -8,10 +8,12 @@ previousDate <- function(date, frequency, lag = 1){
 }
 
 nextDate <- function(date, frequency, lag = 1){
-    year <- date[1]
-    month <- date[2]
-    return(c(year + ((month - 1 + lag) %/% frequency),
-             1 + ((month - 1 + lag) %% frequency)))
+    if (length(date) == 2){
+        year <- date[1]
+        month <- date[2]
+        return(c(year + ((month - 1 + lag) %/% frequency),
+                 1 + ((month - 1 + lag) %% frequency)))
+    } else return(date + lag / frequency)
 }
 
 firstDate <- function(dataTS){

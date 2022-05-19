@@ -1,5 +1,5 @@
 Création du package :
-- compléter les tests de combine2ts
-    --> faire un test avec des fréquences décimal et des starts / ends décimaux
-    --> recopier tous les test effectuées avec fréquence 12 sur tous les autres types de base
 - faire les tests pour setValue_ts
+- réfléchir à proposer pour toutes les fonctions qui ont un argument dates, les formats c(AAAA, MM) et timeUnits
+    --> afin d'augmenter les possibilités des fonctions (aux autres fréquences, dates, types, ...)
+- si on ne résoud pas le pb de window<-, il va falloir casser la structure ts pour la recréer (changer en vecteur, modifier le vecteur et re-assigner un ts)

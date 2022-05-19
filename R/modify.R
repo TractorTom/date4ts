@@ -15,14 +15,15 @@
 setValue_ts <- function(dataTS, date, value){
     outputTS <- dataTS
     outputTS |>
-        stats::window(start = date, end = ts4conj::nextDate(date, frequency = stats::frequency(dataTS), lag = length(value) - 1L), extend = TRUE) <- value
+        stats::window(start = date, end = date |> ts4conj::nextDate(frequency = stats::frequency(dataTS), lag = length(value) - 1L),
+                      extend = TRUE) <- value
 
     return(outputTS)
 }
 
 #' Combiner 2 ts
 #'
-#' @description La fonction `combine2ts` combine (comme c()) 2 time series de même fréquence.
+#' @description La fonction `combine2ts` combine (comme c()) 2 time series de même fréquence (mensuelle ou trimestrielle).
 #'
 #' @param a un objet ts
 #' @param b un objet ts
@@ -42,13 +43,14 @@ setValue_ts <- function(dataTS, date, value){
 #' ev_pib |> combine2ts(x1)
 combine2ts <- function(a, b){
     if (!(stats::is.ts(a) & stats::is.ts(b)) |
-        stats::is.mts(a) | stats::is.mts(b)) stop("Les objets a et b doivent être des ts unidimensionels.")
-    if (frequency(a) != frequency(b)) stop("Les objets a et b doivent avoir la même fréquence.")
-    if (typeof(a) != typeof(b)) stop("Les objets a et b doivent être de même type.")
+        stats::is.mts(a) | stats::is.mts(b))        stop("Les objets a et b doivent être des ts unidimensionels.")
+    if (stats::frequency(a) != stats::frequency(b)) stop("Les objets a et b doivent avoir la même fréquence.")
+    if (typeof(a) != typeof(b))                     stop("Les objets a et b doivent être de même type.")
+    if (!(stats::frequency(a) %in% c(4, 12)))       stop("Les objets a et b doivent être trimestriels ou mensuels.")
 
     temporalConsistence <- (ts4conj::getTimeUnits(stats::start(a), frequency = stats::frequency(a)) -
                                 ts4conj::getTimeUnits(stats::start(b), frequency = stats::frequency(b))) * stats::frequency(a)
-    if (!isTRUE(all.equal(temporalConsistence, as.integer(temporalConsistence))))
+    if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
         stop("Les objets a et b doivent être cohérents temporellement.")
 
     outputTS <- a
@@ -58,12 +60,12 @@ combine2ts <- function(a, b){
         b <- b |> as.integer() |> ts(start = stats::start(b), frequency = stats::frequency(b))
         outputTS <- combine2ts(a, b)
         outputTS <- outputTS |> as.raw() |> ts(start = start(outputTS), frequency = stats::frequency(outputTS))
-    }
-    else if (isTRUE(all.equal(stats::frequency(a), as.integer(stats::frequency(a))))){
+
+    } else if (isTRUE(all.equal(stats::frequency(a), round(stats::frequency(a))))){
         outputTS |>
             stats::window(start = stats::start(b), end = stats::end(b), extend = T) <- b
-    } else if (is.numeric(stats::frequency(outputTS))){
 
+    } else if (is.numeric(stats::frequency(outputTS))){
         outputDF <- cbind(a, b) |> as.data.frame()
         if (sum(is.na(outputDF$a) & (!is.na(outputDF$b))) > 0) warning("extending time series when replacing values")
 
