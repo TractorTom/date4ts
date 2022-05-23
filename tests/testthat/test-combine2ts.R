@@ -1,22 +1,41 @@
 
 set.seed(2022L)
 
-create_random_type <- function(type, len){
-    if (type == "char") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1]])
-    if (type == "int") return(sample(-20000000L:20000000L, size = len, replace = TRUE))
-    if (type == "num") return(runif(n = len, min = -10000L, max = 10000L))
+create_random_type <- function(type, len = NULL){
+    if (is.null(len)) len <- sample(1L:1000L, size = 1)
+    if (type == "character") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1]])
+    if (type == "integer") return(sample(-20000000L:20000000L, size = len, replace = TRUE))
+    if (type == "double") return(runif(n = len, min = -10000L, max = 10000L))
     if (type == "logical") return(sample(x = c(TRUE, FALSE), size = len, replace = TRUE))
     if (type == "complex") return(complex(real = runif(n = len, min = -10000L, max = 10000),
                                           imaginary = runif(n = len, min = -10000L, max = 10000L)))
     if (type == "raw") return(sample(x = as.raw(0L:255L), size = len, replace = TRUE))
+    if (type == "Date") return(sample(x = seq(as.Date('1950/01/01'), as.Date('2022/01/01'), by = "day"), size = len, replace = T))
     stop("Le type n'est pas reconnu.")
 }
 
-liste_type <- c("int", "char", "num", "logical", "complex", "raw")
+create_random_start <- function(){
+    return(c(sample(1950L:2022L, size = 1L),
+             sample(-20L:20L, size = 1L)))
+}
+
+create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL){
+    if (is.null(len)) len <- sample(1L:1000L, size = 1)
+    if (is.null(frequency)) frequency <- sample(c(4L, 12L), size = 1)
+    if (is.null(start)) start <- create_random_start()
+
+    content <- create_random_type(type, len)
+
+    return(ts(content, start = start, frequency = frequency))
+}
+
+liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
 liste_len <- c(0L:5L, 10000L)
 liste_frequence <- c(4, 12)
 weird_frequency <- c(1, 2, 7, 0.1, 1/3, 3.5, 365.25, pi)
-liste_start <- list(c(2020, -1), c(2020, 0), c(2020, 4), c(2020, 5), c(2020, 12), c(2020, 13))
+liste_start <- list(c(2020, -1), c(2020, 0), c(2020, 4), c(2020, 5), c(2020, 12), c(2020, 13), 2019)
+object_bank_R <- fuzzr::test_all()
+
 
 # Tests de résultat ------------------------------------------------------------
 
@@ -218,88 +237,81 @@ for (typeA in liste_type){
 
 # Tests sur les erreurs de mts --------------------------------------------
 
-# A_content <- create_random_type(type = "int", len = 100L)
-# B_content <- sapply(1L:5L, function(i) create_random_type(type = "int", len = 100L))
-# ts_A <- ts(A_content,  start = 2015L, frequency = 12L)
-# mts_B <- ts(B_content, start = 2001L, frequency = 12L)
-#
-# testthat::test_that("Several dimensions are not allowed", {
-#     testthat::expect_error(combine2ts(ts_A, mts_B), regexp = "Les objets a et b doivent être des ts unidimensionels.")
-#     testthat::expect_error(combine2ts(mts_B, ts_A), regexp = "Les objets a et b doivent être des ts unidimensionels.")
-# })
-#
-# # Tests sur les erreurs d'input --------------------------------------------
-#
-# object_bank_R <- fuzzr::test_all()
-#
-# testthat::test_that("miscellaneous input are not allowed", {
-#     for (objA in object_bank_R){
-#         testthat::expect_error(combine2ts(ts_A, objA), regexp = "Les objets a et b doivent être des ts unidimensionels.")
-#         testthat::expect_error(combine2ts(objA, ts_A), regexp = "Les objets a et b doivent être des ts unidimensionels.")
-#         for (objB in object_bank_R){
-#             testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent être des ts unidimensionels.")
-#         }
-#     }
-# })
-#
-#
-# # Tests sur les erreurs de type d'objets --------------------------------------------
-#
-# ts_type <- list(
-#     ts_integer =   create_random_type(type = "int",     len = 100L) |> ts(start = 2001L, frequency = 12L),
-#     ts_numeric =   create_random_type(type = "num",     len = 101L) |> ts(start = 2002L, frequency = 12L),
-#     ts_complex =   create_random_type(type = "complex", len = 102L) |> ts(start = 2003L, frequency = 12L),
-#     ts_character = create_random_type(type = "char",    len = 103L) |> ts(start = 2004L, frequency = 12L),
-#     ts_logical =   create_random_type(type = "logical", len = 104L) |> ts(start = 2005L, frequency = 12L),
-#     ts_raw =       create_random_type(type = "raw",     len = 105L) |> ts(start = 2006L, frequency = 12L)
-# )
-#
-# testthat::test_that("different input type are not allowed", {
-#     for (index_A in seq_along(ts_type)){
-#         objA <- ts_type[[index_A]]
-#         for (index_B in seq_along(ts_type)){
-#             objB <- ts_type[[index_B]]
-#             if (index_A != index_B) testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent être de même type.")
-#         }
-#     }
-# })
-#
-# # Tests sur les erreurs de temporalité --------------------------------------------
-#
-# testthat::test_that("arguments have same frequency", {
-#
-#     for (freq_A in c(weird_frequency, liste_frequence)){
-#         for (freq_B in c(weird_frequency, liste_frequence)){
-#             if (freq_A != freq_B){
-#                 objA <- ts(create_random_type("int", len = 50L), start = 2001L, frequency = freq_A)
-#                 objB <- ts(create_random_type("int", len = 50L), start = 2001L, frequency = freq_B)
-#                 testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent avoir la même fréquence.")
-#             }
-#         }
-#     }
-#
-# })
-#
-# testthat::test_that("arguments are monthly or quarterly", {
-#     weird_frequency <- c(1, 2, 7, 0.1, 1/3, 3.5, 365.25, pi)
-#     for (freq_A in c(weird_frequency)){
-#         objA <- ts(create_random_type("int", len = 50L), start = 2001L, frequency = freq_A)
-#         objB <- ts(create_random_type("int", len = 50L), start = 2001L, frequency = freq_A)
-#         testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent être trimestriels ou mensuels.")
-#     }
-# })
-#
-# testthat::test_that("arguments are temporally consistent", {
-#
-#     ts_A <- create_random_type(type = "num", len = 100L) |> ts(start = 2015L, frequency = 12L)
-#     ts_B <- create_random_type(type = "num", len = 100L) |> ts(start = 2004 + 1/7, frequency = 12L)
-#     testthat::expect_error(combine2ts(ts_A, ts_B), regexp = "Les objets a et b doivent être cohérents temporellement.")
-#     testthat::expect_error(combine2ts(ts_B, ts_A), regexp = "Les objets a et b doivent être cohérents temporellement.")
-#
-#     ts_A <- create_random_type(type = "num", len = 20L) |> ts(start = 2015L, frequency = 4L)
-#     ts_B <- create_random_type(type = "num", len = 20L) |> ts(start = 2016 + 1/12, frequency = 4L)
-#     testthat::expect_error(combine2ts(ts_A, ts_B), regexp = "Les objets a et b doivent être cohérents temporellement.")
-#     testthat::expect_error(combine2ts(ts_B, ts_A), regexp = "Les objets a et b doivent être cohérents temporellement.")
-#
-# })
-#
+testthat::test_that("Several dimensions are not allowed", {
+    for (typeA in liste_type){
+
+        ts_A <- create_random_ts(type = typeA)
+        B_content <- sapply(1L:5L, function(i) create_random_type(type = typeA, len = 100L))
+        mts_B <- ts(B_content, start = create_random_start(), frequency = stats::frequency(ts_A))
+
+        testthat::expect_error(combine2ts(ts_A, mts_B), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
+        testthat::expect_error(combine2ts(mts_B, ts_A), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
+    }
+})
+
+# Tests sur les erreurs d'input --------------------------------------------
+
+testthat::test_that("miscellaneous input are not allowed", {
+    for (typeA in liste_type){
+        ts_A <- create_random_ts(type = typeA)
+
+        for (objA in object_bank_R){
+            testthat::expect_error(combine2ts(ts_A, objA), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
+            testthat::expect_error(combine2ts(objA, ts_A), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
+            for (objB in object_bank_R){
+                testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
+            }
+        }
+    }
+})
+
+# Tests sur les erreurs de type d'objets --------------------------------------------
+
+testthat::test_that("different input type are not allowed", {
+    for (typeA in liste_type){
+        objA <- create_random_ts(type = typeA, frequency = 12L)
+        for (typeB in liste_type){
+            objB <- create_random_ts(type = typeB, frequency = 12L)
+            if (typeA != typeB) testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent être de même type.")
+        }
+    }
+})
+
+# Tests sur les erreurs de temporalité --------------------------------------------
+
+testthat::test_that("arguments have same frequency", {
+    for (typeA in liste_type){
+        objA <- create_random_ts(type = typeA, frequency = 12L)
+        objB <- create_random_ts(type = typeA, frequency = 4L)
+        testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent avoir la même fréquence.")
+        testthat::expect_error(combine2ts(objB, objA), regexp = "Les objets a et b doivent avoir la même fréquence.")
+    }
+})
+
+testthat::test_that("arguments are monthly or quarterly", {
+    for (typeA in liste_type){
+        for (freq_A in c(weird_frequency)){
+            for (freq_B in c(weird_frequency, liste_frequence)){
+                objA <- create_random_ts(type = typeA, frequency = freq_A)
+                objB <- create_random_ts(type = typeA, frequency = freq_B)
+                testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent être trimestriels ou mensuels.")
+                testthat::expect_error(combine2ts(objB, objA), regexp = "Les objets a et b doivent être trimestriels ou mensuels.")
+            }
+        }
+    }
+})
+
+testthat::test_that("arguments are temporally consistent", {
+    for (typeA in liste_type){
+        ts_A <- create_random_ts(type = typeA, start = 2015L, frequency = 12L)
+        ts_B <- create_random_ts(type = typeA, start = 2004 + 1/7, frequency = 12L)
+        testthat::expect_error(combine2ts(ts_A, ts_B), regexp = "Les objets a et b doivent être cohérents temporellement.")
+        testthat::expect_error(combine2ts(ts_B, ts_A), regexp = "Les objets a et b doivent être cohérents temporellement.")
+
+        ts_A <- create_random_ts(type = typeA, start = 2015L, frequency = 4L)
+        ts_B <- create_random_ts(type = typeA, start = 2016 + 1/12, frequency = 4L)
+        testthat::expect_error(combine2ts(ts_A, ts_B), regexp = "Les objets a et b doivent être cohérents temporellement.")
+        testthat::expect_error(combine2ts(ts_B, ts_A), regexp = "Les objets a et b doivent être cohérents temporellement.")
+    }
+})
+

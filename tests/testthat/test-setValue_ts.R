@@ -1,197 +1,284 @@
 
 set.seed(2023L)
 
-create_random_type <- function(type, len){
-    if (type == "char") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1]])
-    if (type == "int") return(sample(-20000000L:20000000L, size = len, replace = TRUE))
-    if (type == "num") return(runif(n = len, min = -10000L, max = 10000L))
+create_random_type <- function(type, len = NULL){
+    if (is.null(len)) len <- sample(1L:1000L, size = 1)
+    if (type == "character") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1]])
+    if (type == "integer") return(sample(-20000000L:20000000L, size = len, replace = TRUE))
+    if (type == "double") return(runif(n = len, min = -10000L, max = 10000L))
     if (type == "logical") return(sample(x = c(TRUE, FALSE), size = len, replace = TRUE))
     if (type == "complex") return(complex(real = runif(n = len, min = -10000L, max = 10000),
                                           imaginary = runif(n = len, min = -10000L, max = 10000L)))
     if (type == "raw") return(sample(x = as.raw(0L:255L), size = len, replace = TRUE))
+    if (type == "Date") return(sample(x = seq(as.Date('1950/01/01'), as.Date('2022/01/01'), by = "day"), size = len, replace = T))
     stop("Le type n'est pas reconnu.")
 }
 
-liste_type <- c("int")#, "char", "num", "logical", "complex", "raw")
-liste_len <- c(1L, 4L:6L)#, 10L, 10000L)
-liste_lag <- c(-1, 0, 1)#c(-10000L, -5L, -1L, 0L, 1L, 5L, 10000L)
-liste_frequence <- c(4, 12)
+create_random_start <- function(){
+    return(c(sample(1950L:2022L, size = 1L),
+             sample(-20L:20L, size = 1L)))
+}
+
+create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL){
+    if (is.null(len)) len <- sample(1L:1000L, size = 1)
+    if (is.null(frequency)) frequency <- sample(c(4L, 12L), size = 1)
+    if (is.null(start)) start <- create_random_start()
+
+    content <- create_random_type(type, len)
+
+    return(ts(content, start = start, frequency = frequency))
+}
+
+object_bank_R <- fuzzr::test_all()
 weird_frequency <- c(1, 2, 7, 0.1, 1/3, 3.5, 365.25, pi)
-liste_start <- list(c(2020, -1), c(2020, 0), c(2020, 4), c(2020, 5), c(2020, 12), c(2020, 13))
+wrong_date <- list(2019.5, 2020 + 1/12, pi / 4, c(2020, 2.5), c(2010.25, 3), c(2002, 3, 1), c("2002", "3"))
+
+liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
+liste_len <- c(1L, 4L:6L, 10L, 10000L)
+liste_lag <- c(-10000L, -5L, -1L, 0L, 1L, 5L, 10000L)
+liste_frequence <- c(4L, 12L)
+liste_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2020L, 12L), c(2020L, 13L))
 
 # Tests de résultat avec start vecteur d'entiers -------------------------------
 
-for (typeA in liste_type){
-    for (frequenceA in liste_frequence){
-        for (startA in liste_start){
-            for (lenA in liste_len){
-                A_content <- create_random_type(type = typeA, len = lenA)
-                ts_A <-  ts(A_content, start = startA, frequency = frequenceA)
-                for (lagB in liste_lag){
-                    for (lenB in liste_len){
-
-                        test_name <- paste("expected result with",
-                                           "type", typeA,
-                                           "frequency", frequenceA,
-                                           "start", deparse(startA),
-                                           "lenA", lenA,
-                                           "lagB", lagB,
-                                           "lenB", lenB)
-
-                        testthat::test_that(test_name, {
-
-                            valueB <- create_random_type(type = typeA, len = lenB)
-                            startB <- ts4conj::getTimeUnits(startA, frequency = frequenceA) + lagB / frequenceA
-                            ts_B <- ts(valueB, start = startB, frequency = frequenceA)
-
-                            #Cas où lagB >= 0 (start = startA)
-                            if (lagB > 0){
-                                if (lagB > lenA) { #Cas 4
-
-                                    ts_ResAB1 <- ts(c(A_content, rep(NA, lagB - lenA), valueB), start = startA, frequency = frequenceA)
-                                    testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
-                                                             regexp = "extending time series when replacing values")
-                                    testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
-                                                             regexp = "extending time series when replacing values")
-
-
-                                } else if (lagB + lenB < lenA) { #Cas 6
-                                    ts_ResAB1 <- ts(c(A_content[1:lagB], valueB, A_content[(lagB + lenB + 1):lenA]), start = startA, frequency = frequenceA)
-                                    ts_ResAB2 <- combine2ts(ts_A, ts_B)
-                                    resAB <- setValue_ts(ts_A, date = startB, value = valueB)
-                                } else if (lagB + lenB == lenA) { #Autres cas
-                                    ts_ResAB1 <- ts(c(A_content[1:lagB], valueB), start = startA, frequency = frequenceA)
-                                    ts_ResAB2 <- combine2ts(ts_A, ts_B)
-                                    resAB <- setValue_ts(ts_A, date = startB, value = valueB)
-                                } else { #Cas1
-
-                                    ts_ResAB1 <- ts(c(A_content[1:lagB], valueB), start = startA, frequency = frequenceA)
-                                    testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
-                                                             regexp = "extending time series when replacing values")
-                                    testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
-                                                             regexp = "extending time series when replacing values")
-
-                                }
-
-                            } else if(lagB < 0) { #Cas où start = strartB < startA
-
-                                if (lagB + lenB < 0) { #Cas 3
-                                    ts_ResAB1 <- ts(c(valueB, rep(NA, -lagB - lenB), A_content), start = startB, frequency = frequenceA)
-                                } else if (lagB + lenB >= lenA) { #Cas 5
-                                    ts_ResAB1 <- ts(valueB, start = startB, frequency = frequenceA)
-                                } else { #Cas 2
-                                    ts_ResAB1 <- ts(c(valueB, A_content[(lagB + lenB + 1):lenA]), start = startB, frequency = frequenceA)
-                                }
-
-                                testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
-                                                         regexp = "extending time series when replacing values")
-                                testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
-                                                         regexp = "extending time series when replacing values")
-
-                            } else { #Cas où lag = 0
-                                if (lenB < lenA){
-                                    ts_ResAB1 <- ts(c(valueB, A_content[(lenB + 1):lenA]), start = startA, frequency = frequenceA)
-                                    ts_ResAB2 <- combine2ts(ts_A, ts_B)
-                                    resAB <- setValue_ts(ts_A, date = startB, value = valueB)
-                                } else if (lenB == lenA){
-                                    ts_ResAB1 <- ts(valueB, start = startA, frequency = frequenceA)
-                                    ts_ResAB2 <- combine2ts(ts_A, ts_B)
-                                    resAB <- setValue_ts(ts_A, date = startB, value = valueB)
-                                } else {
-                                    ts_ResAB1 <- ts(valueB, start = startA, frequency = frequenceA)
-                                    testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
-                                                             regexp = "extending time series when replacing values")
-                                    testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
-                                                             regexp = "extending time series when replacing values")
-
-                                }
-                            }
-
-                            testthat::expect_equal(resAB,ts_ResAB1)
-                            testthat::expect_equal(resAB,ts_ResAB2)
-                        })
-
-                    }
-                }
-            }
-        }
-    }
-}
-
+# for (typeA in liste_type){
+#     for (frequenceA in liste_frequence){
+#         for (startA in liste_start){
+#             for (lenA in liste_len){
+#                 A_content <- create_random_type(type = typeA, len = lenA)
+#                 ts_A <-  ts(A_content, start = startA, frequency = frequenceA)
+#                 for (lagB in liste_lag){
+#                     for (lenB in liste_len){
+#
+#                         test_name <- paste("expected result with ",
+#                                            "\ntypeA = '", typeA,
+#                                            "'\nfrequenceA = ", frequenceA,
+#                                            "\nstartA = ", deparse(startA),
+#                                            "\nlenA = ", lenA,
+#                                            "\nlagB = ", lagB,
+#                                            "\nlenB = ", lenB, sep = "")
+#
+#                         testthat::test_that(test_name, {
+#
+#                             valueB <- create_random_type(type = typeA, len = lenB)
+#                             startB <- c(startA[1], startA[2] + lagB)
+#                             ts_B <- ts(valueB, start = startB, frequency = frequenceA)
+#
+#
+#                             #Cas où lagB >= 0 (start = startA)
+#                             if (lagB > 0){
+#                                 if (lagB > lenA) { #Cas 4
+#
+#                                     if (typeA == "raw"){
+#                                         ts_ResAB1 <- ts(c(A_content, rep(as.raw(0L), lagB - lenA), valueB), start = startA, frequency = frequenceA)
+#
+#                                         testthat::expect_warning({
+#                                             testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+#                                                                      regexp = "extending time series when replacing values")},
+#                                             regexp = "out-of-range values treated as 0 in coercion to raw")
+#                                         testthat::expect_warning({
+#                                             testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+#                                                                      regexp = "extending time series when replacing values")},
+#                                             regexp = "out-of-range values treated as 0 in coercion to raw")
+#
+#                                     } else {
+#                                         ts_ResAB1 <- ts(c(A_content, rep(NA, lagB - lenA), valueB), start = startA, frequency = frequenceA)
+#
+#                                         testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+#                                                                  regexp = "extending time series when replacing values")
+#                                         testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+#                                                                  regexp = "extending time series when replacing values")
+#                                     }
+#
+#
+#                                 } else if (lagB + lenB < lenA) { #Cas 6
+#                                     ts_ResAB1 <- ts(c(A_content[1:lagB], valueB, A_content[(lagB + lenB + 1):lenA]), start = startA, frequency = frequenceA)
+#                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
+#                                     resAB <- setValue_ts(ts_A, date = startB, value = valueB)
+#                                 } else if (lagB + lenB == lenA) { #Autres cas
+#                                     ts_ResAB1 <- ts(c(A_content[1:lagB], valueB), start = startA, frequency = frequenceA)
+#                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
+#                                     resAB <- setValue_ts(ts_A, date = startB, value = valueB)
+#                                 } else { #Cas1
+#
+#                                     ts_ResAB1 <- ts(c(A_content[1:lagB], valueB), start = startA, frequency = frequenceA)
+#                                     testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+#                                                              regexp = "extending time series when replacing values")
+#                                     testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+#                                                              regexp = "extending time series when replacing values")
+#
+#                                 }
+#
+#                             } else if(lagB < 0) { #Cas où start = strartB < startA
+#
+#                                 if (lagB + lenB < 0) { #Cas 3
+#
+#                                     if (typeA == "raw"){
+#                                         ts_ResAB1 <- ts(c(valueB, rep(as.raw(0L), -lagB - lenB), A_content), start = startB, frequency = frequenceA)
+#
+#                                         testthat::expect_warning({
+#                                             testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+#                                                                      regexp = "extending time series when replacing values")},
+#                                             regexp = "out-of-range values treated as 0 in coercion to raw")
+#                                         testthat::expect_warning({
+#                                             testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+#                                                                      regexp = "extending time series when replacing values")},
+#                                             regexp = "out-of-range values treated as 0 in coercion to raw")
+#
+#                                     } else {
+#                                         ts_ResAB1 <- ts(c(valueB, rep(NA, -lagB - lenB), A_content), start = startB, frequency = frequenceA)
+#                                         testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+#                                                                  regexp = "extending time series when replacing values")
+#                                         testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+#                                                                  regexp = "extending time series when replacing values")
+#                                     }
+#
+#                                 } else if (lagB + lenB >= lenA) { #Cas 5
+#                                     ts_ResAB1 <- ts(valueB, start = startB, frequency = frequenceA)
+#                                     testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+#                                                              regexp = "extending time series when replacing values")
+#                                     testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+#                                                              regexp = "extending time series when replacing values")
+#                                 } else { #Cas 2
+#                                     ts_ResAB1 <- ts(c(valueB, A_content[(lagB + lenB + 1):lenA]), start = startB, frequency = frequenceA)
+#                                     testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+#                                                              regexp = "extending time series when replacing values")
+#                                     testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+#                                                              regexp = "extending time series when replacing values")
+#                                 }
+#
+#                             } else { #Cas où lag = 0
+#                                 if (lenB < lenA){
+#                                     ts_ResAB1 <- ts(c(valueB, A_content[(lenB + 1):lenA]), start = startA, frequency = frequenceA)
+#                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
+#                                     resAB <- setValue_ts(ts_A, date = startB, value = valueB)
+#                                 } else if (lenB == lenA){
+#                                     ts_ResAB1 <- ts(valueB, start = startA, frequency = frequenceA)
+#                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
+#                                     resAB <- setValue_ts(ts_A, date = startB, value = valueB)
+#                                 } else {
+#                                     ts_ResAB1 <- ts(valueB, start = startA, frequency = frequenceA)
+#                                     testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+#                                                              regexp = "extending time series when replacing values")
+#                                     testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+#                                                              regexp = "extending time series when replacing values")
+#
+#                                 }
+#                             }
+#
+#
+#
+#                             testthat::expect_equal(resAB,ts_ResAB1)
+#                             testthat::expect_equal(resAB,ts_ResAB2)
+#
+#                         })
+#
+#                     }
+#                 }
+#             }
+#         }
+#     }
+# }
+#
 
 # Tests sur les erreurs de mts --------------------------------------------
 
 testthat::test_that("Several dimensions are not allowed", {
-    A_content <- create_random_type(type = "int", len = 100L)
-    B_content <- sapply(1L:5L, function(i) create_random_type(type = "int", len = 100L))
-    ts_A <- ts(A_content,  start = 2015L, frequency = 12L)
-    mts_B <- ts(B_content, start = 2001L, frequency = 12L)
+    for (typeA in liste_type){
+        B_content <- sapply(1L:5L, function(i) create_random_type(type = typeA, len = 100L))
+        mts_B <- ts(B_content, start = create_random_start(), frequency = 12L)
 
-    testthat::expect_error(combine2ts(ts_A, mts_B), regexp = "Les objets a et b doivent être des ts unidimensionels.")
-    testthat::expect_error(combine2ts(mts_B, ts_A), regexp = "Les objets a et b doivent être des ts unidimensionels.")
+        testthat::expect_error(setValue_ts(dataTS = mts_B,
+                                           date = create_random_start(),
+                                           value = create_random_type(type = typeA)),
+                               regexp = "L'objets dataTS doit être un ts unidimensionnel.")
+    }
 })
 
-# Tests sur les erreurs d'input --------------------------------------------
+# Tests sur les erreurs d'input ------------------------------------------------
 
-object_bank_R <- fuzzr::test_all()
+## Test sur le ts --------------------------------------------------------------
 
-testthat::test_that("miscellaneous input are not allowed", {
-    A_content <- create_random_type(type = "int", len = 100L)
-    ts_A <- ts(A_content,  start = 2010L, frequency = 4L)
-
-    for (objA in object_bank_R){
-        testthat::expect_error(combine2ts(ts_A, objA), regexp = "Les objets a et b doivent être des ts unidimensionels.")
-        testthat::expect_error(combine2ts(objA, ts_A), regexp = "Les objets a et b doivent être des ts unidimensionels.")
-        for (objB in object_bank_R){
-            testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent être des ts unidimensionels.")
+testthat::test_that("miscellaneous dataTS are not allowed", {
+    for (typeA in liste_type){
+        for (obj in object_bank_R){
+            testthat::expect_error(setValue_ts(dataTS = obj,
+                                               date = create_random_start(),
+                                               value = create_random_type(type = typeA)),
+                                   regexp = "L'objets dataTS doit être un ts unidimensionnel.")
         }
     }
 })
 
-# Tests sur les erreurs de type d'objets --------------------------------------------
+## Test sur la date ------------------------------------------------------------
 
-ts_type <- list(
-    ts_integer =   create_random_type(type = "int",     len = 100L) |> ts(start = 2001L, frequency = 12L),
-    ts_numeric =   create_random_type(type = "num",     len = 101L) |> ts(start = 2002L, frequency = 12L),
-    ts_complex =   create_random_type(type = "complex", len = 102L) |> ts(start = 2003L, frequency = 12L),
-    ts_character = create_random_type(type = "char",    len = 103L) |> ts(start = 2004L, frequency = 12L),
-    ts_logical =   create_random_type(type = "logical", len = 104L) |> ts(start = 2005L, frequency = 12L),
-    ts_raw =       create_random_type(type = "raw",     len = 105L) |> ts(start = 2006L, frequency = 12L)
-)
-
-testthat::test_that("different input type are not allowed", {
-    for (index_A in seq_along(ts_type)){
-        objA <- ts_type[[index_A]]
-        for (index_B in seq_along(ts_type)){
-            objB <- ts_type[[index_B]]
-            if (index_A != index_B) testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent être de même type.")
+testthat::test_that("miscellaneous date are not allowed", {
+    for (typeA in liste_type){
+        for (obj in c(object_bank_R[-10L], wrong_date)){
+            testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
+                                               date = obj,
+                                               value = create_random_type(type = typeA)),
+                                   regexp = "La date est au mauvais format.")
         }
+    }
+})
+
+## Test sur le vecteur value ---------------------------------------------------
+
+testthat::test_that("miscellaneous value input are not allowed", {
+    liste_wrong_value <- c(fuzzr::test_df()[-4], NULL, character(0L), numeric(0L), logical(0L), integer(0L), complex(0L))
+    for (typeA in liste_type){
+        for (value in liste_wrong_value){
+            testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
+                                               date = create_random_start(),
+                                               value = value),
+                                   regexp = "L'argument value doit être unidimensionnel.")
+        }
+    }
+})
+
+testthat::test_that("value should have same type as dataTS", {
+    for (typeA in liste_type[-7]){
+        for (typeB in liste_type[-7]){
+            if (typeA != typeB){
+                testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
+                                                   date = create_random_start(),
+                                                   value = create_random_type(typeB)),
+                                       regexp = "Les objets dataTS et value doivent être de même type.")
+            }
+        }
+    }
+})
+
+testthat::test_that("NA values generate warning", {
+    for (typeA in liste_type[-6L]){
+
+        ts_A <- create_random_ts(type = typeA, start = 2000L, len = 80L, frequency = 4L)
+        v1 <- sample(c(create_random_type(typeA, len = 10L), get(paste0("as.", typeA))(rep(NA, 5L))), replace = TRUE)
+        v2 <- get(paste0("as.", typeA))(rep(NA, 5L))
+
+        testthat::expect_warning(setValue_ts(dataTS = ts_A, date = 2010L, value = v1),
+                                 regexp = "L'argument value contient des NAs.")
+        testthat::expect_warning(setValue_ts(dataTS = ts_A, date = 2010L, value = v2),
+                                 regexp = "L'argument value contient des NAs.")
     }
 })
 
 # Tests sur les erreurs de temporalité --------------------------------------------
 
-testthat::test_that("arguments have same frequency", {
-    for (freq_A in liste_frequence){
-        objA <- ts(create_random_type("num", len = 50L), start = 2001L, frequency = freq_A)
-        for (freq_B in liste_frequence){
-            objB <- ts(create_random_type("num", len = 50L), start = 2001L, frequency = freq_B)
-            if (freq_A != freq_B) testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent avoir la même fréquence.")
-        }
+testthat::test_that("dataTS and date are temporally consistent", {
+    for (typeA in liste_type){
+        testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA, start = 2010 + 1/7, frequency = 12L),
+                                           date = create_random_start(),
+                                           value = create_random_type(type = typeA)),
+                               regexp = "Les objets a et b doivent être cohérents temporellement.")
     }
-})
 
-testthat::test_that("arguments are temporally consistent", {
-
-    ts_A <- create_random_type(type = "num", len = 100L) |> ts(start = 2015L, frequency = 12L)
-    ts_B <- create_random_type(type = "num", len = 100L) |> ts(start = 2004 + 1/7, frequency = 12L)
-    testthat::expect_error(combine2ts(ts_A, ts_B), regexp = "Les objets a et b doivent être cohérents temporellement.")
-    testthat::expect_error(combine2ts(ts_B, ts_A), regexp = "Les objets a et b doivent être cohérents temporellement.")
-
-    ts_A <- create_random_type(type = "num", len = 20L) |> ts(start = 2015L, frequency = 4)
-    ts_B <- create_random_type(type = "num", len = 20L) |> ts(start = 2016 + 5/12, frequency = 4)
-    testthat::expect_error(combine2ts(ts_A, ts_B), regexp = "Les objets a et b doivent être cohérents temporellement.")
-    testthat::expect_error(combine2ts(ts_B, ts_A), regexp = "Les objets a et b doivent être cohérents temporellement.")
-
+    for (typeA in liste_type){
+        testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA, start = 2022 + 1/5, frequency = 4L),
+                                           date = create_random_start(),
+                                           value = create_random_type(type = typeA)),
+                               regexp = "Les objets a et b doivent être cohérents temporellement.")
+    }
 })
 
