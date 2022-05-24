@@ -17,8 +17,8 @@ setValue_ts(dataTS, date, value)
 En sortie, la fonction retourne l'objet \code{dataTS} n objet ts modifié avec les valeurs de \code{value} imputés à partir de la date \code{date}.
 }
 \description{
-La fonction \code{setValue_ts} permet de modifier la ou les valeurs d'un objet ts à une date donnée.
+La fonction \code{setValue_ts} modifie la ou les valeurs d'un objet ts à une date donnée.
 }
 \examples{
-ev_pib |> setValue_ts(date = c(2021, 2), value = c(1, 2, 3))
+ev_pib |> setValue_ts(date = c(2021L, 2L), value = c(1, 2, 3))
 }

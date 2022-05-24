@@ -268,9 +268,9 @@ testthat::test_that("miscellaneous input are not allowed", {
 # Tests sur les erreurs de type d'objets --------------------------------------------
 
 testthat::test_that("different input type are not allowed", {
-    for (typeA in liste_type){
+    for (typeA in liste_type[-7L]){
         objA <- create_random_ts(type = typeA, frequency = 12L)
-        for (typeB in liste_type){
+        for (typeB in liste_type[-7L]){
             objB <- create_random_ts(type = typeB, frequency = 12L)
             if (typeA != typeB) testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent être de même type.")
         }

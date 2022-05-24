@@ -12,16 +12,17 @@ combine2ts(a, b)
 \item{b}{un objet ts}
 }
 \value{
-En sortie, la fonction retourne la combinaison des 2 objets.
+En sortie, la fonction retourne un ts qui contient les valeurs de \code{a} aux temps de \code{a} et les valeurs de \code{b} aux temps de \code{b}.
 }
 \description{
-La fonction \code{combine2ts} permet de combiner (comme c()) 2 time series.
+La fonction \code{combine2ts} combine (comme c()) 2 time series de même fréquence (mensuelle ou trimestrielle).
+}
+\details{
+Si \code{a} et \code{b} ont une période en commun, les valeurs de \code{b} écrasent celles de a sur la période concernée.
+Si il existe une période sur laquelle ni \code{a} ni \code{b} ne prennent de valeur (mais qu'il existe des valeurs à des dates ultérieures et antérieures) alors le ts en sortie prendra NA sur cette période.
 }
 \examples{
 #La temporalité du second ts n'est pas prise en compte
-x1 <- ts(rep(1, 4), start = 2000, frequency = 12)
-x2 <- ts(rep(2, 4), start = 2020, frequency = 12)
-combine2ts(x1, x2)
 
 #Attention aux NA présent en début ou fin de ts !
 ev_pib |> combine2ts(x1)
