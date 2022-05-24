@@ -2,7 +2,7 @@
 #' Vérifie le format de date
 #'
 #' @description La fonction `isTSdate` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param date un vecteur numérique, de préférence integer
+#' @param date un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #'
 #' @return En sortie la fonction retourne un booleen et un warning additionnel si besoin.
 #' @details Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basé sur le système des mois, trimestres et années classiques.
@@ -30,10 +30,8 @@ isTSdate <- function(date){
         length(date) %in% 1:2 &&
         isTRUE(all.equal(date, round(date))) &&
         all(!is.na(date))){
-        warning("La date est de type double. Il faut privilégier le format integer.")
+        warning("La date est de type double. Il faut privil\u00e9gier le format integer.")
         return(TRUE)
     }
     return(FALSE)
 }
-
-

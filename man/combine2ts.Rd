@@ -23,6 +23,9 @@ Si il existe une période sur laquelle ni \code{a} ni \code{b} ne prennent de va
 }
 \examples{
 #La temporalité du second ts n'est pas prise en compte
+x1 <- stats::ts(rep(1, 4), start = 2000, frequency = 12)
+x2 <- stats::ts(rep(2, 4), start = 2020, frequency = 12)
+combine2ts(x1, x2)
 
 #Attention aux NA présent en début ou fin de ts !
 ev_pib |> combine2ts(x1)

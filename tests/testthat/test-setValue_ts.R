@@ -1,4 +1,6 @@
 
+# Initialisation ---------------------------------------------------------------
+
 set.seed(2023L)
 
 create_random_type <- function(type, len = NULL){
@@ -14,7 +16,7 @@ create_random_type <- function(type, len = NULL){
     stop("Le type n'est pas reconnu.")
 }
 
-create_random_start <- function(){
+create_random_date <- function(){
     return(c(sample(1950L:2022L, size = 1L),
              sample(-20L:20L, size = 1L)))
 }
@@ -22,18 +24,26 @@ create_random_start <- function(){
 create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL){
     if (is.null(len)) len <- sample(1L:1000L, size = 1)
     if (is.null(frequency)) frequency <- sample(c(4L, 12L), size = 1)
-    if (is.null(start)) start <- create_random_start()
+    if (is.null(start)) start <- create_random_date()
 
     content <- create_random_type(type, len)
 
     return(ts(content, start = start, frequency = frequency))
 }
 
+liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
 object_bank_R <- fuzzr::test_all()
 weird_frequency <- c(1, 2, 7, 0.1, 1/3, 3.5, 365.25, pi)
-wrong_date <- list(2019.5, 2020 + 1/12, pi / 4, c(2020, 2.5), c(2010.25, 3), c(2002, 3, 1), c("2002", "3"))
+wrong_dates <- c(
+    fuzzr::test_all()[-10],
+    list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
+    lapply(liste_type[-c(1L, 3L)], create_random_type, len = 2),
+    lapply(liste_type[-c(1L, 3L)], create_random_type, len = 3),
+    list(2019.5, 2020 + 1/12, pi / 4, c(2020, 2.5), c(2010.25, 3), c(2002, 3, 1), c("2002", "3")),
+    list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5), c(NA_real_, NA_real_)),
+    list(2L:4L, c(2020.0, 7, 1), c(2020L, 0L, NA_integer_), numeric(0), integer(0))
+)
 
-liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
 liste_len <- c(1L, 4L:6L, 10L, 10000L)
 liste_lag <- c(-10000L, -5L, -1L, 0L, 1L, 5L, 10000L)
 liste_frequence <- c(4L, 12L)
@@ -186,10 +196,10 @@ liste_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2
 testthat::test_that("Several dimensions are not allowed", {
     for (typeA in liste_type){
         B_content <- sapply(1L:5L, function(i) create_random_type(type = typeA, len = 100L))
-        mts_B <- ts(B_content, start = create_random_start(), frequency = 12L)
+        mts_B <- ts(B_content, start = create_random_date(), frequency = 12L)
 
         testthat::expect_error(setValue_ts(dataTS = mts_B,
-                                           date = create_random_start(),
+                                           date = create_random_date(),
                                            value = create_random_type(type = typeA)),
                                regexp = "L'objets dataTS doit être un ts unidimensionnel.")
     }
@@ -203,7 +213,7 @@ testthat::test_that("miscellaneous dataTS are not allowed", {
     for (typeA in liste_type){
         for (obj in object_bank_R){
             testthat::expect_error(setValue_ts(dataTS = obj,
-                                               date = create_random_start(),
+                                               date = create_random_date(),
                                                value = create_random_type(type = typeA)),
                                    regexp = "L'objets dataTS doit être un ts unidimensionnel.")
         }
@@ -214,9 +224,9 @@ testthat::test_that("miscellaneous dataTS are not allowed", {
 
 testthat::test_that("miscellaneous date are not allowed", {
     for (typeA in liste_type){
-        for (obj in c(object_bank_R[-10L], wrong_date)){
+        for (wrong_date in c(object_bank_R[-10L], wrong_dates)){
             testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
-                                               date = obj,
+                                               date = wrong_date,
                                                value = create_random_type(type = typeA)),
                                    regexp = "La date est au mauvais format.")
         }
@@ -230,7 +240,7 @@ testthat::test_that("miscellaneous value input are not allowed", {
     for (typeA in liste_type){
         for (value in liste_wrong_value){
             testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
-                                               date = create_random_start(),
+                                               date = create_random_date(),
                                                value = value),
                                    regexp = "L'argument value doit être unidimensionnel.")
         }
@@ -242,7 +252,7 @@ testthat::test_that("value should have same type as dataTS", {
         for (typeB in liste_type[-7]){
             if (typeA != typeB){
                 testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
-                                                   date = create_random_start(),
+                                                   date = create_random_date(),
                                                    value = create_random_type(typeB)),
                                        regexp = "Les objets dataTS et value doivent être de même type.")
             }
@@ -269,14 +279,14 @@ testthat::test_that("NA values generate warning", {
 testthat::test_that("dataTS and date are temporally consistent", {
     for (typeA in liste_type){
         testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA, start = 2010 + 1/7, frequency = 12L),
-                                           date = create_random_start(),
+                                           date = create_random_date(),
                                            value = create_random_type(type = typeA)),
                                regexp = "Les objets a et b doivent être cohérents temporellement.")
     }
 
     for (typeA in liste_type){
         testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA, start = 2022 + 1/5, frequency = 4L),
-                                           date = create_random_start(),
+                                           date = create_random_date(),
                                            value = create_random_type(type = typeA)),
                                regexp = "Les objets a et b doivent être cohérents temporellement.")
     }
