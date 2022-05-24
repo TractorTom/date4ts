@@ -1,7 +1,7 @@
 
 #' Libelé pour une date
 #'
-#' @description La fonction `libeles_one_date` créé le libelé pour une date à une fréquence donnée.modifie la ou les valeurs d'un objet ts à une date donnée.
+#' @description La fonction `libelles_one_date` créé le libelé pour une date à une fréquence donnée.modifie la ou les valeurs d'un objet ts à une date donnée.
 #'
 #' @param date un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.)
@@ -9,9 +9,9 @@
 #' @return En sortie, la fonction retourne une chaine de caractère qui correspond au libelés de la date `date`.
 #'
 #' @examples
-#' libeles_one_date(date = c(2020L, 4L), frequency = 12L)
-#' libeles_one_date(date = c(2020L, 4L), frequency = 4L)
-libeles_one_date <- function(date, frequency){
+#' libelles_one_date(date = c(2020L, 4L), frequency = 12L)
+#' libelles_one_date(date = c(2020L, 4L), frequency = 4L)
+libelles_one_date <- function(date, frequency){
     if (!ts4conj::isTSdate(date)) stop("La date est au mauvais format.")
     if (date[1L] <= 0L) stop("La date doit \u00eatre après JC (ann\u00e9e positive).")
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
@@ -32,7 +32,7 @@ libeles_one_date <- function(date, frequency){
 
 #' Libelés pour une période
 #'
-#' @description La fonction `libeles` créé un vecteur de chaines de caractère contenant les libelés de toutes les dates sur une période
+#' @description La fonction `libelles` créé un vecteur de chaines de caractère contenant les libelés de toutes les dates sur une période
 #'
 #' @param date un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.)
@@ -44,9 +44,9 @@ libeles_one_date <- function(date, frequency){
 #' @export
 #'
 #' @examples
-#' libeles(date = c(2019L, 10L), frequency = 12L, nb = 9L)
-#' libeles(date = c(2019L, 4L), frequency = 4L, nb = 3L)
-libeles <- function(date, frequency, nb = 1){
+#' libelles(date = c(2019L, 10L), frequency = 12L, nb = 9L)
+#' libelles(date = c(2019L, 4L), frequency = 4L, nb = 3L)
+libelles <- function(date, frequency, nb = 1){
     if (!ts4conj::isTSdate(date)) stop("La date est au mauvais format.")
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
@@ -55,5 +55,5 @@ libeles <- function(date, frequency, nb = 1){
 
     return(sapply(0:(nb - 1), FUN = \(lag) (lag |>
                                                 nextDate(date = date, frequency = frequency) |>
-                                                ts4conj:::libeles_one_date(frequency = frequency))))
+                                                ts4conj:::libelles_one_date(frequency = frequency))))
 }
