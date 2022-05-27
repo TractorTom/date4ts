@@ -24,7 +24,6 @@ setValue_ts <- function(dataTS, date, value){
     if (length(stats::start(dataTS)) == 1 && !isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
         stop("Les objets a et b doivent \u00eatre coh\u00e9rents temporellement.")
 
-
     outputTS <- dataTS
 
     if (is.raw(outputTS)) {

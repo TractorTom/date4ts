@@ -11,9 +11,15 @@
 #' @examples
 #' as.YYYYTT(2019.75) #4ème trimestre 2019
 #' as.YYYYTT(2020) #1er trimestre 2020
-#' as.YYYYMM(2022 + 1/4) #2ème trimestre 2022
+#' as.YYYYTT(2022 + 1/4) #2ème trimestre 2022
 as.YYYYTT <- function(timeUnits){
-    return(c(timeUnits %/% 1L, (timeUnits %% 1L) * 4L + 1L)) #|> base::round(digits = 10L))
+    if (!is.numeric(timeUnits) || length(timeUnits) != 1L || any(is.na(timeUnits)))
+        stop("L'input timeUnits est au mauvais format.")
+    temporalConsistence <- 4 * timeUnits
+    if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
+        stop("L'input timeUnits n'est pas coh\u00e9rent temporellement avec les trimestres classiques.")
+
+    return(c(timeUnits %/% 1, (timeUnits %% 1L) * 4 + 1) |> round() |> as.integer())
 }
 
 #' Conversion au format c(AAAA, MM)
@@ -28,8 +34,16 @@ as.YYYYTT <- function(timeUnits){
 #' @examples
 #' as.YYYYMM(2019.75) #Octobre 2019
 #' as.YYYYMM(2020) #Janvier 2020
+#' as.YYYYMM(2020 + 1/12) #Février 2020
+#' as.YYYYMM(2020 + 12/12) #Janvier 2021
 as.YYYYMM <- function(timeUnits){
-    return(c(timeUnits %/% 1L, (timeUnits %% 1L) * 12L + 1L) |> base::round(digits = 10L))
+    if (!is.numeric(timeUnits) || length(timeUnits) != 1L || any(is.na(timeUnits)))
+        stop("L'input timeUnits est au mauvais format.")
+    temporalConsistence <- 12 * timeUnits
+    if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
+        stop("L'input timeUnits n'est pas coh\u00e9rent temporellement avec les trimestres classiques.")
+
+    return(c(timeUnits %/% 1, (timeUnits %% 1L) * 12 + 1) |> round() |> as.integer())
 }
 
 #' Correspondance d'une date trimestrielle au premier mois du trimestre

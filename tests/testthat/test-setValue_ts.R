@@ -51,145 +51,148 @@ liste_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2
 
 # Tests de résultat avec start vecteur d'entiers -------------------------------
 
-# for (typeA in liste_type){
-#     for (frequenceA in liste_frequence){
-#         for (startA in liste_start){
-#             for (lenA in liste_len){
-#                 A_content <- create_random_type(type = typeA, len = lenA)
-#                 ts_A <-  ts(A_content, start = startA, frequency = frequenceA)
-#                 for (lagB in liste_lag){
-#                     for (lenB in liste_len){
-#
-#                         test_name <- paste("expected result with ",
-#                                            "\ntypeA = '", typeA,
-#                                            "'\nfrequenceA = ", frequenceA,
-#                                            "\nstartA = ", deparse(startA),
-#                                            "\nlenA = ", lenA,
-#                                            "\nlagB = ", lagB,
-#                                            "\nlenB = ", lenB, sep = "")
-#
-#                         testthat::test_that(test_name, {
-#
-#                             valueB <- create_random_type(type = typeA, len = lenB)
-#                             startB <- c(startA[1], startA[2] + lagB)
-#                             ts_B <- ts(valueB, start = startB, frequency = frequenceA)
-#
-#
-#                             #Cas où lagB >= 0 (start = startA)
-#                             if (lagB > 0){
-#                                 if (lagB > lenA) { #Cas 4
-#
-#                                     if (typeA == "raw"){
-#                                         ts_ResAB1 <- ts(c(A_content, rep(as.raw(0L), lagB - lenA), valueB), start = startA, frequency = frequenceA)
-#
-#                                         testthat::expect_warning({
-#                                             testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
-#                                                                      regexp = "extending time series when replacing values")},
-#                                             regexp = "out-of-range values treated as 0 in coercion to raw")
-#                                         testthat::expect_warning({
-#                                             testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
-#                                                                      regexp = "extending time series when replacing values")},
-#                                             regexp = "out-of-range values treated as 0 in coercion to raw")
-#
-#                                     } else {
-#                                         ts_ResAB1 <- ts(c(A_content, rep(NA, lagB - lenA), valueB), start = startA, frequency = frequenceA)
-#
-#                                         testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
-#                                                                  regexp = "extending time series when replacing values")
-#                                         testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
-#                                                                  regexp = "extending time series when replacing values")
-#                                     }
-#
-#
-#                                 } else if (lagB + lenB < lenA) { #Cas 6
-#                                     ts_ResAB1 <- ts(c(A_content[1:lagB], valueB, A_content[(lagB + lenB + 1):lenA]), start = startA, frequency = frequenceA)
-#                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
-#                                     resAB <- setValue_ts(ts_A, date = startB, value = valueB)
-#                                 } else if (lagB + lenB == lenA) { #Autres cas
-#                                     ts_ResAB1 <- ts(c(A_content[1:lagB], valueB), start = startA, frequency = frequenceA)
-#                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
-#                                     resAB <- setValue_ts(ts_A, date = startB, value = valueB)
-#                                 } else { #Cas1
-#
-#                                     ts_ResAB1 <- ts(c(A_content[1:lagB], valueB), start = startA, frequency = frequenceA)
-#                                     testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
-#                                                              regexp = "extending time series when replacing values")
-#                                     testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
-#                                                              regexp = "extending time series when replacing values")
-#
-#                                 }
-#
-#                             } else if(lagB < 0) { #Cas où start = strartB < startA
-#
-#                                 if (lagB + lenB < 0) { #Cas 3
-#
-#                                     if (typeA == "raw"){
-#                                         ts_ResAB1 <- ts(c(valueB, rep(as.raw(0L), -lagB - lenB), A_content), start = startB, frequency = frequenceA)
-#
-#                                         testthat::expect_warning({
-#                                             testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
-#                                                                      regexp = "extending time series when replacing values")},
-#                                             regexp = "out-of-range values treated as 0 in coercion to raw")
-#                                         testthat::expect_warning({
-#                                             testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
-#                                                                      regexp = "extending time series when replacing values")},
-#                                             regexp = "out-of-range values treated as 0 in coercion to raw")
-#
-#                                     } else {
-#                                         ts_ResAB1 <- ts(c(valueB, rep(NA, -lagB - lenB), A_content), start = startB, frequency = frequenceA)
-#                                         testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
-#                                                                  regexp = "extending time series when replacing values")
-#                                         testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
-#                                                                  regexp = "extending time series when replacing values")
-#                                     }
-#
-#                                 } else if (lagB + lenB >= lenA) { #Cas 5
-#                                     ts_ResAB1 <- ts(valueB, start = startB, frequency = frequenceA)
-#                                     testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
-#                                                              regexp = "extending time series when replacing values")
-#                                     testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
-#                                                              regexp = "extending time series when replacing values")
-#                                 } else { #Cas 2
-#                                     ts_ResAB1 <- ts(c(valueB, A_content[(lagB + lenB + 1):lenA]), start = startB, frequency = frequenceA)
-#                                     testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
-#                                                              regexp = "extending time series when replacing values")
-#                                     testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
-#                                                              regexp = "extending time series when replacing values")
-#                                 }
-#
-#                             } else { #Cas où lag = 0
-#                                 if (lenB < lenA){
-#                                     ts_ResAB1 <- ts(c(valueB, A_content[(lenB + 1):lenA]), start = startA, frequency = frequenceA)
-#                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
-#                                     resAB <- setValue_ts(ts_A, date = startB, value = valueB)
-#                                 } else if (lenB == lenA){
-#                                     ts_ResAB1 <- ts(valueB, start = startA, frequency = frequenceA)
-#                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
-#                                     resAB <- setValue_ts(ts_A, date = startB, value = valueB)
-#                                 } else {
-#                                     ts_ResAB1 <- ts(valueB, start = startA, frequency = frequenceA)
-#                                     testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
-#                                                              regexp = "extending time series when replacing values")
-#                                     testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
-#                                                              regexp = "extending time series when replacing values")
-#
-#                                 }
-#                             }
-#
-#
-#
-#                             testthat::expect_equal(resAB,ts_ResAB1)
-#                             testthat::expect_equal(resAB,ts_ResAB2)
-#
-#                         })
-#
-#                     }
-#                 }
-#             }
-#         }
-#     }
-# }
-#
+for (typeA in liste_type){
+    for (frequenceA in liste_frequence){
+        for (startA in liste_start){
+            for (lenA in liste_len){
+                A_content <- create_random_type(type = typeA, len = lenA)
+                ts_A <-  ts(A_content, start = startA, frequency = frequenceA)
+                for (lagB in liste_lag){
+                    for (lenB in liste_len){
+
+                        test_name <- paste("expected result with ",
+                                           "\ntypeA = '", typeA,
+                                           "'\nfrequenceA = ", frequenceA,
+                                           "\nstartA = ", deparse(startA),
+                                           "\nlenA = ", lenA,
+                                           "\nlagB = ", lagB,
+                                           "\nlenB = ", lenB, sep = "")
+
+                        testthat::test_that(test_name, {
+
+                            valueB <- create_random_type(type = typeA, len = lenB)
+                            startB <- c(startA[1], startA[2] + lagB)
+                            ts_B <- ts(valueB, start = startB, frequency = frequenceA)
+
+
+                            #Cas où lagB >= 0 (start = startA)
+                            if (lagB > 0){
+                                if (lagB > lenA) { #Cas 4
+
+                                    if (typeA == "raw"){
+                                        ts_ResAB1 <- ts(c(A_content, rep(as.raw(0L), lagB - lenA), valueB), start = startA, frequency = frequenceA)
+
+                                        testthat::expect_warning({
+                                            testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+                                                                     regexp = "extending time series when replacing values")},
+                                            regexp = "out-of-range values treated as 0 in coercion to raw")
+                                        testthat::expect_warning({
+                                            testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+                                                                     regexp = "extending time series when replacing values")},
+                                            regexp = "out-of-range values treated as 0 in coercion to raw")
+
+                                    } else {
+                                        ts_ResAB1 <- ts(c(A_content, rep(NA, lagB - lenA), valueB), start = startA, frequency = frequenceA)
+
+                                        testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+                                                                 regexp = "extending time series when replacing values")
+                                        testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+                                                                 regexp = "extending time series when replacing values")
+                                    }
+
+
+                                } else if (lagB + lenB < lenA) { #Cas 6
+                                    ts_ResAB1 <- ts(c(A_content[1:lagB], valueB, A_content[(lagB + lenB + 1):lenA]), start = startA, frequency = frequenceA)
+                                    ts_ResAB2 <- combine2ts(ts_A, ts_B)
+                                    resAB <- setValue_ts(ts_A, date = startB, value = valueB)
+                                } else if (lagB + lenB == lenA) { #Autres cas
+                                    ts_ResAB1 <- ts(c(A_content[1:lagB], valueB), start = startA, frequency = frequenceA)
+                                    ts_ResAB2 <- combine2ts(ts_A, ts_B)
+                                    resAB <- setValue_ts(ts_A, date = startB, value = valueB)
+                                } else { #Cas1
+
+                                    ts_ResAB1 <- ts(c(A_content[1:lagB], valueB), start = startA, frequency = frequenceA)
+                                    testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+                                                             regexp = "extending time series when replacing values")
+                                    testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+                                                             regexp = "extending time series when replacing values")
+
+                                }
+
+                            } else if(lagB < 0) { #Cas où start = strartB < startA
+
+                                if (lagB + lenB < 0) { #Cas 3
+
+                                    if (typeA == "raw"){
+                                        ts_ResAB1 <- ts(c(valueB, rep(as.raw(0L), -lagB - lenB), A_content), start = startB, frequency = frequenceA)
+
+                                        testthat::expect_warning({
+                                            testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+                                                                     regexp = "extending time series when replacing values")},
+                                            regexp = "out-of-range values treated as 0 in coercion to raw")
+                                        testthat::expect_warning({
+                                            testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+                                                                     regexp = "extending time series when replacing values")},
+                                            regexp = "out-of-range values treated as 0 in coercion to raw")
+
+                                    } else {
+                                        ts_ResAB1 <- ts(c(valueB, rep(NA, -lagB - lenB), A_content), start = startB, frequency = frequenceA)
+                                        testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+                                                                 regexp = "extending time series when replacing values")
+                                        testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+                                                                 regexp = "extending time series when replacing values")
+                                    }
+
+                                } else if (lagB + lenB >= lenA) { #Cas 5
+                                    ts_ResAB1 <- ts(valueB, start = startB, frequency = frequenceA)
+                                    testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+                                                             regexp = "extending time series when replacing values")
+                                    testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+                                                             regexp = "extending time series when replacing values")
+                                } else { #Cas 2
+                                    ts_ResAB1 <- ts(c(valueB, A_content[(lagB + lenB + 1):lenA]), start = startB, frequency = frequenceA)
+                                    testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+                                                             regexp = "extending time series when replacing values")
+                                    testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+                                                             regexp = "extending time series when replacing values")
+                                }
+
+                            } else { #Cas où lag = 0
+                                if (lenB < lenA){
+                                    ts_ResAB1 <- ts(c(valueB, A_content[(lenB + 1):lenA]), start = startA, frequency = frequenceA)
+                                    ts_ResAB2 <- combine2ts(ts_A, ts_B)
+                                    resAB <- setValue_ts(ts_A, date = startB, value = valueB)
+                                } else if (lenB == lenA){
+                                    ts_ResAB1 <- ts(valueB, start = startA, frequency = frequenceA)
+                                    ts_ResAB2 <- combine2ts(ts_A, ts_B)
+                                    resAB <- setValue_ts(ts_A, date = startB, value = valueB)
+                                } else {
+                                    ts_ResAB1 <- ts(valueB, start = startA, frequency = frequenceA)
+                                    testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
+                                                             regexp = "extending time series when replacing values")
+                                    testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
+                                                             regexp = "extending time series when replacing values")
+
+                                }
+                            }
+
+                            if (typeA != "Date"){
+                                testthat::expect_type(resAB, typeA)
+                                testthat::expect_type(resBA, typeA)
+                            }
+
+                            testthat::expect_equal(resAB,ts_ResAB1)
+                            testthat::expect_equal(resAB,ts_ResAB2)
+
+                        })
+
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 # Tests sur les erreurs de mts --------------------------------------------
 

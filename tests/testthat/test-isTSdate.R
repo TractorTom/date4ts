@@ -59,6 +59,3 @@ testthat::test_that("good result for integer date", {
     }
 })
 
-
-
-
