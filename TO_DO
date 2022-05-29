@@ -1,6 +1,3 @@
 Création du package :
-- faire les tests pour setValue_ts
-- réfléchir à proposer pour toutes les fonctions qui ont un argument dates, les formats c(AAAA, MM) et timeUnits
-    --> afin d'augmenter les possibilités des fonctions (aux autres fréquences, dates, types, ...)
-- si on ne résoud pas le pb de window<-, il va falloir casser la structure ts pour la recréer (changer en vecteur, modifier le vecteur et re-assigner un ts)
 - Faire une fonction qui prolonge d'un certain nombre de point / qui prolonge juqu'à une certaine date un ts
+- Faire le tour des tests et retirer les create_random... qui ne servent pas

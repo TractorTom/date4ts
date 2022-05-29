@@ -17,6 +17,7 @@ create_random_type <- function(type, len = NULL){
 }
 
 create_random_date <- function(){
+    if (runif(1, 0, 1) > 0.5) return(sample(1950L:2022L, size = 1L))
     return(c(sample(1950L:2022L, size = 1L),
              sample(-20L:20L, size = 1L)))
 }

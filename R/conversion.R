@@ -50,7 +50,7 @@ as.YYYYMM <- function(timeUnits){
 #'
 #' @description La fonction `trim2mens` prend en argument une date au format c(AAAA, TT) et la convertit au format c(AAAA, MM) en choisissant le premier mois du trimestre.
 #'
-#' @param date une date au format c(AAAA, TT)
+#' @param date un vecteur numérique, de préférence `integer` au format c(AAAA, TT)
 #'
 #' @return En sortie, la fonction retourne la date au format c(AAAA, MM)
 #' @export
@@ -59,16 +59,18 @@ as.YYYYMM <- function(timeUnits){
 #' trim2mens(c(2019L, 4L)) #4ème trimestre 2019 --> Octobre 2019
 #' trim2mens(c(2020L, 1L)) #1er trimestre 2020 --> Janvier 2020
 trim2mens <- function(date){
-    year <- date[1L]
-    trim <- date[2L]
-    return(c(year, trim * 3L - 2L))
+    if (!ts4conj::isTSdate(date)) stop("La date est au mauvais format.")
+
+    year <- date[1L] + (date[2L] - 1L) %/% 4L
+    trim <- (date[2L] - 1L) %% 4L + 1L
+    return(c(year, trim * 3L - 2L) |> as.integer())
 }
 
 #' Correspondance d'une date mensuelle au trimestre courant
 #'
 #' @description La fonction `mens2trim` prend en argument une date au format c(AAAA, MM) et la convertit au format c(AAAA, TT) avec le trimestre en cours.
 #'
-#' @param date une date au format c(AAAA, MM)
+#' @param date un vecteur numérique, de préférence `integer` au format c(AAAA, MM)
 #'
 #' @return En sortie, la fonction retourne la date au format c(AAAA, TT) correspondant au trimestre courant du mois `date`.
 #' @export
@@ -77,12 +79,28 @@ trim2mens <- function(date){
 #' mens2trim(c(2019L, 4L)) #Avril 2019 --> 2ème trimestre 2019
 #' mens2trim(c(2020L, 11L)) #Novembre 2020 --> 4ème trimestre 2020
 mens2trim <- function(date){
-    year <- date[1L]
-    month <- date[2L]
-    return(c(year, 1L + ((month - 1L) %/% 3L)))
+    if (!ts4conj::isTSdate(date)) stop("La date est au mauvais format.")
+
+    year <- date[1L] + (date[2L] - 1L) %/% 12L
+    month <- (date[2L] - 1L) %% 12L + 1L
+    return(c(year, 1L + ((month - 1L) %/% 3L)) |> as.integer())
 }
 
+#' Conversion d'une date TS au format TimeUnits
+#'
+#' @param date un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.)
+#'
+#' @return
+#' @export
+#'
+#' @examples
 getTimeUnits <- function(date, frequency){
-    if (length(date) == 2L) return(date[1L] + (date[2L] - 1L) / frequency)
+    if (!ts4conj::isTSdate(date)) stop("La date est au mauvais format.")
+    if (date[1L] <= 0L) stop("La date doit \u00eatre après JC (ann\u00e9e positive).")
+    if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
+        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
+
+    if (length(date) == 2L) return(date[1L] + (date[2L] - 1) / frequency)
     return(date[1L])
 }

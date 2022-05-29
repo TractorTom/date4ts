@@ -72,8 +72,7 @@ combine2ts <- function(a, b){
     if (stats::frequency(a) != stats::frequency(b)) stop("Les objets a et b doivent avoir la m\u00eame fr\u00e9quence.")
     if (typeof(a) != typeof(b))                     stop("Les objets a et b doivent \u00eatre de m\u00eame type.")
 
-    temporalConsistence <- (ts4conj::getTimeUnits(stats::start(a), frequency = stats::frequency(a)) -
-                                ts4conj::getTimeUnits(stats::start(b), frequency = stats::frequency(b))) * stats::frequency(a)
+    temporalConsistence <- (stats::start(a) - stats::start(b)) * stats::frequency(a)
     if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
         stop("Les objets a et b doivent \u00eatre coh\u00e9rents temporellement.")
 
