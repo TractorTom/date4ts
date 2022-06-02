@@ -1,7 +1,7 @@
 
 #' Vérifie le format de date
 #'
-#' @description La fonction `isTSdate` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @description La fonction `isGoodDate` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param date un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #'
 #' @return En sortie la fonction retourne un booleen et un warning additionnel si besoin.
@@ -11,23 +11,23 @@
 #'
 #' @examples
 #' #De bons formats de date
-#' isTSdate(c(2020L, 4L))
-#' isTSdate(2022L)
+#' isGoodDate(c(2020L, 4L))
+#' isGoodDate(2022L)
 #'
 #' #Formats avec un warning
-#' isTSdate(c(2020, 4))
-#' isTSdate(2022)
+#' isGoodDate(c(2020, 4))
+#' isGoodDate(2022)
 #'
 #' #Format non accepté --> erreur
-#' isTSdate(2022.5)
-#' isTSdate(2022 + 1/12)
-isTSdate <- function(date){
+#' isGoodDate(2022.5)
+#' isGoodDate(2022 + 1/12)
+isGoodDate <- function(dataTS){
     if (!class(date) %in% c("integer", "numeric")) return(FALSE)
     if (is.integer(date) &&
-        length(date) %in% 1:2 &&
+        length(date) %in% 1L:2L &&
         all(!is.na(date))) return(TRUE)
     if (is.double(date) &&
-        length(date) %in% 1:2 &&
+        length(date) %in% 1L:2L &&
         isTRUE(all.equal(date, round(date))) &&
         all(!is.na(date))){
         warning("La date est de type double. Il faut privil\u00e9gier le format integer.")
@@ -35,3 +35,26 @@ isTSdate <- function(date){
     }
     return(FALSE)
 }
+
+isGoodTS <- function(dataTS){
+
+    #check du type d'objet
+    if (!stats::is.ts(dataTS) | stats::is.mts(dataTS)) return(FALSE)
+    #Check de la fréquence
+    if (!(stats::frequency(dataTS) %in% c(4L, 12L))) return(FALSE)
+    #Check de la temporalité
+    if (withCallingHandlers({
+        !ts4conj::isGoodDate(stats::start(dataTS)) |
+            !ts4conj::isGoodDate(stats::end(dataTS))},
+        warning = function(w){
+            if(w$message == "La date est de type double. Il faut privil\u00e9gier le format integer.") invokeRestart("muffleWarning")
+        })
+    ) return(FALSE)
+    #Check du type des données
+    if (!is.atomic(dataTS)) return(FALSE)
+
+    return(TRUE)
+}
+
+
+

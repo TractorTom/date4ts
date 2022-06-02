@@ -12,7 +12,7 @@
 #' libelles_one_date(date = c(2020L, 4L), frequency = 12L)
 #' libelles_one_date(date = c(2020L, 4L), frequency = 4L)
 libelles_one_date <- function(date, frequency){
-    if (!ts4conj::isTSdate(date)) stop("La date est au mauvais format.")
+    if (!ts4conj::isGoodDate(date)) stop("La date est au mauvais format.")
     if (date[1L] <= 0L) stop("La date doit \u00eatre après JC (ann\u00e9e positive).")
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
@@ -47,7 +47,7 @@ libelles_one_date <- function(date, frequency){
 #' libelles(date = c(2019L, 10L), frequency = 12L, nb = 9L)
 #' libelles(date = c(2019L, 4L), frequency = 4L, nb = 3L)
 libelles <- function(date, frequency, nb = 1){
-    if (!ts4conj::isTSdate(date)) stop("La date est au mauvais format.")
+    if (!ts4conj::isGoodDate(date)) stop("La date est au mauvais format.")
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
     if (!is.integer(nb)) stop("L'argument nb doit \u00eatre un entier.")

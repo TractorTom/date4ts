@@ -16,7 +16,8 @@ create_random_type <- function(type, len = NULL){
     stop("Le type n'est pas reconnu.")
 }
 
-create_random_start <- function(){
+create_random_date <- function(){
+    if (runif(1, 0, 1) > 0.5) return(sample(1950L:2022L, size = 1L))
     return(c(sample(1950L:2022L, size = 1L),
              sample(-20L:20L, size = 1L)))
 }
@@ -24,18 +25,18 @@ create_random_start <- function(){
 create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL){
     if (is.null(len)) len <- sample(1L:1000L, size = 1)
     if (is.null(frequency)) frequency <- sample(c(4L, 12L), size = 1)
-    if (is.null(start)) start <- create_random_start()
+    if (is.null(start)) start <- create_random_date()
 
     content <- create_random_type(type, len)
 
     return(ts(content, start = start, frequency = frequency))
 }
 
-liste_type <- c("integer")#, "character", "double", "logical", "complex", "raw", "Date")
-liste_len <- c(1:2)#c(0L:5L, 10000L)
-liste_frequence <- c(4, 12)
-weird_frequency <- c(1, 2, 7, 0.1, 1/3, 3.5, 365.25, pi)
-liste_start <- list(c(2020, -1))#, c(2020, 0), c(2020, 4), c(2020, 5), c(2020, 12), c(2020, 13), 2019)
+liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
+liste_len <- c(0L:5L, 10000L)
+liste_frequence <- c(4L, 12L)
+weird_frequency <- list(1L, 2, 7, 0.1, 1/3, 3.5, 365.25, pi)
+liste_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2020L, 12L), c(2020L, 13L), 2019L)
 object_bank_R <- fuzzr::test_all()
 
 
@@ -50,20 +51,22 @@ for (typeA in liste_type){
                 for (param1 in liste_len){
                     for (param2 in liste_len){
 
-                        test_name <- paste("expected result with",
-                                           "type", typeA,
-                                           "frequency", frequenceA,
-                                           "start", deparse(startA),
-                                           "lenA", lenA,
-                                           "param1", param1,
-                                           "param2", param2)
+                        test_name <- paste0(
+                            "expected result with ",
+                            "\ntypeA = '", typeA,
+                            "'\nfrequenceA = ", frequenceA,
+                            "\nstartA = ", deparse(startA),
+                            "\nlenA = ", lenA,
+                            "\nparam1 = ", param1,
+                            "\nparam2 = ", param2)
+
 
                         testthat::test_that(desc = test_name, {
 
                             #Cas 1
                             if (param1 < lenA & param1 + param2 > 0L){
                                 B1_contents <- create_random_type(type = typeA, len = param1 + param2)
-                                ts_B1 <- ts(B1_contents,  start = ts4conj::getTimeUnits(end(ts_A), frequency = frequenceA) - (param1 - 1L) / frequenceA, frequency = frequenceA)
+                                ts_B1 <- ts(B1_contents,  start = ts4conj::getTimeUnits(end(ts_A) |> as.integer(), frequency = frequenceA) - (param1 - 1L) / frequenceA, frequency = frequenceA)
 
                                 ts_ResAB1 <- ts(c(A_content[1L:(lenA - param1)], B1_contents),                  start = startA, frequency = frequenceA)
                                 if (param2 == 0L){
@@ -166,7 +169,7 @@ for (typeA in liste_type){
                             #Cas 4
                             if (param2 > 0L){
                                 B4_content <- create_random_type(type = typeA, len = param2)
-                                ts_B4 <- ts(B4_content,  start = ts4conj::getTimeUnits(end(ts_A), frequency = frequenceA) + (param1 + 1L) / frequenceA, frequency = frequenceA)
+                                ts_B4 <- ts(B4_content,  start = ts4conj::getTimeUnits(end(ts_A) |> as.integer(), frequency = frequenceA) + (param1 + 1L) / frequenceA, frequency = frequenceA)
 
                                 if (typeA == "raw"){
                                     ts_ResAB4 <- ts(c(A_content, rep(as.raw(0L), param1), B4_content), start = startA, frequency = frequenceA)
@@ -277,7 +280,7 @@ testthat::test_that("Several dimensions are not allowed", {
 
         ts_A <- create_random_ts(type = typeA)
         B_content <- sapply(1L:5L, function(i) create_random_type(type = typeA, len = 100L))
-        mts_B <- ts(B_content, start = create_random_start(), frequency = stats::frequency(ts_A))
+        mts_B <- ts(B_content, start = create_random_date(), frequency = stats::frequency(ts_A))
 
         testthat::expect_error(combine2ts(ts_A, mts_B), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
         testthat::expect_error(combine2ts(mts_B, ts_A), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
@@ -286,19 +289,19 @@ testthat::test_that("Several dimensions are not allowed", {
 
 # Tests sur les erreurs d'input --------------------------------------------
 
-# testthat::test_that("miscellaneous input are not allowed", {
-#     for (typeA in liste_type){
-#         ts_A <- create_random_ts(type = typeA)
-#
-#         for (objA in object_bank_R){
-#             testthat::expect_error(combine2ts(ts_A, objA), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
-#             testthat::expect_error(combine2ts(objA, ts_A), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
-#             for (objB in object_bank_R){
-#                 testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
-#             }
-#         }
-#     }
-# })
+testthat::test_that("miscellaneous input are not allowed", {
+    for (typeA in liste_type){
+        ts_A <- create_random_ts(type = typeA)
+
+        for (objA in object_bank_R){
+            testthat::expect_error(combine2ts(ts_A, objA), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
+            testthat::expect_error(combine2ts(objA, ts_A), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
+            for (objB in object_bank_R){
+                testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
+            }
+        }
+    }
+})
 
 # Tests sur les erreurs de type d'objets --------------------------------------------
 

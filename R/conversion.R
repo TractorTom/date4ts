@@ -59,7 +59,7 @@ as.YYYYMM <- function(timeUnits){
 #' trim2mens(c(2019L, 4L)) #4ème trimestre 2019 --> Octobre 2019
 #' trim2mens(c(2020L, 1L)) #1er trimestre 2020 --> Janvier 2020
 trim2mens <- function(date){
-    if (!ts4conj::isTSdate(date)) stop("La date est au mauvais format.")
+    if (!ts4conj::isGoodDate(date)) stop("La date est au mauvais format.")
 
     year <- date[1L] + (date[2L] - 1L) %/% 4L
     trim <- (date[2L] - 1L) %% 4L + 1L
@@ -79,7 +79,7 @@ trim2mens <- function(date){
 #' mens2trim(c(2019L, 4L)) #Avril 2019 --> 2ème trimestre 2019
 #' mens2trim(c(2020L, 11L)) #Novembre 2020 --> 4ème trimestre 2020
 mens2trim <- function(date){
-    if (!ts4conj::isTSdate(date)) stop("La date est au mauvais format.")
+    if (!ts4conj::isGoodDate(date)) stop("La date est au mauvais format.")
 
     year <- date[1L] + (date[2L] - 1L) %/% 12L
     month <- (date[2L] - 1L) %% 12L + 1L
@@ -96,7 +96,7 @@ mens2trim <- function(date){
 #'
 #' @examples
 getTimeUnits <- function(date, frequency){
-    if (!ts4conj::isTSdate(date)) stop("La date est au mauvais format.")
+    if (!ts4conj::isGoodDate(date)) stop("La date est au mauvais format.")
     if (date[1L] <= 0L) stop("La date doit \u00eatre après JC (ann\u00e9e positive).")
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")

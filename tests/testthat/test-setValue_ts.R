@@ -179,7 +179,6 @@ for (typeA in liste_type){
 
                             if (typeA != "Date"){
                                 testthat::expect_type(resAB, typeA)
-                                testthat::expect_type(resBA, typeA)
                             }
 
                             testthat::expect_equal(resAB,ts_ResAB1)

@@ -1,3 +1,5 @@
 Création du package :
 - Faire une fonction qui prolonge d'un certain nombre de point / qui prolonge juqu'à une certaine date un ts
 - Faire le tour des tests et retirer les create_random... qui ne servent pas
+- créer des tests de résultats mauvais à partir de ts créés à partir de liste
+    (exemple : ts(list(2, 3, c(1, 2)), start = 2010, frequency = 12))

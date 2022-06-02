@@ -26,7 +26,7 @@ good_mois <- c(-200L, -5L, -1L, 0L, 1L, 3L, 5L, 12L, 13L, 46L)
 good_dates <- do.call(c, lapply(X = good_year, FUN = \(annee) lapply(X = good_mois, FUN = c, annee)))
 
 testthat::test_that("good result for integer date", {
-    for (good_date in good_dates) testthat::expect_true(isTSdate(good_date))
+    for (good_date in good_dates) testthat::expect_true(isGoodDate(good_date))
 })
 
 
@@ -43,7 +43,7 @@ wrong_dates <- c(
 )
 
 testthat::test_that("detection of wrong dates", {
-    for (wrong_date in wrong_dates) testthat::expect_false(isTSdate(wrong_date))
+    for (wrong_date in wrong_dates) testthat::expect_false(isGoodDate(wrong_date))
 })
 
 # Tests positifs avec warning --------------------------------------------------
@@ -54,7 +54,7 @@ warning_dates <- do.call(c, lapply(X = warning_year, FUN = \(annee) lapply(X = w
 
 testthat::test_that("good result for integer date", {
     for (warning_date in warning_dates) {
-        testthat::expect_warning({boolRes <- isTSdate(warning_date)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+        testthat::expect_warning({boolRes <- isGoodDate(warning_date)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
         testthat::expect_true(boolRes)
     }
 })

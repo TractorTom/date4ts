@@ -3,7 +3,7 @@
 #'
 #' @description La fonction `setValue_ts` modifie la ou les valeurs d'un objet ts à une date donnée.
 #'
-#' @param dataTS un objet ts
+#' @param dataTS un objet ts unidimensionnel
 #' @param date un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param value un vecteur de même type que le ts `dataTS`
 #'
@@ -13,16 +13,11 @@
 #' @examples
 #' ev_pib |> setValue_ts(date = c(2021L, 2L), value = c(1, 2, 3))
 setValue_ts <- function(dataTS, date, value){
-    if (!stats::is.ts(dataTS) | stats::is.mts(dataTS)) stop("L'objets dataTS doit \u00eatre un ts unidimensionnel.")
-    if (!(stats::frequency(dataTS) %in% c(4L, 12L))) stop("L'objets dataTS doit \u00eatre trimestriel ou mensuel.")
-    if (!ts4conj::isTSdate(date)) stop("La date est au mauvais format.")
+    if  (!(ts4conj::isGoodTS(dataTS))) stop("L'objets dataTS doit \u00eatre un ts unidimensionnel.")
+    if (!ts4conj::isGoodDate(date)) stop("La date est au mauvais format.")
     if (!is.null(dim(value))) stop("L'argument value doit \u00eatre unidimensionnel.")
     if (typeof(dataTS) != typeof(value)) stop("Les objets dataTS et value doivent \u00eatre de m\u00eame type.")
     if (any(is.na(value))) warning("L'argument value contient des NAs.")
-
-    temporalConsistence <- stats::frequency(dataTS) * stats::start(dataTS)
-    if (length(stats::start(dataTS)) == 1 && !isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
-        stop("Les objets a et b doivent \u00eatre coh\u00e9rents temporellement.")
 
     outputTS <- dataTS
 
@@ -65,10 +60,7 @@ setValue_ts <- function(dataTS, date, value){
 #' #Attention aux NA présent en début ou fin de ts !
 #' ev_pib |> combine2ts(x1)
 combine2ts <- function(a, b){
-    if (!(stats::is.ts(a) & stats::is.ts(b)) |
-        stats::is.mts(a) | stats::is.mts(b))        stop("Les objets a et b doivent \u00eatre des ts unidimensionnels.")
-    if ((!stats::frequency(a) %in% c(4L, 12L)) |
-        (!stats::frequency(b) %in% c(4L, 12L)))     stop("Les objets a et b doivent \u00eatre trimestriels ou mensuels.")
+    if  (!(ts4conj::isGoodTS(a) & ts4conj::isGoodTS(b))) stop("Les objets a et b doivent \u00eatre des ts unidimensionnels.")
     if (stats::frequency(a) != stats::frequency(b)) stop("Les objets a et b doivent avoir la m\u00eame fr\u00e9quence.")
     if (typeof(a) != typeof(b))                     stop("Les objets a et b doivent \u00eatre de m\u00eame type.")
 
@@ -95,10 +87,13 @@ combine2ts <- function(a, b){
         outputDF$res <- outputDF$a
         outputDF$res[!is.na(outputDF$b)] <- outputDF$b[!is.na(outputDF$b)]
 
-        outputTS <- stats::ts(outputDF$res,
-                       frequency = stats::frequency(a),
-                       start = min(ts4conj::getTimeUnits(stats::start(a), frequency = stats::frequency(a)),
-                                   ts4conj::getTimeUnits(stats::start(b), frequency = stats::frequency(b))))
+        outputTS <- stats::ts(
+            data = outputDF$res,
+            frequency = stats::frequency(a),
+            start = min(ts4conj::getTimeUnits(stats::start(a) |> as.integer(),
+                                              frequency = stats::frequency(a)),
+                        ts4conj::getTimeUnits(stats::start(b) |> as.integer(),
+                                              frequency = stats::frequency(b))))
     }
     return(outputTS)
 }
