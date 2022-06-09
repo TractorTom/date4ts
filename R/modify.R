@@ -3,7 +3,7 @@
 #'
 #' @description La fonction `setValue_ts` modifie la ou les valeurs d'un objet ts à une date donnée.
 #'
-#' @param dataTS un objet ts unidimensionnel
+#' @param dataTS un objet ts unidimensionnel conforme aux règles de isGoodTS
 #' @param date un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param value un vecteur de même type que le ts `dataTS`
 #'
@@ -43,8 +43,8 @@ setValue_ts <- function(dataTS, date, value){
 #'
 #' @description La fonction `combine2ts` combine (comme c()) 2 time series de même fréquence (mensuelle ou trimestrielle).
 #'
-#' @param a un objet ts
-#' @param b un objet ts
+#' @param a un objet ts unidimensionnel conforme aux règles de isGoodTS
+#' @param b un objet ts unidimensionnel conforme aux règles de isGoodTS
 #'
 #' @return En sortie, la fonction retourne un ts qui contient les valeurs de `a` aux temps de `a` et les valeurs de `b` aux temps de `b`.
 #' @details Si `a` et `b` ont une période en commun, les valeurs de `b` écrasent celles de a sur la période concernée.
