@@ -20,5 +20,6 @@ Depends:
 LazyData: true
 Suggests: 
     testthat (>= 3.0.0), 
+    renv, 
     fuzzr
 Config/testthat/edition: 3

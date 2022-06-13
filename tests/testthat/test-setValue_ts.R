@@ -196,9 +196,11 @@ for (typeA in liste_type){
 
 # Tests sur les erreurs de mts --------------------------------------------
 
+stop("Ici il faut faire une boucle avec des ts valide de tous les types/longueur/start/freq... et sur la taille du mts")
+
 testthat::test_that("Several dimensions are not allowed", {
     for (typeA in liste_type){
-        B_content <- sapply(1L:5L, function(i) create_random_type(type = typeA, len = 100L))
+        B_content <- as.data.frame(lapply(1L:5L, function(i) create_random_type(type = typeA, len = 100L)))
         mts_B <- ts(B_content, start = create_random_date(), frequency = 12L)
 
         testthat::expect_error(setValue_ts(dataTS = mts_B,
@@ -227,7 +229,7 @@ testthat::test_that("miscellaneous dataTS are not allowed", {
 
 testthat::test_that("miscellaneous date are not allowed", {
     for (typeA in liste_type){
-        for (wrong_date in c(object_bank_R[-10L], wrong_dates)){
+        for (wrong_date in wrong_dates){
             testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
                                                date = wrong_date,
                                                value = create_random_type(type = typeA)),

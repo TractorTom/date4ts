@@ -68,7 +68,7 @@ testthat::test_that("good result for quarter date", {
 # Tests de résultats négatifs --------------------------------------------------
 
 testthat::test_that("miscellaneous date are not allowed", {
-    for (wrong_date in c(object_bank_R[-10L], wrong_dates)){
+    for (wrong_date in wrong_dates){
         testthat::expect_error(libelles(date = wrong_date, frequency = 12L),
                                regexp = "La date est au mauvais format.")
         testthat::expect_error(libelles(date = wrong_date, frequency = 4L),

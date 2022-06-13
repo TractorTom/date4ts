@@ -58,7 +58,7 @@ isGoodDate <- function(date){
 isGoodTS <- function(dataTS, withWarning = TRUE){
 
     #check de withWarning
-    if (!(withWarning |> (\(x) (is.logical(x) & length(x) == 1))(x = _)))
+    if (!(withWarning |> (\(x) (is.logical(x) && length(x) == 1 && !is.na(x)))(x = _)))
         stop("L'argument withWarning doit \u00eatre un bool\u00e9en de longueur 1.")
     #check du type d'objet
     if (!stats::is.ts(dataTS) | stats::is.mts(dataTS)){

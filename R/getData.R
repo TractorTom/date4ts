@@ -1,5 +1,24 @@
 
-
+#' Obtenir la date précédente
+#'
+#' @param date un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.)
+#' @param lag un entier
+#'
+#' @return En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période passée.
+#'
+#' @details L'argument `lag` est entier et désigne le nombre de décalage que l'on affecte à notre date.
+#' Par exemple pour des lag positif (1L, 2L, 10L) on désigne le décalage de la période précédente, celle d'avant et celle d'il y a  10 périodes.
+#' Cependant, lorsque l'argument `lag` vaut zéro, la fonction retourne la `date` inchangée. Aussi lorsque l'argument `lag` est négatif, la fonction se comporte comme la fonction `nextDate` et retourne les périodes futures et non précédentes.
+#' @export
+#'
+#' @examples
+#'
+#' previousDate(c(2020L, 4L), frequency = 4L, lag = 2L)
+#' previousDate(c(2021L, 1L), frequency = 4L, lag = -2L)
+#'
+#' previousDate(c(2020L, 4L), frequency = 12L, lag = 2L)
+#' previousDate(c(2022L, 6L), frequency = 12L, lag = 12L)
 previousDate <- function(date, frequency, lag = 1L){
     year <- date[1L]
     month <- date[2L]

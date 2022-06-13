@@ -275,11 +275,13 @@ for (typeA in liste_type){
 
 # Tests sur les erreurs de mts --------------------------------------------
 
+stop("Ici il faut faire une boucle avec des ts valide de tous les types/longueur/start/freq... et sur la taille du mts")
+
 testthat::test_that("Several dimensions are not allowed", {
     for (typeA in liste_type){
 
         ts_A <- create_random_ts(type = typeA)
-        B_content <- sapply(1L:5L, function(i) create_random_type(type = typeA, len = 100L))
+        B_content <- as.data.frame(lapply(1L:5L, function(i) create_random_type(type = typeA, len = 100L)))
         mts_B <- ts(B_content, start = create_random_date(), frequency = stats::frequency(ts_A))
 
         testthat::expect_error(combine2ts(ts_A, mts_B), regexp = "Les objets a et b doivent être des ts unidimensionnels.")

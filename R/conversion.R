@@ -91,7 +91,7 @@ mens2trim <- function(date){
 #' @param date un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.)
 #'
-#' @return
+#' @return En sortie, la fonction retourne la date au format AAAA + TT/4 ou AAAA + MM/12.
 #' @export
 #'
 #' @examples
