@@ -1,28 +1,12 @@
-.shared_windows_runners:
-  tags:
-    - shared-windows
-    - windows
-    - windows-1809
-
-stages:
-  - build
-  - test
-
-before_script:
- - Set-Variable -Name "time" -Value (date -Format "%H:%m")
- - echo ${time}
- - echo "started by ${GITLAB_USER_NAME}"
+variables:
+  GIT_SSL_NO_VERIFY: "1"
 
 build:
-  extends:
-    - .shared_windows_runners
+  tags:
+    - poc-kube
   stage: build
+  image:
+    name: pandoc/core:2.11.4
+    entrypoint: ["/bin/sh", "-c"]
   script:
     - echo "running scripts in the build job"
-
-test:
-  extends:
-    - .shared_windows_runners
-  stage: test
-  script:
-    - echo "running scripts in the test job"
