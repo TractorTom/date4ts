@@ -1,162 +1,28 @@
-# For Mac OS and Windows use tags 'R' (version 3.6.3) or 'R4' depending of the R version needed.
-# Authors : Jean-François Rey <jean-francois.rey@inrae.fr>
+.shared_windows_runners:
+  tags:
+    - shared-windows
+    - windows
+    - windows-1809
 
 stages:
-  - create
-  - tests
   - build
+  - test
 
-R-base-create:
-  stage: create
-  tags:
-    - "r-base-biosp"
-  script:
-    # generate Documentation
-    - "Rscript -e \"roxygen2::roxygenize('.', roclets=c('rd', 'collate', 'namespace'))\""
-    # create the package
-    - "R CMD build . --resave-data"
-  artifacts:
-    paths:
-      # keep the package for later jobs
-      - "$(ls -rt *_*.tar.gz |tail -1)"
-      # can use $CI_PROJECT_NAME if package name the same
+before_script:
+ - Set-Variable -Name "time" -Value (date -Format "%H:%m")
+ - echo ${time}
+ - echo "started by ${GITLAB_USER_NAME}"
 
-R-devel-create:
-  stage: create
-  tags:
-    - "r-devel-biosp"
-  script:
-    - "Rscript -e \"roxygen2::roxygenize('.', roclets=c('rd', 'collate', 'namespace'))\""
-    - "R CMD build . --resave-data"
-  artifacts:
-    paths:
-      - "$(ls -rt *_*.tar.gz |tail -1)"
-  allow_failure: true
-
-R-Mac-create:
-  stage: create
-  tags:
-    - "MacOS"
-    - "R4.1"
-    - "vmr"
-  script:
-    - "Rscript -e \"roxygen2::roxygenize('.', roclets=c('rd', 'collate', 'namespace'))\""
-    - "R CMD build . --resave-data"
-  artifacts:
-    paths:
-      - "$(ls -rt *_*.tar.gz |tail -1)"
-
-R-Windows-create:
-  stage: create
-  tags:
-    - "win10"
-    - "R4.1"
-    - "vmr"
-  script:
-    - "Rscript -e \"roxygen2::roxygenize('.', roclets=c('rd', 'collate', 'namespace'))\""
-    - "R CMD build . --resave-data"
-  artifacts:
-    paths:
-      - "$(ls -rt *_*.tar.gz |tail -1)"
-
-R-base-tests:
-  stage: tests
-  tags:
-    - "r-base-biosp"
-  script:
-    - "R CMD check --as-cran $(ls -rt *_*.tar.gz |tail -1)"
-  artifacts:
-    paths:
-      - "$(ls -rt *_*.tar.gz |tail -1)"
-  dependencies:
-    - R-base-create
-
-R-devel-tests:
-  stage: tests
-  tags:
-    - "r-devel-biosp"
-  script:
-    - "R CMD check --as-cran $(ls -rt *_*.tar.gz |tail -1)"
-  artifacts:
-    paths:
-      - "$(ls -rt *_*.tar.gz |tail -1)"
-  allow_failure: true
-  dependencies:
-    - R-devel-create
-
-R-Mac-tests:
-  stage: tests
-  tags:
-    - "MacOS"
-    - "R4.1"
-    - "vmr"
-  script:
-    - "sleep 120" # time for ntp update
-    - "R CMD check --as-cran $(ls -rt *_* |tail -1)"
-  artifacts:
-    paths:
-      - "$(ls -rt *_*.tar.gz |tail -1)"
-  dependencies:
-    - R-Mac-create
-
-R-Windows-tests:
-  stage: tests
-  tags:
-    - "win10"
-    - "R4.1"
-    - "vmr"
-  script:
-    - "R CMD check --as-cran $(ls -rt *_*.tar.gz |tail -1)"
-  artifacts:
-    paths:
-      - "$(ls -rt *_*.tar.gz |tail -1)"
-  dependencies:
-    - R-Windows-create
-
-release-R:
+build:
+  extends:
+    - .shared_windows_runners
   stage: build
-  tags:
-    - "r-base-biosp"
   script:
-    - "echo \"Nothing to do\""
-  artifacts:
-    paths:
-      - "$(ls -rt *_* |tail -1)"
-  only:
-    - tags
-  dependencies:
-    - R-base-tests
+    - echo "running scripts in the build job"
 
-release-Windows:
-  stage: build
-  tags:
-    - "win10"
-    - "R4.1"
-    - "vmr"
+test:
+  extends:
+    - .shared_windows_runners
+  stage: test
   script:
-    - "R CMD INSTALL --build --force-biarch $(ls -rt *_*.tar.gz |tail -1)"
-  artifacts:
-    paths:
-      - "$(ls -rt *_*.zip |tail -1)"
-  only:
-    - tags
-  dependencies:
-    - R-Windows-tests
-
-release-MacOS:
-  stage: build
-  tags:
-    - "MacOS"
-    - "R4.1"
-    - "vmr"
-  script:
-    - "sleep 120" # time for ntp update
-    - "R CMD INSTALL --build $(ls -rt *_*.tar.gz |tail -1)"
-  artifacts:
-    paths:
-      - "$(ls -rt *_*.tgz | tail -1)"
-  only:
-    - tags
-  dependencies:
-    - R-Mac-tests
-
+    - echo "running scripts in the test job"
