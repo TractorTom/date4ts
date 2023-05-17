@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' ev_pib |> setValue_ts(date = c(2021L, 2L), value = c(1, 2, 3))
-setValue_ts <- function(dataTS, date, value){
+setValue_ts <- function(dataTS, date, value) {
     if  (!(ts4conj::isGoodTS(dataTS))) stop("L'objets dataTS doit \u00eatre un ts unidimensionnel.")
     if (!ts4conj::isGoodDate(date)) stop("La date est au mauvais format.")
     if (!is.null(dim(value))) stop("L'argument value doit \u00eatre unidimensionnel.")
@@ -59,7 +59,7 @@ setValue_ts <- function(dataTS, date, value){
 #'
 #' #Attention aux NA présent en début ou fin de ts !
 #' ev_pib |> combine2ts(x1)
-combine2ts <- function(a, b){
+combine2ts <- function(a, b) {
     if  (!(ts4conj::isGoodTS(a) & ts4conj::isGoodTS(b))) stop("Les objets a et b doivent \u00eatre des ts unidimensionnels.")
     if (stats::frequency(a) != stats::frequency(b)) stop("Les objets a et b doivent avoir la m\u00eame fr\u00e9quence.")
     if (typeof(a) != typeof(b))                     stop("Les objets a et b doivent \u00eatre de m\u00eame type.")
@@ -70,17 +70,17 @@ combine2ts <- function(a, b){
 
     outputTS <- a
 
-    if (is.raw(a)){
+    if (is.raw(a)) {
         a <- a |> as.integer() |> stats::ts(start = stats::start(a), frequency = stats::frequency(a))
         b <- b |> as.integer() |> stats::ts(start = stats::start(b), frequency = stats::frequency(b))
         outputTS <- ts4conj::combine2ts(a, b)
         outputTS <- outputTS |> as.raw() |> stats::ts(start = stats::start(outputTS), frequency = stats::frequency(outputTS))
 
-    } else if (isTRUE(all.equal(stats::frequency(a), round(stats::frequency(a))))){
+    } else if (isTRUE(all.equal(stats::frequency(a), round(stats::frequency(a))))) {
         outputTS |>
             stats::window(start = stats::start(b), end = stats::end(b), extend = T) <- b
 
-    } else if (is.numeric(stats::frequency(outputTS))){
+    } else if (is.numeric(stats::frequency(outputTS))) {
         outputDF <- cbind(a, b) |> as.data.frame()
         if (sum(is.na(outputDF$a) & (!is.na(outputDF$b))) > 0) warning("extending time series when replacing values")
 

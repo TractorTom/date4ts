@@ -3,7 +3,7 @@
 
 set.seed(2032L)
 
-create_random_type <- function(type, len = NULL){
+create_random_type <- function(type, len = NULL) {
     if (is.null(len)) len <- sample(1L:1000L, size = 1)
     if (type == "character") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1]])
     if (type == "integer") return(sample(-20000000L:20000000L, size = len, replace = TRUE))
@@ -16,13 +16,13 @@ create_random_type <- function(type, len = NULL){
     stop("Le type n'est pas reconnu.")
 }
 
-create_random_date <- function(){
-    if (runif(1, 0, 1) > 0.5) return(sample(1950L:2022L, size = 1L))
+create_random_date <- function() {
+    if (runif(1, 0, 1) > .5) return(sample(1950L:2022L, size = 1L))
     return(c(sample(1950L:2022L, size = 1L),
              sample(-20L:20L, size = 1L)))
 }
 
-create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL){
+create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL) {
     if (is.null(len)) len <- sample(1L:1000L, size = 1)
     if (is.null(frequency)) frequency <- sample(c(4L, 12L), size = 1)
     if (is.null(start)) start <- create_random_date()
@@ -37,7 +37,7 @@ liste_len <- c(1L, 2L, 5L, 10L, 100L, 10000L)
 liste_frequence <- c(4L, 12L)
 liste_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2020L, 12L), c(2020L, 13L))
 
-weird_frequency <- list(1L, 2, 7, 0.1, 1/3, 3.5, 365, 365.25, pi)
+weird_frequency <- list(1L, 2, 7, .1, 1/3, 3.5, 365, 365.25, pi)
 object_bank_R <- fuzzr::test_all()
 wrong_dates <- list(2020 + 1/7, pi, 2020 - 1/13)
 
@@ -66,7 +66,7 @@ testthat::test_that("Result TRUE expected with good TS", {
 ### Mauvais objet R ------------------------------------------------------------
 
 testthat::test_that("Result FALSE expected with wrong object R", {
-    for (wrong_ts in object_bank_R){
+    for (wrong_ts in object_bank_R) {
         testthat::expect_warning({res_logical <- isGoodTS(wrong_ts, withWarning = TRUE)}, regexp = "L'objets dataTS doit \u00eatre un ts unidimensionnel.")
         testthat::expect_false(res_logical)
     }
@@ -75,12 +75,12 @@ testthat::test_that("Result FALSE expected with wrong object R", {
 ### mts ------------------------------------------------------------------------
 
 testthat::test_that("Result FALSE expected with mts", {
-    for (typeA in liste_type){
-        for (lenA in liste_len){
-            for (frequenceA in liste_frequence){
-                for (len2 in liste_len[-c(1L, 5L:6L)]){
+    for (typeA in liste_type) {
+        for (lenA in liste_len) {
+            for (frequenceA in liste_frequence) {
+                for (len2 in liste_len[-c(1L, 5L:6L)]) {
 
-                    if (typeA != "complex"){
+                    if (typeA != "complex") {
                         A_content <- as.data.frame(lapply(1L:len2, function(i) create_random_type(type = typeA, len = lenA)))
                         mts_A <- ts(A_content, start = create_random_date(), frequency = frequenceA)
                     } else {
@@ -99,7 +99,7 @@ testthat::test_that("Result FALSE expected with mts", {
 ### Mauvaise fréquence ---------------------------------------------------------
 
 testthat::test_that("Result FALSE expected with wrong frequency", {
-    for (wrong_freq in weird_frequency){
+    for (wrong_freq in weird_frequency) {
         for (typeA in liste_type) {
             for (startA in liste_start) {
                 for (lenA in liste_len) {
@@ -117,7 +117,7 @@ testthat::test_that("Result FALSE expected with wrong frequency", {
 ### Pb de cohérence temporelle -------------------------------------------------
 
 testthat::test_that("Result FALSE expected with wrong frequency", {
-    for (wrong_start in wrong_dates){
+    for (wrong_start in wrong_dates) {
         for (typeA in liste_type) {
             for (frequenceA in liste_frequence) {
                 for (lenA in liste_len) {
@@ -141,7 +141,7 @@ wrong_type_ts <- list(
 )
 
 testthat::test_that("Result FALSE expected with wrong type of ts", {
-    for (wrong_ts in wrong_type_ts){
+    for (wrong_ts in wrong_type_ts) {
         testthat::expect_warning({res_logical <- isGoodTS(wrong_ts, withWarning = TRUE)}, regexp = "L'objets dataTS doit être d'un type atomic.")
         testthat::expect_false(res_logical)
     }
@@ -152,7 +152,7 @@ testthat::test_that("Result FALSE expected with wrong type of ts", {
 ### Mauvais objet R ------------------------------------------------------------
 
 testthat::test_that("Result FALSE expected with wrong object R", {
-    for (wrong_ts in object_bank_R){
+    for (wrong_ts in object_bank_R) {
         testthat::expect_false(isGoodTS(wrong_ts, withWarning = FALSE))
     }
 })
@@ -160,12 +160,12 @@ testthat::test_that("Result FALSE expected with wrong object R", {
 ### mts ------------------------------------------------------------------------
 
 testthat::test_that("Result FALSE expected with mts", {
-    for (typeA in liste_type){
-        for (lenA in liste_len){
-            for (frequenceA in liste_frequence){
-                for (len2 in liste_len[-c(1L, 5L:6L)]){
+    for (typeA in liste_type) {
+        for (lenA in liste_len) {
+            for (frequenceA in liste_frequence) {
+                for (len2 in liste_len[-c(1L, 5L:6L)]) {
 
-                    if (typeA != "complex"){
+                    if (typeA != "complex") {
                         A_content <- as.data.frame(lapply(1L:len2, function(i) create_random_type(type = typeA, len = lenA)))
                         mts_A <- ts(A_content, start = create_random_date(), frequency = frequenceA)
                     } else {
@@ -184,7 +184,7 @@ testthat::test_that("Result FALSE expected with mts", {
 ### Mauvaise fréquence ---------------------------------------------------------
 
 testthat::test_that("Result FALSE expected with wrong frequency", {
-    for (wrong_freq in weird_frequency){
+    for (wrong_freq in weird_frequency) {
         for (typeA in liste_type) {
             for (startA in liste_start) {
                 for (lenA in liste_len) {
@@ -200,7 +200,7 @@ testthat::test_that("Result FALSE expected with wrong frequency", {
 ### Pb de cohérence temporelle -------------------------------------------------
 
 testthat::test_that("Result FALSE expected with wrong frequency", {
-    for (wrong_start in wrong_dates){
+    for (wrong_start in wrong_dates) {
         for (typeA in liste_type) {
             for (frequenceA in liste_frequence) {
                 for (lenA in liste_len) {
@@ -223,7 +223,7 @@ wrong_type_ts <- list(
 )
 
 testthat::test_that("Result FALSE expected with wrong type of ts", {
-    for (wrong_ts in wrong_type_ts){
+    for (wrong_ts in wrong_type_ts) {
         testthat::expect_false(isGoodTS(wrong_ts, withWarning = FALSE))
     }
 })

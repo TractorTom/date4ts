@@ -3,7 +3,7 @@
 
 set.seed(2031L)
 
-create_random_type <- function(type, len = NULL){
+create_random_type <- function(type, len = NULL) {
     if (is.null(len)) len <- sample(1L:1000L, size = 1)
     if (type == "character") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1]])
     if (type == "integer") return(sample(-20000000L:20000000L, size = len, replace = TRUE))
@@ -16,15 +16,15 @@ create_random_type <- function(type, len = NULL){
     stop("Le type n'est pas reconnu.")
 }
 
-create_random_date <- function(){
-    if (runif(1, 0, 1) > 0.5) return(sample(1950L:2022L, size = 1L))
+create_random_date <- function() {
+    if (runif(1, 0, 1) > .5) return(sample(1950L:2022L, size = 1L))
     return(c(sample(1950L:2022L, size = 1L),
              sample(-20L:20L, size = 1L)))
 }
 
 liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
 object_bank_R <- fuzzr::test_all()
-weird_frequency <- c(1, 2, 7, 0.1, 1/3, 3.5, 365.25, pi)
+weird_frequency <- c(1, 2, 7, .1, 1/3, 3.5, 365.25, pi)
 wrong_dates <- c(
     fuzzr::test_all()[-10],
     list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
@@ -40,10 +40,10 @@ wrong_dates <- c(
 liste_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
 
 testthat::test_that("good result for integer date", {
-    for (year in liste_year){
+    for (year in liste_year) {
         testthat::expect_equal(getTimeUnits(date = year, frequency = 12L),
                                year)
-        for (month in -20L:20L){
+        for (month in -20L:20L) {
             testthat::expect_equal(getTimeUnits(date = c(year, month), frequency = 12L),
                                    year + (month - 1) / 12)
         }
@@ -51,10 +51,10 @@ testthat::test_that("good result for integer date", {
 })
 
 testthat::test_that("good result for integer date", {
-    for (year in liste_year){
+    for (year in liste_year) {
         testthat::expect_equal(getTimeUnits(date = year, frequency = 4L),
                                year)
-        for (quarter in -20L:20L){
+        for (quarter in -20L:20L) {
             testthat::expect_equal(getTimeUnits(date = c(year, quarter), frequency = 4L),
                                    year + (quarter - 1) / 4)
         }
@@ -64,18 +64,18 @@ testthat::test_that("good result for integer date", {
 # Tests de résultats négatifs --------------------------------------------------
 
 testthat::test_that("miscellaneous date are not allowed", {
-    for (wrong_date in wrong_dates){
+    for (wrong_date in wrong_dates) {
         testthat::expect_error(getTimeUnits(date = wrong_date, frequency = 12L),
                                regexp = "La date est au mauvais format.")
     }
-    for (wrong_date in  wrong_dates){
+    for (wrong_date in  wrong_dates) {
         testthat::expect_error(getTimeUnits(date = wrong_date, frequency = 4L),
                                regexp = "La date est au mauvais format.")
     }
 })
 
 testthat::test_that("miscellaneous frequency are not allowed", {
-    for (wrong_frequency in c(object_bank_R, weird_frequency)){
+    for (wrong_frequency in c(object_bank_R, weird_frequency)) {
         testthat::expect_error(getTimeUnits(date = create_random_date(), frequency = wrong_frequency),
                                regexp = "La fréquence doit être trimestrielle ou mensuelle.")
     }

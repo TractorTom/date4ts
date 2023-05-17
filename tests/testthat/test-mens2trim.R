@@ -3,7 +3,7 @@
 
 set.seed(2030L)
 
-create_random_type <- function(type, len = NULL){
+create_random_type <- function(type, len = NULL) {
     if (is.null(len)) len <- sample(1L:1000L, size = 1)
     if (type == "character") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1]])
     if (type == "integer") return(sample(-20000000L:20000000L, size = len, replace = TRUE))
@@ -25,8 +25,8 @@ good_years <- c(-200L, -1L, 0L, 1L, 2L, 1950L, 1999L, 2000L, 2001L,  2022L, 3000
 conversion_mens_trim <- data.frame(mens = 1L:12L, trim = rep(1L:4L, each = 3))
 
 testthat::test_that("good result for integer date", {
-    for (good_year in good_years){
-        for (mens in -40L:40L){
+    for (good_year in good_years) {
+        for (mens in -40L:40L) {
 
             mens_real <- (mens - 1L) %% 12L + 1L
             year_real <- good_year + (mens - 1L) %/% 12L
@@ -58,12 +58,12 @@ testthat::test_that("detection of wrong dates", {
 
 # Tests positifs avec warning --------------------------------------------------
 
-warning_years <- c(-200., -1., 0., 1., 2., 1950., 2000., 2022., 3000.)
-warning_months <- c(-200., -5., -1., 0., 1., 3., 5., 12., 13., 46.)
+warning_years <- c(-200., -1., ., 1., 2., 1950., 2000., 2022., 3000.)
+warning_months <- c(-200., -5., -1., ., 1., 3., 5., 12., 13., 46.)
 
 testthat::test_that("good result for integer date", {
     for (warning_year in warning_years) {
-        for (warning_month in warning_months){
+        for (warning_month in warning_months) {
 
             testthat::expect_warning({resTrim <- mens2trim(c(warning_year, warning_month))}, regexp = "La date est de type double. Il faut privilégier le format integer.")
 

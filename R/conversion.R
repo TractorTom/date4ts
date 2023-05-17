@@ -12,7 +12,7 @@
 #' as.YYYYTT(2019.75) #4ème trimestre 2019
 #' as.YYYYTT(2020) #1er trimestre 2020
 #' as.YYYYTT(2022 + 1/4) #2ème trimestre 2022
-as.YYYYTT <- function(timeUnits){
+as.YYYYTT <- function(timeUnits) {
     if (!is.numeric(timeUnits) || length(timeUnits) != 1L || any(is.na(timeUnits)))
         stop("L'input timeUnits est au mauvais format.")
     temporalConsistence <- 4 * timeUnits
@@ -36,7 +36,7 @@ as.YYYYTT <- function(timeUnits){
 #' as.YYYYMM(2020) #Janvier 2020
 #' as.YYYYMM(2020 + 1/12) #Février 2020
 #' as.YYYYMM(2020 + 12/12) #Janvier 2021
-as.YYYYMM <- function(timeUnits){
+as.YYYYMM <- function(timeUnits) {
     if (!is.numeric(timeUnits) || length(timeUnits) != 1L || any(is.na(timeUnits)))
         stop("L'input timeUnits est au mauvais format.")
     temporalConsistence <- 12 * timeUnits
@@ -58,7 +58,7 @@ as.YYYYMM <- function(timeUnits){
 #' @examples
 #' trim2mens(c(2019L, 4L)) #4ème trimestre 2019 --> Octobre 2019
 #' trim2mens(c(2020L, 1L)) #1er trimestre 2020 --> Janvier 2020
-trim2mens <- function(date){
+trim2mens <- function(date) {
     if (!ts4conj::isGoodDate(date)) stop("La date est au mauvais format.")
 
     year <- date[1L] + (date[2L] - 1L) %/% 4L
@@ -78,7 +78,7 @@ trim2mens <- function(date){
 #' @examples
 #' mens2trim(c(2019L, 4L)) #Avril 2019 --> 2ème trimestre 2019
 #' mens2trim(c(2020L, 11L)) #Novembre 2020 --> 4ème trimestre 2020
-mens2trim <- function(date){
+mens2trim <- function(date) {
     if (!ts4conj::isGoodDate(date)) stop("La date est au mauvais format.")
 
     year <- date[1L] + (date[2L] - 1L) %/% 12L
@@ -95,7 +95,7 @@ mens2trim <- function(date){
 #' @export
 #'
 #' @examples
-getTimeUnits <- function(date, frequency){
+getTimeUnits <- function(date, frequency) {
     if (!ts4conj::isGoodDate(date)) stop("La date est au mauvais format.")
     if (date[1L] <= 0L) stop("La date doit \u00eatre après JC (ann\u00e9e positive).")
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))

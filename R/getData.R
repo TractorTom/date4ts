@@ -22,7 +22,7 @@
 #'
 #' previousDate(c(2020L, 4L), frequency = 12L, lag = 2L)
 #' previousDate(c(2022L, 6L), frequency = 12L, lag = 12L)
-previousDate <- function(date, frequency, lag = 1L){
+previousDate <- function(date, frequency, lag = 1L) {
     if (!ts4conj::isGoodDate(date)) stop("La date est au mauvais format.")
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
@@ -59,8 +59,8 @@ previousDate <- function(date, frequency, lag = 1L){
 #'
 #' nextDate(c(2020L, 4L), frequency = 12L, lag = 2L)
 #' nextDate(c(2022L, 6L), frequency = 12L, lag = 12L)
-nextDate <- function(date, frequency, lag = 1L){
-    if (length(date) == 2L){
+nextDate <- function(date, frequency, lag = 1L) {
+    if (length(date) == 2L) {
         year <- date[1L]
         month <- date[2L]
         return(c(year + ((month - 1L + lag) %/% frequency),
@@ -69,19 +69,19 @@ nextDate <- function(date, frequency, lag = 1L){
 }
 
 
-firstDate <- function(dataTS){
+firstDate <- function(dataTS) {
     timeTS <- dataTS |> zoo::na.trim() |> stats::time()
     firstTime <- timeTS[1L]
     return(c(firstTime %/% 1L, (firstTime %% 1L) * stats::frequency(dataTS) + 1L))
 }
 
-lastDate <- function(dataTS){
+lastDate <- function(dataTS) {
     timeTS <- dataTS |> zoo::na.trim() |> stats::time()
     lastTime <- timeTS[length(timeTS)]
     return(c(lastTime %/% 1L, (lastTime %% 1L) * stats::frequency(dataTS) + 1L))
 }
 
-getValue_ts <- function(dataTS, date, nb = 1L){
+getValue_ts <- function(dataTS, date, nb = 1L) {
     return(dataTS |>
                stats::window(start = date, end = ts4conj::nextDate(date, frequency = 12L, lag = nb - 1L)) |>
                as.numeric())

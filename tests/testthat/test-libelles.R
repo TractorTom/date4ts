@@ -3,7 +3,7 @@
 
 set.seed(2026L)
 
-create_random_type <- function(type, len = NULL){
+create_random_type <- function(type, len = NULL) {
     if (is.null(len)) len <- sample(1L:1000L, size = 1)
     if (type == "character") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1]])
     if (type == "integer") return(sample(-20000000L:20000000L, size = len, replace = TRUE))
@@ -16,15 +16,15 @@ create_random_type <- function(type, len = NULL){
     stop("Le type n'est pas reconnu.")
 }
 
-create_random_date <- function(){
-    if (runif(1, 0, 1) > 0.5) return(sample(1950L:2022L, size = 1L))
+create_random_date <- function() {
+    if (runif(1, 0, 1) > .5) return(sample(1950L:2022L, size = 1L))
     return(c(sample(1950L:2022L, size = 1L),
              sample(-20L:20L, size = 1L)))
 }
 
 liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
 object_bank_R <- fuzzr::test_all()
-weird_frequency <- c(1, 2, 7, 0.1, 1/3, 3.5, 365.25, pi)
+weird_frequency <- c(1, 2, 7, .1, 1/3, 3.5, 365.25, pi)
 wrong_dates <- c(
     fuzzr::test_all()[-10],
     list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
@@ -42,9 +42,9 @@ liste_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
 liste_len <- c(1L, 5L, 10L, 100L)
 
 testthat::test_that("good result for monthly date", {
-    for (month in -20L:20L){
-        for (year in liste_year){
-            for (len in liste_len){
+    for (month in -20L:20L) {
+        for (year in liste_year) {
+            for (len in liste_len) {
                 testthat::expect_identical(libelles(date = c(year, month), frequency = 12L, nb = len),
                                            paste(liste_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
                                                  year +            ((month:(month + len - 1L)) - 1L) %/% 12L))
@@ -54,9 +54,9 @@ testthat::test_that("good result for monthly date", {
 })
 
 testthat::test_that("good result for quarter date", {
-    for (quarter in -20L:20L){
-        for (year in liste_year){
-            for (len in liste_len){
+    for (quarter in -20L:20L) {
+        for (year in liste_year) {
+            for (len in liste_len) {
                 testthat::expect_identical(libelles(date = c(year, quarter), frequency = 4L, nb = len),
                                            paste0("T",   ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
                                                   year + ((quarter:(quarter + len - 1L)) - 1L) %/% 4L))
@@ -68,7 +68,7 @@ testthat::test_that("good result for quarter date", {
 # Tests de résultats négatifs --------------------------------------------------
 
 testthat::test_that("miscellaneous date are not allowed", {
-    for (wrong_date in wrong_dates){
+    for (wrong_date in wrong_dates) {
         testthat::expect_error(libelles(date = wrong_date, frequency = 12L),
                                regexp = "La date est au mauvais format.")
         testthat::expect_error(libelles(date = wrong_date, frequency = 4L),
@@ -77,14 +77,14 @@ testthat::test_that("miscellaneous date are not allowed", {
 })
 
 testthat::test_that("miscellaneous frequency are not allowed", {
-    for (wrong_frequency in c(object_bank_R, weird_frequency)){
+    for (wrong_frequency in c(object_bank_R, weird_frequency)) {
         testthat::expect_error(libelles(date = create_random_date(), frequency = wrong_frequency),
                                regexp = "La fréquence doit être trimestrielle ou mensuelle.")
     }
 })
 
 testthat::test_that("miscellaneous nb are not allowed", {
-    for (wrong_nb in c(object_bank_R[-10])){
+    for (wrong_nb in c(object_bank_R[-10])) {
         testthat::expect_error(libelles(date = create_random_date(), frequency = 12L),
                                regexp = "L'argument nb doit être un entier.")
         testthat::expect_error(libelles(date = create_random_date(), frequency = 4L),

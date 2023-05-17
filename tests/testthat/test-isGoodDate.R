@@ -3,7 +3,7 @@
 
 set.seed(2024L)
 
-create_random_type <- function(type, len = NULL){
+create_random_type <- function(type, len = NULL) {
     if (is.null(len)) len <- sample(1L:1000L, size = 1)
     if (type == "character") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1]])
     if (type == "integer") return(sample(-20000000L:20000000L, size = len, replace = TRUE))
@@ -48,8 +48,8 @@ testthat::test_that("detection of wrong dates", {
 
 # Tests positifs avec warning --------------------------------------------------
 
-warning_year <- c(-200., -1., 0., 1., 2., 1950., 2000., 2022., 3000.)
-warning_mois <- c(-200., -5., -1., 0., 1., 3., 5., 12., 13., 46.)
+warning_year <- c(-200., -1., ., 1., 2., 1950., 2000., 2022., 3000.)
+warning_mois <- c(-200., -5., -1., ., 1., 3., 5., 12., 13., 46.)
 warning_dates <- do.call(c, lapply(X = warning_year, FUN = \(annee) lapply(X = warning_mois, FUN = c, annee)))
 
 testthat::test_that("good result for integer date", {

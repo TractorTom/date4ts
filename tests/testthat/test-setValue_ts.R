@@ -3,7 +3,7 @@
 
 set.seed(2023L)
 
-create_random_type <- function(type, len = NULL){
+create_random_type <- function(type, len = NULL) {
     if (is.null(len)) len <- sample(1L:1000L, size = 1)
     if (type == "character") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1]])
     if (type == "integer") return(sample(-20000000L:20000000L, size = len, replace = TRUE))
@@ -16,13 +16,13 @@ create_random_type <- function(type, len = NULL){
     stop("Le type n'est pas reconnu.")
 }
 
-create_random_date <- function(){
-    if (runif(1, 0, 1) > 0.5) return(sample(1950L:2022L, size = 1L))
+create_random_date <- function() {
+    if (runif(1, 0, 1) > .5) return(sample(1950L:2022L, size = 1L))
     return(c(sample(1950L:2022L, size = 1L),
              sample(-20L:20L, size = 1L)))
 }
 
-create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL){
+create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL) {
     if (is.null(len)) len <- sample(1L:1000L, size = 1)
     if (is.null(frequency)) frequency <- sample(c(4L, 12L), size = 1)
     if (is.null(start)) start <- create_random_date()
@@ -34,7 +34,7 @@ create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL){
 
 liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
 object_bank_R <- fuzzr::test_all()
-weird_frequency <- c(1, 2, 7, 0.1, 1/3, 3.5, 365.25, pi)
+weird_frequency <- c(1, 2, 7, .1, 1/3, 3.5, 365.25, pi)
 wrong_dates <- c(
     fuzzr::test_all()[-10],
     list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
@@ -52,14 +52,14 @@ liste_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2
 
 # Tests de résultat avec start vecteur d'entiers -------------------------------
 
-for (typeA in liste_type){
-    for (frequenceA in liste_frequence){
-        for (startA in liste_start){
-            for (lenA in liste_len){
+for (typeA in liste_type) {
+    for (frequenceA in liste_frequence) {
+        for (startA in liste_start) {
+            for (lenA in liste_len) {
                 A_content <- create_random_type(type = typeA, len = lenA)
                 ts_A <-  ts(A_content, start = startA, frequency = frequenceA)
-                for (lagB in liste_lag){
-                    for (lenB in liste_len){
+                for (lagB in liste_lag) {
+                    for (lenB in liste_len) {
 
                         test_name <- paste("expected result with ",
                                            "\ntypeA = '", typeA,
@@ -77,10 +77,10 @@ for (typeA in liste_type){
 
 
                             #Cas où lagB >= 0 (start = startA)
-                            if (lagB > 0){
+                            if (lagB > 0) {
                                 if (lagB > lenA) { #Cas 4
 
-                                    if (typeA == "raw"){
+                                    if (typeA == "raw") {
                                         ts_ResAB1 <- ts(c(A_content, rep(as.raw(0L), lagB - lenA), valueB), start = startA, frequency = frequenceA)
 
                                         testthat::expect_warning({
@@ -120,11 +120,11 @@ for (typeA in liste_type){
 
                                 }
 
-                            } else if(lagB < 0) { #Cas où start = strartB < startA
+                            } else if (lagB < 0) { #Cas où start = strartB < startA
 
                                 if (lagB + lenB < 0) { #Cas 3
 
-                                    if (typeA == "raw"){
+                                    if (typeA == "raw") {
                                         ts_ResAB1 <- ts(c(valueB, rep(as.raw(0L), -lagB - lenB), A_content), start = startB, frequency = frequenceA)
 
                                         testthat::expect_warning({
@@ -159,11 +159,11 @@ for (typeA in liste_type){
                                 }
 
                             } else { #Cas où lag = 0
-                                if (lenB < lenA){
+                                if (lenB < lenA) {
                                     ts_ResAB1 <- ts(c(valueB, A_content[(lenB + 1):lenA]), start = startA, frequency = frequenceA)
                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
                                     resAB <- setValue_ts(ts_A, date = startB, value = valueB)
-                                } else if (lenB == lenA){
+                                } else if (lenB == lenA) {
                                     ts_ResAB1 <- ts(valueB, start = startA, frequency = frequenceA)
                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
                                     resAB <- setValue_ts(ts_A, date = startB, value = valueB)
@@ -177,7 +177,7 @@ for (typeA in liste_type){
                                 }
                             }
 
-                            if (typeA != "Date"){
+                            if (typeA != "Date") {
                                 testthat::expect_type(resAB, typeA)
                             }
 
@@ -199,7 +199,7 @@ for (typeA in liste_type){
 stop("Ici il faut faire une boucle avec des ts valide de tous les types/longueur/start/freq... et sur la taille du mts")
 
 testthat::test_that("Several dimensions are not allowed", {
-    for (typeA in liste_type){
+    for (typeA in liste_type) {
         B_content <- as.data.frame(lapply(1L:5L, function(i) create_random_type(type = typeA, len = 100L)))
         mts_B <- ts(B_content, start = create_random_date(), frequency = 12L)
 
@@ -215,8 +215,8 @@ testthat::test_that("Several dimensions are not allowed", {
 ## Test sur le ts --------------------------------------------------------------
 
 testthat::test_that("miscellaneous dataTS are not allowed", {
-    for (typeA in liste_type){
-        for (obj in object_bank_R){
+    for (typeA in liste_type) {
+        for (obj in object_bank_R) {
             testthat::expect_error(setValue_ts(dataTS = obj,
                                                date = create_random_date(),
                                                value = create_random_type(type = typeA)),
@@ -228,8 +228,8 @@ testthat::test_that("miscellaneous dataTS are not allowed", {
 ## Test sur la date ------------------------------------------------------------
 
 testthat::test_that("miscellaneous date are not allowed", {
-    for (typeA in liste_type){
-        for (wrong_date in wrong_dates){
+    for (typeA in liste_type) {
+        for (wrong_date in wrong_dates) {
             testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
                                                date = wrong_date,
                                                value = create_random_type(type = typeA)),
@@ -242,8 +242,8 @@ testthat::test_that("miscellaneous date are not allowed", {
 
 testthat::test_that("miscellaneous value input are not allowed", {
     liste_wrong_value <- c(fuzzr::test_df()[-4], NULL, character(0L), numeric(0L), logical(0L), integer(0L), complex(0L))
-    for (typeA in liste_type){
-        for (value in liste_wrong_value){
+    for (typeA in liste_type) {
+        for (value in liste_wrong_value) {
             testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
                                                date = create_random_date(),
                                                value = value),
@@ -253,9 +253,9 @@ testthat::test_that("miscellaneous value input are not allowed", {
 })
 
 testthat::test_that("value should have same type as dataTS", {
-    for (typeA in liste_type[-7]){
-        for (typeB in liste_type[-7]){
-            if (typeA != typeB){
+    for (typeA in liste_type[-7]) {
+        for (typeB in liste_type[-7]) {
+            if (typeA != typeB) {
                 testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
                                                    date = create_random_date(),
                                                    value = create_random_type(typeB)),
@@ -266,7 +266,7 @@ testthat::test_that("value should have same type as dataTS", {
 })
 
 testthat::test_that("NA values generate warning", {
-    for (typeA in liste_type[-6L]){
+    for (typeA in liste_type[-6L]) {
 
         ts_A <- create_random_ts(type = typeA, start = 2000L, len = 80L, frequency = 4L)
         v1 <- sample(c(create_random_type(typeA, len = 10L), get(paste0("as.", typeA))(rep(NA, 5L))), replace = TRUE)
@@ -282,14 +282,14 @@ testthat::test_that("NA values generate warning", {
 # Tests sur les erreurs de temporalité --------------------------------------------
 
 testthat::test_that("dataTS and date are temporally consistent", {
-    for (typeA in liste_type){
+    for (typeA in liste_type) {
         testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA, start = 2010 + 1/7, frequency = 12L),
                                            date = create_random_date(),
                                            value = create_random_type(type = typeA)),
                                regexp = "Les objets a et b doivent être cohérents temporellement.")
     }
 
-    for (typeA in liste_type){
+    for (typeA in liste_type) {
         testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA, start = 2022 + 1/5, frequency = 4L),
                                            date = create_random_date(),
                                            value = create_random_type(type = typeA)),

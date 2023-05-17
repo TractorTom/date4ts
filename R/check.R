@@ -21,7 +21,7 @@
 #' #Format non accepté --> erreur
 #' isGoodDate(2022.5)
 #' isGoodDate(2022 + 1/12)
-isGoodDate <- function(date){
+isGoodDate <- function(date) {
     if (!class(date) %in% c("integer", "numeric")) return(FALSE)
     if (is.integer(date) &&
         length(date) %in% 1L:2L &&
@@ -29,7 +29,7 @@ isGoodDate <- function(date){
     if (is.double(date) &&
         length(date) %in% 1L:2L &&
         isTRUE(all.equal(date, round(date))) &&
-        all(!is.na(date))){
+        all(!is.na(date))) {
         warning("La date est de type double. Il faut privil\u00e9gier le format integer.")
         return(TRUE)
     }
@@ -55,18 +55,18 @@ isGoodDate <- function(date){
 #' isGoodTS(ts3)
 #' isGoodTS(ts2, withWarning = FALSE)
 #' isGoodTS(ts3, withWarning = FALSE)
-isGoodTS <- function(dataTS, withWarning = TRUE){
+isGoodTS <- function(dataTS, withWarning = TRUE) {
 
     #check de withWarning
     if (!(withWarning |> (\(x) (is.logical(x) && length(x) == 1 && !is.na(x)))(x = _)))
         stop("L'argument withWarning doit \u00eatre un bool\u00e9en de longueur 1.")
     #check du type d'objet
-    if (!stats::is.ts(dataTS) | stats::is.mts(dataTS)){
+    if (!stats::is.ts(dataTS) | stats::is.mts(dataTS)) {
         if (withWarning) warning("L'objets dataTS doit \u00eatre un ts unidimensionnel.")
         return(FALSE)
     }
     #Check de la fréquence
-    if (!(stats::frequency(dataTS) %in% c(4L, 12L))){
+    if (!(stats::frequency(dataTS) %in% c(4L, 12L))) {
         if (withWarning) warning("L'objets dataTS doit \u00eatre de fr\u00e9quence mensuelle ou trimestrielle.")
         return(FALSE)
     }
@@ -74,15 +74,15 @@ isGoodTS <- function(dataTS, withWarning = TRUE){
     if (withCallingHandlers({
         !ts4conj::isGoodDate(stats::start(dataTS)) |
             !ts4conj::isGoodDate(stats::end(dataTS))},
-        warning = function(w){
-            if(w$message == "La date est de type double. Il faut privil\u00e9gier le format integer.") invokeRestart("muffleWarning")
+        warning = function(w) {
+            if (w$message == "La date est de type double. Il faut privil\u00e9gier le format integer.") invokeRestart("muffleWarning")
         })
-    ){
+    ) {
         if (withWarning) warning("L'objets dataTS doit \u00eatre coh\u00e9rent avec la temporalit\u00e9 classique.")
         return(FALSE)
     }
     #Check du type des données
-    if (!is.atomic(dataTS)){
+    if (!is.atomic(dataTS)) {
         if (withWarning) warning("L'objets dataTS doit \u00eatre d'un type atomic.")
         return(FALSE)
     }
