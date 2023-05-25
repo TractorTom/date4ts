@@ -52,13 +52,17 @@ setValue_ts <- function(dataTS, date, value) {
 #' @export
 #'
 #' @examples
-#' #La temporalité du second ts n'est pas prise en compte
-#' x1 <- stats::ts(rep(1, 4), start = 2000, frequency = 12)
-#' x2 <- stats::ts(rep(2, 4), start = 2020, frequency = 12)
-#' combine2ts(x1, x2)
 #'
-#' #Attention aux NA présent en début ou fin de ts !
-#' ev_pib |> combine2ts(x1)
+#' trim_1 <- stats::ts(rep(1, 4), start = 2021, frequency = 4)
+#'
+#' mens_1 <- stats::ts(rep(1, 4), start = 2020, frequency = 12)
+#' mens_2 <- stats::ts(rep(2, 4), start = 2022, frequency = 12)
+#'
+#' # La série de PIB est écrasé par trim_1 sur la période temporelle de trim_1
+#' combine2ts(ev_pib, trim_1)
+#'
+#' # La période temporelle interne entre les séries temporelles mens_1 et mens_2 est complétée par des NA
+#' combine2ts(mens_1, mens_2)
 combine2ts <- function(a, b) {
     if  (!(ts4conj::isGoodTS(a) & ts4conj::isGoodTS(b))) stop("Les objets a et b doivent \u00eatre des ts unidimensionnels.")
     if (stats::frequency(a) != stats::frequency(b)) stop("Les objets a et b doivent avoir la m\u00eame fr\u00e9quence.")
