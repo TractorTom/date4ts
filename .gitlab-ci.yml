@@ -1,70 +1,47 @@
-# Fichier de configuration de l'intégration continue (GitLab CI)
-# Voir la documentation de GitLab CI : https://docs.gitlab.com/ee/ci/
-# Voir la documentation des runners Insee : https://gitlab.insee.fr/architecture-applicative/forge-logicielle/documentation/runners/-/wikis/utilisation
-# Pour obtenir de l'aide, solliciter un des salons Tchap suivants :
-# - Insee-dev-gitlab (#Insee-dev-gitlab0FS3SC8:agent.finances.tchap.gouv.fr)
-# - Insee-Git-Gitlab (#InseeGitGitlablPtu8f1Frns:agent.finances.tchap.gouv.fr)
-# - Insee-Kubernetes-Utilisation (#InseeDevOpsInitiative8H9zWs7:agent.finances.tchap.gouv.fr)
+
+image: inseefrlab/onyxia-rstudio:latest
+
+stages:
+  - check
+  - deploy
 
 variables:
-  PKG_NAME: "ts4conj"
-  CHECK_DIR: "$CI_PROJECT_DIR"
-  CHECK_LOGS_DIR: "$CI_PROJECT_DIR/$PKG_NAME.Rcheck"
-  R_KEEP_PKG_SOURCE: "yes"
-  # Paramétrages spécifiques à l'environnement INSEE :
   GIT_SSL_NO_VERIFY: "1"
-  http_proxy: "http://proxy-rie.http.insee.fr:8080"
-  https_proxy: "http://proxy-rie.http.insee.fr:8080"
-  no_proxy: ".insee.fr"
+  PKG_NAME: "ts4conj"
+  HTTP_PROXY: http://proxy-app.insee.fr:3128
+  HTTPS_PROXY: http://proxy-app.insee.fr:3128
+  NO_PROXY: insee.test,insee.intra,insee.fr,localhost
 
-
-# Template de check pour pouvoir plus facilement réaliser en parallèle des checks pour plusieurs versions de R différentes
-# (voir la documentation de GitLab CI sur les templates https://docs.gitlab.com/ee/ci/yaml/yaml_optimization.html#anchors)
-.check_template: &check_configuration
-  stage: test
-
-  # tag spécifique à l'INSEE (poc-kube), ça permet d'utiliser des GitLab runners kubernetes
+pkg_check:
+  stage: check
   tags:
     - docker
-
   script:
-    # On installe les dépendances yc celles déclarées dans Suggests :
-    - R -e 'remotes::install_deps(dependencies = TRUE, quiet = TRUE)'
-    # On lance le check :
-    - R -e 'devtools::check(error_on = "warning", check_dir = Sys.getenv("CHECK_DIR"))'
-
-  # En cas d'échec du check, uploader les logs pour les rendre disponibles dans GitLab :
+    - R -e 'install.packages("gdata", repos = "https://nexus.insee.fr/repository/r-cran")'
+    - R -e 'install.packages("zoo", repos = "https://nexus.insee.fr/repository/r-cran")'
+    - R -e 'devtools::check(check_dir = ".",
+                            error_on  = "error",
+                            cran      = FALSE,
+                            document  = FALSE,
+                            manual    = FALSE)'
   artifacts:
-    when: on_failure
     paths:
-    - $CHECK_LOGS_DIR/
+      - "${PKG_NAME}_*.tar.gz"
+  # only:
+  #   - master
+  #   - developpement
 
-
-# Checks - Chaque job réutilise le template ci-dessus
-# Mettre à jour (tous les ans) les numéros de version de R
-
-# version de R recommandée pour pRev (à mettre à jour)
-build and check:4.1.3:
-  <<: *check_configuration
-  # On utilise une image docker avec R 4.1.3 et tout le tidyverse d'installé
-  image: rocker/tidyverse:4.1.3
-
-# Prochaine version de R (à mettre à jour)
-build and check:4.2.1:
-  <<: *check_configuration
-  # On utilise une image docker avec R 4.2.1 et tout le tidyverse d'installé
-  image: rocker/tidyverse:4.2.1
-
-# Check sur R-devel, ce job est pour l'instant commenté car l'installation des packages depuis leurs versions sources doit être débugguée
-build and check:devel:
-  <<: *check_configuration
-  # On utilise une image docker avec R-devel et tout le tidyverse d'installé
-  # Avec cette version de R, les packages seront installés depuis les sources.
-  # L'installation des packages sera donc significativement plus longue (prévoir 10 à 15 minutes).
-  image: rocker/tidyverse:devel
-  # pRev a pour dépendance le package nloptr
-  # L'installation de nloptr depuis les sources nécessite que CMake soit installé
-  # Comme ce n'est pas le cas dans l'image rocker/tidyverse, on l'installe :
-  before_script:
-    - apt-get update
-    - apt-get install -y --no-install-recommends cmake
+pages:
+  stage: deploy
+  tags:
+    - docker
+  script:
+    - R -e 'install.packages("gdata", repos = "https://nexus.insee.fr/repository/r-cran")'
+    - R -e 'install.packages("zoo", repos = "https://nexus.insee.fr/repository/r-cran")'
+    - R -e 'options(pkgdown.internet = FALSE) ; pkgdown::build_site()'
+  artifacts:
+    paths:
+      - public
+  when: manual # pour declencher manuellement le job quand version stable
+  only:
+    - master
