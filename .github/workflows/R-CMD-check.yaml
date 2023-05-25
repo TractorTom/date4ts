@@ -10,9 +10,9 @@ name: R-CMD-check
 
 jobs:
   R-CMD-check:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.os }} (r ${{ matrix.r }})
+    name: ${{ matrix.config.os }} (r ${{ matrix.config.r }})
 
     strategy:
       fail-fast: false
@@ -28,7 +28,7 @@ jobs:
           # - {os: macOS-latest,   r: 'release'}
           # - {os: windows-latest, r: 'release'}
           # - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
-          - {os: ubuntu-latest,   r: 'release'}
+          - {os: windows-latest, r: 'release'}
           # - {os: ubuntu-latest,   r: 'oldrel-1'}
           # - {os: ubuntu-latest,   r: '3.6.1'}
           # - {os: ubuntu-latest,   r: '4.1.3'}
@@ -47,9 +47,9 @@ jobs:
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
         with:
-          r-version: ${{ matrix.r }}
-          http-user-agent: ${{ matrix.http-user-agent }}
-          use-public-rspm: true
+          r-version: ${{ matrix.config.r }}
+          # http-user-agent: ${{ matrix.http-user-agent }}
+          # use-public-rspm: true
 
       # Pour macos, qqs installation supplémentaires
       - name: "[Stage] [macOS] Install libgit2"
@@ -62,6 +62,13 @@ jobs:
 
       - name: Install dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
+
+      - name: Install dependencies 2
+        run: |
+          install.packages('remotes')
+          remotes::install_deps(dependencies = TRUE)
+          remotes::install_cran("rcmdcheck")
+        shell: Rscript {0}
 
       - uses: r-lib/actions/setup-tinytex@v2
 

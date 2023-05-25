@@ -54,7 +54,7 @@ libelles <- function(date, frequency, nb = 1) {
         stop("L'argument nb doit \u00eatre un entier (vecteur de longueur 1).")
     if (is.double(nb)) warning("L'argument nb est de type double. Il faut privil\u00e9gier le format integer.")
 
-    if (nb <= 0) stop("Aucun libell\u00e9 n'est sélectionn\u00e9.")
+    if (nb <= 0) stop("Aucun libell\u00e9 n'est s\u00e9lectionn\u00e9.")
 
     return(sapply(0:(nb - 1), FUN = \(lag) (lag |>
                                                 nextDate(date = date, frequency = frequency) |>
