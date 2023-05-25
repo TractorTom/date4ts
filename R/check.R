@@ -3,6 +3,7 @@
 #'
 #' @description La fonction `isGoodDate` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #'
 #' @return En sortie la fonction retourne un booleen et un warning additionnel si besoin.
 #' @details Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
