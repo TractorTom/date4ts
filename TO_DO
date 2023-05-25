@@ -21,3 +21,5 @@ Création du package :
 - Relire les commentaire Roxygen2 et à chaque fois que l'on précise "En sortie"
     (@return), il faut préciser le type d'objet qu'il y a en sortie, un vecteur,
     un entier, la class, le mode et le calcul qui permet de sortir cette valeur.
+
+- faire des vignettes par type d'erreurs (voir comment faire dess liens dabs l a dox des fonctions et les vignette)
