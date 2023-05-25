@@ -5,4 +5,4 @@
 ^LICENSE\.md$
 ^TO_DO$
 ^.github
-^.gitlab-ci.yaml
+^.gitlab-ci.yml
