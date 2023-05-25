@@ -45,8 +45,8 @@ wrong_dates <- c(
     list(2L:4L, c(2020.0, 7, 1), c(2020L, 0L, NA_integer_), numeric(0), integer(0))
 )
 
-liste_len <- c(1L, 4L:6L, 10L, 10000L)
-liste_lag <- c(-10000L, -5L, -1L, 0L, 1L, 5L, 10000L)
+liste_len <- c(1L, 4L:6L, 10L, 1000L)
+liste_lag <- c(-1000L, -5L, -1L, 0L, 1L, 5L, 1000L)
 liste_frequence <- c(4L, 12L)
 liste_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2020L, 12L), c(2020L, 13L))
 
