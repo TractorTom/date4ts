@@ -25,7 +25,7 @@ variables:
 
   # tag spécifique à l'INSEE (poc-kube), ça permet d'utiliser des GitLab runners kubernetes
   tags:
-    - poc-kube
+    - docker
 
   script:
     # On installe les dépendances yc celles déclarées dans Suggests :
