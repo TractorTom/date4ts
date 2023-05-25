@@ -13,7 +13,7 @@
 #' libelles_one_date(date = c(2020L, 4L), frequency = 4L)
 libelles_one_date <- function(date, frequency) {
     if (!ts4conj::isGoodDate(date)) stop("La date est au mauvais format.")
-    if (date[1L] <= 0L) stop("La date doit \u00eatre après JC (ann\u00e9e positive).")
+    if (date[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
 
