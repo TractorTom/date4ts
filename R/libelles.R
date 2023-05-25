@@ -9,8 +9,8 @@
 #' @return En sortie, la fonction retourne une chaine de caractère qui correspond au libelés de la date `date`.
 #'
 #' @examples
-#' libelles_one_date(date = c(2020L, 4L), frequency = 12L)
-#' libelles_one_date(date = c(2020L, 4L), frequency = 4L)
+#' ts4conj:::libelles_one_date(date = c(2020L, 4L), frequency = 12L)
+#' ts4conj:::libelles_one_date(date = c(2020L, 4L), frequency = 4L)
 libelles_one_date <- function(date_ts, frequency) {
     if (!ts4conj::isGoodDate(date_ts, frequency = frequency)) stop("La date est au mauvais format.")
     if (date_ts[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
