@@ -4,10 +4,10 @@
 \alias{trim2mens}
 \title{Correspondance d'une date trimestrielle au premier mois du trimestre}
 \usage{
-trim2mens(date)
+trim2mens(date_ts)
 }
 \arguments{
-\item{date}{un vecteur numérique, de préférence \code{integer} au format c(AAAA, TT)}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer}, au format c(AAAA, TT)}
 }
 \value{
 En sortie, la fonction retourne la date au format c(AAAA, MM)

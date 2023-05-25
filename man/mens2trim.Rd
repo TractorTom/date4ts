@@ -4,13 +4,13 @@
 \alias{mens2trim}
 \title{Correspondance d'une date mensuelle au trimestre courant}
 \usage{
-mens2trim(date)
+mens2trim(date_ts)
 }
 \arguments{
-\item{date}{un vecteur numérique, de préférence \code{integer} au format c(AAAA, MM)}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer}, au format c(AAAA, MM)}
 }
 \value{
-En sortie, la fonction retourne la date au format c(AAAA, TT) correspondant au trimestre courant du mois \code{date}.
+En sortie, la fonction retourne la date au format c(AAAA, TT) correspondant au trimestre courant du mois \code{date_ts}.
 }
 \description{
 La fonction \code{mens2trim} prend en argument une date au format c(AAAA, MM) et la convertit au format c(AAAA, TT) avec le trimestre en cours.

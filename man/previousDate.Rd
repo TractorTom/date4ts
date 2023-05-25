@@ -4,14 +4,14 @@
 \alias{previousDate}
 \title{Obtenir la date précédente}
 \usage{
-previousDate(date, frequency, lag = 1L)
+previousDate(date_ts, frequency, lag = 1L)
 }
 \arguments{
-\item{date}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
-
-\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.)}
+\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 
 \item{lag}{un entier}
+
+\item{date}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 }
 \value{
 En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période passée.

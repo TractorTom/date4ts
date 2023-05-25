@@ -3,6 +3,8 @@
 export(as.YYYYMM)
 export(as.YYYYTT)
 export(combine2ts)
+export(date2date_ts)
+export(date_ts2date)
 export(getTimeUnits)
 export(isGoodDate)
 export(isGoodTS)

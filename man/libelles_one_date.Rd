@@ -4,12 +4,12 @@
 \alias{libelles_one_date}
 \title{Libelé pour une date}
 \usage{
-libelles_one_date(date, frequency)
+libelles_one_date(date_ts, frequency)
 }
 \arguments{
-\item{date}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{date_ts}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
-\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.)}
+\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 }
 \value{
 En sortie, la fonction retourne une chaine de caractère qui correspond au libelés de la date \code{date}.

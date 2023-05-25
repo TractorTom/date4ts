@@ -4,10 +4,10 @@
 \alias{isGoodDate}
 \title{Vérifie le format de date}
 \usage{
-isGoodDate(date)
+isGoodDate(date_ts, frequency = 12L)
 }
 \arguments{
-\item{date}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{date_ts}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 }
 \value{
 En sortie la fonction retourne un booleen et un warning additionnel si besoin.
@@ -20,15 +20,23 @@ Les fonctions du package ts4conj sont faites pour fonctionner avec des times-ser
 On cherche donc à favoriser l'utilisation de vecteur c(AAAA, MM) pour désigner la date choisie.
 }
 \examples{
-#De bons formats de date
-isGoodDate(c(2020L, 4L))
+# De bons formats de date
+isGoodDate(c(2020L, 8L))
+isGoodDate(c(2020L, 8L), frequency = 12L)
+isGoodDate(c(2020L, 2L), frequency = 4L)
 isGoodDate(2022L)
 
-#Formats avec un warning
+# Formats double --> génération d'un warning
 isGoodDate(c(2020, 4))
+isGoodDate(c(2020, 4), frequency = 12)
+isGoodDate(c(2020, 4), frequency = 4)
 isGoodDate(2022)
 
-#Format non accepté --> erreur
+# Mauvaise fréquence --> reponse FALSE
+isGoodDate(c(2020L, 7L), frequency = 4L)
+isGoodDate(2022 + 1/12)
+
+# Format non accepté --> reponse FALSE
 isGoodDate(2022.5)
 isGoodDate(2022 + 1/12)
 }

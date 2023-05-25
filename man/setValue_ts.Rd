@@ -4,12 +4,12 @@
 \alias{setValue_ts}
 \title{Change certaines valeurs d'un ts}
 \usage{
-setValue_ts(dataTS, date, value)
+setValue_ts(dataTS, date_ts, value)
 }
 \arguments{
 \item{dataTS}{un objet ts unidimensionnel conforme aux règles de isGoodTS}
 
-\item{date}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{date_ts}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
 \item{value}{un vecteur de même type que le ts \code{dataTS}}
 }

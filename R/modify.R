@@ -4,7 +4,7 @@
 #' @description La fonction `setValue_ts` modifie la ou les valeurs d'un objet ts à une date donnée.
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de isGoodTS
-#' @param date un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param value un vecteur de même type que le ts `dataTS`
 #'
 #' @return En sortie, la fonction retourne l'objet `dataTS` n objet ts modifié avec les valeurs de `value` imputés à partir de la date `date`.
@@ -12,9 +12,9 @@
 #'
 #' @examples
 #' ev_pib |> setValue_ts(date = c(2021L, 2L), value = c(1, 2, 3))
-setValue_ts <- function(dataTS, date, value) {
+setValue_ts <- function(dataTS, date_ts, value) {
     if  (!(ts4conj::isGoodTS(dataTS))) stop("L'objets dataTS doit \u00eatre un ts unidimensionnel.")
-    if (!ts4conj::isGoodDate(date)) stop("La date est au mauvais format.")
+    if (!ts4conj::isGoodDate(date_ts, frequency = frequency)) stop("La date est au mauvais format.")
     if (!is.null(dim(value))) stop("L'argument value doit \u00eatre unidimensionnel.")
     if (typeof(dataTS) != typeof(value)) stop("Les objets dataTS et value doivent \u00eatre de m\u00eame type.")
     if (any(is.na(value))) warning("L'argument value contient des NAs.")
@@ -25,14 +25,14 @@ setValue_ts <- function(dataTS, date, value) {
         outputTS <- outputTS |>
             as.integer() |>
             stats::ts(start = stats::start(outputTS), frequency = stats::frequency(outputTS)) |>
-            ts4conj::setValue_ts(date = date, value = as.integer(value))
+            ts4conj::setValue_ts(date_ts = date_ts, value = as.integer(value))
         outputTS <- outputTS |>
             as.raw() |>
             stats::ts(start = stats::start(outputTS), frequency = stats::frequency(outputTS))
     } else {
         outputTS |>
-            stats::window(start = date |> ts4conj::nextDate(frequency = stats::frequency(dataTS), lag = 0L),
-                          end =   date |> ts4conj::nextDate(frequency = stats::frequency(dataTS), lag = length(value) - 1L),
+            stats::window(start = date_ts |> ts4conj::nextDate(frequency = stats::frequency(dataTS), lag = 0L),
+                          end =   date_ts |> ts4conj::nextDate(frequency = stats::frequency(dataTS), lag = length(value) - 1L),
                           extend = TRUE) <- value
     }
 

@@ -2,11 +2,11 @@
 #' Obtenir la date précédente
 #'
 #' @param date un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.)
+#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param lag un entier
 #'
 #' @return En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période passée.
-#' @
+#'
 #' @details Lorsqu'on parle de date précédente, on parle de date passée.
 #' L'argument `lag` est entier et désigne le nombre de décalage que l'on affecte à notre date.
 #' Par exemple pour des lag positif (1L, 2L, 10L) on désigne le décalage de la période précédente, celle d'avant et celle d'il y a 10 périodes.
@@ -22,16 +22,16 @@
 #'
 #' previousDate(c(2020L, 4L), frequency = 12L, lag = 2L)
 #' previousDate(c(2022L, 6L), frequency = 12L, lag = 12L)
-previousDate <- function(date, frequency, lag = 1L) {
-    if (!ts4conj::isGoodDate(date)) stop("La date est au mauvais format.")
+previousDate <- function(date_ts, frequency, lag = 1L) {
+    if (!ts4conj::isGoodDate(date_ts, frequency = frequency)) stop("La date est au mauvais format.")
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
     if (!is.numeric(nb) || length(nb) != 1 || any(is.na(nb)) || nb != round(nb))
         stop("L'argument lag doit \u00eatre un entier (vecteur de longueur 1).")
     if (is.double(nb)) warning("L'argument lag est de type double. Il faut privil\u00e9gier le format integer.")
 
-    year <- date[1L]
-    month <- date[2L]
+    year <- date_ts[1L]
+    month <- date_ts[2L]
     return(c(year + ((month - 1L - lag) %/% frequency),
              1L + ((month - 1L - lag) %% frequency)))
 }
@@ -39,7 +39,7 @@ previousDate <- function(date, frequency, lag = 1L) {
 #' Obtenir la date suivante
 #'
 #' @param date un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.)
+#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param lag un entier
 #'
 #' @return En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période future.

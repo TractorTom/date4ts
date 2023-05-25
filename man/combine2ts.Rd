@@ -22,11 +22,15 @@ Si \code{a} et \code{b} ont une période en commun, les valeurs de \code{b} écr
 Si il existe une période sur laquelle ni \code{a} ni \code{b} ne prennent de valeur (mais qu'il existe des valeurs à des dates ultérieures et antérieures) alors le ts en sortie prendra NA sur cette période.
 }
 \examples{
-#La temporalité du second ts n'est pas prise en compte
-x1 <- stats::ts(rep(1, 4), start = 2000, frequency = 12)
-x2 <- stats::ts(rep(2, 4), start = 2020, frequency = 12)
-combine2ts(x1, x2)
 
-#Attention aux NA présent en début ou fin de ts !
-ev_pib |> combine2ts(x1)
+trim_1 <- stats::ts(rep(1, 4), start = 2021, frequency = 4)
+
+mens_1 <- stats::ts(rep(1, 4), start = 2020, frequency = 12)
+mens_2 <- stats::ts(rep(2, 4), start = 2022, frequency = 12)
+
+# La série de PIB est écrasé par trim_1 sur la période temporelle de trim_1
+combine2ts(ev_pib, trim_1)
+
+# La période temporelle interne entre les séries temporelles mens_1 et mens_2 est complétée par des NA
+combine2ts(mens_1, mens_2)
 }

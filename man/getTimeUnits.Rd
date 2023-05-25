@@ -2,18 +2,32 @@
 % Please edit documentation in R/conversion.R
 \name{getTimeUnits}
 \alias{getTimeUnits}
-\title{Conversion d'une date TS au format TimeUnits}
+\title{Conversion d'une date du format date_ts au format TimeUnits}
 \usage{
-getTimeUnits(date, frequency)
+getTimeUnits(date_ts, frequency)
 }
 \arguments{
-\item{date}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{date_ts}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
-\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.)}
+\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 }
 \value{
 En sortie, la fonction retourne la date au format AAAA + TT/4 ou AAAA + MM/12.
 }
 \description{
-Conversion d'une date TS au format TimeUnits
+Conversion d'une date du format date_ts au format TimeUnits
+}
+\details{
+AAAA signifie que l'année est au format numérique avec 4 chiffres (Exemple : l'année deux mille vingt-deux s'écrit 2022 et non 22)
+MM signifie que le mois est au format numérique (Exemple : le mois de mai s'écrit 5, le moi de décembre s'écrit 12)
+TT signifie que le trimestre est au format numérique (Exemple : le troisième trimestre s'écrit 3)
+}
+\examples{
+
+getTimeUnits(date_ts = c(2020L, 4L), frequency = 12L) # Avril 2020
+getTimeUnits(date_ts = c(2022L, 11L), frequency = 12L) # Novembre 2020
+
+getTimeUnits(date_ts = c(2022, 4L), frequency = 4L) # 4ème trimestre de 2022
+getTimeUnits(date_ts = c(1995L, 2L), frequency = 4L) # 2ème trimestre de 1995
+
 }
