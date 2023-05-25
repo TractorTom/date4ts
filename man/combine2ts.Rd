@@ -7,9 +7,9 @@
 combine2ts(a, b)
 }
 \arguments{
-\item{a}{un objet ts}
+\item{a}{un objet ts unidimensionnel conforme aux règles de isGoodTS}
 
-\item{b}{un objet ts}
+\item{b}{un objet ts unidimensionnel conforme aux règles de isGoodTS}
 }
 \value{
 En sortie, la fonction retourne un ts qui contient les valeurs de \code{a} aux temps de \code{a} et les valeurs de \code{b} aux temps de \code{b}.

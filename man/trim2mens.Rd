@@ -7,7 +7,7 @@
 trim2mens(date)
 }
 \arguments{
-\item{date}{une date au format c(AAAA, TT)}
+\item{date}{un vecteur numérique, de préférence \code{integer} au format c(AAAA, TT)}
 }
 \value{
 En sortie, la fonction retourne la date au format c(AAAA, MM)

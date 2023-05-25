@@ -7,7 +7,7 @@
 mens2trim(date)
 }
 \arguments{
-\item{date}{une date au format c(AAAA, MM)}
+\item{date}{un vecteur numérique, de préférence \code{integer} au format c(AAAA, MM)}
 }
 \value{
 En sortie, la fonction retourne la date au format c(AAAA, TT) correspondant au trimestre courant du mois \code{date}.

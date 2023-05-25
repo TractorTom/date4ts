@@ -18,4 +18,6 @@ La fonction \code{as.YYYYMM} convertit une date en année en date au format c(AA
 \examples{
 as.YYYYMM(2019.75) #Octobre 2019
 as.YYYYMM(2020) #Janvier 2020
+as.YYYYMM(2020 + 1/12) #Février 2020
+as.YYYYMM(2020 + 12/12) #Janvier 2021
 }

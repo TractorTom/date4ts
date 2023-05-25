@@ -7,7 +7,7 @@
 isGoodDate(date)
 }
 \arguments{
-\item{date}{un vecteur numérique, de préférence integer}
+\item{date}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 }
 \value{
 En sortie la fonction retourne un booleen et un warning additionnel si besoin.
@@ -16,7 +16,7 @@ En sortie la fonction retourne un booleen et un warning additionnel si besoin.
 La fonction \code{isGoodDate} vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
 }
 \details{
-Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basé sur le système des mois, trimestres et années classiques.
+Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
 On cherche donc à favoriser l'utilisation de vecteur c(AAAA, MM) pour désigner la date choisie.
 }
 \examples{

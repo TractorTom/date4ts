@@ -7,9 +7,9 @@
 setValue_ts(dataTS, date, value)
 }
 \arguments{
-\item{dataTS}{un objet ts}
+\item{dataTS}{un objet ts unidimensionnel conforme aux règles de isGoodTS}
 
-\item{date}{une date au format c(AAAA, MM)}
+\item{date}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
 \item{value}{un vecteur de même type que le ts \code{dataTS}}
 }

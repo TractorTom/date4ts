@@ -18,5 +18,5 @@ La fonction \code{as.YYYYTT} convertit une date en année en date au format c(AA
 \examples{
 as.YYYYTT(2019.75) #4ème trimestre 2019
 as.YYYYTT(2020) #1er trimestre 2020
-as.YYYYMM(2022 + 1/4) #2ème trimestre 2022
+as.YYYYTT(2022 + 1/4) #2ème trimestre 2022
 }
