@@ -275,8 +275,6 @@ for (typeA in liste_type) {
 
 # Tests sur les erreurs de mts --------------------------------------------
 
-stop("Ici il faut faire une boucle avec des ts valide de tous les types/longueur/start/freq... et sur la taille du mts")
-
 testthat::test_that("Several dimensions are not allowed", {
     for (typeA in liste_type) {
         for (frequenceA in liste_frequence) {

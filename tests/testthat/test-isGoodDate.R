@@ -1,8 +1,8 @@
 
 # Initialisation ---------------------------------------------------------------
 
-stop("Il faut compléter avec l'utilisation de l'argumetn frequency pour donner de nouveaux cas d'erreur et dupliquer les tests avec ou sans l'argument.")
-stop("Faire les vérifs avec frequency")
+# stop("Il faut compléter avec l'utilisation de l'argumetn frequency pour donner de nouveaux cas d'erreur et dupliquer les tests avec ou sans l'argument.")
+# stop("Faire les vérifs avec frequency")
 
 set.seed(2024L)
 

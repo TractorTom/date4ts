@@ -196,17 +196,23 @@ for (typeA in liste_type) {
 
 # Tests sur les erreurs de mts --------------------------------------------
 
-stop("Ici il faut faire une boucle avec des ts valide de tous les types/longueur/start/freq... et sur la taille du mts")
-
 testthat::test_that("Several dimensions are not allowed", {
     for (typeA in liste_type) {
-        B_content <- as.data.frame(lapply(1L:5L, function(i) create_random_type(type = typeA, len = 100L)))
-        mts_B <- ts(B_content, start = create_random_date(), frequency = 12L)
+        for (frequenceA in liste_frequence) {
+            for (startA in liste_start) {
+                for (lenA in liste_len) {
 
-        testthat::expect_error(setValue_ts(dataTS = mts_B,
-                                           date = create_random_date(),
-                                           value = create_random_type(type = typeA)),
-                               regexp = "L'objets dataTS doit être un ts unidimensionnel.")
+                    B_content <- as.data.frame(lapply(1L:5L, function(i) create_random_type(type = typeA, len = lenA)))
+                    mts_B <- ts(B_content, start = startA, frequency = frequenceA)
+
+                    testthat::expect_error(setValue_ts(dataTS = mts_B,
+                                                       date = create_random_date(),
+                                                       value = create_random_type(type = typeA)),
+                                           regexp = "L'objet dataTS doit être un ts unidimensionnel.")
+
+                }
+            }
+        }
     }
 })
 
@@ -220,7 +226,7 @@ testthat::test_that("miscellaneous dataTS are not allowed", {
             testthat::expect_error(setValue_ts(dataTS = obj,
                                                date = create_random_date(),
                                                value = create_random_type(type = typeA)),
-                                   regexp = "L'objets dataTS doit être un ts unidimensionnel.")
+                                   regexp = "L'objet dataTS doit être un ts unidimensionnel.")
         }
     }
 })

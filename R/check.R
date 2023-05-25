@@ -84,12 +84,12 @@ isGoodTS <- function(dataTS, withWarning = TRUE) {
         stop("L'argument withWarning doit \u00eatre un bool\u00e9en de longueur 1.")
     #check du type d'objet
     if (!stats::is.ts(dataTS) | stats::is.mts(dataTS)) {
-        if (withWarning) warning("L'objets dataTS doit \u00eatre un ts unidimensionnel.")
+        if (withWarning) warning("L'objet dataTS doit \u00eatre un ts unidimensionnel.")
         return(FALSE)
     }
     #Check de la fréquence
     if (!(stats::frequency(dataTS) %in% c(4L, 12L))) {
-        if (withWarning) warning("L'objets dataTS doit \u00eatre de fr\u00e9quence mensuelle ou trimestrielle.")
+        if (withWarning) warning("L'objet dataTS doit \u00eatre de fr\u00e9quence mensuelle ou trimestrielle.")
         return(FALSE)
     }
     #Check de la temporalité
@@ -100,12 +100,12 @@ isGoodTS <- function(dataTS, withWarning = TRUE) {
             if (w$message == "La date est de type double. Il faut privil\u00e9gier le format integer.") invokeRestart("muffleWarning")
         })
     ) {
-        if (withWarning) warning("L'objets dataTS doit \u00eatre coh\u00e9rent avec la temporalit\u00e9 classique.")
+        if (withWarning) warning("L'objet dataTS doit \u00eatre coh\u00e9rent avec la temporalit\u00e9 classique.")
         return(FALSE)
     }
     #Check du type des données
     if (!is.atomic(dataTS)) {
-        if (withWarning) warning("L'objets dataTS doit \u00eatre d'un type atomic.")
+        if (withWarning) warning("L'objet dataTS doit \u00eatre d'un type atomic.")
         return(FALSE)
     }
 

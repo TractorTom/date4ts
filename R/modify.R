@@ -13,7 +13,7 @@
 #' @examples
 #' ev_pib |> setValue_ts(date = c(2021L, 2L), value = c(1, 2, 3))
 setValue_ts <- function(dataTS, date_ts, value) {
-    if  (!(ts4conj::isGoodTS(dataTS))) stop("L'objets dataTS doit \u00eatre un ts unidimensionnel.")
+    if  (!(ts4conj::isGoodTS(dataTS))) stop("L'objet dataTS doit \u00eatre un ts unidimensionnel.")
     if (!ts4conj::isGoodDate(date_ts, frequency = frequency)) stop("La date est au mauvais format.")
     if (!is.null(dim(value))) stop("L'argument value doit \u00eatre unidimensionnel.")
     if (typeof(dataTS) != typeof(value)) stop("Les objets dataTS et value doivent \u00eatre de m\u00eame type.")
