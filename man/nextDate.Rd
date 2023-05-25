@@ -4,10 +4,10 @@
 \alias{nextDate}
 \title{Obtenir la date suivante}
 \usage{
-nextDate(date, frequency, lag = 1L)
+nextDate(date_ts, frequency, lag = 1L)
 }
 \arguments{
-\item{date}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{date_ts}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
 \item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 

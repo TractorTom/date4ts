@@ -1,7 +1,7 @@
 
 #' Obtenir la date précédente
 #'
-#' @param date un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param lag un entier
 #'
@@ -38,7 +38,7 @@ previousDate <- function(date_ts, frequency, lag = 1L) {
 
 #' Obtenir la date suivante
 #'
-#' @param date un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param lag un entier
 #'
@@ -59,13 +59,13 @@ previousDate <- function(date_ts, frequency, lag = 1L) {
 #'
 #' nextDate(c(2020L, 4L), frequency = 12L, lag = 2L)
 #' nextDate(c(2022L, 6L), frequency = 12L, lag = 12L)
-nextDate <- function(date, frequency, lag = 1L) {
-    if (length(date) == 2L) {
-        year <- date[1L]
-        month <- date[2L]
+nextDate <- function(date_ts, frequency, lag = 1L) {
+    if (length(date_ts) == 2L) {
+        year <- date_ts[1L]
+        month <- date_ts[2L]
         return(c(year + ((month - 1L + lag) %/% frequency),
                  1L + ((month - 1L + lag) %% frequency)))
-    } else return(date + lag / frequency)
+    } else return(date_ts + lag / frequency)
 }
 
 
