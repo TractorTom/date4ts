@@ -17,7 +17,7 @@ libelles_one_date <- function(date_ts, frequency) {
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
 
-    date_ts <- date_ts |> ts4conj::nextDate(frequency = frequency, lag = 0L)
+    date_ts <- date_ts |> ts4conj::format_date_ts(frequency = frequency)
     year <- date_ts[1L]
     if (frequency == 4L) {
         quarter <- date_ts[2L]

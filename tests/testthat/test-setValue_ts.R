@@ -32,34 +32,34 @@
 #     return(ts(content, start = start, frequency = frequency))
 # }
 #
-# liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
+# list_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
 # object_bank_R <- fuzzr::test_all()
 # weird_frequency <- c(1, 2, 7, .1, 1/3, 3.5, 365.25, pi)
 # wrong_dates <- c(
 #     fuzzr::test_all()[-10],
 #     list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
-#     lapply(liste_type[-c(1L, 3L)], create_random_type, len = 2),
-#     lapply(liste_type[-c(1L, 3L)], create_random_type, len = 3),
+#     lapply(list_type[-c(1L, 3L)], create_random_type, len = 2),
+#     lapply(list_type[-c(1L, 3L)], create_random_type, len = 3),
 #     list(2019.5, 2020 + 1/12, pi / 4, c(2020, 2.5), c(2010.25, 3), c(2002, 3, 1), c("2002", "3")),
 #     list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5), c(NA_real_, NA_real_)),
 #     list(2L:4L, c(2020.0, 7, 1), c(2020L, 0L, NA_integer_), numeric(0), integer(0))
 # )
 #
-# liste_len <- c(1L, 4L:6L, 10L, 1000L)
-# liste_lag <- c(-1000L, -5L, -1L, 0L, 1L, 5L, 1000L)
-# liste_frequence <- c(4L, 12L)
-# liste_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2020L, 12L), c(2020L, 13L))
+# list_len <- c(1L, 4L:6L, 10L, 1000L)
+# list_lag <- c(-1000L, -5L, -1L, 0L, 1L, 5L, 1000L)
+# list_frequence <- c(4L, 12L)
+# list_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2020L, 12L), c(2020L, 13L))
 #
 # # Tests de résultat avec start vecteur d'entiers -------------------------------
 #
-# for (typeA in liste_type) {
-#     for (frequenceA in liste_frequence) {
-#         for (startA in liste_start) {
-#             for (lenA in liste_len) {
+# for (typeA in list_type) {
+#     for (frequenceA in list_frequence) {
+#         for (startA in list_start) {
+#             for (lenA in list_len) {
 #                 A_content <- create_random_type(type = typeA, len = lenA)
 #                 ts_A <-  ts(A_content, start = startA, frequency = frequenceA)
-#                 for (lagB in liste_lag) {
-#                     for (lenB in liste_len) {
+#                 for (lagB in list_lag) {
+#                     for (lenB in list_len) {
 #
 #                         test_name <- paste("expected result with ",
 #                                            "\ntypeA = '", typeA,
@@ -197,7 +197,7 @@
 # # Tests sur les erreurs de mts --------------------------------------------
 #
 # testthat::test_that("Several dimensions are not allowed", {
-#     for (typeA in liste_type) {
+#     for (typeA in list_type) {
 #         for (frequenceA in liste_frequence) {
 #             for (startA in liste_start) {
 #                 for (lenA in liste_len) {

@@ -31,7 +31,7 @@ setValue_ts <- function(dataTS, date_ts, value) {
             stats::ts(start = stats::start(outputTS), frequency = stats::frequency(outputTS))
     } else {
         outputTS |>
-            stats::window(start = date_ts |> ts4conj::nextDate(frequency = stats::frequency(dataTS), lag = 0L),
+            stats::window(start = date_ts |> ts4conj::format_date_ts(frequency = stats::frequency(dataTS)),
                           end =   date_ts |> ts4conj::nextDate(frequency = stats::frequency(dataTS), lag = length(value) - 1L),
                           extend = TRUE) <- value
     }

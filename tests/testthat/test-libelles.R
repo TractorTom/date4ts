@@ -22,14 +22,14 @@
 #              sample(-20L:20L, size = 1L)))
 # }
 #
-# liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
+# list_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
 # object_bank_R <- fuzzr::test_all()
 # weird_frequency <- c(1, 2, 7, .1, 1/3, 3.5, 365.25, pi)
 # wrong_dates <- c(
 #     fuzzr::test_all()[-10],
 #     list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
-#     lapply(liste_type[-c(1L, 3L)], create_random_type, len = 2),
-#     lapply(liste_type[-c(1L, 3L)], create_random_type, len = 3),
+#     lapply(list_type[-c(1L, 3L)], create_random_type, len = 2),
+#     lapply(list_type[-c(1L, 3L)], create_random_type, len = 3),
 #     list(2019.5, 2020 + 1/12, pi / 4, c(2020, 2.5), c(2010.25, 3), c(2002, 3, 1), c("2002", "3")),
 #     list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5), c(NA_real_, NA_real_)),
 #     list(2L:4L, c(2020.0, 7, 1), c(2020L, 0L, NA_integer_), numeric(0), integer(0))
@@ -37,16 +37,16 @@
 #
 # # Tests de résultats positifs --------------------------------------------------
 #
-# liste_months_name <- c("janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc.")
-# liste_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
-# liste_len <- c(1L, 5L, 10L, 100L)
+# list_months_name <- c("janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc.")
+# list_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
+# list_len <- c(1L, 5L, 10L, 100L)
 #
 # testthat::test_that("good result for monthly date", {
 #     for (month in -20L:20L) {
-#         for (year in liste_year) {
-#             for (len in liste_len) {
+#         for (year in list_year) {
+#             for (len in list_len) {
 #                 testthat::expect_identical(libelles(date = c(year, month), frequency = 12L, nb = len),
-#                                            paste(liste_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
+#                                            paste(list_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
 #                                                  year +            ((month:(month + len - 1L)) - 1L) %/% 12L))
 #             }
 #         }
@@ -55,8 +55,8 @@
 #
 # testthat::test_that("good result for quarter date", {
 #     for (quarter in -20L:20L) {
-#         for (year in liste_year) {
-#             for (len in liste_len) {
+#         for (year in list_year) {
+#             for (len in list_len) {
 #                 testthat::expect_identical(libelles(date = c(year, quarter), frequency = 4L, nb = len),
 #                                            paste0("T",   ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
 #                                                   year + ((quarter:(quarter + len - 1L)) - 1L) %/% 4L))

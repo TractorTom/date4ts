@@ -32,10 +32,10 @@
 #     return(ts(content, start = start, frequency = frequency))
 # }
 #
-# liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
-# liste_len <- c(1L, 2L, 5L, 10L, 100L, 10000L)
-# liste_frequence <- c(4L, 12L)
-# liste_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2020L, 12L), c(2020L, 13L))
+# list_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
+# list_len <- c(1L, 2L, 5L, 10L, 100L, 10000L)
+# list_frequence <- c(4L, 12L)
+# list_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2020L, 12L), c(2020L, 13L))
 #
 # weird_frequency <- list(1L, 2, 7, .1, 1/3, 3.5, 365, 365.25, pi)
 # object_bank_R <- fuzzr::test_all()
@@ -44,10 +44,10 @@
 # # Tests de résultats positifs = TRUE -------------------------------------------
 #
 # testthat::test_that("Result TRUE expected with good TS", {
-#     for (typeA in liste_type) {
-#         for (frequenceA in liste_frequence) {
-#             for (startA in liste_start) {
-#                 for (lenA in liste_len) {
+#     for (typeA in list_type) {
+#         for (frequenceA in list_frequence) {
+#             for (startA in list_start) {
+#                 for (lenA in list_len) {
 #                     ts_A <- create_random_ts(type = typeA, len = lenA, frequency = frequenceA,
 #                                              start = startA)
 #                     testthat::expect_true(isGoodTS(ts_A, withWarning = TRUE))
@@ -75,10 +75,10 @@
 # ### MTS ------------------------------------------------------------------------
 #
 # testthat::test_that("Result FALSE expected with mts", {
-#     for (typeA in liste_type) {
-#         for (lenA in liste_len) {
-#             for (frequenceA in liste_frequence) {
-#                 for (len2 in liste_len[-c(1L, 5L:6L)]) {
+#     for (typeA in list_type) {
+#         for (lenA in list_len) {
+#             for (frequenceA in list_frequence) {
+#                 for (len2 in list_len[-c(1L, 5L:6L)]) {
 #
 #                     A_content <- as.data.frame(lapply(1L:len2, function(i) create_random_type(type = typeA, len = lenA)))
 #                     startA <- create_random_date()
@@ -101,9 +101,9 @@
 #
 # testthat::test_that("Result FALSE expected with wrong frequency", {
 #     for (wrong_freq in weird_frequency) {
-#         for (typeA in liste_type) {
-#             for (startA in liste_start) {
-#                 for (lenA in liste_len) {
+#         for (typeA in list_type) {
+#             for (startA in list_start) {
+#                 for (lenA in list_len) {
 #                     ts_A <- create_random_ts(type = typeA, len = lenA,
 #                                              frequency = wrong_freq,
 #                                              start = startA)
@@ -119,9 +119,9 @@
 #
 # testthat::test_that("Result FALSE expected with wrong frequency", {
 #     for (wrong_start in wrong_dates) {
-#         for (typeA in liste_type) {
-#             for (frequenceA in liste_frequence) {
-#                 for (lenA in liste_len) {
+#         for (typeA in list_type) {
+#             for (frequenceA in list_frequence) {
+#                 for (lenA in list_len) {
 #                     ts_A <- create_random_ts(type = typeA, len = lenA, frequency = frequenceA,
 #                                              start = wrong_start)
 #                     testthat::expect_warning({res_logical <- isGoodTS(ts_A, withWarning = TRUE)}, regexp = "L'objet dataTS doit \u00eatre coh\u00e9rent avec la temporalit\u00e9 classique.")
@@ -161,10 +161,10 @@
 # ### mts ------------------------------------------------------------------------
 #
 # testthat::test_that("Result FALSE expected with mts", {
-#     for (typeA in liste_type) {
-#         for (lenA in liste_len) {
-#             for (frequenceA in liste_frequence) {
-#                 for (len2 in liste_len[-c(1L, 5L:6L)]) {
+#     for (typeA in list_type) {
+#         for (lenA in list_len) {
+#             for (frequenceA in list_frequence) {
+#                 for (len2 in list_len[-c(1L, 5L:6L)]) {
 #
 #                     if (typeA != "complex") {
 #                         A_content <- as.data.frame(lapply(1L:len2, function(i) create_random_type(type = typeA, len = lenA)))
@@ -186,9 +186,9 @@
 #
 # testthat::test_that("Result FALSE expected with wrong frequency", {
 #     for (wrong_freq in weird_frequency) {
-#         for (typeA in liste_type) {
-#             for (startA in liste_start) {
-#                 for (lenA in liste_len) {
+#         for (typeA in list_type) {
+#             for (startA in list_start) {
+#                 for (lenA in list_len) {
 #                     ts_A <- create_random_ts(type = typeA, len = lenA, frequency = wrong_freq,
 #                                              start = startA)
 #                     testthat::expect_false(isGoodTS(ts_A, withWarning = FALSE))
@@ -202,9 +202,9 @@
 #
 # testthat::test_that("Result FALSE expected with wrong frequency", {
 #     for (wrong_start in wrong_dates) {
-#         for (typeA in liste_type) {
-#             for (frequenceA in liste_frequence) {
-#                 for (lenA in liste_len) {
+#         for (typeA in list_type) {
+#             for (frequenceA in list_frequence) {
+#                 for (lenA in list_len) {
 #                     ts_A <- create_random_ts(type = typeA, len = lenA, frequency = frequenceA,
 #                                              start = wrong_start)
 #                     testthat::expect_false(isGoodTS(ts_A, withWarning = FALSE))
@@ -232,10 +232,10 @@
 # # Tests avec erreur (mauvais withwarning) --------------------------------------
 #
 # testthat::test_that("Expect error for wrong withwarning argument", {
-#     for (typeA in liste_type) {
-#         for (frequenceA in liste_frequence) {
-#             for (startA in liste_start) {
-#                 for (lenA in liste_len) {
+#     for (typeA in list_type) {
+#         for (frequenceA in list_frequence) {
+#             for (startA in list_start) {
+#                 for (lenA in list_len) {
 #                     for (wrong_arg in object_bank_R[-29L]) {
 #                         ts_A <- create_random_ts(type = typeA, len = lenA,
 #                                                  frequency = frequenceA,

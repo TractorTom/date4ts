@@ -4,6 +4,7 @@
 #' @description La fonction `is.date_ts` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param withWarning un booléen
 #'
 #' @return En sortie la fonction retourne un booleen et un warning additionnel si besoin.
 #' @details Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
@@ -34,7 +35,11 @@
 #' is.date_ts(2023 + 1/4)
 #' is.date_ts("2020-04-01")
 #' is.date_ts(as.Date("2020-04-01"))
-is.date_ts <- function(date_ts, frequency = 12L) {
+is.date_ts <- function(date_ts, frequency = 12L, withWarning = TRUE) {
+
+    #check de withWarning
+    if (!(withWarning |> (\(x) (is.logical(x) && length(x) == 1 && !is.na(x)))(x = _)))
+        stop("L'argument withWarning doit \u00eatre un bool\u00e9en de longueur 1.")
 
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
@@ -57,11 +62,11 @@ is.date_ts <- function(date_ts, frequency = 12L) {
     }
 
     if (cond_warning) {
-        warning("La date est de type double. Il faut privil\u00e9gier le format integer.")
+        if (withWarning) warning("La date est de type double. Il faut privil\u00e9gier le format integer.")
     }
 
     if (length(date_ts) == 2L && (date_ts[2] <= 0L || date_ts[2] > frequency)) {
-        warning("Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.")
+        if (withWarning) warning("Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.")
     }
     return(TRUE)
 }

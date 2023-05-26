@@ -22,15 +22,15 @@ liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "
 # Tests de résultats positifs --------------------------------------------------
 
 good_years <- c(-200L, -1L, 0L, 1L, 2L, 1950L, 1999L, 2000L, 2001L,  2022L, 3000L)
-conversion_trim_mens <- data.frame(trim = 1L:4L, mens = c(1L, 4L, 7L, 10L))
+conversion_quarter_mens <- data.frame(trim = 1L:4L, mens = c(1L, 4L, 7L, 10L))
 
 testthat::test_that("good result for integer date", {
     for (good_year in good_years) {
-        for (trim in 1:4) {
-            trim_real <- (trim - 1L) %% 4L + 1L
-            year_real <- good_year + (trim - 1L) %/% 4L
-            date_expected <- c(year_real, conversion_trim_mens[trim_real, "mens"])
-            res <- trim2mens(c(good_year, trim))
+        for (quarter in 1L:4L) {
+            real_quarter <- (quarter - 1L) %% 4L + 1L
+            year_real <- good_year + (quarter - 1L) %/% 4L
+            date_expected <- c(year_real, conversion_quarter_mens[real_quarter, "mens"])
+            res <- trim2mens(c(good_year, quarter))
 
 
             testthat::expect_identical(res, date_expected)
@@ -61,117 +61,117 @@ testthat::test_that("detection of wrong dates", {
 double_years <- c(-200., -1., 0., 1., 2., 1950., 2000., 2022., 3000.)
 
 warning_double_quarters <- c(-200., -5., -1., 0., 5., 12., 13., 46.)
-warning_integer_trims <- c(-200L, -5L, -1L, 0L, 5L, 12L, 13L, 46L)
+warning_integer_quarters <- c(-200L, -5L, -1L, 0L, 5L, 12L, 13L, 46L)
 
 double_quarters <- c(1., 2., 3., 4.)
-good_quarters <- 1L:4L
+list_good_quarters <- 1L:4L
 
 testthat::test_that("warning for integer date", {
     for (good_year in good_years) {
-        for (warning_trim in warning_integer_trims) {
+        for (warning_quarter in warning_integer_quarters) {
 
-            testthat::expect_warning({resMens <- trim2mens(c(good_year, warning_trim))}, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.")
+            testthat::expect_warning({resMonthly <- trim2mens(c(good_year, warning_quarter))}, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.")
 
-            trim_real <- (warning_trim - 1L) %% 4L + 1L
-            year_real <- good_year + (warning_trim - 1L) %/% 4L
-            date_expected <- c(year_real, conversion_trim_mens[trim_real, "mens"]) |> as.integer()
+            real_quarter <- (warning_quarter - 1L) %% 4L + 1L
+            year_real <- good_year + (warning_quarter - 1L) %/% 4L
+            date_expected <- c(year_real, conversion_quarter_mens[real_quarter, "mens"]) |> as.integer()
 
-            testthat::expect_identical(resMens, date_expected)
-            testthat::expect_type(resMens, "integer")
+            testthat::expect_identical(resMonthly, date_expected)
+            testthat::expect_type(resMonthly, "integer")
         }
     }
 })
 
 testthat::test_that("warning for double date", {
     for (warning_year in double_years) {
-        for (good_quarter in good_quarters) {
+        for (good_quarter in list_good_quarters) {
 
-            testthat::expect_warning({resMens <- trim2mens(c(warning_year, good_quarter))}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+            testthat::expect_warning({resMonthly <- trim2mens(c(warning_year, good_quarter))}, regexp = "La date est de type double. Il faut privilégier le format integer.")
 
-            trim_real <- (good_quarter - 1L) %% 4L + 1L
+            real_quarter <- (good_quarter - 1L) %% 4L + 1L
             year_real <- warning_year + (good_quarter - 1L) %/% 4L
-            date_expected <- c(year_real, conversion_trim_mens[trim_real, "mens"]) |> as.integer()
+            date_expected <- c(year_real, conversion_quarter_mens[real_quarter, "mens"]) |> as.integer()
 
-            testthat::expect_identical(resMens, date_expected)
-            testthat::expect_type(resMens, "integer")
+            testthat::expect_identical(resMonthly, date_expected)
+            testthat::expect_type(resMonthly, "integer")
         }
     }
 
     for (good_year in good_years) {
-        for (warning_trim in double_quarters) {
+        for (warning_quarter in double_quarters) {
 
-            testthat::expect_warning({resMens <- trim2mens(c(good_year, warning_trim))}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+            testthat::expect_warning({resMonthly <- trim2mens(c(good_year, warning_quarter))}, regexp = "La date est de type double. Il faut privilégier le format integer.")
 
-            trim_real <- (warning_trim - 1L) %% 4L + 1L
-            year_real <- good_year + (warning_trim - 1L) %/% 4L
-            date_expected <- c(year_real, conversion_trim_mens[trim_real, "mens"]) |> as.integer()
+            real_quarter <- (warning_quarter - 1L) %% 4L + 1L
+            year_real <- good_year + (warning_quarter - 1L) %/% 4L
+            date_expected <- c(year_real, conversion_quarter_mens[real_quarter, "mens"]) |> as.integer()
 
-            testthat::expect_identical(resMens, date_expected)
-            testthat::expect_type(resMens, "integer")
+            testthat::expect_identical(resMonthly, date_expected)
+            testthat::expect_type(resMonthly, "integer")
         }
     }
 
     for (warning_year in double_years) {
-        for (warning_trim in double_quarters) {
+        for (warning_quarter in double_quarters) {
 
-            testthat::expect_warning({resMens <- trim2mens(c(good_year, warning_trim))}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+            testthat::expect_warning({resMonthly <- trim2mens(c(good_year, warning_quarter))}, regexp = "La date est de type double. Il faut privilégier le format integer.")
 
-            trim_real <- (warning_trim - 1L) %% 4L + 1L
-            year_real <- good_year + (warning_trim - 1L) %/% 4L
-            date_expected <- c(year_real, conversion_trim_mens[trim_real, "mens"]) |> as.integer()
+            real_quarter <- (warning_quarter - 1L) %% 4L + 1L
+            year_real <- good_year + (warning_quarter - 1L) %/% 4L
+            date_expected <- c(year_real, conversion_quarter_mens[real_quarter, "mens"]) |> as.integer()
 
-            testthat::expect_identical(resMens, date_expected)
-            testthat::expect_type(resMens, "integer")
+            testthat::expect_identical(resMonthly, date_expected)
+            testthat::expect_type(resMonthly, "integer")
         }
     }
 })
 
 testthat::test_that("several warning", {
     for (warning_year in double_years) {
-        for (warning_trim in warning_integer_trims) {
+        for (warning_quarter in warning_integer_quarters) {
 
-            w <- testthat::capture_warnings({resMens <- trim2mens(c(warning_year, warning_trim))})
+            w <- testthat::capture_warnings({resMonthly <- trim2mens(c(warning_year, warning_quarter))})
             testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privilégier le format integer.", all = FALSE)
             testthat::expect_match(object = w, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.", all = FALSE)
 
-            trim_real <- (warning_trim - 1L) %% 4L + 1L
-            year_real <- warning_year + (warning_trim - 1L) %/% 4L
-            date_expected <- c(year_real, conversion_trim_mens[trim_real, "mens"]) |> as.integer()
+            real_quarter <- (warning_quarter - 1L) %% 4L + 1L
+            year_real <- warning_year + (warning_quarter - 1L) %/% 4L
+            date_expected <- c(year_real, conversion_quarter_mens[real_quarter, "mens"]) |> as.integer()
 
-            testthat::expect_identical(resMens, date_expected)
-            testthat::expect_type(resMens, "integer")
+            testthat::expect_identical(resMonthly, date_expected)
+            testthat::expect_type(resMonthly, "integer")
         }
     }
 
     for (warning_year in double_years) {
-        for (warning_trim in warning_double_quarters) {
+        for (warning_quarter in warning_double_quarters) {
 
-            w <- testthat::capture_warnings({resMens <- trim2mens(c(warning_year, warning_trim))})
+            w <- testthat::capture_warnings({resMonthly <- trim2mens(c(warning_year, warning_quarter))})
             testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privilégier le format integer.", all = FALSE)
             testthat::expect_match(object = w, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.", all = FALSE)
 
-            trim_real <- (warning_trim - 1L) %% 4L + 1L
-            year_real <- warning_year + (warning_trim - 1L) %/% 4L
-            date_expected <- c(year_real, conversion_trim_mens[trim_real, "mens"]) |> as.integer()
+            real_quarter <- (warning_quarter - 1L) %% 4L + 1L
+            year_real <- warning_year + (warning_quarter - 1L) %/% 4L
+            date_expected <- c(year_real, conversion_quarter_mens[real_quarter, "mens"]) |> as.integer()
 
-            testthat::expect_identical(resMens, date_expected)
-            testthat::expect_type(resMens, "integer")
+            testthat::expect_identical(resMonthly, date_expected)
+            testthat::expect_type(resMonthly, "integer")
         }
     }
 
     for (good_year in good_years) {
-        for (warning_trim in warning_double_quarters) {
+        for (warning_quarter in warning_double_quarters) {
 
-            w <- testthat::capture_warnings({resMens <- trim2mens(c(good_year, warning_trim))})
+            w <- testthat::capture_warnings({resMonthly <- trim2mens(c(good_year, warning_quarter))})
             testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privilégier le format integer.", all = FALSE)
             testthat::expect_match(object = w, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.", all = FALSE)
 
-            trim_real <- (warning_trim - 1L) %% 4L + 1L
-            year_real <- good_year + (warning_trim - 1L) %/% 4L
-            date_expected <- c(year_real, conversion_trim_mens[trim_real, "mens"]) |> as.integer()
+            real_quarter <- (warning_quarter - 1L) %% 4L + 1L
+            year_real <- good_year + (warning_quarter - 1L) %/% 4L
+            date_expected <- c(year_real, conversion_quarter_mens[real_quarter, "mens"]) |> as.integer()
 
-            testthat::expect_identical(resMens, date_expected)
-            testthat::expect_type(resMens, "integer")
+            testthat::expect_identical(resMonthly, date_expected)
+            testthat::expect_type(resMonthly, "integer")
         }
     }
 })

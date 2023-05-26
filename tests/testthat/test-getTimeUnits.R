@@ -22,14 +22,14 @@ create_random_date <- function() {
              sample(-20L:20L, size = 1L)))
 }
 
-liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
+list_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
 object_bank_R <- fuzzr::test_all()
 weird_frequency <- c(1, 2, 7, .1, 1/3, 3.5, 365.25, pi)
 wrong_dates <- c(
     fuzzr::test_all()[-10],
     list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
-    lapply(liste_type[-c(1L, 3L)], create_random_type, len = 2),
-    lapply(liste_type[-c(1L, 3L)], create_random_type, len = 3),
+    lapply(list_type[-c(1L, 3L)], create_random_type, len = 2),
+    lapply(list_type[-c(1L, 3L)], create_random_type, len = 3),
     list(2019.5, 2020 + 1/12, pi / 4, c(2020, 2.5), c(2010.25, 3), c(2002, 3, 1), c("2002", "3")),
     list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5), c(NA_real_, NA_real_)),
     list(2L:4L, c(2020.0, 7, 1), c(2020L, 0L, NA_integer_), numeric(0), integer(0))
@@ -37,27 +37,27 @@ wrong_dates <- c(
 
 # Tests de résultats positifs --------------------------------------------------
 
-liste_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
-liste_good_month <- 1L:12L
+list_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
+list_good_months <- 1L:12L
 
 testthat::test_that("good result for integer date", {
-    for (year in liste_year) {
+    for (year in list_year) {
         testthat::expect_equal(getTimeUnits(date_ts = year, frequency = 12L),
                                year)
-        for (month in liste_good_month) {
+        for (month in list_good_months) {
             testthat::expect_equal(getTimeUnits(date_ts = c(year, month), frequency = 12L),
                                    year + (month - 1) / 12)
         }
     }
 })
 
-good_quarters <- 1L:4L
+list_good_quarters <- 1L:4L
 
 testthat::test_that("good result for integer date", {
-    for (year in liste_year) {
+    for (year in list_year) {
         testthat::expect_equal(getTimeUnits(date_ts = year, frequency = 4L),
                                year)
-        for (quarter in good_quarters) {
+        for (quarter in list_good_quarters) {
             testthat::expect_equal(getTimeUnits(date_ts = c(year, quarter), frequency = 4L),
                                    year + (quarter - 1) / 4)
         }
@@ -67,12 +67,12 @@ testthat::test_that("good result for integer date", {
 
 # Test de résultat positif avec warnings ----------------------------------
 
-liste_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
-liste_warning_month <- c(-20L, -12L, -5L:0L, 13L:15L, 24L)
+list_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
+list_warning_months <- c(-20L, -12L, -5L:0L, 13L:15L, 24L)
 
 testthat::test_that("warning for integer date", {
-    for (year in liste_year) {
-        for (month in liste_month) {
+    for (year in list_year) {
+        for (month in list_warning_months) {
             testthat::expect_warning({resTU <- getTimeUnits(date_ts = c(year, month), frequency = 12L)},
                                      regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.")
             testthat::expect_equal(resTU, year + (month - 1) / 12)
@@ -80,11 +80,11 @@ testthat::test_that("warning for integer date", {
     }
 })
 
-liste_warning_trim <- c(-20L, -12L, -5L:0L, 5L:6L, 24L)
+list_warning_quarters <- c(-20L, -12L, -5L:0L, 5L:6L, 24L)
 
 testthat::test_that("good result for integer date", {
-    for (year in liste_year) {
-        for (quarter in liste_warning_trim) {
+    for (year in list_year) {
+        for (quarter in list_warning_quarters) {
             testthat::expect_warning({resTU <- getTimeUnits(date_ts = c(year, quarter), frequency = 4L)},
                                      regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.")
             testthat::expect_equal(resTU, year + (quarter - 1) / 4)

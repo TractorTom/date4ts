@@ -3,16 +3,16 @@
 
 set.seed(2027L)
 
-liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
+list_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
 object_bank_R <- fuzzr::test_all()
 
 # Tests de résultats positifs --------------------------------------------------
 
-liste_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
+list_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
 
 testthat::test_that("good result for integer date", {
     for (quarter in -20L:20L) {
-        for (year in liste_year) {
+        for (year in list_year) {
             TSdate <- c(year + quarter %/% 4L, quarter %% 4L + 1L) |> as.integer()
             res <- as.YYYYTT(year + quarter / 4L)
             testthat::expect_type(res, "integer")

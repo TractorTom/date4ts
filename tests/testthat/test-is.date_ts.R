@@ -19,19 +19,19 @@ create_random_type <- function(type, len = NULL) {
     stop("Le type n'est pas reconnu.")
 }
 
-liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
+list_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
 
 
 # Tests de résultats positifs --------------------------------------------------
 
 good_years <- c(-200L, -1L, 0L, 1L, 2L, 1950L, 2000L, 2022L, 3000L)
-good_months <- 1L:12L
-good_quarters <- 1L:4L
+list_good_months <- 1L:12L
+list_good_quarters <- 1L:4L
 
 testthat::test_that("good result for integer date month", {
     for (year in good_years) {
         testthat::expect_true(is.date_ts(year, frequency = 12L))
-        for (month in good_months) {
+        for (month in list_good_months) {
             testthat::expect_true(is.date_ts(c(year, month), frequency = 12L))
         }
     }
@@ -40,7 +40,7 @@ testthat::test_that("good result for integer date month", {
 testthat::test_that("good result for integer date quarter", {
     for (year in good_years) {
         testthat::expect_true(is.date_ts(year, frequency = 4L))
-        for (quarter in good_quarters) {
+        for (quarter in list_good_quarters) {
             testthat::expect_true(is.date_ts(c(year, quarter), frequency = 4L))
         }
     }
@@ -75,7 +75,7 @@ testthat::test_that("warning for double date", {
         testthat::expect_warning({boolRes <- is.date_ts(warning_date)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
         testthat::expect_true(boolRes)
 
-        for (good_month in good_months) {
+        for (good_month in list_good_months) {
 
             warning_date <- c(warning_year, good_month)
             testthat::expect_warning({boolRes <- is.date_ts(warning_date)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
@@ -150,7 +150,7 @@ warning_double_quarters <- c(-200., -5., -1., 0., 5., 12., 13., 46.)
 warning_integer_quarters <- c(-200L, -5L, -1L, 0L, 5L, 12L, 13L, 46L)
 
 double_quarters <- c(1., 2., 3., 4.)
-good_quarters <- 1L:4L
+list_good_quarters <- 1L:4L
 
 testthat::test_that("warning for integer date", {
     for (good_year in good_years) {
@@ -169,7 +169,7 @@ testthat::test_that("warning for double date", {
         testthat::expect_warning({boolRes <- is.date_ts(warning_date, frequency = 4L)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
         testthat::expect_true(boolRes)
 
-        for (good_quarter in good_quarters) {
+        for (good_quarter in list_good_quarters) {
 
             warning_date <- c(warning_year, good_quarter)
             testthat::expect_warning({boolRes <- is.date_ts(warning_date, frequency = 4L)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
@@ -243,8 +243,8 @@ testthat::test_that("several warning", {
 wrong_dates <- c(
     fuzzr::test_all()[-10],
     list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
-    lapply(liste_type[-c(1L, 3L)], create_random_type, len = 2),
-    lapply(liste_type, create_random_type, len = 3),
+    lapply(list_type[-c(1L, 3L)], create_random_type, len = 2),
+    lapply(list_type, create_random_type, len = 3),
     list(2019.5, 2020 + 1/12, pi / 4, c(2020, 2.5), c(2010.25, 3), c(2002, 3, 1), c("2002", "3")),
     list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5), c(NA_real_, NA_real_)),
     list(2L:4L, c(2020.0, 7, 1), c(2020L, 0L, NA_integer_), numeric(0), integer(0))

@@ -4,12 +4,14 @@
 \alias{is.date_ts}
 \title{Vérifie le format de date}
 \usage{
-is.date_ts(date_ts, frequency = 12L)
+is.date_ts(date_ts, frequency = 12L, withWarning = TRUE)
 }
 \arguments{
 \item{date_ts}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
 \item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+
+\item{withWarning}{un booléen}
 }
 \value{
 En sortie la fonction retourne un booleen et un warning additionnel si besoin.
