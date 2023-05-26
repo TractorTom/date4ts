@@ -1,47 +1,22 @@
-
-image: inseefrlab/onyxia-rstudio:latest
+image: gitlab-registry.insee.fr/kubernetes/images/build/r-toolbox/onyxia-rstudio-insee:r4.2.1
 
 stages:
   - check
-  - deploy
 
 variables:
   GIT_SSL_NO_VERIFY: "1"
-  PKG_NAME: "ts4conj"
-  HTTP_PROXY: http://proxy-app.insee.fr:3128
-  HTTPS_PROXY: http://proxy-app.insee.fr:3128
-  NO_PROXY: insee.test,insee.intra,insee.fr,localhost
+  PKG_NAME: "rtauargus"
 
 pkg_check:
   stage: check
   tags:
     - docker
   script:
-    - R -e 'install.packages("gdata", repos = "https://nexus.insee.fr/repository/r-cran")'
-    - R -e 'install.packages("zoo", repos = "https://nexus.insee.fr/repository/r-cran")'
-    - R -e 'devtools::check(check_dir = ".",
-                            error_on  = "error",
-                            cran      = FALSE,
-                            document  = FALSE,
-                            manual    = FALSE)'
+    - Rscript -e 'devtools::check(check_dir = ".",
+                                  error_on  = "error",
+                                  cran      = FALSE,
+                                  document  = FALSE,
+                                  manual    = FALSE)'
   artifacts:
     paths:
       - "${PKG_NAME}_*.tar.gz"
-  # only:
-  #   - master
-  #   - developpement
-
-pages:
-  stage: deploy
-  tags:
-    - docker
-  script:
-    - R -e 'install.packages("gdata", repos = "https://nexus.insee.fr/repository/r-cran")'
-    - R -e 'install.packages("zoo", repos = "https://nexus.insee.fr/repository/r-cran")'
-    - R -e 'options(pkgdown.internet = FALSE) ; pkgdown::build_site()'
-  artifacts:
-    paths:
-      - public
-  when: manual # pour declencher manuellement le job quand version stable
-  only:
-    - master
