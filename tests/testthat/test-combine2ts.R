@@ -283,10 +283,17 @@ testthat::test_that("Several dimensions are not allowed", {
 
                     ts_A <-  create_random_ts(type = typeA, start = startA, frequency = frequenceA, len = lenA)
                     B_content <- as.data.frame(lapply(1L:5L, function(i) create_random_type(type = typeA, len = 100L)))
-                    mts_B <- ts(B_content, start = create_random_date(), frequency = stats::frequency(ts_A))
+                    startB = create_random_date()
 
-                    testthat::expect_error(combine2ts(ts_A, mts_B), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
-                    testthat::expect_error(combine2ts(mts_B, ts_A), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
+                    if (typeA == "complex") {
+                        mts_B <- lapply(B_content, FUN = ts, start = startB, frequency = frequenceA) |>
+                            do.call(cbind, args = _)
+                    } else {
+                        mts_B <- ts(B_content, start = startB, frequency = frequenceA)
+                    }
+
+                    testthat::expect_error(combine2ts(ts_A, mts_B), regexp = "Les objets a et b doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
+                    testthat::expect_error(combine2ts(mts_B, ts_A), regexp = "Les objets a et b doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
 
                 }
             }
@@ -301,10 +308,10 @@ testthat::test_that("miscellaneous input are not allowed", {
         ts_A <- create_random_ts(type = typeA)
 
         for (objA in object_bank_R) {
-            testthat::expect_error(combine2ts(ts_A, objA), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
-            testthat::expect_error(combine2ts(objA, ts_A), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
+            testthat::expect_error(combine2ts(ts_A, objA), regexp = "Les objets a et b doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
+            testthat::expect_error(combine2ts(objA, ts_A), regexp = "Les objets a et b doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
             for (objB in object_bank_R) {
-                testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent être des ts unidimensionnels.")
+                testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
             }
         }
     }
@@ -339,8 +346,8 @@ testthat::test_that("arguments are monthly or quarterly", {
             for (freq_B in c(weird_frequency, liste_frequence)) {
                 objA <- create_random_ts(type = typeA, frequency = freq_A)
                 objB <- create_random_ts(type = typeA, frequency = freq_B)
-                testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent être trimestriels ou mensuels.")
-                testthat::expect_error(combine2ts(objB, objA), regexp = "Les objets a et b doivent être trimestriels ou mensuels.")
+                testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets a et b doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
+                testthat::expect_error(combine2ts(objB, objA), regexp = "Les objets a et b doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
             }
         }
     }
@@ -350,13 +357,13 @@ testthat::test_that("arguments are temporally consistent", {
     for (typeA in liste_type) {
         ts_A <- create_random_ts(type = typeA, start = 2015L, frequency = 12L)
         ts_B <- create_random_ts(type = typeA, start = 2004 + 1/7, frequency = 12L)
-        testthat::expect_error(combine2ts(ts_A, ts_B), regexp = "Les objets a et b doivent être cohérents temporellement.")
-        testthat::expect_error(combine2ts(ts_B, ts_A), regexp = "Les objets a et b doivent être cohérents temporellement.")
+        testthat::expect_error(combine2ts(ts_A, ts_B), regexp = "Les objets a et b doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
+        testthat::expect_error(combine2ts(ts_B, ts_A), regexp = "Les objets a et b doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
 
         ts_A <- create_random_ts(type = typeA, start = 2015L, frequency = 4L)
         ts_B <- create_random_ts(type = typeA, start = 2016 + 1/12, frequency = 4L)
-        testthat::expect_error(combine2ts(ts_A, ts_B), regexp = "Les objets a et b doivent être cohérents temporellement.")
-        testthat::expect_error(combine2ts(ts_B, ts_A), regexp = "Les objets a et b doivent être cohérents temporellement.")
+        testthat::expect_error(combine2ts(ts_A, ts_B), regexp = "Les objets a et b doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
+        testthat::expect_error(combine2ts(ts_B, ts_A), regexp = "Les objets a et b doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
     }
 })
 

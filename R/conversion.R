@@ -59,7 +59,7 @@ as.YYYYMM <- function(timeUnits) {
 #' trim2mens(c(2019L, 4L)) #4ème trimestre 2019 --> Octobre 2019
 #' trim2mens(c(2020L, 1L)) #1er trimestre 2020 --> Janvier 2020
 trim2mens <- function(date_ts) {
-    if (!ts4conj::isGoodDate(date_ts, frequency = 4L)) stop("La date est au mauvais format.")
+    if (!ts4conj::is.date_ts(date_ts, frequency = 4L)) stop("La date est au mauvais format.")
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 4L
     trim <- (date_ts[2L] - 1L) %% 4L + 1L
@@ -79,7 +79,7 @@ trim2mens <- function(date_ts) {
 #' mens2trim(c(2019L, 4L)) #Avril 2019 --> 2ème trimestre 2019
 #' mens2trim(c(2020L, 11L)) #Novembre 2020 --> 4ème trimestre 2020
 mens2trim <- function(date_ts) {
-    if (!ts4conj::isGoodDate(date_ts, frequency = 12L)) stop("La date est au mauvais format.")
+    if (!ts4conj::is.date_ts(date_ts, frequency = 12L)) stop("La date est au mauvais format.")
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 12L
     month <- (date_ts[2L] - 1L) %% 12L + 1L
@@ -108,7 +108,7 @@ mens2trim <- function(date_ts) {
 #' getTimeUnits(date_ts = c(1995L, 2L), frequency = 4L) # 2ème trimestre de 1995
 #'
 getTimeUnits <- function(date_ts, frequency) {
-    if (!ts4conj::isGoodDate(date_ts, frequency = frequency)) stop("La date est au mauvais format.")
+    if (!ts4conj::is.date_ts(date_ts, frequency)) stop("La date est au mauvais format.")
     if (date_ts[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
@@ -164,7 +164,7 @@ date2date_ts <- function(date, frequency = 12L) {
 #' date_ts2date(date_ts = c(1995L, 2L), frequency = 4L)
 #'
 date_ts2date <- function(date_ts, frequency = 12L) {
-    if (!ts4conj::isGoodDate(date_ts, frequency = frequency)) stop("La date est au mauvais format.")
+    if (!ts4conj::is.date_ts(date_ts, frequency)) stop("La date est au mauvais format.")
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
 

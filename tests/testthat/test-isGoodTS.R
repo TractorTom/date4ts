@@ -72,7 +72,7 @@ testthat::test_that("Result FALSE expected with wrong object R", {
     }
 })
 
-### mts ------------------------------------------------------------------------
+### MTS ------------------------------------------------------------------------
 
 testthat::test_that("Result FALSE expected with mts", {
     for (typeA in liste_type) {
@@ -80,12 +80,13 @@ testthat::test_that("Result FALSE expected with mts", {
             for (frequenceA in liste_frequence) {
                 for (len2 in liste_len[-c(1L, 5L:6L)]) {
 
-                    if (typeA != "complex") {
-                        A_content <- as.data.frame(lapply(1L:len2, function(i) create_random_type(type = typeA, len = lenA)))
-                        mts_A <- ts(A_content, start = create_random_date(), frequency = frequenceA)
+                    A_content <- as.data.frame(lapply(1L:len2, function(i) create_random_type(type = typeA, len = lenA)))
+                    startA <- create_random_date()
+                    if (typeA == "complex") {
+                        mts_A <- lapply(A_content, FUN = ts, start = startA, frequency = frequenceA) |>
+                            do.call(cbind, args = _)
                     } else {
-                        mts_A <- c()
-                        for (k in 1L:len2) mts_A <- cbind(mts_A, as.ts(create_random_type(type = typeA, len = lenA)))
+                        mts_A <- ts(A_content, start = startA, frequency = frequenceA)
                     }
 
                     testthat::expect_warning({res_logical <- isGoodTS(mts_A, withWarning = TRUE)}, regexp = "L'objet dataTS doit \u00eatre un ts unidimensionnel.")

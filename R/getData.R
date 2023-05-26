@@ -23,12 +23,12 @@
 #' previousDate(c(2020L, 4L), frequency = 12L, lag = 2L)
 #' previousDate(c(2022L, 6L), frequency = 12L, lag = 12L)
 previousDate <- function(date_ts, frequency, lag = 1L) {
-    if (!ts4conj::isGoodDate(date_ts, frequency = frequency)) stop("La date est au mauvais format.")
+    if (!ts4conj::is.date_ts(date_ts, frequency = frequency)) stop("La date est au mauvais format.")
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    if (!is.numeric(nb) || length(nb) != 1 || any(is.na(nb)) || nb != round(nb))
+    if (!is.numeric(lag) || length(lag) != 1 || any(is.na(lag)) || lag != round(lag))
         stop("L'argument lag doit \u00eatre un entier (vecteur de longueur 1).")
-    if (is.double(nb)) warning("L'argument lag est de type double. Il faut privil\u00e9gier le format integer.")
+    if (is.double(lag)) warning("L'argument lag est de type double. Il faut privil\u00e9gier le format integer.")
 
     year <- date_ts[1L]
     month <- date_ts[2L]

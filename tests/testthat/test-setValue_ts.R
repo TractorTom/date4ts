@@ -203,7 +203,13 @@ testthat::test_that("Several dimensions are not allowed", {
                 for (lenA in liste_len) {
 
                     B_content <- as.data.frame(lapply(1L:5L, function(i) create_random_type(type = typeA, len = lenA)))
-                    mts_B <- ts(B_content, start = startA, frequency = frequenceA)
+
+                    if (typeA == "complex") {
+                        mts_B <- lapply(B_content, FUN = ts, start = startA, frequency = frequenceA) |>
+                            do.call(cbind, args = _)
+                    } else {
+                        mts_B <- ts(B_content, start = startA, frequency = frequenceA)
+                    }
 
                     testthat::expect_error(setValue_ts(dataTS = mts_B,
                                                        date = create_random_date(),

@@ -13,8 +13,8 @@
 #' @examples
 #' ev_pib |> setValue_ts(date = c(2021L, 2L), value = c(1, 2, 3))
 setValue_ts <- function(dataTS, date_ts, value) {
-    if  (!(ts4conj::isGoodTS(dataTS))) stop("L'objet dataTS doit \u00eatre un ts unidimensionnel.")
-    if (!ts4conj::isGoodDate(date_ts, frequency = frequency)) stop("La date est au mauvais format.")
+    if (!(ts4conj::isGoodTS(dataTS))) stop("L'objet dataTS doit \u00eatre un ts unidimensionnel.")
+    if (!ts4conj::is.date_ts(date_ts, frequency = stats::frequency(dataTS))) stop("La date est au mauvais format.")
     if (!is.null(dim(value))) stop("L'argument value doit \u00eatre unidimensionnel.")
     if (typeof(dataTS) != typeof(value)) stop("Les objets dataTS et value doivent \u00eatre de m\u00eame type.")
     if (any(is.na(value))) warning("L'argument value contient des NAs.")
@@ -64,7 +64,7 @@ setValue_ts <- function(dataTS, date_ts, value) {
 #' # La période temporelle interne entre les séries temporelles mens_1 et mens_2 est complétée par des NA
 #' combine2ts(mens_1, mens_2)
 combine2ts <- function(a, b) {
-    if  (!(ts4conj::isGoodTS(a) & ts4conj::isGoodTS(b))) stop("Les objets a et b doivent \u00eatre des ts unidimensionnels.")
+    if  (!(ts4conj::isGoodTS(a, withWarning = FALSE) & ts4conj::isGoodTS(b, withWarning = FALSE))) stop("Les objets a et b doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
     if (stats::frequency(a) != stats::frequency(b)) stop("Les objets a et b doivent avoir la m\u00eame fr\u00e9quence.")
     if (typeof(a) != typeof(b))                     stop("Les objets a et b doivent \u00eatre de m\u00eame type.")
 

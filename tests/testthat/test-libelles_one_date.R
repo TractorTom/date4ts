@@ -39,9 +39,11 @@ wrong_dates <- c(
 
 liste_months_name <- c("janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc.")
 liste_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
+liste_good_month <- 1L:12L
+liste_good_quarter <- 1L:4L
 
 testthat::test_that("good result for integer date", {
-    for (month in -20L:20L) {
+    for (month in liste_good_month) {
         for (year in liste_year) {
             real_year <- year + (month - 1L) %/% 12L
             testthat::expect_identical(libelles_one_date(date = c(year, month), frequency = 12L),
@@ -51,10 +53,42 @@ testthat::test_that("good result for integer date", {
 })
 
 testthat::test_that("good result for integer date", {
-    for (quarter in -20L:20L) {
+    for (quarter in liste_good_quarter) {
         for (year in liste_year) {
             real_year <- year + (quarter - 1L) %/% 4L
             testthat::expect_identical(libelles_one_date(date = c(year, quarter), frequency = 4L),
+                                       paste0("T", (quarter - 1L) %% 4L + 1L, " ", real_year))
+        }
+    }
+})
+
+
+# Test de résultats positifs avec warning ---------------------------------
+
+liste_months_name <- c("janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc.")
+liste_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
+liste_warning_month <- c(-20L, -12L, -5L:0L, 13L:15, 24L)
+liste_warning_trim <- c(-20L, -12L, -5L:0L, 5L:6L, 24L)
+
+testthat::test_that("warning for integer date", {
+    for (month in liste_warning_month) {
+        for (year in liste_year) {
+            real_year <- year + (month - 1L) %/% 12L
+            testthat::expect_warning({libel <- libelles_one_date(date = c(year, month), frequency = 12L)},
+                                     regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.")
+            testthat::expect_identical(libel,
+                                       paste(liste_months_name[(month - 1L) %% 12L + 1L], real_year))
+        }
+    }
+})
+
+testthat::test_that("warning for integer date", {
+    for (quarter in liste_warning_trim) {
+        for (year in liste_year) {
+            real_year <- year + (quarter - 1L) %/% 4L
+            testthat::expect_warning({libel <- libelles_one_date(date = c(year, quarter), frequency = 4L)},
+                                     regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.")
+            testthat::expect_identical(libel,
                                        paste0("T", (quarter - 1L) %% 4L + 1L, " ", real_year))
         }
     }

@@ -38,45 +38,77 @@ wrong_dates <- c(
 # Tests de résultats positifs --------------------------------------------------
 
 liste_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
+liste_good_month <- 1L:12L
 
 testthat::test_that("good result for integer date", {
     for (year in liste_year) {
-        testthat::expect_equal(getTimeUnits(date = year, frequency = 12L),
+        testthat::expect_equal(getTimeUnits(date_ts = year, frequency = 12L),
                                year)
-        for (month in -20L:20L) {
-            testthat::expect_equal(getTimeUnits(date = c(year, month), frequency = 12L),
+        for (month in liste_good_month) {
+            testthat::expect_equal(getTimeUnits(date_ts = c(year, month), frequency = 12L),
                                    year + (month - 1) / 12)
         }
     }
 })
 
+good_quarters <- 1L:4L
+
 testthat::test_that("good result for integer date", {
     for (year in liste_year) {
-        testthat::expect_equal(getTimeUnits(date = year, frequency = 4L),
+        testthat::expect_equal(getTimeUnits(date_ts = year, frequency = 4L),
                                year)
-        for (quarter in -20L:20L) {
-            testthat::expect_equal(getTimeUnits(date = c(year, quarter), frequency = 4L),
+        for (quarter in good_quarters) {
+            testthat::expect_equal(getTimeUnits(date_ts = c(year, quarter), frequency = 4L),
                                    year + (quarter - 1) / 4)
         }
     }
 })
 
+
+# Test de résultat positif avec warnings ----------------------------------
+
+liste_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
+liste_warning_month <- c(-20L, -12L, -5L:0L, 13L:15L, 24L)
+
+testthat::test_that("warning for integer date", {
+    for (year in liste_year) {
+        for (month in liste_month) {
+            testthat::expect_warning({resTU <- getTimeUnits(date_ts = c(year, month), frequency = 12L)},
+                                     regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.")
+            testthat::expect_equal(resTU, year + (month - 1) / 12)
+        }
+    }
+})
+
+liste_warning_trim <- c(-20L, -12L, -5L:0L, 5L:6L, 24L)
+
+testthat::test_that("good result for integer date", {
+    for (year in liste_year) {
+        for (quarter in liste_warning_trim) {
+            testthat::expect_warning({resTU <- getTimeUnits(date_ts = c(year, quarter), frequency = 4L)},
+                                     regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.")
+            testthat::expect_equal(resTU, year + (quarter - 1) / 4)
+        }
+    }
+})
+
+
 # Tests de résultats négatifs --------------------------------------------------
 
 testthat::test_that("miscellaneous date are not allowed", {
     for (wrong_date in wrong_dates) {
-        testthat::expect_error(getTimeUnits(date = wrong_date, frequency = 12L),
+        testthat::expect_error(getTimeUnits(date_ts = wrong_date, frequency = 12L),
                                regexp = "La date est au mauvais format.")
     }
     for (wrong_date in  wrong_dates) {
-        testthat::expect_error(getTimeUnits(date = wrong_date, frequency = 4L),
+        testthat::expect_error(getTimeUnits(date_ts = wrong_date, frequency = 4L),
                                regexp = "La date est au mauvais format.")
     }
 })
 
 testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
-        testthat::expect_error(getTimeUnits(date = create_random_date(), frequency = wrong_frequency),
+        testthat::expect_error(getTimeUnits(date_ts = create_random_date(), frequency = wrong_frequency),
                                regexp = "La fréquence doit être trimestrielle ou mensuelle.")
     }
 })

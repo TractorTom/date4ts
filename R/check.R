@@ -1,7 +1,7 @@
 
 #' Vérifie le format de date
 #'
-#' @description La fonction `isGoodDate` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @description La fonction `is.date_ts` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #'
@@ -12,47 +12,56 @@
 #'
 #' @examples
 #' # De bons formats de date
-#' isGoodDate(c(2020L, 8L))
-#' isGoodDate(c(2020L, 8L), frequency = 12L)
-#' isGoodDate(c(2020L, 2L), frequency = 4L)
-#' isGoodDate(2022L)
+#' is.date_ts(c(2020L, 8L))
+#' is.date_ts(c(2020L, 2L))
+#' is.date_ts(2022L)
 #'
-#' # Formats double --> génération d'un warning
-#' isGoodDate(c(2020, 4))
-#' isGoodDate(c(2020, 4), frequency = 12)
-#' isGoodDate(c(2020, 4), frequency = 4)
-#' isGoodDate(2022)
+#' # Format double --> génération d'un warning
+#' is.date_ts(c(2020, 4))
+#' is.date_ts(2022)
+#'
+#' # Dépassement la fréquence--> génération d'un warning
+#' is.date_ts(c(2020L, 6L), frequency = 4L)
+#' is.date_ts(c(2020L, 42L), frequency = 12L)
+#' is.date_ts(c(2020L, -4L))
 #'
 #' # Mauvaise fréquence --> reponse FALSE
-#' isGoodDate(c(2020L, 7L), frequency = 4L)
-#' isGoodDate(2022 + 1/12)
+#' is.date_ts(c(2020L, 7L))
 #'
 #' # Format non accepté --> reponse FALSE
-#' isGoodDate(2022.5)
-#' isGoodDate(2022 + 1/12)
-isGoodDate <- function(date_ts, frequency = 12L) {
+#' is.date_ts(2022.5)
+#' is.date_ts(2022 + 1/12)
+#' is.date_ts(2023 + 1/4)
+#' is.date_ts("2020-04-01")
+#' is.date_ts(as.Date("2020-04-01"))
+is.date_ts <- function(date_ts, frequency = 12L) {
 
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
 
     if (!class(date_ts) %in% c("integer", "numeric")) {
         return(FALSE)
-    } else if (is.double(date_ts)
-               && length(date_ts) %in% 1L:2L
-               && isTRUE(all.equal(date_ts, round(date_ts)))
-               && all(!is.na(date_ts))) {
-        warning("La date est de type double. Il faut privil\u00e9gier le format integer.")
-        if (length(date_ts) == 2) {
-            return(date_ts[2] > 0 && date_ts[2] <= frequency)
-        }
-    } else if (!(is.integer(date_ts)
-                && length(date_ts) %in% 1L:2L
-                && all(!is.na(date_ts)))) {
+    }
+
+    cond_warning <- (is.double(date_ts)) &&
+        (length(date_ts) %in% 1L:2L) &&
+        (isTRUE(all.equal(date_ts, round(date_ts)))) &&
+        (all(!is.na(date_ts)))
+
+    cond_TRUE <- (is.integer(date_ts)) &&
+        (length(date_ts) %in% 1L:2L) &&
+        (all(!is.na(date_ts)))
+
+    if (!cond_warning && !cond_TRUE) {
         return(FALSE)
     }
 
-    if (length(date_ts) == 2) {
-        return(date_ts[2] > 0 && date_ts[2] <= frequency)
+    if (cond_warning) {
+        warning("La date est de type double. Il faut privil\u00e9gier le format integer.")
+    }
+
+    if (length(date_ts) == 2L && (date_ts[2] <= 0L || date_ts[2] > frequency)) {
+        warning("Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.")
     }
     return(TRUE)
 }
@@ -95,8 +104,8 @@ isGoodTS <- function(dataTS, withWarning = TRUE) {
     }
     #Check de la temporalité
     if (withCallingHandlers({
-        !ts4conj::isGoodDate(stats::start(dataTS), frequency = stats::frequency(dataTS)) |
-            !ts4conj::isGoodDate(stats::end(dataTS), frequency = stats::frequency(dataTS))},
+        !ts4conj::is.date_ts(stats::start(dataTS), frequency = stats::frequency(dataTS)) |
+            !ts4conj::is.date_ts(stats::end(dataTS), frequency = stats::frequency(dataTS))},
         warning = function(w) {
             if (w$message == "La date est de type double. Il faut privil\u00e9gier le format integer.") invokeRestart("muffleWarning")
         })
