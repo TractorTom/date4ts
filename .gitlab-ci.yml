@@ -12,6 +12,7 @@ pkg_check:
   tags:
     - docker
   script:
+    - Rscript -e 'install.packages(c("devtools"))'
     - Rscript -e 'devtools::check(check_dir = ".",
                                   error_on  = "error",
                                   cran      = FALSE,
