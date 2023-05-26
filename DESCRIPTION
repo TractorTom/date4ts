@@ -1,6 +1,6 @@
 Package: ts4conj
 Title: Outils de gestion des ts aux enquêtes de conjoncture
-Version: 0.0.0.9000
+Version: 0.1.0.0
 Authors@R: 
     person("Tanguy", "Barthelemy", email = "tanguy.barthelemy@insee.fr", role = c("aut", "cre"))
 Description: Ce package propose des outils pour gérer les dates aux enquêtes de conjoncture.
