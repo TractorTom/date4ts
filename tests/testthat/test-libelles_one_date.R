@@ -7,7 +7,7 @@ set.seed(2025L)
 # Tests de résultats positifs --------------------------------------------------
 
 testthat::test_that("good result for integer date", {
-    for (month in list_good_months) {
+    for (month in good_months) {
         for (year in good_years) {
             real_year <- year + (month - 1L) %/% 12L
             testthat::expect_identical(libelles_one_date(date = c(year, month), frequency = 12L),

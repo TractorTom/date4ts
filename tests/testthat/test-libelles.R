@@ -7,7 +7,7 @@ set.seed(2026L)
 # Tests de résultats positifs --------------------------------------------------
 
 testthat::test_that("good result for monthly date", {
-    for (month in c(warning_integer_months, list_good_months)) {
+    for (month in c(warning_integer_months, good_months)) {
         for (year in good_years) {
             for (len in list_len) {
                 testthat::expect_identical(libelles(date = c(year, month), frequency = 12L, nb = len),

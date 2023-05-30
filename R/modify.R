@@ -94,7 +94,7 @@ combine2ts <- function(a, b) {
                                 round(stats::frequency(a))))) {
         outputTS |>
             stats::window(start = stats::start(b),
-                          end = stats::end(b), extend = T) <- b
+                          end = stats::end(b), extend = TRUE) <- b
 
     } else if (is.numeric(stats::frequency(outputTS))) {
         outputDF <- cbind(a, b) |> as.data.frame()

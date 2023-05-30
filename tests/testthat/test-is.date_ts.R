@@ -12,7 +12,7 @@ set.seed(2024L)
 testthat::test_that("good result for integer date month", {
     for (year in good_years) {
         testthat::expect_true(is.date_ts(year, frequency = 12L))
-        for (month in list_good_months) {
+        for (month in good_months) {
             testthat::expect_true(is.date_ts(c(year, month), frequency = 12L))
         }
     }
@@ -49,7 +49,7 @@ testthat::test_that("warning for double date", {
         testthat::expect_warning({boolRes <- is.date_ts(warning_date)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
         testthat::expect_true(boolRes)
 
-        for (good_month in list_good_months) {
+        for (good_month in good_months) {
 
             warning_date <- c(warning_year, good_month)
             testthat::expect_warning({boolRes <- is.date_ts(warning_date)}, regexp = "La date est de type double. Il faut privilégier le format integer.")

@@ -10,7 +10,7 @@ testthat::test_that("good result for integer date", {
     for (year in good_years) {
         testthat::expect_equal(getTimeUnits(date_ts = year, frequency = 12L),
                                year)
-        for (month in list_good_months) {
+        for (month in good_months) {
             testthat::expect_equal(getTimeUnits(date_ts = c(year, month), frequency = 12L),
                                    year + (month - 1) / 12)
         }

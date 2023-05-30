@@ -49,7 +49,7 @@ testthat::test_that("warning for integer date", {
 
 testthat::test_that("warning for double date", {
     for (warning_year in double_years) {
-        for (good_month in list_good_months) {
+        for (good_month in good_months) {
 
             testthat::expect_warning({resQuarterly <- mens2trim(c(warning_year, good_month))}, regexp = "La date est de type double. Il faut privilégier le format integer.")
 

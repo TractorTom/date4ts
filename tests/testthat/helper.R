@@ -2,33 +2,34 @@
 # Création de fonctions ---------------------------------------------------
 
 create_random_type <- function(type, len = NULL) {
-    if (is.null(len)) len <- sample(1L:1000L, size = 1)
-    if (type == "character") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1]])
+    if (is.null(len)) len <- sample(1L:1000L, size = 1L)
+    if (type == "character") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1L]])
     if (type == "integer") return(sample(-20000000L:20000000L, size = len, replace = TRUE))
     if (type == "double") return(runif(n = len, min = -10000L, max = 10000L))
     if (type == "logical") return(sample(x = c(TRUE, FALSE), size = len, replace = TRUE))
-    if (type == "complex") return(complex(real = runif(n = len, min = -10000L, max = 10000),
+    if (type == "complex") return(complex(real = runif(n = len, min = -10000L, max = 10000L),
                                           imaginary = runif(n = len, min = -10000L, max = 10000L)))
     if (type == "raw") return(sample(x = as.raw(0L:255L), size = len, replace = TRUE))
-    if (type == "Date") return(sample(x = seq(as.Date('1950/01/01'), as.Date('2022/01/01'), by = "day"), size = len, replace = T))
+    if (type == "Date") return(sample(x = seq(as.Date('1950-01-01'), as.Date('2022-01-01'), by = "day"), size = len, replace = TRUE))
     stop("Le type n'est pas reconnu.")
 }
 
 create_random_date <- function() {
-    if (runif(1, 0, 1) > .5) return(sample(1950L:2022L, size = 1L))
+    if (runif(1L, 0L, 1L) > .5) return(sample(1950L:2022L, size = 1L))
     return(c(sample(1950L:2022L, size = 1L),
              sample(-20L:20L, size = 1L)))
 }
 
 create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL) {
-    if (is.null(len)) len <- sample(1L:1000L, size = 1)
-    if (is.null(frequency)) frequency <- sample(c(4L, 12L), size = 1)
+    if (is.null(len)) len <- sample(1L:1000L, size = 1L)
+    if (is.null(frequency)) frequency <- sample(c(4L, 12L), size = 1L)
     if (is.null(start)) start <- create_random_date()
 
     content <- create_random_type(type, len)
 
     return(ts(content, start = start, frequency = frequency))
 }
+
 
 # Variables globales de test ---------------------------------------------------
 
@@ -40,6 +41,27 @@ weird_frequency <- list(1L, 2, 7, .1, 1/3, 3.5, 365, 365.25, pi)
 
 
 ## Dates -----------------------------------------------------------------------
+
+# Time Units
+wrong_timeUnits <- list(2020 + 1/7, pi, 2020 - 1/13)
+
+# Années
+good_years <- c(-200L, -1L, 0L, 1L, 2L, 1950L, 1999L, 2000L, 2001L,  2022L, 3000L)
+double_years <- c(-200., -1., 0., 1., 2., 1950., 2000., 2022., 3000.)
+
+# Month
+warning_double_months <- c(-200., -20., -5., -1., 0., 13., 46., 200.)
+warning_integer_months <- c(-200L, -20L, -12L, -5L:0L, 13L:15L, 24L, 46L, 200L)
+
+double_months <- c(1., 2., 3., 4., 5., 6., 7., 8., 9., 10., 11., 12.)
+good_months <- 1L:12L
+
+# Quarter
+warning_double_quarters <- c(-200., -20., -5., -3., -2., -1., 0., 5., 12., 13., 46.)
+warning_integer_quarters <- c(-200L, -20L, -5L, -3L, -2L, -1L, 0L, 5L, 12L, 13L, 46L)
+
+double_quarters <- c(1., 2., 3., 4.)
+list_good_quarters <- 1L:4L
 
 # Dates
 
@@ -54,30 +76,6 @@ wrong_dates <- c(
     list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5), c(NA_real_, NA_real_)),
     list(2L:4L, c(2020.0, 7, 1), c(2020L, 0L, NA_integer_), numeric(0), integer(0))
 )
-
-# Time Units
-wrong_timeUnits <- list(2020 + 1/7, pi, 2020 - 1/13)
-
-# Années
-list_year <- c(1950L, 1978L, 1999L, 2000L, 2022L)
-good_years <- c(-200L, -1L, 0L, 1L, 2L, 1950L, 1999L, 2000L, 2001L,  2022L, 3000L)
-
-double_years <- c(-200., -1., 0., 1., 2., 1950., 2000., 2022., 3000.)
-
-# Month
-warning_double_months <- c(-200., -20., -5., -1., 0., 13., 46., 200.)
-warning_integer_months <- c(-200L, -20L, -5L, -1L, 0L, 13L, 46L, 200L)
-list_warning_months <- c(-20L, -12L, -5L:0L, 13L:15L, 24L)
-
-double_months <- c(1., 2., 3., 4., 5., 6., 7., 8., 9., 10., 11., 12.)
-list_good_months <- 1L:12L
-
-# Quarter
-warning_double_quarters <- c(-200., -20., -5., -3., -2., -1., 0., 5., 12., 13., 46.)
-warning_integer_quarters <- c(-200L, -20L, -5L, -3L, -2L, -1L, 0L, 5L, 12L, 13L, 46L)
-
-double_quarters <- c(1., 2., 3., 4.)
-list_good_quarters <- 1L:4L
 
 
 ## Conversions et labels ---------------------------------------------------

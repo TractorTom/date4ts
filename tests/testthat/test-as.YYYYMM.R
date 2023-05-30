@@ -7,7 +7,7 @@ set.seed(2028L)
 # Tests de résultats positifs --------------------------------------------------
 
 testthat::test_that("good result for integer date", {
-    for (month in c(warning_integer_months, list_good_months)) {
+    for (month in c(warning_integer_months, good_months)) {
         for (year in good_years) {
             TSdate <- c(year + month %/% 12L, month %% 12L + 1L) |> as.integer()
             res <- as.YYYYMM(year + month / 12L)
