@@ -13,8 +13,8 @@
 #' @examples
 #' ev_pib |> setValue_ts(date = c(2021L, 2L), value = c(1, 2, 3))
 setValue_ts <- function(dataTS, date_ts, value) {
-    if (!(ts4conj::isGoodTS(dataTS))) stop("L'objet dataTS doit \u00eatre un ts unidimensionnel.")
-    if (!ts4conj::is.date_ts(date_ts, frequency = stats::frequency(dataTS))) stop("La date est au mauvais format.")
+    if (!(ts4conj::isGoodTS(dataTS, withWarning = FALSE))) stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
+    if (!ts4conj::is.date_ts(date_ts, frequency = stats::frequency(dataTS), withWarning = FALSE)) stop("La date est au mauvais format.")
     if (!is.null(dim(value))) stop("L'argument value doit \u00eatre unidimensionnel.")
     if (typeof(dataTS) != typeof(value)) stop("Les objets dataTS et value doivent \u00eatre de m\u00eame type.")
     if (any(is.na(value))) warning("L'argument value contient des NAs.")
@@ -32,7 +32,7 @@ setValue_ts <- function(dataTS, date_ts, value) {
     } else {
         outputTS |>
             stats::window(start = date_ts |> ts4conj::format_date_ts(frequency = stats::frequency(dataTS)),
-                          end =   date_ts |> ts4conj::nextDate(frequency = stats::frequency(dataTS), lag = length(value) - 1L),
+                          end =   date_ts |> ts4conj::next_date_ts(frequency = stats::frequency(dataTS), lag = length(value) - 1L),
                           extend = TRUE) <- value
     }
 
@@ -64,25 +64,37 @@ setValue_ts <- function(dataTS, date_ts, value) {
 #' # La période temporelle interne entre les séries temporelles mens_1 et mens_2 est complétée par des NA
 #' combine2ts(mens_1, mens_2)
 combine2ts <- function(a, b) {
-    if  (!(ts4conj::isGoodTS(a, withWarning = FALSE) & ts4conj::isGoodTS(b, withWarning = FALSE))) stop("Les objets a et b doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
-    if (stats::frequency(a) != stats::frequency(b)) stop("Les objets a et b doivent avoir la m\u00eame fr\u00e9quence.")
-    if (typeof(a) != typeof(b))                     stop("Les objets a et b doivent \u00eatre de m\u00eame type.")
+    if  (!(ts4conj::isGoodTS(a, withWarning = FALSE) &
+           ts4conj::isGoodTS(b, withWarning = FALSE))) stop("Les objets `a` et `b` doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
+    if (stats::frequency(a) != stats::frequency(b)) stop("Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
+    if (typeof(a) != typeof(b))                     stop("Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
 
     temporalConsistence <- (stats::start(a) - stats::start(b)) * stats::frequency(a)
     if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
-        stop("Les objets a et b doivent \u00eatre coh\u00e9rents temporellement.")
+        stop("Les objets `a` et `b` doivent \u00eatre coh\u00e9rents temporellement.")
 
     outputTS <- a
 
     if (is.raw(a)) {
-        a <- a |> as.integer() |> stats::ts(start = stats::start(a), frequency = stats::frequency(a))
-        b <- b |> as.integer() |> stats::ts(start = stats::start(b), frequency = stats::frequency(b))
+        a <- a |>
+            as.integer() |>
+            stats::ts(start = stats::start(a),
+                      frequency = stats::frequency(a))
+        b <- b |>
+            as.integer() |>
+            stats::ts(start = stats::start(b),
+                      frequency = stats::frequency(b))
         outputTS <- ts4conj::combine2ts(a, b)
-        outputTS <- outputTS |> as.raw() |> stats::ts(start = stats::start(outputTS), frequency = stats::frequency(outputTS))
+        outputTS <- outputTS |>
+            as.raw() |>
+            stats::ts(start = stats::start(outputTS),
+                      frequency = stats::frequency(outputTS))
 
-    } else if (isTRUE(all.equal(stats::frequency(a), round(stats::frequency(a))))) {
+    } else if (isTRUE(all.equal(stats::frequency(a),
+                                round(stats::frequency(a))))) {
         outputTS |>
-            stats::window(start = stats::start(b), end = stats::end(b), extend = T) <- b
+            stats::window(start = stats::start(b),
+                          end = stats::end(b), extend = T) <- b
 
     } else if (is.numeric(stats::frequency(outputTS))) {
         outputDF <- cbind(a, b) |> as.data.frame()
@@ -100,4 +112,36 @@ combine2ts <- function(a, b) {
                                               frequency = stats::frequency(b))))
     }
     return(outputTS)
+}
+
+
+extend_ts <- function(data_ts, x, date_ts = NULL, replace_na = TRUE) {
+
+    if (!is_vector(x)) stop("L'objet `x` doit \u00eatre un vecteur unidimentionnel non vide.")
+
+    if (replace_na) {
+        start_replacement <- ts4conj::lastDate(data_ts) |> next_date_ts()
+    } else {
+        start_replacement <- end(data_ts) |> next_date_ts()
+    }
+
+    frequency <- stats::frequency(data_ts)
+
+    if (!is.null(date_ts)) {
+        if (!is_before(start_replacement, date_ts, frequency = frequency)) {
+            stop("La date de fin de remplacement est antérieur \u00e0 la date de fin des donn\u00e9es.")
+        }
+        length_replacement <- diff_periode(a = start_replacement,
+                                           b = date_ts, frequency = frequency)
+        if (length_replacement %% length(x) != 0) {
+            stop("number of values supplied is not a sub-multiple of the number of values to be replaced")
+        }
+        end_replacement <- date_ts
+    } else {
+        end_replacement <- next_date_ts(end_ts, lag = length(x) + 1, frequency = frequency)
+    }
+
+    window(data_ts, start = start_replacement, end = date_ts, extend = TRUE) <- x
+    return(data_ts)
+
 }
