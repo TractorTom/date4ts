@@ -3,52 +3,6 @@
 
 set.seed(2023L)
 
-create_random_type <- function(type, len = NULL) {
-    if (is.null(len)) len <- sample(1L:1000L, size = 1)
-    if (type == "character") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1]])
-    if (type == "integer") return(sample(-20000000L:20000000L, size = len, replace = TRUE))
-    if (type == "double") return(runif(n = len, min = -10000L, max = 10000L))
-    if (type == "logical") return(sample(x = c(TRUE, FALSE), size = len, replace = TRUE))
-    if (type == "complex") return(complex(real = runif(n = len, min = -10000L, max = 10000),
-                                          imaginary = runif(n = len, min = -10000L, max = 10000L)))
-    if (type == "raw") return(sample(x = as.raw(0L:255L), size = len, replace = TRUE))
-    if (type == "Date") return(sample(x = seq(as.Date('1950/01/01'), as.Date('2022/01/01'), by = "day"), size = len, replace = T))
-    stop("Le type n'est pas reconnu.")
-}
-
-create_random_date <- function() {
-    if (runif(1, 0, 1) > .5) return(sample(1950L:2022L, size = 1L))
-    return(c(sample(1950L:2022L, size = 1L),
-             sample(-20L:20L, size = 1L)))
-}
-
-create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL) {
-    if (is.null(len)) len <- sample(1L:1000L, size = 1)
-    if (is.null(frequency)) frequency <- sample(c(4L, 12L), size = 1)
-    if (is.null(start)) start <- create_random_date()
-
-    content <- create_random_type(type, len)
-
-    return(ts(content, start = start, frequency = frequency))
-}
-
-list_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
-object_bank_R <- fuzzr::test_all()
-weird_frequency <- c(1, 2, 7, .1, 1/3, 3.5, 365.25, pi)
-wrong_dates <- c(
-    fuzzr::test_all()[-10],
-    list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
-    lapply(list_type[-c(1L, 3L)], create_random_type, len = 2),
-    lapply(list_type[-c(1L, 3L)], create_random_type, len = 3),
-    list(2019.5, 2020 + 1/12, pi / 4, c(2020, 2.5), c(2010.25, 3), c(2002, 3, 1), c("2002", "3")),
-    list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5), c(NA_real_, NA_real_)),
-    list(2L:4L, c(2020.0, 7, 1), c(2020L, 0L, NA_integer_), numeric(0), integer(0))
-)
-
-list_len <- c(1L, 4L:6L, 10L, 1000L)
-list_lag <- c(-1000L, -5L, -1L, 0L, 1L, 5L, 1000L)
-list_frequence <- c(4L, 12L)
-list_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2020L, 12L), c(2020L, 13L))
 
 # Tests de résultat avec start vecteur d'entiers -------------------------------
 

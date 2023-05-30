@@ -3,65 +3,8 @@
 
 set.seed(2022L)
 
-create_random_type <- function(type, len = NULL) {
-    if (is.null(len)) len <- sample(1L:1000L, size = 1)
-    if (type == "character") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1]])
-    if (type == "integer") return(sample(-20000000L:20000000L, size = len, replace = TRUE))
-    if (type == "double") return(runif(n = len, min = -10000L, max = 10000L))
-    if (type == "logical") return(sample(x = c(TRUE, FALSE), size = len, replace = TRUE))
-    if (type == "complex") return(complex(real = runif(n = len, min = -10000L, max = 10000),
-                                          imaginary = runif(n = len, min = -10000L, max = 10000L)))
-    if (type == "raw") return(sample(x = as.raw(0L:255L), size = len, replace = TRUE))
-    if (type == "Date") return(sample(x = seq(as.Date('1950/01/01'), as.Date('2022/01/01'), by = "day"), size = len, replace = T))
-    stop("Le type n'est pas reconnu.")
-}
-
-create_random_date <- function() {
-    if (runif(1, 0, 1) > .5) return(sample(1950L:2022L, size = 1L))
-    return(c(sample(1950L:2022L, size = 1L),
-             sample(-20L:20L, size = 1L)))
-}
-
-create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL) {
-    if (is.null(len)) len <- sample(1L:1000L, size = 1)
-    if (is.null(frequency)) frequency <- sample(c(4L, 12L), size = 1)
-    if (is.null(start)) start <- create_random_date()
-
-    content <- create_random_type(type, len)
-
-    return(ts(content, start = start, frequency = frequency))
-}
-
-list_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
-list_len <- c(0L:5L, 10000L)
-list_frequence <- c(4L, 12L)
-weird_frequency <- list(1L, 2, 7, .1, 1/3, 3.5, 365.25, pi)
-list_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2020L, 12L), c(2020L, 13L), 2019L)
-
-# list_good_years <- c(-200L, -1L, 0L, 1L, 2L, 1950L, 2000L, 2022L, 3000L)
-# double_years <- c(-200., -1., 0., 1., 2., 1950., 2000., 2022., 3000.)
-#
-# list_good_months <- 1L:12L
-# double_months <- c(1., 2., 3., 4., 5., 6., 7., 8., 9., 10., 11., 12.)
-# warning_double_months <- c(-200., -5., -1., 0., 13., 46.)
-# warning_integer_months <- c(-200L, -5L, -1L, 0L, 13L, 46L)
-#
-# list_good_quarters <- 1L:4L
-# double_quarters <- c(1., 2., 3., 4.)
-# warning_double_quarters <- c(-200., -5., -1., 0., 5., 12., 13., 46.)
-# warning_integer_quarters <- c(-200L, -5L, -1L, 0L, 5L, 12L, 13L, 46L)
-
-object_bank_R <- fuzzr::test_all()
-
 
 # Tests de résultat ------------------------------------------------------------
-
-# list_type <- typeA <- "integer"
-# list_frequence <- frequenceA <- 12L
-# list_len <- c(1L, 5L)
-# list_start <- list(c(2020L, 0L))
-# startA <- list_start[[1]]
-# lenA <- param1 <- param2 <- 5L
 
 for (typeA in list_type) {
     for (frequenceA in list_frequence) {
