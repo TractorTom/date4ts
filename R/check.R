@@ -37,7 +37,7 @@
 #' is.date_ts(as.Date("2020-04-01"))
 is.date_ts <- function(date_ts, frequency = 12L, withWarning = TRUE) {
 
-    #check de withWarning
+    # Check de withWarning
     if (!(withWarning |> (\(x) (is.logical(x) && length(x) == 1 && !is.na(x)))(x = _)))
         stop("L'argument withWarning doit \u00eatre un bool\u00e9en de longueur 1.")
 
@@ -76,7 +76,7 @@ is.date_ts <- function(date_ts, frequency = 12L, withWarning = TRUE) {
 #' @param dataTS un objet ts unidimensionnel
 #' @param withWarning un booléen
 #'
-#' @return En sortie la fonction retourne un booleen qui précise si le TS est conforme ou non.
+#' @return En sortie la fonction retourne un booleen qui précise si l'argument `dataTS` est conforme ou non.
 #' Dans le cas où withWarning vaut TRUE et que le TS n'est pas conforme, un warning qui précise la raison sera déclenché.
 #' @details Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques. On travaille avec des données numériques (integer, double ou logical) mais les autres types atomic sont acceptés également.
 #' @export
@@ -94,20 +94,20 @@ is.date_ts <- function(date_ts, frequency = 12L, withWarning = TRUE) {
 #' isGoodTS(ts3, withWarning = FALSE)
 isGoodTS <- function(dataTS, withWarning = TRUE) {
 
-    #check de withWarning
+    # Check de withWarning
     if (!(withWarning |> (\(x) (is.logical(x) && length(x) == 1 && !is.na(x)))(x = _)))
         stop("L'argument withWarning doit \u00eatre un bool\u00e9en de longueur 1.")
-    #check du type d'objet
+    # Check du type d'objet
     if (!stats::is.ts(dataTS) | stats::is.mts(dataTS)) {
         if (withWarning) warning("L'objet dataTS doit \u00eatre un ts unidimensionnel.")
         return(FALSE)
     }
-    #Check de la fréquence
+    # Check de la fréquence
     if (!(stats::frequency(dataTS) %in% c(4L, 12L))) {
         if (withWarning) warning("L'objet dataTS doit \u00eatre de fr\u00e9quence mensuelle ou trimestrielle.")
         return(FALSE)
     }
-    #Check de la temporalité
+    # Check de la temporalité
     if (withCallingHandlers({
         !ts4conj::is.date_ts(stats::start(dataTS), frequency = stats::frequency(dataTS)) |
             !ts4conj::is.date_ts(stats::end(dataTS), frequency = stats::frequency(dataTS))},
@@ -118,7 +118,7 @@ isGoodTS <- function(dataTS, withWarning = TRUE) {
         if (withWarning) warning("L'objet dataTS doit \u00eatre coh\u00e9rent avec la temporalit\u00e9 classique.")
         return(FALSE)
     }
-    #Check du type des données
+    # Check du type des données
     if (!is.atomic(dataTS)) {
         if (withWarning) warning("L'objet dataTS doit \u00eatre d'un type atomic.")
         return(FALSE)
@@ -127,3 +127,31 @@ isGoodTS <- function(dataTS, withWarning = TRUE) {
     return(TRUE)
 }
 
+#' Vérifie qu'on objet est bien un vecteur non vide
+#'
+#' @param x un vecteur
+#'
+#' @return En sortie la fonction retourne un booleen qui précise si l'argument `x` est bien un vecteur (unidimentionnel) non vide.
+#' @export
+#'
+#' @examples
+#'
+#' # Réponse positive
+#' is_vector(1:3)
+#' is_vector(letters)
+#' is_vector(seq(
+#'     from = as.Date("2000-01-01"),
+#'     to = as.Date("2023-05-28"),
+#'     by = "month"))
+#'
+#' # Réponse négative
+#' is_vector(NULL)
+#' is_vector(list(1, 2, 3))
+#' is_vector()
+is_vector <- function(x) {
+
+    if (!is.atomic(x)) return(FALSE)
+    if (length(x) == 0) return(FALSE)
+
+    return(TRUE)
+}
