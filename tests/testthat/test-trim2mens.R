@@ -16,7 +16,7 @@ create_random_type <- function(type, len = NULL) {
     stop("Le type n'est pas reconnu.")
 }
 
-liste_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
+list_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
 
 
 # Tests de résultats positifs --------------------------------------------------
@@ -45,8 +45,8 @@ testthat::test_that("good result for integer date", {
 wrong_dates <- c(
     fuzzr::test_all()[-10],
     list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
-    lapply(liste_type[-c(1L, 3L)], create_random_type, len = 2),
-    lapply(liste_type, create_random_type, len = 3),
+    lapply(list_type[-c(1L, 3L)], create_random_type, len = 2),
+    lapply(list_type, create_random_type, len = 3),
     list(2019.5, 2020 + 1/12, pi / 4, c(2020, 2.5), c(2010.25, 3), c(2002, 3, 1), c("2002", "3")),
     list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5), c(NA_real_, NA_real_)),
     list(2L:4L, c(2020.0, 7, 1), c(2020L, 0L, NA_integer_), numeric(0), integer(0))

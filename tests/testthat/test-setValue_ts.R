@@ -72,7 +72,7 @@ for (typeA in list_type) {
                         testthat::test_that(test_name, {
 
                             valueB <- create_random_type(type = typeA, len = lenB)
-                            startB <- c(startA[1], startA[2] + lagB)
+                            startB <- c(startA[1], startA[2] + lagB) |> format_date_ts(frequency = frequenceA)
                             ts_B <- ts(valueB, start = startB, frequency = frequenceA)
 
 
@@ -198,9 +198,9 @@ for (typeA in list_type) {
 
 testthat::test_that("Several dimensions are not allowed", {
     for (typeA in list_type) {
-        for (frequenceA in liste_frequence) {
-            for (startA in liste_start) {
-                for (lenA in liste_len) {
+        for (frequenceA in list_frequence) {
+            for (startA in list_start) {
+                for (lenA in list_len) {
 
                     B_content <- as.data.frame(lapply(1L:5L, function(i) create_random_type(type = typeA, len = lenA)))
 
@@ -214,7 +214,7 @@ testthat::test_that("Several dimensions are not allowed", {
                     testthat::expect_error(setValue_ts(dataTS = mts_B,
                                                        date = create_random_date(),
                                                        value = create_random_type(type = typeA)),
-                                           regexp = "L'objet dataTS doit être un ts unidimensionnel.")
+                                           regexp = "L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
 
                 }
             }
@@ -227,12 +227,12 @@ testthat::test_that("Several dimensions are not allowed", {
 ## Test sur le ts --------------------------------------------------------------
 
 testthat::test_that("miscellaneous dataTS are not allowed", {
-    for (typeA in liste_type) {
+    for (typeA in list_type) {
         for (obj in object_bank_R) {
             testthat::expect_error(setValue_ts(dataTS = obj,
                                                date = create_random_date(),
                                                value = create_random_type(type = typeA)),
-                                   regexp = "L'objet dataTS doit être un ts unidimensionnel.")
+                                   regexp = "L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
         }
     }
 })
@@ -240,7 +240,7 @@ testthat::test_that("miscellaneous dataTS are not allowed", {
 ## Test sur la date ------------------------------------------------------------
 
 testthat::test_that("miscellaneous date are not allowed", {
-    for (typeA in liste_type) {
+    for (typeA in list_type) {
         for (wrong_date in wrong_dates) {
             testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
                                                date = wrong_date,
@@ -253,9 +253,9 @@ testthat::test_that("miscellaneous date are not allowed", {
 ## Test sur le vecteur value ---------------------------------------------------
 
 testthat::test_that("miscellaneous value input are not allowed", {
-    liste_wrong_value <- c(fuzzr::test_df()[-4], NULL, character(0L), numeric(0L), logical(0L), integer(0L), complex(0L))
-    for (typeA in liste_type) {
-        for (value in liste_wrong_value) {
+    list_wrong_value <- c(fuzzr::test_df()[-4], NULL, character(0L), numeric(0L), logical(0L), integer(0L), complex(0L))
+    for (typeA in list_type) {
+        for (value in list_wrong_value) {
             testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
                                                date = create_random_date(),
                                                value = value),
@@ -265,8 +265,8 @@ testthat::test_that("miscellaneous value input are not allowed", {
 })
 
 testthat::test_that("value should have same type as dataTS", {
-    for (typeA in liste_type[-7]) {
-        for (typeB in liste_type[-7]) {
+    for (typeA in list_type[-7]) {
+        for (typeB in list_type[-7]) {
             if (typeA != typeB) {
                 testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
                                                    date = create_random_date(),
@@ -278,7 +278,7 @@ testthat::test_that("value should have same type as dataTS", {
 })
 
 testthat::test_that("NA values generate warning", {
-    for (typeA in liste_type[-6L]) {
+    for (typeA in list_type[-6L]) {
 
         ts_A <- create_random_ts(type = typeA, start = 2000L, len = 80L, frequency = 4L)
         v1 <- sample(c(create_random_type(typeA, len = 10L), get(paste0("as.", typeA))(rep(NA, 5L))), replace = TRUE)
@@ -294,18 +294,18 @@ testthat::test_that("NA values generate warning", {
 # Tests sur les erreurs de temporalité --------------------------------------------
 
 testthat::test_that("dataTS and date are temporally consistent", {
-    for (typeA in liste_type) {
+    for (typeA in list_type) {
         testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA, start = 2010 + 1/7, frequency = 12L),
                                            date = create_random_date(),
                                            value = create_random_type(type = typeA)),
-                               regexp = "Les objets a et b doivent être cohérents temporellement.")
+                               regexp = "L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
     }
 
-    for (typeA in liste_type) {
+    for (typeA in list_type) {
         testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA, start = 2022 + 1/5, frequency = 4L),
                                            date = create_random_date(),
                                            value = create_random_type(type = typeA)),
-                               regexp = "Les objets a et b doivent être cohérents temporellement.")
+                               regexp = "L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
     }
 })
 
