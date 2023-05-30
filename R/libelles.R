@@ -57,6 +57,6 @@ libelles <- function(date_ts, frequency, nb = 1) {
     if (nb <= 0) stop("Aucun libell\u00e9 n'est s\u00e9lectionn\u00e9.")
 
     return(sapply(0:(nb - 1), FUN = \(lag) (lag |>
-                                                nextDate(date_ts = date_ts, frequency = frequency) |>
+                                                next_date_ts(date_ts = date_ts, frequency = frequency) |>
                                                 ts4conj:::libelles_one_date(frequency = frequency))))
 }
