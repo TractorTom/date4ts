@@ -34,6 +34,20 @@ create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL) {
 # Variables globales de test ---------------------------------------------------
 
 
+## Types d'objets --------------------------------------------------------------
+
+list_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
+
+object_bank_R <- fuzzr::test_all()
+
+wrong_type_ts <- list(
+    ts(list(2L), start = 2010L, frequency = 12L),
+    ts(list(2, 3, c(1, 2)), start = 2010L, frequency = 12L),
+    ts(list(2L, 3L, 4L), start = 2010L, frequency = 12L),
+    ts(list(2L, list("3L"), 4L:15L), start = 2010L, frequency = 12L)
+)
+
+
 ## Fréquences ------------------------------------------------------------------
 
 list_frequence <- c(4L, 12L)
@@ -43,7 +57,7 @@ weird_frequency <- list(1L, 2, 7, .1, 1/3, 3.5, 365, 365.25, pi)
 ## Dates -----------------------------------------------------------------------
 
 # Time Units
-wrong_timeUnits <- list(2020 + 1/7, pi, 2020 - 1/13)
+wrong_TimeUnits <- list(2020 + 1/7, pi, 2020 - 1/13, Inf)
 
 # Années
 good_years <- c(-200L, -1L, 0L, 1L, 2L, 1950L, 1999L, 2000L, 2001L,  2022L, 3000L)
@@ -74,7 +88,7 @@ wrong_dates <- c(
     lapply(list_type, create_random_type, len = 3),
     list(2019.5, 2020 + 1/12, pi / 4, c(2020, 2.5), c(2010.25, 3), c(2002, 3, 1), c("2002", "3")),
     list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5), c(NA_real_, NA_real_)),
-    list(2L:4L, c(2020.0, 7, 1), c(2020L, 0L, NA_integer_), numeric(0), integer(0))
+    list(2L:4L, c(2020.0, 7, 1), c(2020L, 0L, NA_integer_), numeric(0), integer(0), Inf, c(2000L, Inf), c(Inf, 4))
 )
 
 
@@ -87,19 +101,6 @@ conversion_month_quarter <- data.frame(month = 1L:12L, quarter = rep(1L:4L, each
 # Labels
 list_months_name <- c("janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc.")
 
-
-## Types d'objets --------------------------------------------------------------
-
-list_type <- c("integer", "character", "double", "logical", "complex", "raw", "Date")
-
-object_bank_R <- fuzzr::test_all()
-
-wrong_type_ts <- list(
-    ts(list(2L), start = 2010L, frequency = 12L),
-    ts(list(2, 3, c(1, 2)), start = 2010L, frequency = 12L),
-    ts(list(2L, 3L, 4L), start = 2010L, frequency = 12L),
-    ts(list(2L, list("3L"), 4L:15L), start = 2010L, frequency = 12L)
-)
 
 # Autres objets ----------------------------------------------------------------
 

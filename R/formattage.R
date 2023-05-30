@@ -23,9 +23,16 @@
 #' format_date_ts(c(2020L, 13L), frequency = 4L) # janvier 2021
 #'
 format_date_ts <- function(date_ts, frequency) {
-    if (!ts4conj::is.date_ts(date_ts, frequency = frequency, withWarning = FALSE)) stop("La date est au mauvais format.")
-    if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
+
+    # Check de la fréquence
+    if (!is_good_frequency(frequency)) {
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
+    }
+
+    # Check du format date_ts
+    if (!is_date_ts(date_ts, frequency = frequency)) {
+        stop("La date est au mauvais format.")
+    }
 
     if (length(date_ts) == 2L) {
         year <- date_ts[1L]

@@ -4,16 +4,16 @@
 \alias{isGoodTS}
 \title{Vérifie la conformité d'un objet ts dans le cadre des enquêtes de conjoncture}
 \usage{
-isGoodTS(dataTS, withWarning = TRUE)
+isGoodTS(dataTS, warn = TRUE)
 }
 \arguments{
 \item{dataTS}{un objet ts unidimensionnel}
 
-\item{withWarning}{un booléen}
+\item{warn}{un booléen}
 }
 \value{
 En sortie la fonction retourne un booleen qui précise si l'argument \code{dataTS} est conforme ou non.
-Dans le cas où withWarning vaut TRUE et que le TS n'est pas conforme, un warning qui précise la raison sera déclenché.
+Dans le cas où warn vaut TRUE et que le TS n'est pas conforme, un warning qui précise la raison sera déclenché.
 }
 \description{
 Vérifie la conformité d'un objet ts dans le cadre des enquêtes de conjoncture
@@ -30,6 +30,6 @@ isGoodTS(ts1)
 isGoodTS(ts2)
 isGoodTS(ts3)
 
-isGoodTS(ts2, withWarning = FALSE)
-isGoodTS(ts3, withWarning = FALSE)
+isGoodTS(ts2, warn = FALSE)
+isGoodTS(ts3, warn = FALSE)
 }

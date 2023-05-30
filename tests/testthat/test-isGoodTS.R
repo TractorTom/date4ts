@@ -13,8 +13,8 @@ testthat::test_that("Result TRUE expected with good TS", {
                 for (lenA in list_len) {
                     ts_A <- create_random_ts(type = typeA, len = lenA, frequency = frequenceA,
                                              start = startA)
-                    testthat::expect_true(isGoodTS(ts_A, withWarning = TRUE))
-                    testthat::expect_true(isGoodTS(ts_A, withWarning = FALSE))
+                    testthat::expect_true(isGoodTS(ts_A, warn = TRUE))
+                    testthat::expect_true(isGoodTS(ts_A, warn = FALSE))
                 }
             }
         }
@@ -24,13 +24,13 @@ testthat::test_that("Result TRUE expected with good TS", {
 
 # Tests de résultats négatif = FALSE -------------------------------------------
 
-## Tests avec withWarning = TRUE -----------------------------------------------
+## Tests avec warn = TRUE -----------------------------------------------
 
 ### Mauvais objet R ------------------------------------------------------------
 
 testthat::test_that("Result FALSE expected with wrong object R", {
     for (wrong_ts in object_bank_R) {
-        testthat::expect_warning({res_logical <- isGoodTS(wrong_ts, withWarning = TRUE)}, regexp = "L'objet dataTS doit \u00eatre un ts unidimensionnel.")
+        testthat::expect_warning({res_logical <- isGoodTS(wrong_ts, warn = TRUE)}, regexp = "L'objet dataTS doit \u00eatre un ts unidimensionnel.")
         testthat::expect_false(res_logical)
     }
 })
@@ -52,7 +52,7 @@ testthat::test_that("Result FALSE expected with mts", {
                         mts_A <- ts(A_content, start = startA, frequency = frequenceA)
                     }
 
-                    testthat::expect_warning({res_logical <- isGoodTS(mts_A, withWarning = TRUE)}, regexp = "L'objet dataTS doit \u00eatre un ts unidimensionnel.")
+                    testthat::expect_warning({res_logical <- isGoodTS(mts_A, warn = TRUE)}, regexp = "L'objet dataTS doit \u00eatre un ts unidimensionnel.")
                     testthat::expect_false(res_logical)
                 }
             }
@@ -70,7 +70,7 @@ testthat::test_that("Result FALSE expected with wrong frequency", {
                     ts_A <- create_random_ts(type = typeA, len = lenA,
                                              frequency = wrong_freq,
                                              start = startA)
-                    testthat::expect_warning({res_logical <- isGoodTS(ts_A, withWarning = TRUE)}, regexp = "L'objet dataTS doit \u00eatre de fr\u00e9quence mensuelle ou trimestrielle.")
+                    testthat::expect_warning({res_logical <- isGoodTS(ts_A, warn = TRUE)}, regexp = "L'objet dataTS doit \u00eatre de fr\u00e9quence mensuelle ou trimestrielle.")
                     testthat::expect_false(res_logical)
                 }
             }
@@ -87,7 +87,7 @@ testthat::test_that("Result FALSE expected with wrong frequency", {
                 for (lenA in list_len) {
                     ts_A <- create_random_ts(type = typeA, len = lenA, frequency = frequenceA,
                                              start = wrong_start)
-                    testthat::expect_warning({res_logical <- isGoodTS(ts_A, withWarning = TRUE)}, regexp = "L'objet dataTS doit \u00eatre coh\u00e9rent avec la temporalit\u00e9 classique.")
+                    testthat::expect_warning({res_logical <- isGoodTS(ts_A, warn = TRUE)}, regexp = "L'objet dataTS doit \u00eatre coh\u00e9rent avec la temporalit\u00e9 classique.")
                     testthat::expect_false(res_logical)
                 }
             }
@@ -99,18 +99,18 @@ testthat::test_that("Result FALSE expected with wrong frequency", {
 
 testthat::test_that("Result FALSE expected with wrong type of ts", {
     for (wrong_ts in wrong_type_ts) {
-        testthat::expect_warning({res_logical <- isGoodTS(wrong_ts, withWarning = TRUE)}, regexp = "L'objet dataTS doit être d'un type atomic.")
+        testthat::expect_warning({res_logical <- isGoodTS(wrong_ts, warn = TRUE)}, regexp = "L'objet dataTS doit être d'un type atomic.")
         testthat::expect_false(res_logical)
     }
 })
 
-## Tests avec withWarning = FALSE ----------------------------------------------
+## Tests avec warn = FALSE ----------------------------------------------
 
 ### Mauvais objet R ------------------------------------------------------------
 
 testthat::test_that("Result FALSE expected with wrong object R", {
     for (wrong_ts in object_bank_R) {
-        testthat::expect_false(isGoodTS(wrong_ts, withWarning = FALSE))
+        testthat::expect_false(isGoodTS(wrong_ts, warn = FALSE))
     }
 })
 
@@ -130,7 +130,7 @@ testthat::test_that("Result FALSE expected with mts", {
                         for (k in 1L:len2) mts_A <- cbind(mts_A, as.ts(create_random_type(type = typeA, len = lenA)))
                     }
 
-                    testthat::expect_false(isGoodTS(mts_A, withWarning = FALSE))
+                    testthat::expect_false(isGoodTS(mts_A, warn = FALSE))
                 }
             }
         }
@@ -147,7 +147,7 @@ testthat::test_that("Result FALSE expected with wrong frequency", {
                 for (lenA in list_len) {
                     ts_A <- create_random_ts(type = typeA, len = lenA, frequency = wrong_freq,
                                              start = startA)
-                    testthat::expect_false(isGoodTS(ts_A, withWarning = FALSE))
+                    testthat::expect_false(isGoodTS(ts_A, warn = FALSE))
                 }
             }
         }
@@ -163,7 +163,7 @@ testthat::test_that("Result FALSE expected with wrong frequency", {
                 for (lenA in list_len) {
                     ts_A <- create_random_ts(type = typeA, len = lenA, frequency = frequenceA,
                                              start = wrong_start)
-                    testthat::expect_false(isGoodTS(ts_A, withWarning = FALSE))
+                    testthat::expect_false(isGoodTS(ts_A, warn = FALSE))
                 }
             }
         }
@@ -174,13 +174,13 @@ testthat::test_that("Result FALSE expected with wrong frequency", {
 
 testthat::test_that("Result FALSE expected with wrong type of ts", {
     for (wrong_ts in wrong_type_ts) {
-        testthat::expect_false(isGoodTS(wrong_ts, withWarning = FALSE))
+        testthat::expect_false(isGoodTS(wrong_ts, warn = FALSE))
     }
 })
 
-# Tests avec erreur (mauvais withwarning) --------------------------------------
+# Tests avec erreur (mauvais warn) --------------------------------------
 
-testthat::test_that("Expect error for wrong withwarning argument", {
+testthat::test_that("Expect error for wrong warn argument", {
     for (typeA in list_type) {
         for (frequenceA in list_frequence) {
             for (startA in list_start) {
@@ -189,7 +189,7 @@ testthat::test_that("Expect error for wrong withwarning argument", {
                         ts_A <- create_random_ts(type = typeA, len = lenA,
                                                  frequency = frequenceA,
                                                  start = startA)
-                        testthat::expect_error(isGoodTS(ts_A, withWarning = wrong_arg), regexp = "L'argument withWarning doit être un booléen de longueur 1.")
+                        testthat::expect_error(isGoodTS(ts_A, warn = wrong_arg), regexp = "L'argument warn doit être un booléen de longueur 1.")
                     }
                 }
             }

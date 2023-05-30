@@ -4,10 +4,10 @@
 \alias{as.YYYYTT}
 \title{Conversion au format c(AAAA, TT)}
 \usage{
-as.YYYYTT(timeUnits)
+as.YYYYTT(TimeUnits)
 }
 \arguments{
-\item{timeUnits}{une date en année (Par exemple 2015.25 pour le 2ème trimestre 2015)}
+\item{TimeUnits}{une date en année (Par exemple 2015.25 pour le 2ème trimestre 2015)}
 }
 \value{
 En sortie, la fonction retourne la date au format (AAAA, TT)

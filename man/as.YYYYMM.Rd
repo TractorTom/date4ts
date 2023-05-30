@@ -4,10 +4,10 @@
 \alias{as.YYYYMM}
 \title{Conversion au format c(AAAA, MM)}
 \usage{
-as.YYYYMM(timeUnits)
+as.YYYYMM(TimeUnits)
 }
 \arguments{
-\item{timeUnits}{une date en année (Par exemple 2021.83333333333 pour Novembre 2021)}
+\item{TimeUnits}{une date en année (Par exemple 2021.83333333333 pour Novembre 2021)}
 }
 \value{
 En sortie, la fonction retourne la date au format c(AAAA, MM)

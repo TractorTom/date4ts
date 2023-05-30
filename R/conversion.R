@@ -3,7 +3,7 @@
 #'
 #' @description La fonction `as.YYYYTT` convertit une date en année en date au format c(AAAA, TT).
 #'
-#' @param timeUnits une date en année (Par exemple 2015.25 pour le 2ème trimestre 2015)
+#' @param TimeUnits une date en année (Par exemple 2015.25 pour le 2ème trimestre 2015)
 #'
 #' @return En sortie, la fonction retourne la date au format (AAAA, TT)
 #' @export
@@ -12,21 +12,23 @@
 #' as.YYYYTT(2019.75) #4ème trimestre 2019
 #' as.YYYYTT(2020) #1er trimestre 2020
 #' as.YYYYTT(2022 + 1/4) #2ème trimestre 2022
-as.YYYYTT <- function(timeUnits) {
-    if (!is.numeric(timeUnits) || length(timeUnits) != 1L || any(is.na(timeUnits)))
-        stop("L'input timeUnits est au mauvais format.")
-    temporalConsistence <- 4 * timeUnits
-    if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
-        stop("L'input timeUnits n'est pas coh\u00e9rent temporellement avec les trimestres classiques.")
+as.YYYYTT <- function(TimeUnits) {
 
-    return(c(timeUnits %/% 1, (timeUnits %% 1L) * 4 + 1) |> round() |> as.integer())
+    # Check de l'objet TimeUnits
+    if (!is_TimeUnits(TimeUnits)) stop("L'input TimeUnits est au mauvais format.")
+
+    temporalConsistence <- 4 * TimeUnits
+    if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
+        stop("L'input TimeUnits n'est pas coh\u00e9rent temporellement avec les trimestres classiques.")
+
+    return(c(TimeUnits %/% 1, (TimeUnits %% 1L) * 4 + 1) |> round() |> as.integer())
 }
 
 #' Conversion au format c(AAAA, MM)
 #'
 #' @description La fonction `as.YYYYMM` convertit une date en année en date au format c(AAAA, MM).
 #'
-#' @param timeUnits une date en année (Par exemple 2021.83333333333 pour Novembre 2021)
+#' @param TimeUnits une date en année (Par exemple 2021.83333333333 pour Novembre 2021)
 #'
 #' @return En sortie, la fonction retourne la date au format c(AAAA, MM)
 #' @export
@@ -36,14 +38,16 @@ as.YYYYTT <- function(timeUnits) {
 #' as.YYYYMM(2020) #Janvier 2020
 #' as.YYYYMM(2020 + 1/12) #Février 2020
 #' as.YYYYMM(2020 + 12/12) #Janvier 2021
-as.YYYYMM <- function(timeUnits) {
-    if (!is.numeric(timeUnits) || length(timeUnits) != 1L || any(is.na(timeUnits)))
-        stop("L'input timeUnits est au mauvais format.")
-    temporalConsistence <- 12 * timeUnits
-    if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
-        stop("L'input timeUnits n'est pas coh\u00e9rent temporellement avec les trimestres classiques.")
+as.YYYYMM <- function(TimeUnits) {
 
-    return(c(timeUnits %/% 1, (timeUnits %% 1L) * 12 + 1) |> round() |> as.integer())
+    # Check de l'objet TimeUnits
+    if (!is_TimeUnits(TimeUnits)) stop("L'input TimeUnits est au mauvais format.")
+
+    temporalConsistence <- 12 * TimeUnits
+    if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
+        stop("L'input TimeUnits n'est pas coh\u00e9rent temporellement avec les trimestres classiques.")
+
+    return(c(TimeUnits %/% 1, (TimeUnits %% 1L) * 12 + 1) |> round() |> as.integer())
 }
 
 #' Correspondance d'une date trimestrielle au premier mois du trimestre
@@ -59,7 +63,11 @@ as.YYYYMM <- function(timeUnits) {
 #' trim2mens(c(2019L, 4L)) #4ème trimestre 2019 --> Octobre 2019
 #' trim2mens(c(2020L, 1L)) #1er trimestre 2020 --> Janvier 2020
 trim2mens <- function(date_ts) {
-    if (!ts4conj::is.date_ts(date_ts, frequency = 4L)) stop("La date est au mauvais format.")
+
+    # Check du format date_ts
+    if (!is_date_ts(date_ts, frequency = 4L)) {
+        stop("La date est au mauvais format.")
+    }
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 4L
     trim <- (date_ts[2L] - 1L) %% 4L + 1L
@@ -79,7 +87,11 @@ trim2mens <- function(date_ts) {
 #' mens2trim(c(2019L, 4L)) #Avril 2019 --> 2ème trimestre 2019
 #' mens2trim(c(2020L, 11L)) #Novembre 2020 --> 4ème trimestre 2020
 mens2trim <- function(date_ts) {
-    if (!ts4conj::is.date_ts(date_ts, frequency = 12L)) stop("La date est au mauvais format.")
+
+    # Check du format date_ts
+    if (!is_date_ts(date_ts, frequency = 12L)) {
+        stop("La date est au mauvais format.")
+    }
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 12L
     month <- (date_ts[2L] - 1L) %% 12L + 1L
@@ -108,7 +120,17 @@ mens2trim <- function(date_ts) {
 #' getTimeUnits(date_ts = c(1995L, 2L), frequency = 4L) # 2ème trimestre de 1995
 #'
 getTimeUnits <- function(date_ts, frequency) {
-    if (!ts4conj::is.date_ts(date_ts, frequency)) stop("La date est au mauvais format.")
+
+    # Check de la fréquence
+    if (!is_good_frequency(frequency)) {
+        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
+    }
+
+    # Check du format date_ts
+    if (!is_date_ts(date_ts, frequency = frequency)) {
+        stop("La date est au mauvais format.")
+    }
+
     if (date_ts[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
     if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
@@ -136,8 +158,15 @@ getTimeUnits <- function(date_ts, frequency) {
 #'
 date2date_ts <- function(date, frequency = 12L) {
 
-    if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
+    # Check de l'objet date
+    if  (!is_single_date(date)) {
+        stop("La date n'est pas au bon format.")
+    }
+
+    # Check de la fréquence
+    if (!is_good_frequency(frequency)) {
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
+    }
 
     year <- as.numeric(format(date, format = "%Y"))
     month <- as.numeric(format(date, format = "%m"))
@@ -164,9 +193,16 @@ date2date_ts <- function(date, frequency = 12L) {
 #' date_ts2date(date_ts = c(1995L, 2L), frequency = 4L)
 #'
 date_ts2date <- function(date_ts, frequency = 12L) {
-    if (!ts4conj::is.date_ts(date_ts, frequency)) stop("La date est au mauvais format.")
-    if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
+
+    # Check de la fréquence
+    if (!is_good_frequency(frequency)) {
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
+    }
+
+    # Check du format date_ts
+    if (!is_date_ts(date_ts, frequency)) {
+        stop("La date est au mauvais format.")
+    }
 
     year <- date_ts[1]
     month <- "01"

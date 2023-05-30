@@ -9,15 +9,24 @@
 #' @return En sortie, la fonction retourne une chaine de caractère qui correspond au libelés de la date `date`.
 #'
 #' @examples
-#' ts4conj:::libelles_one_date(date = c(2020L, 4L), frequency = 12L)
-#' ts4conj:::libelles_one_date(date = c(2020L, 4L), frequency = 4L)
+#' libelles_one_date(date = c(2020L, 4L), frequency = 12L)
+#' libelles_one_date(date = c(2020L, 4L), frequency = 4L)
 libelles_one_date <- function(date_ts, frequency) {
-    if (!ts4conj::is.date_ts(date_ts, frequency = frequency)) stop("La date est au mauvais format.")
-    if (date_ts[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
-    if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
 
-    date_ts <- date_ts |> ts4conj::format_date_ts(frequency = frequency)
+    # Check de la fréquence
+    if (!is_good_frequency(frequency)) {
+        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
+    }
+
+    # Check du format date_ts
+    if (!is_date_ts(date_ts, frequency = frequency)) {
+        stop("La date est au mauvais format.")
+    }
+
+    # Check d'une date après JC
+    if (date_ts[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
+
+    date_ts <- date_ts |> format_date_ts(frequency = frequency)
     year <- date_ts[1L]
     if (frequency == 4L) {
         quarter <- date_ts[2L]
@@ -47,16 +56,31 @@ libelles_one_date <- function(date_ts, frequency) {
 #' libelles(date_ts = c(2019L, 10L), frequency = 12L, nb = 9L)
 #' libelles(date_ts = c(2019L, 4L), frequency = 4L, nb = 3L)
 libelles <- function(date_ts, frequency, nb = 1) {
-    if (!ts4conj::is.date_ts(date_ts, frequency = frequency)) stop("La date est au mauvais format.")
-    if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
+
+    # Check de la fréquence
+    if (!is_good_frequency(frequency)) {
         stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    if (!is.numeric(nb) || length(nb) != 1 || any(is.na(nb)) || nb != round(nb))
+    }
+
+    # Check du format date_ts
+    if (!is_date_ts(date_ts, frequency)) {
+        stop("La date est au mauvais format.")
+    }
+
+    # Check de l'argument nb
+    if (is_single_integer(nb)) {
         stop("L'argument nb doit \u00eatre un entier (vecteur de longueur 1).")
-    if (is.double(nb)) warning("L'argument nb est de type double. Il faut privil\u00e9gier le format integer.")
+    }
 
-    if (nb <= 0) stop("Aucun libell\u00e9 n'est s\u00e9lectionn\u00e9.")
+    if (is.double(nb)) {
+        warning("L'argument nb est de type double. Il faut privil\u00e9gier le format integer.")
+    }
 
-    return(sapply(0:(nb - 1), FUN = \(lag) (lag |>
+    if (nb <= 0) {
+        stop("Aucun libell\u00e9 n'est s\u00e9lectionn\u00e9.")
+    }
+
+    return(sapply(seq_len(nb) - 1, FUN = \(lag) (lag |>
                                                 next_date_ts(date_ts = date_ts, frequency = frequency) |>
-                                                ts4conj:::libelles_one_date(frequency = frequency))))
+                                                libelles_one_date(frequency = frequency))))
 }
