@@ -25,9 +25,10 @@ Création du package :
 - 14) Changer les liste de start (tests combine2ts) pour passer à une combinaison de month, quarter et year
 - 15) retirer le pipe et tout appel au pipe au moins dans les fonctions sous R + placeholder
 - 16) Trouver un moyen de faire un CI/CD sur gitlab.insee et le gitlab du SSP cloud
-- 17) Commenter les tests d'input (juste une ligne pour expliquer ce que fait le code)
-    - Vérifier que toutes les fonctions aient bien des tests au début du corps de la fonction qui correspondent bien à l'ensemble des inputs
-    - vérfier que les tests soient les mêmes pour chaque fonction (si on teste le fait que la fréquence est bie une fréqunce enttière entre 4 et 12, il faut que la ligne de code soit la même dans tous les programmes qui testent ce genre de fréquence) + ajouter le commentaire qui va avec
+- 17) Se renseigner au sujet des traductions :
+    - https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#R-messages
+    - https://r-pkgs.org/misc.html#other-directories
+    - https://michaelchirico.github.io/potools/
 - 18) Lorsqu'on effectue un test (exemple tester que la fréquence est bien entière...), si on effectue ce test dans pluseirus fonctions, créer une fonction spécialisée dans ce test là.
 - 19) Relire les check et essayer de les remplacer avec le package checkmate ou assertthat ou autre qui pouirrait convenir (voir les bonnes pratiques) --> choix checkmate (rjd3 et à jour)
 - 20) Faire une recherche de toutes les classes "atomic" connues et vérifier lesquelles fonctionnent ou non avec des ts (pour étendre ou créer simplement des ts)
@@ -42,11 +43,5 @@ Création du package :
     report(covr))
 - 26) Lorsqu'on fait un test de good ts, good frequence, ... Le message d'erreur doit venir de la fonction de test (genre isGoodTS) et pas de la fonction de traitement (combine2ts).
     Par exemple si je teste la fréquence, il faut que la fonction combine2ts retourne "la fréquence n'est pas conforme" comme erreur et que la fonction is_good_frequency retourne "La fréquence doit être numérique" ou "la fréquence doit être de longueur 1"
-- 27) Se renseigner au sujet des traductions :
-    - https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#R-messages
-    - https://r-pkgs.org/misc.html#other-directories
-    - https://michaelchirico.github.io/potools/
-
-
 
 
