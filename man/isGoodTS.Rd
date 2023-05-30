@@ -12,7 +12,7 @@ isGoodTS(dataTS, withWarning = TRUE)
 \item{withWarning}{un booléen}
 }
 \value{
-En sortie la fonction retourne un booleen qui précise si le TS est conforme ou non.
+En sortie la fonction retourne un booleen qui précise si l'argument \code{dataTS} est conforme ou non.
 Dans le cas où withWarning vaut TRUE et que le TS n'est pas conforme, un warning qui précise la raison sera déclenché.
 }
 \description{
