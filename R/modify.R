@@ -146,9 +146,7 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
     if (!is_vector(x)) stop("L'objet `x` doit \u00eatre un vecteur unidimentionnel non vide.")
 
     # Check de replace_na
-    if (!is_single_boolean(x = replace_na)) {
-        stop("L'argument replace_na doit \u00eatre un bool\u00e9en de longueur 1.")
-    }
+    checkmate::assert_flag(replace_na)
 
     if (replace_na) {
         start_replacement <- lastDate(dataTS) |> next_date_ts()

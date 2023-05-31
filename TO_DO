@@ -45,5 +45,12 @@ Création du package :
     report(covr))
 - 26) Lorsqu'on fait un test de good ts, good frequence, ... Le message d'erreur doit venir de la fonction de test (genre isGoodTS) et pas de la fonction de traitement (combine2ts).
     Par exemple si je teste la fréquence, il faut que la fonction combine2ts retourne "la fréquence n'est pas conforme" comme erreur et que la fonction is_good_frequency retourne "La fréquence doit être numérique" ou "la fréquence doit être de longueur 1"
-
+- 27) Résoudre les problèmes de check :
+    - retirer les caractères ASCII (voir le code qui permet de détecter les caractères ascii dans divers)
+    - extend_ts: no visible global function definition for ‘end’
+    - extend_ts: no visible binding for global variable ‘end_ts’
+    - extend_ts: no visible global function definition for ‘window<-’
+    - Rd file 'combine2ts.Rd':
+     \examples lines wider than 100 characters:
+    - revoir l'exampkle de combine2ts
 
