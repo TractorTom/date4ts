@@ -26,7 +26,7 @@ Création du package :
 - 15) retirer le pipe et tout appel au pipe au moins dans les fonctions sous R + placeholder
 - 16) Trouver un moyen de faire un CI/CD
     - sur gitlab.insee (voir avec Julien Jamme) et
-    - sur le gitlab du SSP cloud
+    - sur le gitlab du SSP cloud (datalab et git.lab)
 - 17) Se renseigner au sujet des traductions :
     - https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#R-messages
     - https://r-pkgs.org/misc.html#other-directories
