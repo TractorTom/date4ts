@@ -19,7 +19,7 @@ testthat::test_that("good result for monthly date", {
 })
 
 testthat::test_that("good result for quarter date", {
-    for (quarter in c(warning_integer_quarters, list_good_quarters)) {
+    for (quarter in c(warning_integer_quarters, good_quarters)) {
         for (year in good_years) {
             for (len in list_len) {
                 testthat::expect_identical(libelles(date = c(year, quarter), frequency = 4L, nb = len),

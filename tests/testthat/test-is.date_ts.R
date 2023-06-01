@@ -21,7 +21,7 @@ testthat::test_that("good result for integer date month", {
 testthat::test_that("good result for integer date quarter", {
     for (year in good_years) {
         testthat::expect_true(is_date_ts(year, frequency = 4L))
-        for (quarter in list_good_quarters) {
+        for (quarter in good_quarters) {
             testthat::expect_true(is_date_ts(c(year, quarter), frequency = 4L))
         }
     }
@@ -137,7 +137,7 @@ testthat::test_that("warning for double date", {
         testthat::expect_warning({boolRes <- is_date_ts(warning_date, frequency = 4L)}, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.")
         testthat::expect_true(boolRes)
 
-        for (good_quarter in list_good_quarters) {
+        for (good_quarter in good_quarters) {
 
             warning_date <- c(warning_year, good_quarter)
             testthat::expect_warning({boolRes <- is_date_ts(warning_date, frequency = 4L)}, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.")

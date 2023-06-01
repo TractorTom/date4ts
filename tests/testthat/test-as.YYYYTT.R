@@ -8,9 +8,9 @@ object_bank_R <- fuzzr::test_all()
 # Tests de résultats positifs --------------------------------------------------
 
 testthat::test_that("good result for integer date", {
-    for (quarter in c(warning_integer_quarters, list_good_quarters)) {
+    for (quarter in c(warning_integer_quarters, good_quarters)) {
         for (year in good_years) {
-            TSdate <- c(year + quarter %/% 4L, quarter %% 4L + 1L) |> as.integer()
+            TSdate <- as.integer(c(year + quarter %/% 4L, quarter %% 4L + 1L))
             res <- as.YYYYTT(year + quarter / 4L)
             testthat::expect_type(res, "integer")
             testthat::expect_identical(res, TSdate)

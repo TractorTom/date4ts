@@ -46,8 +46,13 @@ testthat::test_that("Result FALSE expected with mts", {
                     A_content <- as.data.frame(lapply(1L:len2, function(i) create_random_type(type = typeA, len = lenA)))
                     startA <- create_random_date()
                     if (typeA == "complex") {
-                        mts_A <- lapply(A_content, FUN = ts, start = startA, frequency = frequenceA) |>
-                            do.call(cbind, args = _)
+                        mts_A <- do.call(
+                            what = cbind,
+                            args = lapply(X = A_content,
+                                          FUN = ts,
+                                          start = startA,
+                                          frequency = frequenceA)
+                        )
                     } else {
                         mts_A <- ts(A_content, start = startA, frequency = frequenceA)
                     }

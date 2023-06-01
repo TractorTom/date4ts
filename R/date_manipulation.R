@@ -87,7 +87,9 @@ next_date_ts <- function(date_ts, frequency, lag = 1L) {
         stop("L'argument lag doit \u00eatre un entier (vecteur de longueur 1).")
     }
 
-    if (is.double(lag)) warning("L'argument lag est de type double. Il faut privil\u00e9gier le format integer.")
+    if (is.double(lag)) {
+        warning("L'argument lag est de type double. Il faut privil\u00e9gier le format integer.")
+    }
 
     if (length(date_ts) == 2L) {
         year <- date_ts[1L]
@@ -105,7 +107,7 @@ firstDate <- function(dataTS) {
         stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
     }
 
-    timeTS <- dataTS |> zoo::na.trim() |> stats::time()
+    timeTS <- stats::time(zoo::na.trim(dataTS))
     firstTime <- timeTS[1L]
     return(c(firstTime %/% 1L, (firstTime %% 1L) * stats::frequency(dataTS) + 1L))
 }
@@ -117,7 +119,7 @@ lastDate <- function(dataTS) {
         stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
     }
 
-    timeTS <- dataTS |> zoo::na.trim() |> stats::time()
+    timeTS <- stats::time(zoo::na.trim(dataTS))
     lastTime <- timeTS[length(timeTS)]
     return(c(lastTime %/% 1L, (lastTime %% 1L) * stats::frequency(dataTS) + 1L))
 }

@@ -23,10 +23,17 @@ Création du package :
 - 12) Ajouter des tests pour les nouvelles fonctions de conversion
 - 13) retirer les caractères non ASCII des tests
 - 14) Changer les liste de start (tests combine2ts) pour passer à une combinaison de month, quarter et year
-- 15) retirer le pipe et tout appel au pipe au moins dans les fonctions sous R + placeholder
+- 15) Résoudre les problèmes de check :
+    - retirer les caractères ASCII (voir le code qui permet de détecter les caractères ascii dans divers)
+    - extend_ts: no visible global function definition for ‘end’
+    - extend_ts: no visible binding for global variable ‘end_ts’
+    - extend_ts: no visible global function definition for ‘window<-’
+    - Rd file 'combine2ts.Rd':
+     \examples lines wider than 100 characters:
+    - revoir l'exampkle de combine2ts
 - 16) Trouver un moyen de faire un CI/CD
     - sur gitlab.insee (voir avec Julien Jamme) et
-    - sur le gitlab du SSP cloud
+    - sur le gitlab du SSP cloud (datalab et git.lab)
 - 17) Se renseigner au sujet des traductions :
     - https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#R-messages
     - https://r-pkgs.org/misc.html#other-directories
@@ -45,6 +52,5 @@ Création du package :
     report(covr))
 - 26) Lorsqu'on fait un test de good ts, good frequence, ... Le message d'erreur doit venir de la fonction de test (genre isGoodTS) et pas de la fonction de traitement (combine2ts).
     Par exemple si je teste la fréquence, il faut que la fonction combine2ts retourne "la fréquence n'est pas conforme" comme erreur et que la fonction is_good_frequency retourne "La fréquence doit être numérique" ou "la fréquence doit être de longueur 1"
-
-- AUssi pour la package checkmate, ne pas hésiter à voir la doc pour utiliser les check_scalar, check_int, check_integerish, check_integer, ...
-
+    Aussi pour la package checkmate, ne pas hésiter à voir la doc pour utiliser les check_scalar, check_int, check_integerish, check_integer, ...
+    Après réflexion sur cette question je pense que le mieux est de créer des assert_single_integer, assert_date_ts, ... qui permettent de ne mettre aucun message d'erreur dans les fonctions de traitement directement mais tout gérer dans les check

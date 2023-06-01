@@ -38,9 +38,7 @@
 is_date_ts <- function(date_ts, frequency = 12L, warn = TRUE) {
 
     # Check de warn
-    if (!is_single_boolean(x = warn)) {
-        stop("L'argument warn doit \u00eatre un bool\u00e9en de longueur 1.")
-    }
+    checkmate::assert_flag(warn)
 
     # Check de la fréquence
     if (!is_good_frequency(frequency)) {
@@ -98,8 +96,7 @@ is_date_ts <- function(date_ts, frequency = 12L, warn = TRUE) {
 isGoodTS <- function(dataTS, warn = TRUE) {
 
     # Check de warn
-    if (!(warn |> (\(.x) (is.logical(.x) && length(.x) == 1 && !is.na(.x)))(.x = _)))
-        stop("L'argument warn doit \u00eatre un bool\u00e9en de longueur 1.")
+    checkmate::assert_flag(warn)
 
     # Check du type d'objet
     if (!stats::is.ts(dataTS) | stats::is.mts(dataTS)) {
@@ -172,33 +169,19 @@ is_good_frequency <- function(x) {
 is_single_integer <- function(x, warn = FALSE) {
 
     # Check de warn
-    if (!is_single_boolean(x = warn)) {
-        stop("L'argument warn doit \u00eatre un bool\u00e9en de longueur 1.")
-    }
+    checkmate::assert_flag(warn)
 
-    if (!isTRUE(reason <- checkmate::check_count(x))) {
+    if (!isTRUE(reason <- checkmate::check_count(x, positive = TRUE))) {
         if (warn) warning(reason)
         return(FALSE)
     }
-    return(TRUE)
-}
-
-is_single_boolean <- function(x, warn = FALSE) {
-
-    if (!isTRUE(reason <- checkmate::check_logical(x))) {
-        if (warn) warning(reason)
-        return(FALSE)
-    }
-
-    if (length(x) != 0L) {
-        if (warn) warning("L'argument x doit \u00eatre de longueur 1.")
-        return(FALSE)
-    }
-
     return(TRUE)
 }
 
 is_single_date <- function(x, warn = FALSE) {
+
+    # Check de warn
+    checkmate::assert_flag(warn)
 
     if (!isTRUE(reason <- checkmate::check_date(x))) {
         if (warn) warning(reason)

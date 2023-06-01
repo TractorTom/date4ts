@@ -17,7 +17,7 @@ testthat::test_that("good result for integer date", {
 })
 
 testthat::test_that("good result for integer date", {
-    for (quarter in list_good_quarters) {
+    for (quarter in good_quarters) {
         for (year in good_years) {
             real_year <- year + (quarter - 1L) %/% 4L
             testthat::expect_identical(libelles_one_date(date = c(year, quarter), frequency = 4L),

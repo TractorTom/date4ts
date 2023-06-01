@@ -26,16 +26,15 @@ libelles_one_date <- function(date_ts, frequency) {
     # Check d'une date après JC
     if (date_ts[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
 
-    date_ts <- date_ts |> format_date_ts(frequency = frequency)
+    date_ts <- format_date_ts(date_ts, frequency = frequency)
     year <- date_ts[1L]
     if (frequency == 4L) {
         quarter <- date_ts[2L]
         return(paste0("T", quarter, " ", year))
     } else if (frequency == 12L) {
         month <- date_ts[2L]
-        return(paste(year, sprintf("%02.f", month), "01", sep = "-") |>
-                   base::as.Date() |>
-                   format(format = "%b %Y"))
+        char_date <- paste(year, sprintf("%02.f", month), "01", sep = "-")
+        return(format(base::as.Date(char_date), format = "%b %Y"))
     }
 }
 
@@ -80,7 +79,10 @@ libelles <- function(date_ts, frequency, nb = 1L) {
         stop("Aucun libell\u00e9 n'est s\u00e9lectionn\u00e9.")
     }
 
-    return(sapply(seq_len(nb) - 1, FUN = \(lag) (lag |>
-                                                next_date_ts(date_ts = date_ts, frequency = frequency) |>
-                                                libelles_one_date(frequency = frequency))))
+    decale_libele <- function(x) {
+        date_temp <- next_date_ts(date_ts = date_ts, frequency = frequency, lag = x)
+        return(libelles_one_date(date_temp, frequency = frequency))
+    }
+
+    return(sapply(seq_len(nb) - 1, FUN = decale_libele))
 }

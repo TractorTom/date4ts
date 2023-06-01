@@ -8,11 +8,11 @@ set.seed(2030L)
 
 testthat::test_that("good result for integer date", {
     for (good_year in good_years) {
-        for (mens in 1:12) {
+        for (mens in good_months) {
 
             real_month <- (mens - 1L) %% 12L + 1L
             year_real <- good_year + (mens - 1L) %/% 12L
-            date_expected <- c(year_real, conversion_month_quarter[real_month, "quarter"])
+            date_expected <- as.integer(c(year_real, conversion_month_quarter[real_month, "quarter"]))
             res <- mens2trim(c(good_year, mens))
 
             testthat::expect_identical(res, date_expected)
@@ -39,7 +39,7 @@ testthat::test_that("warning for integer date", {
 
             real_month <- (warning_month - 1L) %% 12L + 1L
             year_real <- good_year + (warning_month - 1L) %/% 12L
-            date_expected <- c(year_real, conversion_month_quarter[real_month, "quarter"]) |> as.integer()
+            date_expected <- as.integer(c(year_real, conversion_month_quarter[real_month, "quarter"]))
 
             testthat::expect_identical(resQuarterly, date_expected)
             testthat::expect_type(resQuarterly, "integer")
@@ -55,7 +55,7 @@ testthat::test_that("warning for double date", {
 
             real_month <- (good_month - 1L) %% 12L + 1L
             year_real <- warning_year + (good_month - 1L) %/% 12L
-            date_expected <- c(year_real, conversion_month_quarter[real_month, "quarter"]) |> as.integer()
+            date_expected <- as.integer(c(year_real, conversion_month_quarter[real_month, "quarter"]))
 
             testthat::expect_identical(resQuarterly, date_expected)
             testthat::expect_type(resQuarterly, "integer")
@@ -69,7 +69,7 @@ testthat::test_that("warning for double date", {
 
             real_month <- (warning_month - 1L) %% 12L + 1L
             year_real <- good_year + (warning_month - 1L) %/% 12L
-            date_expected <- c(year_real, conversion_month_quarter[real_month, "quarter"]) |> as.integer()
+            date_expected <- as.integer(c(year_real, conversion_month_quarter[real_month, "quarter"]))
 
             testthat::expect_identical(resQuarterly, date_expected)
             testthat::expect_type(resQuarterly, "integer")
@@ -83,7 +83,7 @@ testthat::test_that("warning for double date", {
 
             real_month <- (warning_month - 1L) %% 12L + 1L
             year_real <- good_year + (warning_month - 1L) %/% 12L
-            date_expected <- c(year_real, conversion_month_quarter[real_month, "quarter"]) |> as.integer()
+            date_expected <- as.integer(c(year_real, conversion_month_quarter[real_month, "quarter"]))
 
             testthat::expect_identical(resQuarterly, date_expected)
             testthat::expect_type(resQuarterly, "integer")
@@ -101,7 +101,7 @@ testthat::test_that("several warning", {
 
             real_month <- (warning_month - 1L) %% 12L + 1L
             year_real <- warning_year + (warning_month - 1L) %/% 12L
-            date_expected <- c(year_real, conversion_month_quarter[real_month, "quarter"]) |> as.integer()
+            date_expected <- as.integer(c(year_real, conversion_month_quarter[real_month, "quarter"]))
 
             testthat::expect_identical(resQuarterly, date_expected)
             testthat::expect_type(resQuarterly, "integer")
@@ -117,7 +117,7 @@ testthat::test_that("several warning", {
 
             real_month <- (warning_month - 1L) %% 12L + 1L
             year_real <- warning_year + (warning_month - 1L) %/% 12L
-            date_expected <- c(year_real, conversion_month_quarter[real_month, "quarter"]) |> as.integer()
+            date_expected <- as.integer(c(year_real, conversion_month_quarter[real_month, "quarter"]))
 
             testthat::expect_identical(resQuarterly, date_expected)
             testthat::expect_type(resQuarterly, "integer")
@@ -133,7 +133,7 @@ testthat::test_that("several warning", {
 
             real_month <- (warning_month - 1L) %% 12L + 1L
             year_real <- good_year + (warning_month - 1L) %/% 12L
-            date_expected <- c(year_real, conversion_month_quarter[real_month, "quarter"]) |> as.integer()
+            date_expected <- as.integer(c(year_real, conversion_month_quarter[real_month, "quarter"]))
 
             testthat::expect_identical(resQuarterly, date_expected)
             testthat::expect_type(resQuarterly, "integer")
