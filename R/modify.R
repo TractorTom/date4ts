@@ -171,7 +171,7 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
         }
 
         if (!is_before(start_replacement, date_ts, frequency = frequency)) {
-            stop("La date de fin de remplacement est antérieur \u00e0 la date de fin des donn\u00e9es.")
+            stop("La date de fin de remplacement est ant\u00e9rieur \u00e0 la date de fin des donn\u00e9es.")
         }
         length_replacement <- diff_periode(a = start_replacement,
                                            b = date_ts, frequency = frequency)

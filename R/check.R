@@ -191,7 +191,7 @@ is_single_boolean <- function(x, warn = FALSE) {
     }
 
     if (length(x) != 0) {
-        if (warn) warning("L'argument x doit être de longueur 1.")
+        if (warn) warning("L'argument x doit \u00eatre de longueur 1.")
         return(FALSE)
     }
 
@@ -206,7 +206,7 @@ is_single_date <- function(x, warn = FALSE) {
     }
 
     if (length(x) != 0) {
-        if (warn) warning("L'argument x doit être de longueur 1.")
+        if (warn) warning("L'argument x doit \u00eatre de longueur 1.")
         return(FALSE)
     }
 
