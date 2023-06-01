@@ -145,7 +145,7 @@ local({
     }
   
     repos <- lockfile$R$Repositories
-    if (length(repos) == 0L)
+    if (length(repos) == 0)
       return(NULL)
   
     keys <- vapply(repos, `[[`, "Name", FUN.VALUE = character(1))
@@ -161,7 +161,7 @@ local({
     # if the renv version number has 4 components, assume it must
     # be retrieved via github
     nv <- numeric_version(version)
-    components <- unclass(nv)[[1L]]
+    components <- unclass(nv)[[1]]
   
     # if this appears to be a development version of 'renv', we'll
     # try to restore from github
@@ -306,7 +306,7 @@ local({
   
         # check for compatible entry
         entry <- db[db$Package %in% "renv" & db$Version %in% version, ]
-        if (nrow(entry) == 0L)
+        if (nrow(entry) == 0)
           next
   
         # found it; return spec to caller
@@ -675,7 +675,7 @@ local({
   
     # assume four-component versions are from GitHub;
     # three-component versions are from CRAN
-    components <- strsplit(loadedversion, "[.-]")[[1L]]
+    components <- strsplit(loadedversion, "[.-]")[[1]]
     remote <- if (length(components) == 4L)
       paste("rstudio/renv", loadedversion, sep = "@")
     else
@@ -898,7 +898,7 @@ local({
     # find strings in the JSON
     text <- paste(text %||% read(file), collapse = "\n")
     pattern <- '["](?:(?:\\\\.)|(?:[^"\\\\]))*?["]'
-    locs <- gregexpr(pattern, text, perl = TRUE)[[1L]]
+    locs <- gregexpr(pattern, text, perl = TRUE)[[1]]
   
     # if any are found, replace them with placeholders
     replaced <- text
