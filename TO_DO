@@ -2,55 +2,42 @@ Création du package :
 - 1) Regarder comment bien manager les erreurs pour renvoyer à des vignettes ou des fiches d'help
     - voir si il existe de packages pour cela
     - Préciser l'appel à d'autres fonctions
-- 2) Faire le tour des tests et retirer les create_random... qui ne servent pas
-- 3) créer des tests de résultats mauvais à partir de ts créés à partir de liste
-    (exemple : ts(list(2, 3, c(1, 2)), start = 2010, frequency = 12))
-- 4) Supprimer la dépendance à zoo ? = réécrire na.trim ?
-- 5) Comlpéter le fuzzing avec d'autres objets R (regarder d'autres sources /
+- 2) Compléter le fuzzing avec d'autres objets R (regarder d'autres sources /
     packages ?)
-- 6) Ajouter des Quasiquotation !! (bang-bang) pour mieux tester et analyser les
+- 3) Ajouter des Quasiquotation !! (bang-bang) pour mieux tester et analyser les
     erreurs (notamment avec des précisions sur les inputs, ...)
-- 7) Lorsqu'on teste les erreurs, il faut itéré TOUS les arguments valides (exemple
+- 4) Lorsqu'on teste les erreurs, il faut itéré TOUS les arguments valides (exemple
     tous les ts avec toutes les fréquences, start, len, typeA.. pour un type
     d'erreur)
-- 8) retirer tous les accents et caractères non ascii des test (et de n'importe quel code R !)
-- 9) relire + ré-écrire les 1er tests avec des bons / mauvais test
-- 10) Relire les commentaire Roxygen2 et à chaque fois que l'on précise "En sortie"
+- 5) relire + ré-écrire les 1er tests avec des bons / mauvais test
+- 6) Relire les commentaire Roxygen2 et à chaque fois que l'on précise "En sortie"
     (@return), il faut préciser le type d'objet qu'il y a en sortie, un vecteur,
     un entier, la class, le mode et le calcul qui permet de sortir cette valeur.
-- 11) faire des vignettes par type d'erreurs (voir comment faire dess liens dabs l a dox des fonctions et les vignettes)
-    - l'idée est d'expliquieztr dans quels cas on peut obtenir cette erreur
-- 12) Ajouter des tests pour les nouvelles fonctions de conversion
-- 13) retirer les caractères non ASCII des tests
-- 14) Changer les liste de start (tests combine2ts) pour passer à une combinaison de month, quarter et year
-- 15) Résoudre les problèmes de check :
-    - retirer les caractères ASCII (voir le code qui permet de détecter les caractères ascii dans divers)
-    - extend_ts: no visible global function definition for ‘end’
-    - extend_ts: no visible binding for global variable ‘end_ts’
-    - extend_ts: no visible global function definition for ‘window<-’
-    - Rd file 'combine2ts.Rd':
-     \examples lines wider than 100 characters:
-    - revoir l'exampkle de combine2ts
-- 16) Trouver un moyen de faire un CI/CD
+    - Faire le tour des tags que l'on pourrait ajouter comme doc
+- 7) faire des vignettes par type d'erreurs (voir comment faire dess liens dabs l a dox des fonctions et les vignettes)
+    - l'idée est d'expliquier dans quels cas on peut obtenir cette erreur
+- 8) Faire le tour des tests à ajouter
+- 9) Résoudre les problèmes de check (à refaire tourner)ndow<-’
+- 10) Trouver un moyen de faire un CI/CD
     - sur gitlab.insee (voir avec Julien Jamme) et
     - sur le gitlab du SSP cloud (datalab et git.lab)
-- 17) Se renseigner au sujet des traductions :
+- 11) Se renseigner au sujet des traductions :
     - https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#R-messages
     - https://r-pkgs.org/misc.html#other-directories
     - https://michaelchirico.github.io/potools/
-- 18) Lorsqu'on effectue un test (exemple tester que la fréquence est bien entière...), si on effectue ce test dans pluseirus fonctions, créer une fonction spécialisée dans ce test là.
-- 19) Relire les check et essayer de les remplacer avec le package checkmate ou assertthat ou autre qui pouirrait convenir (voir les bonnes pratiques) --> choix checkmate (rjd3 et à jour)
-- 20) Faire une recherche de toutes les classes "atomic" connues et vérifier lesquelles fonctionnent ou non avec des ts (pour étendre ou créer simplement des ts)
-- 21) Ajouter de la documentation aux fonctions qui n'en ont pas
-- 22) Faire le tour des numeriques entiers non déclarés integer
-- 23) Dans les stop, vérifier que les arguments sont bien entre quote pour code.
-- 24) Ajouter des retours à la ligne et des {} après chaque if
-- 25) Ajouter un test de couverture globale avec covr (100%) (
+- 12) Faire une recherche de toutes les classes "atomic" connues et vérifier lesquelles fonctionnent ou non avec des ts (pour étendre ou créer simplement des ts)
+- 13) Ajouter de la documentation aux fonctions qui n'en ont pas
+- 14) Ajouter des retours à la ligne et des {} après chaque if
+- 15) Ajouter un test de couverture globale avec covr (100%) (
     library("covr")
     covr <- package_coverage()
     covr
     report(covr))
-- 26) Lorsqu'on fait un test de good ts, good frequence, ... Le message d'erreur doit venir de la fonction de test (genre isGoodTS) et pas de la fonction de traitement (combine2ts).
-    Par exemple si je teste la fréquence, il faut que la fonction combine2ts retourne "la fréquence n'est pas conforme" comme erreur et que la fonction is_good_frequency retourne "La fréquence doit être numérique" ou "la fréquence doit être de longueur 1"
-    Aussi pour la package checkmate, ne pas hésiter à voir la doc pour utiliser les check_scalar, check_int, check_integerish, check_integer, ...
-    Après réflexion sur cette question je pense que le mieux est de créer des assert_single_integer, assert_date_ts, ... qui permettent de ne mettre aucun message d'erreur dans les fonctions de traitement directement mais tout gérer dans les check
+- 16) Concernant les check, assert, is...
+    - ne jamais mettre de stop dans les fonctions de traitements --> que des assert
+    - Faire ses propres assert_..., check_..., is_... (selon l'output que l'on veut) avec :
+        - ses warnings personnalisés
+        - ses erreurs personnalisés
+    - pour le package checkmate, ne pas hésiter à voir la doc pour utiliser les check_scalar, check_int, check_integerish, check_integer, ...
+    - Dans les stop (les erreurs), vérifier que les arguments sont bien entre quote pour code.
+

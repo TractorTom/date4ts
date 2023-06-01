@@ -20,5 +20,10 @@ En sortie, la fonction retourne l'objet \code{dataTS} n objet ts modifié avec l
 La fonction \code{setValue_ts} modifie la ou les valeurs d'un objet ts à une date donnée.
 }
 \examples{
-ev_pib |> setValue_ts(date = c(2021L, 2L), value = c(1, 2, 3))
+setValue_ts(
+    dataTS = ev_pib,
+    date_ts = c(2021L, 2L),
+    value = c(1, 2, 3)
+    )
+
 }

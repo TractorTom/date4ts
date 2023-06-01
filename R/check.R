@@ -188,7 +188,7 @@ is_single_date <- function(x, warn = FALSE) {
         return(FALSE)
     }
 
-    if (length(x) != 0L) {
+    if (length(x) != 1L) {
         if (warn) warning("L'argument x doit \u00eatre de longueur 1.")
         return(FALSE)
     }

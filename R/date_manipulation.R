@@ -107,7 +107,7 @@ firstDate <- function(dataTS) {
         stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
     }
 
-    timeTS <- stats::time(zoo::na.trim(dataTS))
+    timeTS <- stats::time(na_trim(dataTS))
     firstTime <- timeTS[1L]
     return(c(firstTime %/% 1L, (firstTime %% 1L) * stats::frequency(dataTS) + 1L))
 }
@@ -119,7 +119,7 @@ lastDate <- function(dataTS) {
         stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
     }
 
-    timeTS <- stats::time(zoo::na.trim(dataTS))
+    timeTS <- stats::time(na_trim(dataTS))
     lastTime <- timeTS[length(timeTS)]
     return(c(lastTime %/% 1L, (lastTime %% 1L) * stats::frequency(dataTS) + 1L))
 }
