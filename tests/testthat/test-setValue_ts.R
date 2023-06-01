@@ -213,7 +213,7 @@ testthat::test_that("miscellaneous value input are not allowed", {
             testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
                                                date = create_random_date(),
                                                value = value),
-                                   regexp = "L'argument value doit être unidimensionnel.")
+                                   regexp = "L'argument value doit \u00eatre unidimensionnel.")
         }
     }
 })
@@ -225,7 +225,7 @@ testthat::test_that("value should have same type as dataTS", {
                 testthat::expect_error(setValue_ts(dataTS = create_random_ts(type = typeA),
                                                    date = create_random_date(),
                                                    value = create_random_type(typeB)),
-                                       regexp = "Les objets dataTS et value doivent être de même type.")
+                                       regexp = "Les objets dataTS et value doivent \u00eatre de m\u00eame type.")
             }
         }
     }

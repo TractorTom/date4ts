@@ -22,7 +22,7 @@ testthat::test_that("Result TRUE expected with good TS", {
 })
 
 
-# Tests de résultats négatif = FALSE -------------------------------------------
+# Tests de résultats n\u00e9gatif = FALSE -------------------------------------------
 
 ## Tests avec warn = TRUE -----------------------------------------------
 
@@ -99,7 +99,7 @@ testthat::test_that("Result FALSE expected with wrong frequency", {
 
 testthat::test_that("Result FALSE expected with wrong type of ts", {
     for (wrong_ts in wrong_type_ts) {
-        testthat::expect_warning({res_logical <- isGoodTS(wrong_ts, warn = TRUE)}, regexp = "L'objet dataTS doit être d'un type atomic.")
+        testthat::expect_warning({res_logical <- isGoodTS(wrong_ts, warn = TRUE)}, regexp = "L'objet dataTS doit \u00eatre d'un type atomic.")
         testthat::expect_false(res_logical)
     }
 })
@@ -189,7 +189,7 @@ testthat::test_that("Expect error for wrong warn argument", {
                         ts_A <- create_random_ts(type = typeA, len = lenA,
                                                  frequency = frequenceA,
                                                  start = startA)
-                        testthat::expect_error(isGoodTS(ts_A, warn = wrong_arg), regexp = "L'argument warn doit être un booléen de longueur 1.")
+                        testthat::expect_error(isGoodTS(ts_A, warn = wrong_arg), regexp = "L'argument warn doit \u00eatre un bool\u00e6en de longueur 1.")
                     }
                 }
             }

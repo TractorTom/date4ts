@@ -45,16 +45,16 @@ testthat::test_that("miscellaneous date are not allowed", {
 testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
         testthat::expect_error(libelles(date = create_random_date(), frequency = wrong_frequency),
-                               regexp = "La fréquence doit être trimestrielle ou mensuelle.")
+                               regexp = "La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
     }
 })
 
 testthat::test_that("miscellaneous nb are not allowed", {
     for (wrong_nb in c(object_bank_R[-10])) {
         testthat::expect_error(libelles(date = create_random_date(), frequency = 12L),
-                               regexp = "L'argument nb doit être un entier.")
+                               regexp = "L'argument nb doit \u00eatre un entier.")
         testthat::expect_error(libelles(date = create_random_date(), frequency = 4L),
-                               regexp = "L'argument nb doit être un entier.")
+                               regexp = "L'argument nb doit \u00eatre un entier.")
     }
 })
 

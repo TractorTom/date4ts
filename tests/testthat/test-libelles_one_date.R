@@ -34,7 +34,7 @@ testthat::test_that("warning for integer date", {
         for (year in good_years) {
             real_year <- year + (month - 1L) %/% 12L
             testthat::expect_warning({libel <- libelles_one_date(date = c(year, month), frequency = 12L)},
-                                     regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.")
+                                     regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.")
             testthat::expect_identical(libel,
                                        paste(list_months_name[(month - 1L) %% 12L + 1L], real_year))
         }
@@ -46,7 +46,7 @@ testthat::test_that("warning for integer date", {
         for (year in good_years) {
             real_year <- year + (quarter - 1L) %/% 4L
             testthat::expect_warning({libel <- libelles_one_date(date = c(year, quarter), frequency = 4L)},
-                                     regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.")
+                                     regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.")
             testthat::expect_identical(libel,
                                        paste0("T", (quarter - 1L) %% 4L + 1L, " ", real_year))
         }
@@ -70,6 +70,6 @@ testthat::test_that("miscellaneous date are not allowed", {
 testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
         testthat::expect_error(libelles_one_date(date = create_random_date(), frequency = wrong_frequency),
-                               regexp = "La fréquence doit être trimestrielle ou mensuelle.")
+                               regexp = "La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
     }
 })

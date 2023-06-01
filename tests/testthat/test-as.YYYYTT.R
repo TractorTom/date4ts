@@ -27,6 +27,6 @@ testthat::test_that("miscellaneous input are not allowed", {
     }
     for (wrong_time in wrong_TimeUnits) {
         testthat::expect_error(as.YYYYTT(wrong_time),
-                               regexp = "L'input TimeUnits n'est pas cohérent temporellement avec les trimestres classiques.")
+                               regexp = "L'input TimeUnits n'est pas coh\u00e9rent temporellement avec les trimestres classiques.")
     }
 })

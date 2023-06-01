@@ -36,7 +36,7 @@ testthat::test_that("warning for integer date", {
     for (good_year in good_years) {
         for (warning_month in warning_integer_months) {
             warning_date <- c(good_year, warning_month)
-            testthat::expect_warning({boolRes <- is_date_ts(warning_date)}, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.")
+            testthat::expect_warning({boolRes <- is_date_ts(warning_date)}, regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.")
             testthat::expect_true(boolRes)
         }
     }
@@ -46,13 +46,13 @@ testthat::test_that("warning for double date", {
     for (warning_year in double_years) {
 
         warning_date <- warning_year
-        testthat::expect_warning({boolRes <- is_date_ts(warning_date)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+        testthat::expect_warning({boolRes <- is_date_ts(warning_date)}, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.")
         testthat::expect_true(boolRes)
 
         for (good_month in good_months) {
 
             warning_date <- c(warning_year, good_month)
-            testthat::expect_warning({boolRes <- is_date_ts(warning_date)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+            testthat::expect_warning({boolRes <- is_date_ts(warning_date)}, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.")
             testthat::expect_true(boolRes)
 
         }
@@ -62,7 +62,7 @@ testthat::test_that("warning for double date", {
         for (warning_month in double_months) {
 
             warning_date <- c(good_year, warning_month)
-            testthat::expect_warning({boolRes <- is_date_ts(warning_date)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+            testthat::expect_warning({boolRes <- is_date_ts(warning_date)}, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.")
             testthat::expect_true(boolRes)
 
         }
@@ -72,7 +72,7 @@ testthat::test_that("warning for double date", {
         for (warning_month in double_months) {
 
             warning_date <- c(warning_year, warning_month)
-            testthat::expect_warning({boolRes <- is_date_ts(warning_date)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+            testthat::expect_warning({boolRes <- is_date_ts(warning_date)}, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.")
             testthat::expect_true(boolRes)
 
         }
@@ -85,8 +85,8 @@ testthat::test_that("several warning", {
 
             warning_date <- c(warning_year, warning_month)
             w <- testthat::capture_warnings({boolRes <- is_date_ts(warning_date)})
-            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privilégier le format integer.", all = FALSE)
-            testthat::expect_match(object = w, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.", all = FALSE)
 
             testthat::expect_true(boolRes)
         }
@@ -97,8 +97,8 @@ testthat::test_that("several warning", {
 
             warning_date <- c(warning_year, warning_month)
             w <- testthat::capture_warnings({boolRes <- is_date_ts(warning_date)})
-            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privilégier le format integer.", all = FALSE)
-            testthat::expect_match(object = w, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.", all = FALSE)
 
             testthat::expect_true(boolRes)
         }
@@ -109,8 +109,8 @@ testthat::test_that("several warning", {
 
             warning_date <- c(warning_year, warning_month)
             w <- testthat::capture_warnings({boolRes <- is_date_ts(warning_date)})
-            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privilégier le format integer.", all = FALSE)
-            testthat::expect_match(object = w, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.", all = FALSE)
 
             testthat::expect_true(boolRes)
         }
@@ -124,7 +124,7 @@ testthat::test_that("warning for integer date", {
     for (good_year in good_years) {
         for (warning_quarter in warning_integer_quarters) {
             warning_date <- c(good_year, warning_quarter)
-            testthat::expect_warning({boolRes <- is_date_ts(warning_date, frequency = 4L)}, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.")
+            testthat::expect_warning({boolRes <- is_date_ts(warning_date, frequency = 4L)}, regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.")
             testthat::expect_true(boolRes)
         }
     }
@@ -134,13 +134,13 @@ testthat::test_that("warning for double date", {
     for (warning_year in double_years) {
 
         warning_date <- warning_year
-        testthat::expect_warning({boolRes <- is_date_ts(warning_date, frequency = 4L)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+        testthat::expect_warning({boolRes <- is_date_ts(warning_date, frequency = 4L)}, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.")
         testthat::expect_true(boolRes)
 
         for (good_quarter in list_good_quarters) {
 
             warning_date <- c(warning_year, good_quarter)
-            testthat::expect_warning({boolRes <- is_date_ts(warning_date, frequency = 4L)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+            testthat::expect_warning({boolRes <- is_date_ts(warning_date, frequency = 4L)}, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.")
             testthat::expect_true(boolRes)
 
         }
@@ -150,7 +150,7 @@ testthat::test_that("warning for double date", {
         for (warning_quarter in double_quarters) {
 
             warning_date <- c(good_year, warning_quarter)
-            testthat::expect_warning({boolRes <- is_date_ts(warning_date, frequency = 4L)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+            testthat::expect_warning({boolRes <- is_date_ts(warning_date, frequency = 4L)}, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.")
             testthat::expect_true(boolRes)
 
         }
@@ -160,7 +160,7 @@ testthat::test_that("warning for double date", {
         for (warning_quarter in double_quarters) {
 
             warning_date <- c(warning_year, warning_quarter)
-            testthat::expect_warning({boolRes <- is_date_ts(warning_date, frequency = 4L)}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+            testthat::expect_warning({boolRes <- is_date_ts(warning_date, frequency = 4L)}, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.")
             testthat::expect_true(boolRes)
 
         }
@@ -173,8 +173,8 @@ testthat::test_that("several warning", {
 
             warning_date <- c(warning_year, warning_quarter)
             w <- testthat::capture_warnings({boolRes <- is_date_ts(warning_date, frequency = 4L)})
-            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privilégier le format integer.", all = FALSE)
-            testthat::expect_match(object = w, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.", all = FALSE)
 
             testthat::expect_true(boolRes)
         }
@@ -185,8 +185,8 @@ testthat::test_that("several warning", {
 
             warning_date <- c(warning_year, warning_quarter)
             w <- testthat::capture_warnings({boolRes <- is_date_ts(warning_date, frequency = 4L)})
-            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privilégier le format integer.", all = FALSE)
-            testthat::expect_match(object = w, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.", all = FALSE)
 
             testthat::expect_true(boolRes)
         }
@@ -197,8 +197,8 @@ testthat::test_that("several warning", {
 
             warning_date <- c(warning_year, warning_quarter)
             w <- testthat::capture_warnings({boolRes <- is_date_ts(warning_date, frequency = 4L)})
-            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privilégier le format integer.", all = FALSE)
-            testthat::expect_match(object = w, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.", all = FALSE)
 
             testthat::expect_true(boolRes)
         }
@@ -216,6 +216,6 @@ testthat::test_that("detection of wrong dates", {
 testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
         testthat::expect_error(is_date_ts(date_ts = create_random_date(), frequency = wrong_frequency),
-                               regexp = "La fréquence doit être trimestrielle ou mensuelle.")
+                               regexp = "La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
     }
 })

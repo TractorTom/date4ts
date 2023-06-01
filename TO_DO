@@ -46,4 +46,5 @@ Création du package :
 - 26) Lorsqu'on fait un test de good ts, good frequence, ... Le message d'erreur doit venir de la fonction de test (genre isGoodTS) et pas de la fonction de traitement (combine2ts).
     Par exemple si je teste la fréquence, il faut que la fonction combine2ts retourne "la fréquence n'est pas conforme" comme erreur et que la fonction is_good_frequency retourne "La fréquence doit être numérique" ou "la fréquence doit être de longueur 1"
 
+- AUssi pour la package checkmate, ne pas hésiter à voir la doc pour utiliser les check_scalar, check_int, check_integerish, check_integer, ...
 

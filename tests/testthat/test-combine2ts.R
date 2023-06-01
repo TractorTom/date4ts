@@ -312,7 +312,7 @@ testthat::test_that("different input type are not allowed", {
         objA <- create_random_ts(type = typeA, frequency = 12L)
         for (typeB in list_type[-7L]) {
             objB <- create_random_ts(type = typeB, frequency = 12L)
-            if (typeA != typeB) testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets `a` et `b` doivent être de même type.")
+            if (typeA != typeB) testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
         }
     }
 })
@@ -323,8 +323,8 @@ testthat::test_that("arguments have same frequency", {
     for (typeA in list_type) {
         objA <- create_random_ts(type = typeA, frequency = 12L)
         objB <- create_random_ts(type = typeA, frequency = 4L)
-        testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets `a` et `b` doivent avoir la même fréquence.")
-        testthat::expect_error(combine2ts(objB, objA), regexp = "Les objets `a` et `b` doivent avoir la même fréquence.")
+        testthat::expect_error(combine2ts(objA, objB), regexp = "Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
+        testthat::expect_error(combine2ts(objB, objA), regexp = "Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
     }
 })
 

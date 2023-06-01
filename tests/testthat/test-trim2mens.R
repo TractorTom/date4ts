@@ -33,7 +33,7 @@ testthat::test_that("warning for integer date", {
     for (good_year in good_years) {
         for (warning_quarter in warning_integer_quarters) {
 
-            testthat::expect_warning({resMonthly <- trim2mens(c(good_year, warning_quarter))}, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.")
+            testthat::expect_warning({resMonthly <- trim2mens(c(good_year, warning_quarter))}, regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.")
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- good_year + (warning_quarter - 1L) %/% 4L
@@ -49,7 +49,7 @@ testthat::test_that("warning for double date", {
     for (warning_year in double_years) {
         for (good_quarter in list_good_quarters) {
 
-            testthat::expect_warning({resMonthly <- trim2mens(c(warning_year, good_quarter))}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+            testthat::expect_warning({resMonthly <- trim2mens(c(warning_year, good_quarter))}, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.")
 
             real_quarter <- (good_quarter - 1L) %% 4L + 1L
             year_real <- warning_year + (good_quarter - 1L) %/% 4L
@@ -63,7 +63,7 @@ testthat::test_that("warning for double date", {
     for (good_year in good_years) {
         for (warning_quarter in double_quarters) {
 
-            testthat::expect_warning({resMonthly <- trim2mens(c(good_year, warning_quarter))}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+            testthat::expect_warning({resMonthly <- trim2mens(c(good_year, warning_quarter))}, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.")
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- good_year + (warning_quarter - 1L) %/% 4L
@@ -77,7 +77,7 @@ testthat::test_that("warning for double date", {
     for (warning_year in double_years) {
         for (warning_quarter in double_quarters) {
 
-            testthat::expect_warning({resMonthly <- trim2mens(c(good_year, warning_quarter))}, regexp = "La date est de type double. Il faut privilégier le format integer.")
+            testthat::expect_warning({resMonthly <- trim2mens(c(good_year, warning_quarter))}, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.")
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- good_year + (warning_quarter - 1L) %/% 4L
@@ -94,8 +94,8 @@ testthat::test_that("several warning", {
         for (warning_quarter in warning_integer_quarters) {
 
             w <- testthat::capture_warnings({resMonthly <- trim2mens(c(warning_year, warning_quarter))})
-            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privilégier le format integer.", all = FALSE)
-            testthat::expect_match(object = w, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.", all = FALSE)
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- warning_year + (warning_quarter - 1L) %/% 4L
@@ -110,8 +110,8 @@ testthat::test_that("several warning", {
         for (warning_quarter in warning_double_quarters) {
 
             w <- testthat::capture_warnings({resMonthly <- trim2mens(c(warning_year, warning_quarter))})
-            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privilégier le format integer.", all = FALSE)
-            testthat::expect_match(object = w, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.", all = FALSE)
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- warning_year + (warning_quarter - 1L) %/% 4L
@@ -126,8 +126,8 @@ testthat::test_that("several warning", {
         for (warning_quarter in warning_double_quarters) {
 
             w <- testthat::capture_warnings({resMonthly <- trim2mens(c(good_year, warning_quarter))})
-            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privilégier le format integer.", all = FALSE)
-            testthat::expect_match(object = w, regexp = "Le nombre de période est négatif ou nul ou dépasse la fréquence. La date va être reformattée.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "La date est de type double. Il faut privil\u00e9gier le format integer.", all = FALSE)
+            testthat::expect_match(object = w, regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.", all = FALSE)
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- good_year + (warning_quarter - 1L) %/% 4L
