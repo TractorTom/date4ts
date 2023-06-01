@@ -96,7 +96,7 @@ wrong_dates <- c(
 
 # Conversion
 conversion_quarter_month <- data.frame(quarter = 1L:4L, month = c(1L, 4L, 7L, 10L))
-conversion_month_quarter <- data.frame(month = 1L:12L, quarter = rep(1L:4L, each = 3))
+conversion_month_quarter <- data.frame(month = 1L:12L, quarter = rep(1L:4L, each = 3L))
 
 # Labels
 list_months_name <- c("janv.", "f\u00e0vr.", "mars", "avr.", "mai", "juin", "juil.", "ao\u00f9t", "sept.", "oct.", "nov.", "d\u00e0c.")
