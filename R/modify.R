@@ -119,7 +119,7 @@ combine2ts <- function(a, b) {
 
     } else if (is.numeric(stats::frequency(outputTS))) {
         outputDF <- cbind(a, b) |> as.data.frame()
-        if (sum(is.na(outputDF$a) & (!is.na(outputDF$b))) > 0) warning("extending time series when replacing values")
+        if (sum(is.na(outputDF$a) & (!is.na(outputDF$b))) > 0L) warning("extending time series when replacing values")
 
         outputDF$res <- outputDF$a
         outputDF$res[!is.na(outputDF$b)] <- outputDF$b[!is.na(outputDF$b)]
@@ -128,9 +128,9 @@ combine2ts <- function(a, b) {
             data = outputDF$res,
             frequency = stats::frequency(a),
             start = min(getTimeUnits(stats::start(a) |> as.integer(),
-                                              frequency = stats::frequency(a)),
+                                     frequency = stats::frequency(a)),
                         getTimeUnits(stats::start(b) |> as.integer(),
-                                              frequency = stats::frequency(b))))
+                                     frequency = stats::frequency(b))))
     }
     return(outputTS)
 }
@@ -175,15 +175,41 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
         }
         length_replacement <- diff_periode(a = start_replacement,
                                            b = date_ts, frequency = frequency)
-        if (length_replacement %% length(x) != 0) {
+        if (length_replacement %% length(x) != 0L) {
             stop("number of values supplied is not a sub-multiple of the number of values to be replaced")
         }
         end_replacement <- date_ts
 
     } else {
-        end_replacement <- next_date_ts(end_ts, lag = length(x) + 1, frequency = frequency)
+        end_replacement <- next_date_ts(end_ts, lag = length(x) + 1L, frequency = frequency)
     }
 
     window(dataTS, start = start_replacement, end = date_ts, extend = TRUE) <- x
     return(dataTS)
+}
+
+na_trim <- function(dataTS) {
+
+    # Check de l'objet dataTS
+    if  (!isGoodTS(dataTS, warn = FALSE)) {
+        stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
+    }
+
+    non_na <- seq_along(dataTS)[!is.na(dataTS)]
+
+    if (length(non_na) == 0L) {
+        stop("L'objet ne contient que des NAs.")
+    }
+
+    content <- dataTS[min(non_na):max(non_na)]
+
+    start_ts <- stats::start(dataTS)
+    frequency_ts <- stats::frequency(dataTS)
+
+    return(ts(data = dataTS,
+              start = next_date_ts(date_ts = start_ts,
+                                   frequency = frequency_ts,
+                                   lag = min(non_na) - 1L),
+              frequency = frequency_ts)
+    )
 }

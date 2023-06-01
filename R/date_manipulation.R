@@ -164,5 +164,5 @@ diff_periode <- function(a, b, frequency) {
     if (!is_before(a, b, frequency)) return(diff_periode(b, a, frequency))
     if (length(a) == 1L) a <- c(a, 1L)
     if (length(b) == 1L) b <- c(b, 1L)
-    return((b[1] - a[1]) * frequency + b[2] - a[2] + 1)
+    return((b[1L] - a[1L]) * frequency + b[2L] - a[2L] + 1L)
 }

@@ -55,7 +55,7 @@ libelles_one_date <- function(date_ts, frequency) {
 #' @examples
 #' libelles(date_ts = c(2019L, 10L), frequency = 12L, nb = 9L)
 #' libelles(date_ts = c(2019L, 4L), frequency = 4L, nb = 3L)
-libelles <- function(date_ts, frequency, nb = 1) {
+libelles <- function(date_ts, frequency, nb = 1L) {
 
     # Check de la fréquence
     if (!is_good_frequency(frequency)) {
@@ -76,7 +76,7 @@ libelles <- function(date_ts, frequency, nb = 1) {
         warning("L'argument nb est de type double. Il faut privil\u00e9gier le format integer.")
     }
 
-    if (nb <= 0) {
+    if (nb <= 0L) {
         stop("Aucun libell\u00e9 n'est s\u00e9lectionn\u00e9.")
     }
 

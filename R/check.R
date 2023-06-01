@@ -68,7 +68,7 @@ is_date_ts <- function(date_ts, frequency = 12L, warn = TRUE) {
         if (warn) warning("La date est de type double. Il faut privil\u00e9gier le format integer.")
     }
 
-    if (length(date_ts) == 2L && (date_ts[2] <= 0L || date_ts[2] > frequency)) {
+    if (length(date_ts) == 2L && (date_ts[2L] <= 0L || date_ts[2L] > frequency)) {
         if (warn) warning("Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.")
     }
     return(TRUE)
@@ -156,7 +156,7 @@ isGoodTS <- function(dataTS, warn = TRUE) {
 is_vector <- function(x) {
 
     if (!is.atomic(x)) return(FALSE)
-    if (length(x) == 0) return(FALSE)
+    if (length(x) == 0L) return(FALSE)
 
     return(TRUE)
 }
@@ -190,7 +190,7 @@ is_single_boolean <- function(x, warn = FALSE) {
         return(FALSE)
     }
 
-    if (length(x) != 0) {
+    if (length(x) != 0L) {
         if (warn) warning("L'argument x doit \u00eatre de longueur 1.")
         return(FALSE)
     }
@@ -205,7 +205,7 @@ is_single_date <- function(x, warn = FALSE) {
         return(FALSE)
     }
 
-    if (length(x) != 0) {
+    if (length(x) != 0L) {
         if (warn) warning("L'argument x doit \u00eatre de longueur 1.")
         return(FALSE)
     }

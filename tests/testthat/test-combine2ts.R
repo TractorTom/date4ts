@@ -32,7 +32,7 @@ for (typeA in list_type) {
                                 B1_content <- create_random_type(type = typeA, len = param1 + param2)
                                 startB1 <- end(ts_A)
                                 if (length(startB1) == 1L) startB1 <- c(startB1, 1L)
-                                startB1[2] <- startB1[2] - (param1 - 1L)
+                                startB1[2L] <- startB1[2L] - (param1 - 1L)
                                 ts_B1 <- ts(B1_content,  start = startB1, frequency = frequenceA)
                                 # ts_B1 <- ts(B1_content,  start = getTimeUnits(end(ts_A) |> as.integer(), frequency = frequenceA) - (param1 - 1L) / frequenceA, frequency = frequenceA)
 
@@ -66,7 +66,7 @@ for (typeA in list_type) {
                                 B2_content <- create_random_type(type = typeA, len = param1 + param2)
                                 startB2 <- startA
                                 if (length(startB2) == 1L) startB2 <- c(startB2, 1L)
-                                startB2[2] <- startB2[2] - param1
+                                startB2[2L] <- startB2[2L] - param1
                                 ts_B2 <- ts(B2_content,  start = startB2, frequency = frequenceA)
                                 # ts_B2 <- ts(B2_content,  start = getTimeUnits(startA, frequency = frequenceA) - param1 / frequenceA, frequency = frequenceA)
 
@@ -74,7 +74,7 @@ for (typeA in list_type) {
                                 if (param1 == 0L) {
                                     ts_ResB2A <- ts_A
                                 } else {
-                                    ts_ResB2A <- ts(c(B2_content[1:param1], A_content), start = start(ts_B2), frequency = frequenceA)
+                                    ts_ResB2A <- ts(c(B2_content[1L:param1], A_content), start = start(ts_B2), frequency = frequenceA)
                                 }
 
                                 if (param1 > 0L) {
@@ -101,7 +101,7 @@ for (typeA in list_type) {
                                 B3_content <- create_random_type(type = typeA, len = param1)
                                 startB3 <- startA
                                 if (length(startB3) == 1L) startB3 <- c(startB3, 1L)
-                                startB3[2] <- startB3[2] - (param1 + param2)
+                                startB3[2L] <- startB3[2L] - (param1 + param2)
                                 ts_B3 <- ts(B3_content,  start = startB3, frequency = frequenceA)
                                 # ts_B3 <- ts(B3_content, start = getTimeUnits(startA, frequency = frequenceA) - (param1 + param2) / frequenceA, frequency = frequenceA)
 
@@ -147,7 +147,7 @@ for (typeA in list_type) {
                                 B4_content <- create_random_type(type = typeA, len = param2)
                                 startB4 <- end(ts_A)
                                 if (length(startB4) == 1L) startB4 <- c(startB4, 1L)
-                                startB4[2] <- startB4[2] + param1 + 1L
+                                startB4[2L] <- startB4[2L] + param1 + 1L
                                 ts_B4 <- ts(B4_content,  start = startB4, frequency = frequenceA)
                                 # ts_B4 <- ts(B4_content,  start = getTimeUnits(end(ts_A) |> as.integer(), frequency = frequenceA) + (param1 + 1L) / frequenceA, frequency = frequenceA)
 
@@ -192,7 +192,7 @@ for (typeA in list_type) {
                             B5_content <- create_random_type(type = typeA, len = param1 + param2 + lenA)
                             startB5 <- startA
                             if (length(startB5) == 1L) startB5 <- c(startB5, 1L)
-                            startB5[2] <- startB5[2] - param1
+                            startB5[2L] <- startB5[2L] - param1
                             ts_B5 <- ts(B5_content,  start = startB5, frequency = frequenceA)
                             # ts_B5 <- ts(B5_content,  start = getTimeUnits(startA, frequency = frequenceA) - param1 / frequenceA, frequency = frequenceA)
                             ts_ResAB5 <- ts_B5
@@ -202,9 +202,9 @@ for (typeA in list_type) {
                             } else if (param1 == 0L) {
                                 ts_ResB5A <- ts(c(A_content, B5_content[(param1 + lenA + 1):(param1 + param2 + lenA)]), start = start(ts_B5), frequency = frequenceA)
                             } else if (param2 == 0L) {
-                                ts_ResB5A <- ts(c(B5_content[1:param1], A_content), start = start(ts_B5), frequency = frequenceA)
+                                ts_ResB5A <- ts(c(B5_content[1L:param1], A_content), start = start(ts_B5), frequency = frequenceA)
                             } else {
-                                ts_ResB5A <- ts(c(B5_content[1:param1], A_content, B5_content[(param1 + lenA + 1):(param1 + param2 + lenA)]), start = start(ts_B5), frequency = frequenceA)
+                                ts_ResB5A <- ts(c(B5_content[1L:param1], A_content, B5_content[(param1 + lenA + 1):(param1 + param2 + lenA)]), start = start(ts_B5), frequency = frequenceA)
                             }
 
                             if (param1 + param2 > 0L) {
@@ -229,7 +229,7 @@ for (typeA in list_type) {
                                 B6_content <- create_random_type(type = typeA, len = param2)
                                 startB6 <- startA
                                 if (length(startB6) == 1L) startB6 <- c(startB6, 1L)
-                                startB6[2] <- startB6[2] + param1
+                                startB6[2L] <- startB6[2L] + param1
                                 ts_B6 <- ts(B6_content, start = startB6, frequency = frequenceA)
                                 # ts_B6 <- ts(B6_content,  start = getTimeUnits(startA, frequency = frequenceA) + param1 / frequenceA, frequency = frequenceA)
                                 if (param1 == 0L) {

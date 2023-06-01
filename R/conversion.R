@@ -204,14 +204,14 @@ date_ts2date <- function(date_ts, frequency = 12L) {
         stop("La date est au mauvais format.")
     }
 
-    year <- date_ts[1]
+    year <- date_ts[1L]
     month <- "01"
 
-    if (length(date_ts) == 2) {
+    if (length(date_ts) == 2L) {
         if (frequency == 4L) {
-            month <- sprintf("%02d", date_ts[2] * 3L - 2L)
+            month <- sprintf("%02d", date_ts[2L] * 3L - 2L)
         } else if (frequency == 12L) {
-            month <- sprintf("%02d", date_ts[2])
+            month <- sprintf("%02d", date_ts[2L])
         }
     }
 

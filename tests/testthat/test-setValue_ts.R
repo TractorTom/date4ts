@@ -26,12 +26,12 @@ for (typeA in list_type) {
                         testthat::test_that(test_name, {
 
                             valueB <- create_random_type(type = typeA, len = lenB)
-                            startB <- c(startA[1], startA[2] + lagB) |> format_date_ts(frequency = frequenceA)
+                            startB <- c(startA[1L], startA[2L] + lagB) |> format_date_ts(frequency = frequenceA)
                             ts_B <- ts(valueB, start = startB, frequency = frequenceA)
 
 
                             #Cas où lagB >= 0 (start = startA)
-                            if (lagB > 0) {
+                            if (lagB > 0L) {
                                 if (lagB > lenA) { #Cas 4
 
                                     if (typeA == "raw") {
@@ -57,16 +57,16 @@ for (typeA in list_type) {
 
 
                                 } else if (lagB + lenB < lenA) { #Cas 6
-                                    ts_ResAB1 <- ts(c(A_content[1:lagB], valueB, A_content[(lagB + lenB + 1):lenA]), start = startA, frequency = frequenceA)
+                                    ts_ResAB1 <- ts(c(A_content[1L:lagB], valueB, A_content[(lagB + lenB + 1):lenA]), start = startA, frequency = frequenceA)
                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
                                     resAB <- setValue_ts(ts_A, date = startB, value = valueB)
                                 } else if (lagB + lenB == lenA) { #Autres cas
-                                    ts_ResAB1 <- ts(c(A_content[1:lagB], valueB), start = startA, frequency = frequenceA)
+                                    ts_ResAB1 <- ts(c(A_content[1L:lagB], valueB), start = startA, frequency = frequenceA)
                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
                                     resAB <- setValue_ts(ts_A, date = startB, value = valueB)
                                 } else { #Cas1
 
-                                    ts_ResAB1 <- ts(c(A_content[1:lagB], valueB), start = startA, frequency = frequenceA)
+                                    ts_ResAB1 <- ts(c(A_content[1L:lagB], valueB), start = startA, frequency = frequenceA)
                                     testthat::expect_warning({ts_ResAB2 <- combine2ts(ts_A, ts_B)},
                                                              regexp = "extending time series when replacing values")
                                     testthat::expect_warning({resAB <- setValue_ts(ts_A, date = startB, value = valueB)},
@@ -74,9 +74,9 @@ for (typeA in list_type) {
 
                                 }
 
-                            } else if (lagB < 0) { #Cas où start = strartB < startA
+                            } else if (lagB < 0L) { #Cas où start = strartB < startA
 
-                                if (lagB + lenB < 0) { #Cas 3
+                                if (lagB + lenB < 0L) { #Cas 3
 
                                     if (typeA == "raw") {
                                         ts_ResAB1 <- ts(c(valueB, rep(as.raw(0L), -lagB - lenB), A_content), start = startB, frequency = frequenceA)
