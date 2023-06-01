@@ -11,7 +11,12 @@
 #' @export
 #'
 #' @examples
-#' ev_pib |> setValue_ts(date = c(2021L, 2L), value = c(1, 2, 3))
+#' setValue_ts(
+#'     dataTS = ev_pib,
+#'     date_ts = c(2021L, 2L),
+#'     value = c(1, 2, 3)
+#'     )
+#'
 setValue_ts <- function(dataTS, date_ts, value) {
 
     # Check de l'objet dataTS
@@ -38,18 +43,25 @@ setValue_ts <- function(dataTS, date_ts, value) {
     outputTS <- dataTS
 
     if (is.raw(outputTS)) {
-        outputTS <- outputTS |>
-            as.integer() |>
-            stats::ts(start = stats::start(outputTS), frequency = stats::frequency(outputTS)) |>
-            setValue_ts(date_ts = date_ts, value = as.integer(value))
-        outputTS <- outputTS |>
-            as.raw() |>
-            stats::ts(start = stats::start(outputTS), frequency = stats::frequency(outputTS))
+        outputTS <- setValue_ts(
+            dataTS = stats::ts(
+                data = as.integer(outputTS),
+                start = stats::start(outputTS),
+                frequency = stats::frequency(outputTS)),
+            date_ts = date_ts, value = as.integer(value))
+        outputTS <- stats::ts(
+            data = as.raw(outputTS),
+            start = stats::start(outputTS),
+            frequency = stats::frequency(outputTS))
     } else {
-        outputTS |>
-            stats::window(start = date_ts |> format_date_ts(frequency = stats::frequency(dataTS)),
-                          end =   date_ts |> next_date_ts(frequency = stats::frequency(dataTS), lag = length(value) - 1L),
-                          extend = TRUE) <- value
+        start_ts <- format_date_ts(date_ts,
+                                   frequency = stats::frequency(dataTS))
+        end_ts <- next_date_ts(date_ts, frequency = stats::frequency(dataTS),
+                               lag = length(value) - 1L)
+        stats::window(
+            x = outputTS, start = start_ts,
+            end = end_ts,
+            extend = TRUE) <- value
     }
 
     return(outputTS)
@@ -97,28 +109,31 @@ combine2ts <- function(a, b) {
     outputTS <- a
 
     if (is.raw(a)) {
-        a <- a |>
-            as.integer() |>
-            stats::ts(start = stats::start(a),
-                      frequency = stats::frequency(a))
-        b <- b |>
-            as.integer() |>
-            stats::ts(start = stats::start(b),
-                      frequency = stats::frequency(b))
+
+        a <- stats::ts(
+            x = as.integer(a),
+            start = stats::start(a),
+            frequency = stats::frequency(a))
+        b <- stats::ts(
+            x = as.integer(b),
+            start = stats::start(b),
+            frequency = stats::frequency(b))
+
         outputTS <- combine2ts(a, b)
-        outputTS <- outputTS |>
-            as.raw() |>
-            stats::ts(start = stats::start(outputTS),
-                      frequency = stats::frequency(outputTS))
+
+        outputTS <- stats::ts(
+            x = as.raw(outputTS),
+            start = stats::start(outputTS),
+            frequency = stats::frequency(outputTS))
 
     } else if (isTRUE(all.equal(stats::frequency(a),
                                 round(stats::frequency(a))))) {
-        outputTS |>
-            stats::window(start = stats::start(b),
-                          end = stats::end(b), extend = TRUE) <- b
+
+        stats::window(x = outputTS, start = stats::start(b),
+                      end = stats::end(b), extend = TRUE) <- b
 
     } else if (is.numeric(stats::frequency(outputTS))) {
-        outputDF <- cbind(a, b) |> as.data.frame()
+        outputDF <- as.data.frame(cbind(a, b))
         if (sum(is.na(outputDF$a) & (!is.na(outputDF$b))) > 0) warning("extending time series when replacing values")
 
         outputDF$res <- outputDF$a
@@ -127,10 +142,10 @@ combine2ts <- function(a, b) {
         outputTS <- stats::ts(
             data = outputDF$res,
             frequency = stats::frequency(a),
-            start = min(getTimeUnits(stats::start(a) |> as.integer(),
-                                              frequency = stats::frequency(a)),
-                        getTimeUnits(stats::start(b) |> as.integer(),
-                                              frequency = stats::frequency(b))))
+            start = min(getTimeUnits(as.integer(stats::start(a)),
+                                     frequency = stats::frequency(a)),
+                        getTimeUnits(as.integer(stats::start(b)),
+                                     frequency = stats::frequency(b))))
     }
     return(outputTS)
 }
@@ -149,9 +164,9 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
     checkmate::assert_flag(replace_na)
 
     if (replace_na) {
-        start_replacement <- lastDate(dataTS) |> next_date_ts()
+        start_replacement <- next_date_ts(lastDate(dataTS))
     } else {
-        start_replacement <- end(dataTS) |> next_date_ts()
+        start_replacement <- next_date_ts(stats::end(dataTS))
     }
 
     frequency <- stats::frequency(dataTS)

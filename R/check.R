@@ -171,7 +171,7 @@ is_single_integer <- function(x, warn = FALSE) {
     # Check de warn
     checkmate::assert_flag(warn)
 
-    if (!isTRUE(reason <- checkmate::check_count(x))) {
+    if (!isTRUE(reason <- checkmate::check_count(x, positive = TRUE))) {
         if (warn) warning(reason)
         return(FALSE)
     }

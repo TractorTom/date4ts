@@ -1,5 +1,5 @@
 
-getValue_ts <- function(dataTS, date, nb = 1L) {
+getValue_ts <- function(dataTS, date_ts, nb = 1L) {
 
     # Check de l'objet dataTS
     if  (!isGoodTS(dataTS, warn = FALSE)) {
@@ -13,7 +13,15 @@ getValue_ts <- function(dataTS, date, nb = 1L) {
 
     if (is.double(nb)) warning("L'argument nb est de type double. Il faut privil\u00e9gier le format integer.")
 
-    return(dataTS |>
-               stats::window(start = date, end = next_date_ts(date, frequency = 12L, lag = nb - 1L)) |>
-               as.numeric())
+    # Check du format date_ts
+    if (!is_date_ts(date_ts, frequency = frequency)) {
+        stop("La date est au mauvais format.")
+    }
+
+    output_value <- as.numeric(stats::window(
+        x = dataTS,
+        start = date_ts,
+        end = next_date_ts(date_ts, frequency = 12L, lag = nb - 1L)))
+
+    return(output_value)
 }

@@ -21,7 +21,7 @@ as.YYYYTT <- function(TimeUnits) {
     if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
         stop("L'input TimeUnits n'est pas coh\u00e9rent temporellement avec les trimestres classiques.")
 
-    return(c(TimeUnits %/% 1, (TimeUnits %% 1L) * 4 + 1) |> round() |> as.integer())
+    return(as.integer(round(c(TimeUnits %/% 1L, (TimeUnits %% 1L) * 4L + 1L))))
 }
 
 #' Conversion au format c(AAAA, MM)
@@ -47,7 +47,7 @@ as.YYYYMM <- function(TimeUnits) {
     if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
         stop("L'input TimeUnits n'est pas coh\u00e9rent temporellement avec les trimestres classiques.")
 
-    return(c(TimeUnits %/% 1, (TimeUnits %% 1L) * 12 + 1) |> round() |> as.integer())
+    return(as.integer(round(c(TimeUnits %/% 1L, (TimeUnits %% 1L) * 12L + 1L))))
 }
 
 #' Correspondance d'une date trimestrielle au premier mois du trimestre
@@ -71,7 +71,7 @@ trim2mens <- function(date_ts) {
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 4L
     trim <- (date_ts[2L] - 1L) %% 4L + 1L
-    return(c(year, trim * 3L - 2L) |> as.integer())
+    return(as.integer(c(year, trim * 3L - 2L)))
 }
 
 #' Correspondance d'une date mensuelle au trimestre courant
@@ -95,7 +95,7 @@ mens2trim <- function(date_ts) {
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 12L
     month <- (date_ts[2L] - 1L) %% 12L + 1L
-    return(c(year, 1L + ((month - 1L) %/% 3L)) |> as.integer())
+    return(as.integer(c(year, 1L + ((month - 1L) %/% 3L))))
 }
 
 #' Conversion d'une date du format date_ts au format TimeUnits

@@ -34,7 +34,7 @@ for (typeA in list_type) {
                                 if (length(startB1) == 1L) startB1 <- c(startB1, 1L)
                                 startB1[2] <- startB1[2] - (param1 - 1L)
                                 ts_B1 <- ts(B1_content,  start = startB1, frequency = frequenceA)
-                                # ts_B1 <- ts(B1_content,  start = getTimeUnits(end(ts_A) |> as.integer(), frequency = frequenceA) - (param1 - 1L) / frequenceA, frequency = frequenceA)
+                                # ts_B1 <- ts(B1_content,  start = getTimeUnits(as.integer(end(ts_A)), frequency = frequenceA) - (param1 - 1L) / frequenceA, frequency = frequenceA)
 
                                 ts_ResAB1 <- ts(c(A_content[1L:(lenA - param1)], B1_content), start = startA, frequency = frequenceA)
                                 if (param2 == 0L) {
@@ -149,7 +149,7 @@ for (typeA in list_type) {
                                 if (length(startB4) == 1L) startB4 <- c(startB4, 1L)
                                 startB4[2] <- startB4[2] + param1 + 1L
                                 ts_B4 <- ts(B4_content,  start = startB4, frequency = frequenceA)
-                                # ts_B4 <- ts(B4_content,  start = getTimeUnits(end(ts_A) |> as.integer(), frequency = frequenceA) + (param1 + 1L) / frequenceA, frequency = frequenceA)
+                                # ts_B4 <- ts(B4_content,  start = getTimeUnits(as.integer(end(ts_A)), frequency = frequenceA) + (param1 + 1L) / frequenceA, frequency = frequenceA)
 
                                 if (typeA == "raw") {
                                     ts_ResAB4 <- ts(c(A_content, rep(as.raw(0L), param1), B4_content), start = startA, frequency = frequenceA)
@@ -274,8 +274,13 @@ testthat::test_that("Several dimensions are not allowed", {
                     startB = create_random_date()
 
                     if (typeA == "complex") {
-                        mts_B <- lapply(B_content, FUN = ts, start = startB, frequency = frequenceA) |>
-                            do.call(cbind, args = _)
+                        mts_B <- do.call(
+                            what = cbind,
+                            args = lapply(X = B_content,
+                                          FUN = ts,
+                                          start = startB,
+                                          frequency = frequenceA)
+                        )
                     } else {
                         mts_B <- ts(B_content, start = startB, frequency = frequenceA)
                     }

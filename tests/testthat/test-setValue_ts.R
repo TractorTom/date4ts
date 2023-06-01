@@ -26,7 +26,9 @@ for (typeA in list_type) {
                         testthat::test_that(test_name, {
 
                             valueB <- create_random_type(type = typeA, len = lenB)
-                            startB <- c(startA[1], startA[2] + lagB) |> format_date_ts(frequency = frequenceA)
+                            startB <- format_date_ts(
+                                date_ts = c(startA[1], startA[2] + lagB),
+                                frequency = frequenceA)
                             ts_B <- ts(valueB, start = startB, frequency = frequenceA)
 
 
@@ -159,8 +161,13 @@ testthat::test_that("Several dimensions are not allowed", {
                     B_content <- as.data.frame(lapply(1L:5L, function(i) create_random_type(type = typeA, len = lenA)))
 
                     if (typeA == "complex") {
-                        mts_B <- lapply(B_content, FUN = ts, start = startA, frequency = frequenceA) |>
-                            do.call(cbind, args = _)
+                        mts_B <- do.call(
+                            what = cbind,
+                            args = lapply(X = B_content,
+                                          FUN = ts,
+                                          start = startA,
+                                          frequency = frequenceA)
+                        )
                     } else {
                         mts_B <- ts(B_content, start = startA, frequency = frequenceA)
                     }

@@ -75,7 +75,7 @@ warning_double_quarters <- c(-200., -20., -5., -3., -2., -1., 0., 5., 12., 13., 
 warning_integer_quarters <- c(-200L, -20L, -5L, -3L, -2L, -1L, 0L, 5L, 12L, 13L, 46L)
 
 double_quarters <- c(1., 2., 3., 4.)
-list_good_quarters <- 1L:4L
+good_quarters <- 1L:4L
 
 # Dates
 

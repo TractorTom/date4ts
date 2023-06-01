@@ -21,7 +21,7 @@ testthat::test_that("good result for integer date", {
     for (year in good_years) {
         testthat::expect_equal(getTimeUnits(date_ts = year, frequency = 4L),
                                year)
-        for (quarter in list_good_quarters) {
+        for (quarter in good_quarters) {
             testthat::expect_equal(getTimeUnits(date_ts = c(year, quarter), frequency = 4L),
                                    year + (quarter - 1) / 4)
         }
