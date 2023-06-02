@@ -34,10 +34,14 @@ Création du package :
     covr
     report(covr))
 - 16) Concernant les check, assert, is...
-    - ne jamais mettre de stop dans les fonctions de traitements --> que des assert
-    - Faire ses propres assert_..., check_..., is_... (selon l'output que l'on veut) avec :
-        - ses warnings personnalisés
-        - ses erreurs personnalisés
-    - pour le package checkmate, ne pas hésiter à voir la doc pour utiliser les check_scalar, check_int, check_integerish, check_integer, ...
-    - Dans les stop (les erreurs), vérifier que les arguments sont bien entre quote pour code.
+    - On va faire 3 type de fonctions :
+        - les assert_... :
+            - retourne une erreur à lapremière erreur rencontrée
+            - sinon ne retourne rien
+            - retourne un warning si il y a un détail (double à la place de integer, ...)
+        - les check_... retourne TRUE si c'est bon et le (les ?) message d'erreur en character
+        - is_... retourne juste TRUE ou FALSE
+    - Les assert_ remplaceront TOUS les stop que l'on a mis à la main
+    - Pour les autres appels aux fonctions de check actuelles, on utilisera les check_ et les if_
+    - Aussi on va retirer tous les warn
 

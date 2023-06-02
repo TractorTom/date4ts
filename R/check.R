@@ -105,10 +105,10 @@ isGoodTS <- function(dataTS, warn = TRUE) {
     }
 
     # Check de la fréquence
-    if (!(stats::frequency(dataTS) %in% c(4L, 12L))) {
-        if (warn) warning("L'objet dataTS doit \u00eatre de fr\u00e9quence mensuelle ou trimestrielle.")
-        return(FALSE)
+    if (!is_good_frequency(frequency)) {
+        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
     }
+
     # Check de la temporalité
     if (withCallingHandlers({
         !is_date_ts(stats::start(dataTS), frequency = stats::frequency(dataTS)) |
@@ -150,7 +150,7 @@ isGoodTS <- function(dataTS, warn = TRUE) {
 #' is_vector(NULL)
 #' is_vector(list(1, 2, 3))
 #' is_vector()
-is_vector <- function(x) {
+is_vector <- function(x) { ## assert_atomic_vector
 
     if (!is.atomic(x)) return(FALSE)
     if (length(x) == 0L) return(FALSE)
@@ -158,7 +158,7 @@ is_vector <- function(x) {
     return(TRUE)
 }
 
-is_TimeUnits <- function(x) {
+is_TimeUnits <- function(x) { ## assert_number
     return(is.numeric(x) && length(x) == 1L && !all(is.na(x)))
 }
 
@@ -166,7 +166,7 @@ is_good_frequency <- function(x) {
     return(is.numeric(x) && length(x) == 1L && x %in% c(4L, 12L))
 }
 
-is_single_integer <- function(x, warn = FALSE) {
+is_single_integer <- function(x, warn = FALSE) { ## assert_integer + assert_int ? (à tester)
 
     # Check de warn
     checkmate::assert_flag(warn)
@@ -178,7 +178,7 @@ is_single_integer <- function(x, warn = FALSE) {
     return(TRUE)
 }
 
-is_single_date <- function(x, warn = FALSE) {
+is_single_date <- function(x, warn = FALSE) { ## assert_date + assert_scalar
 
     # Check de warn
     checkmate::assert_flag(warn)
