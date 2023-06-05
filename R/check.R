@@ -129,44 +129,21 @@ isGoodTS <- function(dataTS, warn = TRUE) {
     return(TRUE)
 }
 
-#' Vérifie qu'on objet est bien un vecteur non vide
-#'
-#' @param x un vecteur
-#'
-#' @return En sortie la fonction retourne un booleen qui précise si l'argument `x` est bien un vecteur (unidimentionnel) non vide.
-#' @export
-#'
-#' @examples
-#'
-#' # Réponse positive
-#' is_vector(1:3)
-#' is_vector(letters)
-#' is_vector(seq(
-#'     from = as.Date("2000-01-01"),
-#'     to = as.Date("2023-05-28"),
-#'     by = "month"))
-#'
-#' # Réponse négative
-#' is_vector(NULL)
-#' is_vector(list(1, 2, 3))
-#' is_vector()
-is_vector <- function(x) { ## assert_atomic_vector
-
-    if (!is.atomic(x)) return(FALSE)
-    if (length(x) == 0L) return(FALSE)
-
-    return(TRUE)
-}
-
-is_TimeUnits <- function(x) { ## assert_number
+is_TimeUnits <- function(x) {
+    ## assert_number
     return(is.numeric(x) && length(x) == 1L && !all(is.na(x)))
 }
 
 is_good_frequency <- function(x) {
+    ## assert_integer + assert_int
+    ## + %in% c(4L, 12L)
     return(is.numeric(x) && length(x) == 1L && x %in% c(4L, 12L))
 }
 
-is_single_integer <- function(x, warn = FALSE) { ## assert_integer + assert_int ? (à tester)
+is_single_integer <- function(x, warn = FALSE) {
+    ## assert_integer + assert_scalar ?
+    ## assert_count + assert_integer ?
+    ## Selon l'utilisation
 
     # Check de warn
     checkmate::assert_flag(warn)
@@ -178,7 +155,8 @@ is_single_integer <- function(x, warn = FALSE) { ## assert_integer + assert_int 
     return(TRUE)
 }
 
-is_single_date <- function(x, warn = FALSE) { ## assert_date + assert_scalar
+is_single_date <- function(x, warn = FALSE) {
+    ## assert_date + assert_scalar
 
     # Check de warn
     checkmate::assert_flag(warn)

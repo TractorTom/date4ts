@@ -159,7 +159,8 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
         stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
     }
 
-    if (!is_vector(x)) stop("L'objet `x` doit \u00eatre un vecteur unidimentionnel non vide.")
+    # Objet est bien un ts
+    checkmate::assert_atomic_vector(x)
 
     # Check de replace_na
     checkmate::assert_flag(replace_na)
