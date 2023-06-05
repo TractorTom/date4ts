@@ -132,8 +132,6 @@ getTimeUnits <- function(date_ts, frequency) {
     }
 
     if (date_ts[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
-    if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
 
     if (length(date_ts) == 2L) return(date_ts[1L] + (date_ts[2L] - 1) / frequency)
     return(date_ts[1L])
