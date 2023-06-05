@@ -44,4 +44,10 @@ Création du package :
     - Les assert_ remplaceront TOUS les stop que l'on a mis à la main
     - Pour les autres appels aux fonctions de check actuelles, on utilisera les check_ et les if_
     - Aussi on va retirer tous les warn
-
+    - finalement, se réferrer à https://community.rstudio.com/t/implementation-best-practices-for-good-error-messages/4927/2 pour voir un exemple de code qui est pas mal !
+- 17) Ajouter un test de temporalConsistence (faire la recherche dans le pkg) et le renommer (temporal coherence ?)
+- 18) rechercher dan l'historique pk dans getTimeUnits on veut pas de dates négatives
+- 19) faire le lien entre lastDate et na_trim (pour essayer d'apliquer l'un à l'autre...)
+    - vérifier les check dans lastDate
+- 20) Qu'est ce que end_ts dans extend_ts ?
+- 21) Faire l'inventaire des if () stop() qui ne sont pas remplacer par du checkmate pour trouver l'équivalent checkmate à mettre à la place. (Par exemplepour tester que 2 objets sont de même signe)
