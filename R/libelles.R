@@ -13,18 +13,17 @@
 #' libelles_one_date(date = c(2020L, 4L), frequency = 4L)
 libelles_one_date <- function(date_ts, frequency) {
 
-    # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
+    coll <- checkmate::makeAssertCollection()
 
+    # Check de la fréquence
+    assert_frequency(frequency, .var.name = "frequency")
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency = frequency)) {
-        stop("La date est au mauvais format.")
-    }
+    assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
 
     # Check d'une date après JC
-    if (date_ts[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
+    # if (date_ts[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
+
+    checkmate::reportAssertions(coll)
 
     date_ts <- format_date_ts(date_ts, frequency = frequency)
     year <- date_ts[1L]
@@ -56,28 +55,16 @@ libelles_one_date <- function(date_ts, frequency) {
 #' libelles(date_ts = c(2019L, 4L), frequency = 4L, nb = 3L)
 libelles <- function(date_ts, frequency, nb = 1L) {
 
+    coll <- checkmate::makeAssertCollection()
+
     # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
-
-    # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency)) {
-        stop("La date est au mauvais format.")
-    }
-
+    assert_frequency(frequency, .var.name = "frequency")
     # Check de l'argument nb
-    if (is_single_integer(nb)) {
-        stop("L'argument nb doit \u00eatre un entier (vecteur de longueur 1).")
-    }
+    assert_scalar_natural(nb, .var.name = "nb")
+    # Check du format date_ts
+    assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
 
-    if (is.double(nb)) {
-        warning("L'argument nb est de type double. Il faut privil\u00e9gier le format integer.")
-    }
-
-    if (nb <= 0L) {
-        stop("Aucun libell\u00e9 n'est s\u00e9lectionn\u00e9.")
-    }
+    checkmate::reportAssertions(coll)
 
     decale_libele <- function(x) {
         date_temp <- next_date_ts(date_ts = date_ts, frequency = frequency, lag = x)

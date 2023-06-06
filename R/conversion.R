@@ -15,7 +15,7 @@
 as.YYYYTT <- function(TimeUnits) {
 
     # Check de l'objet TimeUnits
-    if (!is_TimeUnits(TimeUnits)) stop("L'input TimeUnits est au mauvais format.")
+    assert_TimeUnits(TimeUnits, .var.name = "TimeUnits")
 
     temporalConsistence <- 4 * TimeUnits
     if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
@@ -41,7 +41,7 @@ as.YYYYTT <- function(TimeUnits) {
 as.YYYYMM <- function(TimeUnits) {
 
     # Check de l'objet TimeUnits
-    if (!is_TimeUnits(TimeUnits)) stop("L'input TimeUnits est au mauvais format.")
+    assert_TimeUnits(TimeUnits, .var.name = "TimeUnits")
 
     temporalConsistence <- 12 * TimeUnits
     if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
@@ -65,9 +65,7 @@ as.YYYYMM <- function(TimeUnits) {
 trim2mens <- function(date_ts) {
 
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency = 4L)) {
-        stop("La date est au mauvais format.")
-    }
+    assert_date_ts(x = date_ts, frequency = 4L, .var.name = "date_ts")
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 4L
     trim <- (date_ts[2L] - 1L) %% 4L + 1L
@@ -89,9 +87,7 @@ trim2mens <- function(date_ts) {
 mens2trim <- function(date_ts) {
 
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency = 12L)) {
-        stop("La date est au mauvais format.")
-    }
+    assert_date_ts(x = date_ts, frequency = 12L, .var.name = "date_ts")
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 12L
     month <- (date_ts[2L] - 1L) %% 12L + 1L
@@ -121,17 +117,16 @@ mens2trim <- function(date_ts) {
 #'
 getTimeUnits <- function(date_ts, frequency) {
 
+    coll <- checkmate::makeAssertCollection()
+
     # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
-
+    assert_frequency(frequency, add = coll, .var.name = "frequency")
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency = frequency)) {
-        stop("La date est au mauvais format.")
-    }
+    assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
 
-    if (date_ts[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
+    checkmate::reportAssertions(coll)
+
+    # if (date_ts[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
 
     if (length(date_ts) == 2L) return(date_ts[1L] + (date_ts[2L] - 1) / frequency)
     return(date_ts[1L])
@@ -156,15 +151,14 @@ getTimeUnits <- function(date_ts, frequency) {
 #'
 date2date_ts <- function(date, frequency = 12L) {
 
-    # Check de l'objet date
-    if  (!is_single_date(date)) {
-        stop("La date n'est pas au bon format.")
-    }
+    coll <- checkmate::makeAssertCollection()
 
+    # Check de l'objet date
+    assert_scalar_date(date, add = coll, .var.name = "date")
     # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
+    assert_frequency(frequency, add = coll, .var.name = "frequency")
+
+    checkmate::reportAssertions(coll)
 
     year <- as.numeric(format(date, format = "%Y"))
     month <- as.numeric(format(date, format = "%m"))
@@ -192,15 +186,8 @@ date2date_ts <- function(date, frequency = 12L) {
 #'
 date_ts2date <- function(date_ts, frequency = 12L) {
 
-    # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
-
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency)) {
-        stop("La date est au mauvais format.")
-    }
+    assert_frequency(frequency, .var.name = "frequency")
 
     year <- date_ts[1L]
     month <- "01"

@@ -35,41 +35,34 @@
 #' is_date_ts(2023 + 1/4)
 #' is_date_ts("2020-04-01")
 #' is_date_ts(as.Date("2020-04-01"))
-is_date_ts <- function(date_ts, frequency = 12L, warn = TRUE) {
+assert_date_ts <- function(x, frequency, add = NULL, .var.name = checkmate::vname(x)) {
 
-    # Check de warn
-    checkmate::assert_flag(warn)
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
 
     # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
+    assert_frequency(frequency, add = coll, .var.name = "frequency")
+    # Check du type
+    checkmate::assert_integerish(x, add = coll, any.missing = FALSE)
+    # Check de la longueur
+    checkmate::assert_true(length(x) %in% c(1L, 2L), add = coll)
+
+    if (!isTRUE(checkmate::check_integer(x))) {
+        warning(checkmate::check_integer(x))
     }
 
-    if (!class(date_ts) %in% c("integer", "numeric")) {
-        return(FALSE)
+    if (length(x) == 2L && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency))) {
+        warning(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency))
     }
 
-    cond_warning <- (is.double(date_ts)) &&
-        (length(date_ts) %in% 1L:2L) &&
-        (isTRUE(all.equal(date_ts, round(date_ts)))) &&
-        (all(!is.na(date_ts)))
-
-    cond_TRUE <- (is.integer(date_ts)) &&
-        (length(date_ts) %in% 1L:2L) &&
-        (all(!is.na(date_ts)))
-
-    if (!cond_warning && !cond_TRUE) {
-        return(FALSE)
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
     }
 
-    if (cond_warning) {
-        if (warn) warning("La date est de type double. Il faut privil\u00e9gier le format integer.")
-    }
-
-    if (length(date_ts) == 2L && (date_ts[2L] <= 0L || date_ts[2L] > frequency)) {
-        if (warn) warning("Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.")
-    }
-    return(TRUE)
+    return(invisible(x))
 }
 
 #' Vérifie la conformité d'un objet ts dans le cadre des enquêtes de conjoncture
@@ -105,9 +98,7 @@ isGoodTS <- function(dataTS, warn = TRUE) {
     }
 
     # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
+    assert_frequency(frequency, .var.name = "frequency")
 
     # Check de la temporalité
     if (withCallingHandlers({
@@ -129,47 +120,101 @@ isGoodTS <- function(dataTS, warn = TRUE) {
     return(TRUE)
 }
 
-is_TimeUnits <- function(x) {
-    ## assert_number
-    return(is.numeric(x) && length(x) == 1L && !all(is.na(x)))
-}
+assert_TimeUnits <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
-is_good_frequency <- function(x) {
-    ## assert_integer + assert_int
-    ## + %in% c(4L, 12L)
-    return(is.numeric(x) && length(x) == 1L && x %in% c(4L, 12L))
-}
-
-is_single_integer <- function(x, warn = FALSE) {
-    ## assert_integer + assert_scalar ?
-    ## assert_count + assert_integer ?
-    ## Selon l'utilisation
-
-    # Check de warn
-    checkmate::assert_flag(warn)
-
-    if (!isTRUE(reason <- checkmate::check_count(x, positive = TRUE))) {
-        if (warn) warning(reason)
-        return(FALSE)
-    }
-    return(TRUE)
-}
-
-is_single_date <- function(x, warn = FALSE) {
-    ## assert_date + assert_scalar
-
-    # Check de warn
-    checkmate::assert_flag(warn)
-
-    if (!isTRUE(reason <- checkmate::check_date(x))) {
-        if (warn) warning(reason)
-        return(FALSE)
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
     }
 
-    if (length(x) != 1L) {
-        if (warn) warning("L'argument x doit \u00eatre de longueur 1.")
-        return(FALSE)
+    checkmate::assert_number(x, add = coll, .var.name = .var.name, finite = TRUE)
+    checkmate::assert_int(x * 12L, add = coll, .var.name = .var.name)
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
     }
 
-    return(TRUE)
+    return(invisible(x))
+}
+
+assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
+
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
+
+    checkmate::assert_int(x, add = coll, .var.name = .var.name)
+    checkmate::assert_true(x %in% c(4L, 12L), add = coll, .var.name = .var.name)
+
+    if (!isTRUE(checkmate::check_integer(x))) {
+        warning(checkmate::check_integer(x))
+    }
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    return(invisible(x))
+}
+
+assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
+
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
+
+    checkmate::assert_int(x, add = coll, .var.name = .var.name)
+
+    if (!isTRUE(checkmate::check_integer(x))) {
+        warning(checkmate::check_integer(x))
+    }
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    return(invisible(x))
+}
+
+assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
+
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
+
+    checkmate::assert_count(x, add = coll, .var.name = .var.name)
+
+    if (!isTRUE(checkmate::check_integer(x))) {
+        warning(checkmate::check_integer(x))
+    }
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    return(invisible(x))
+}
+
+assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
+
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
+    checkmate::assert_date(x, add = coll, .var.name = .var.name)
+    checkmate::assert_scalar(x, add = coll, .var.name = .var.name)
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    return(invisible(x))
 }

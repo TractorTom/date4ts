@@ -24,15 +24,14 @@
 #'
 format_date_ts <- function(date_ts, frequency) {
 
-    # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
+    coll <- checkmate::makeAssertCollection()
 
+    # Check de la fréquence
+    assert_frequency(frequency, .var.name = "frequency")
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency = frequency)) {
-        stop("La date est au mauvais format.")
-    }
+    assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
+
+    checkmate::reportAssertions(coll)
 
     if (length(date_ts) == 2L) {
         year <- date_ts[1L]

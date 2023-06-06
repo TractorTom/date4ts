@@ -24,17 +24,13 @@ setValue_ts <- function(dataTS, date_ts, value) {
         stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
     }
 
-    frequency <- stats::frequency(dataTS)
+    frequency <- as.integer(stats::frequency(dataTS))
 
     # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
+    assert_frequency(frequency, .var.name = "frequency")
 
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency = frequency)) {
-        stop("La date est au mauvais format.")
-    }
+    assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
 
     if (!is.null(dim(value))) stop("L'argument value doit \u00eatre unidimensionnel.")
     if (typeof(dataTS) != typeof(value)) stop("Les objets dataTS et value doivent \u00eatre de m\u00eame type.")
@@ -55,8 +51,8 @@ setValue_ts <- function(dataTS, date_ts, value) {
             frequency = stats::frequency(outputTS))
     } else {
         start_ts <- format_date_ts(date_ts,
-                                   frequency = stats::frequency(dataTS))
-        end_ts <- next_date_ts(date_ts, frequency = stats::frequency(dataTS),
+                                   frequency = as.integer(stats::frequency(dataTS)))
+        end_ts <- next_date_ts(date_ts, frequency = as.integer(stats::frequency(dataTS)),
                                lag = length(value) - 1L)
         stats::window(
             x = outputTS, start = start_ts,
@@ -171,19 +167,15 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
         start_replacement <- next_date_ts(stats::end(dataTS))
     }
 
-    frequency <- stats::frequency(dataTS)
+    frequency <- as.integer(stats::frequency(dataTS))
 
     if (!is.null(date_ts)) {
 
         # Check de la fréquence
-        if (!is_good_frequency(frequency)) {
-            stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-        }
+        assert_frequency(frequency, .var.name = "frequency")
 
         # Check du format date_ts
-        if (!is_date_ts(date_ts, frequency = frequency)) {
-            stop("La date est au mauvais format.")
-        }
+        assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
 
         if (!is_before(start_replacement, date_ts, frequency = frequency)) {
             stop("La date de fin de remplacement est ant\u00e9rieur \u00e0 la date de fin des donn\u00e9es.")
@@ -219,7 +211,7 @@ na_trim <- function(dataTS) {
     content <- dataTS[min(non_na):max(non_na)]
 
     start_ts <- stats::start(dataTS)
-    frequency_ts <- stats::frequency(dataTS)
+    frequency <- as.integer(stats::frequency(dataTS))
 
     return(ts(data = dataTS,
               start = next_date_ts(date_ts = start_ts,

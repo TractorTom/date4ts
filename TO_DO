@@ -45,9 +45,20 @@ Création du package :
     - Pour les autres appels aux fonctions de check actuelles, on utilisera les check_ et les if_
     - Aussi on va retirer tous les warn
     - finalement, se réferrer à https://community.rstudio.com/t/implementation-best-practices-for-good-error-messages/4927/2 pour voir un exemple de code qui est pas mal !
+    - Faire et vérifier que toutes les conversion de double en int / de formattage sont faites (à chaque fois qu'on utilise une fonction qui génère un warning --> il faut que la correction soit faite juste après (avant de tester une nouvelle erreur :
+        Si je teste la fréquence et qu'en suite je teste date + fréquence, il fautq ue je corrige la fréquence entre les 2 assert sinon j'aurai 2 fois le warning))
+    - vérifier que l'on a bien collecter toutes les erreurs à chaque fois
+    - Finalement, un pb va peut être se poser si on collecte toutes les erreurs à la fin :
+        - (1) soit on corrige au fur et à mesure des objets (as.integer, ...) au risque de générer de nouvelles erreurs car la conversion est impossible et on a pas affiché encore l'erreur
+        - (2) soit on corrige à la toute fin et on affiche des warnings en plusieurs exemplaire
+        - (3) soit on corrige au fur et à mesure et on affiche les erreurs au fur et à mesure
+        - (4) soit on applique la décision (3) lorsqu'on doit corriger des objets et les décisions (1) et (2) lorsqu'on a pas de correction ni de warning qui peuvent s'afficher --> ça veut dire qu'une fonction qui fait un traitement après avoir checker un argument DOIT retourner une erreur avant le traitement.
+    - MOdifier la doc des fonctions assert_... avec leur réel comportement
+    - Revoir aussi les tests des fonctions...
 - 17) Ajouter un test de temporalConsistence (faire la recherche dans le pkg) et le renommer (temporal coherence ?)
 - 18) rechercher dan l'historique pk dans getTimeUnits on veut pas de dates négatives
 - 19) faire le lien entre lastDate et na_trim (pour essayer d'apliquer l'un à l'autre...)
     - vérifier les check dans lastDate
 - 20) Qu'est ce que end_ts dans extend_ts ?
 - 21) Faire l'inventaire des if () stop() qui ne sont pas remplacer par du checkmate pour trouver l'équivalent checkmate à mettre à la place. (Par exemplepour tester que 2 objets sont de même signe)
+- 22) dans libelle_one_date, il faut gérer les dates négatives => as.Date("-2000-01-01") ne marche pas mais as.Date(-1, origin = "0000-01-01") fonctionne...

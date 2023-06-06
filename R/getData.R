@@ -1,22 +1,21 @@
 
 getValue_ts <- function(dataTS, date_ts, nb = 1L) {
 
+    coll <- checkmate::makeAssertCollection()
+
     # Check de l'objet dataTS
     if  (!isGoodTS(dataTS, warn = FALSE)) {
         stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
     }
 
     # Check l'argument nb
-    if (is_single_integer(nb)) {
-        stop("L'argument nb doit \u00eatre un entier (vecteur de longueur 1).")
-    }
-
-    if (is.double(nb)) warning("L'argument nb est de type double. Il faut privil\u00e9gier le format integer.")
-
+    assert_scalar_natural(nb, add = coll, .var.name = "nb")
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency = frequency)) {
-        stop("La date est au mauvais format.")
-    }
+    assert_date_ts(x = date_ts,
+                   frequency = as.integer(stats::frequency(dataTS)),
+                   add = coll, .var.name = "date_ts")
+
+    checkmate::reportAssertions(coll)
 
     output_value <- as.numeric(stats::window(
         x = dataTS,
