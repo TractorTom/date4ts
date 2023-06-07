@@ -7,7 +7,7 @@ assert_1 <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
         coll <- add
     }
 
-    checkmate::assert_number(x, add = coll, .var.name = .var.name)
+    checkmate::assert_scalar(x, add = coll, .var.name = .var.name)
     checkmate::assert_int(x * 12L, add = coll, .var.name = .var.name)
 
     if (is.null(add)) {

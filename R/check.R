@@ -1,7 +1,7 @@
 
 #' Vérifie le format de date
 #'
-#' @description La fonction `is_date_ts` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @description La fonction `assert_date_ts` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param warn un booléen
@@ -13,28 +13,28 @@
 #'
 #' @examples
 #' # De bons formats de date
-#' is_date_ts(c(2020L, 8L))
-#' is_date_ts(c(2020L, 2L))
-#' is_date_ts(2022L)
+#' assert_date_ts(c(2020L, 8L))
+#' assert_date_ts(c(2020L, 2L))
+#' assert_date_ts(2022L)
 #'
 #' # Format double --> génération d'un warning
-#' is_date_ts(c(2020, 4))
-#' is_date_ts(2022)
+#' assert_date_ts(c(2020, 4))
+#' assert_date_ts(2022)
 #'
 #' # Dépassement la fréquence--> génération d'un warning
-#' is_date_ts(c(2020L, 6L), frequency = 4L)
-#' is_date_ts(c(2020L, 42L), frequency = 12L)
-#' is_date_ts(c(2020L, -4L))
+#' assert_date_ts(c(2020L, 6L), frequency = 4L)
+#' assert_date_ts(c(2020L, 42L), frequency = 12L)
+#' assert_date_ts(c(2020L, -4L))
 #'
 #' # Mauvaise fréquence --> reponse FALSE
-#' is_date_ts(c(2020L, 7L))
+#' assert_date_ts(c(2020L, 7L))
 #'
 #' # Format non accepté --> reponse FALSE
-#' is_date_ts(2022.5)
-#' is_date_ts(2022 + 1/12)
-#' is_date_ts(2023 + 1/4)
-#' is_date_ts("2020-04-01")
-#' is_date_ts(as.Date("2020-04-01"))
+#' assert_date_ts(2022.5)
+#' assert_date_ts(2022 + 1/12)
+#' assert_date_ts(2023 + 1/4)
+#' assert_date_ts("2020-04-01")
+#' assert_date_ts(as.Date("2020-04-01"))
 assert_date_ts <- function(x, frequency, add = NULL, .var.name = checkmate::vname(x)) {
 
     if (is.null(add)) {
@@ -80,47 +80,27 @@ assert_date_ts <- function(x, frequency, add = NULL, .var.name = checkmate::vnam
 #' ts2 <- ts(1:100, start = 2010 + 1/7, frequency = 12L)
 #' ts3 <- ts(1:100, start = 2010L, frequency = 1L)
 #'
-#' isGoodTS(ts1)
-#' isGoodTS(ts2)
-#' isGoodTS(ts3)
+#' assert_ts(ts1)
+#' assert_ts(ts2)
+#' assert_ts(ts3)
 #'
-#' isGoodTS(ts2, warn = FALSE)
-#' isGoodTS(ts3, warn = FALSE)
-isGoodTS <- function(dataTS, warn = TRUE) {
+#' assert_ts(ts2, warn = FALSE)
+#' assert_ts(ts3, warn = FALSE)
+assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
-    # Check de warn
-    checkmate::assert_flag(warn)
-
-    # Check du type d'objet
-    if (!stats::is.ts(dataTS) | stats::is.mts(dataTS)) {
-        if (warn) warning("L'objet dataTS doit \u00eatre un ts unidimensionnel.")
-        return(FALSE)
-    }
+    frequency <- stats::frequency(x)
+    start_ts <- stats::start(x)
+    end_ts <- stats::end(x)
 
     # Check de la fréquence
-    assert_frequency(frequency, .var.name = "frequency")
-
-    # Check de la temporalité
-    if (withCallingHandlers({
-        !is_date_ts(stats::start(dataTS), frequency = stats::frequency(dataTS)) |
-            !is_date_ts(stats::end(dataTS), frequency = stats::frequency(dataTS))},
-        warning = function(w) {
-            if (w$message == "La date est de type double. Il faut privil\u00e9gier le format integer.") invokeRestart("muffleWarning")
-        })
-    ) {
-        if (warn) warning("L'objet dataTS doit \u00eatre coh\u00e9rent avec la temporalit\u00e9 classique.")
-        return(FALSE)
-    }
-    # Check du type des données
-    if (!is.atomic(dataTS)) {
-        if (warn) warning("L'objet dataTS doit \u00eatre d'un type atomic.")
-        return(FALSE)
-    }
-
-    return(TRUE)
-}
-
-assert_TimeUnits <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
+    checkmate::assert_count(frequency, .var.name = "frequency")
+    frequency <- as.integer(frequency)
+    # Check de la temporalité - start
+    checkmate::assert_integerish(start_ts, .var.name = "start")
+    start_ts <- as.integer(start_ts)
+    # Check de la temporalité - end
+    checkmate::assert_integerish(end_ts, .var.name = "end")
+    end_ts <- as.integer(end_ts)
 
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
@@ -128,8 +108,35 @@ assert_TimeUnits <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
         coll <- add
     }
 
+    # Check de la fréquence
+    assert_frequency(frequency, add = coll, .var.name = "frequency")
+    # Check de la temporalité
+    assert_date_ts(start_ts, add = coll, .var.name = "start")
+    assert_date_ts(end_ts, add = coll, .var.name = "end")
+    # Check de la classe de l'objet
+    checkmate::assert_class(x, classes = "ts", add = coll, .var.name = .var.name)
+    checkmate::assert_false(stats::is.mts(dataTS), add = coll, .var.name = .var.name)
+    # Check du type de données
+    checkmate::assert_atomic_vector(x, add = coll, .var.name = .var.name)
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    return(invisible(x))
+}
+
+assert_TimeUnits <- function(x, frequency, add = NULL, .var.name = checkmate::vname(x)) {
+
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
+
+    assert_frequency(frequency, add = coll, .var.name = "frequency")
     checkmate::assert_number(x, add = coll, .var.name = .var.name, finite = TRUE)
-    checkmate::assert_int(x * 12L, add = coll, .var.name = .var.name)
+    checkmate::assert_int(x * frequency, add = coll, .var.name = .var.name)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)

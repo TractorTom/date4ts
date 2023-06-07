@@ -89,9 +89,7 @@ next_date_ts <- function(date_ts, frequency, lag = 1L) {
 firstDate <- function(dataTS) {
 
     # Check de l'objet dataTS
-    if  (!isGoodTS(dataTS, warn = FALSE)) {
-        stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
-    }
+    assert_ts(dataTS, .var.name = "dataTS")
 
     timeTS <- stats::time(na_trim(dataTS))
     firstTime <- timeTS[1L]
@@ -102,9 +100,7 @@ firstDate <- function(dataTS) {
 lastDate <- function(dataTS) {
 
     # Check de l'objet dataTS
-    if  (!isGoodTS(dataTS, warn = FALSE)) {
-        stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
-    }
+    assert_ts(dataTS, .var.name = "dataTS")
 
     timeTS <- stats::time(na_trim(dataTS))
     lastTime <- timeTS[length(timeTS)]

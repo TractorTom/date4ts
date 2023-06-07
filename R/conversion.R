@@ -15,11 +15,7 @@
 as.YYYYTT <- function(TimeUnits) {
 
     # Check de l'objet TimeUnits
-    assert_TimeUnits(TimeUnits, .var.name = "TimeUnits")
-
-    temporalConsistence <- 4 * TimeUnits
-    if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
-        stop("L'input TimeUnits n'est pas coh\u00e9rent temporellement avec les trimestres classiques.")
+    assert_TimeUnits(TimeUnits, frequency = 4L, .var.name = "TimeUnits")
 
     return(as.integer(round(c(TimeUnits %/% 1L, (TimeUnits %% 1L) * 4L + 1L))))
 }
@@ -41,11 +37,7 @@ as.YYYYTT <- function(TimeUnits) {
 as.YYYYMM <- function(TimeUnits) {
 
     # Check de l'objet TimeUnits
-    assert_TimeUnits(TimeUnits, .var.name = "TimeUnits")
-
-    temporalConsistence <- 12 * TimeUnits
-    if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
-        stop("L'input TimeUnits n'est pas coh\u00e9rent temporellement avec les trimestres classiques.")
+    assert_TimeUnits(TimeUnits, frequency = 12L, .var.name = "TimeUnits")
 
     return(as.integer(round(c(TimeUnits %/% 1L, (TimeUnits %% 1L) * 12L + 1L))))
 }
