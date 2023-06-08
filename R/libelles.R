@@ -9,8 +9,9 @@
 #' @return En sortie, la fonction retourne une chaine de caractère qui correspond au libelés de la date `date`.
 #'
 #' @examples
-#' libelles_one_date(date = c(2020L, 4L), frequency = 12L)
-#' libelles_one_date(date = c(2020L, 4L), frequency = 4L)
+#' ts4conj:::libelles_one_date(date_ts = c(2020L, 4L), frequency = 12L)
+#' ts4conj:::libelles_one_date(date_ts = c(2020L, 4L), frequency = 4L)
+#'
 libelles_one_date <- function(date_ts, frequency) {
 
     coll <- checkmate::makeAssertCollection()
@@ -27,7 +28,6 @@ libelles_one_date <- function(date_ts, frequency) {
 
     checkmate::reportAssertions(coll)
 
-    date_ts <- format_date_ts(date_ts, frequency = frequency)
     year <- date_ts[1L]
     if (frequency == 4L) {
         quarter <- date_ts[2L]
@@ -55,6 +55,7 @@ libelles_one_date <- function(date_ts, frequency) {
 #' @examples
 #' libelles(date_ts = c(2019L, 10L), frequency = 12L, nb = 9L)
 #' libelles(date_ts = c(2019L, 4L), frequency = 4L, nb = 3L)
+#'
 libelles <- function(date_ts, frequency, nb = 1L) {
 
     coll <- checkmate::makeAssertCollection()
@@ -73,5 +74,5 @@ libelles <- function(date_ts, frequency, nb = 1L) {
         return(libelles_one_date(date_temp, frequency = frequency))
     }
 
-    return(sapply(seq_len(nb) - 1, FUN = decale_libele))
+    return(sapply(seq_len(nb) - 1L, FUN = decale_libele))
 }

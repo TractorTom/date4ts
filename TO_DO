@@ -2,11 +2,10 @@ A Faire :
 
 Urgent pour faire fonctionner le package :
 
-- 1) Résoudre les problèmes de check (à refaire tourner)
-- 2) Date négatives :
+- 1) Date négatives :
     - rechercher dan l'historique pk dans getTimeUnits on veut pas de dates négatives
     - dans libelle_one_date, il faut gérer les dates négatives => as.Date("-2000-01-01") ne marche pas mais as.Date(-1, origin = "0000-01-01") fonctionne...
-- 3) Finir avec les nouveaux assert (relire tout ça pour finir !)
+- 2) Finir avec les nouveaux assert (relire tout ça pour finir !)
     Concernant les check, assert, is...
         - On va faire 3 type de fonctions :
             - les assert_... :
@@ -29,9 +28,6 @@ Urgent pour faire fonctionner le package :
             - (4) soit on applique la décision (3) lorsqu'on doit corriger des objets et les décisions (1) et (2) lorsqu'on a pas de correction ni de warning qui peuvent s'afficher --> ça veut dire qu'une fonction qui fait un traitement après avoir checker un argument DOIT retourner une erreur avant le traitement.
         - Modifier la doc des fonctions assert_... avec leur réel comportement
         - Revoir aussi les tests des fonctions...
-- 4) W  checking package subdirectories ...
-   Subdirectory 'data' contains no data sets.
-
 
 
 Développement à venir :
@@ -52,15 +48,12 @@ Développement à venir :
     - Relire les docs existantes (pour ré-écrire / compléter)
     - Doc existante : ajouter le default des arguments
     - Faire le tour des fonctions non documentées (les répertorier)
-- 5) Ajouter un test de couverture globale avec covr (lien test et doc) (100%) (
-    library("covr")
-    covr <- package_coverage()
-    covr
-    report(covr))
+- 5) Ajouter un test de couverture globale avec le package covr (lien test et doc) + devtools::test_coverage() (ce qui revient au même)
 - 6) Ajouter un test de temporalConsistence (faire la recherche dans le pkg) et le renommer (temporal coherence ?)
     - chercher des cas où la fréquence est la même et où il y a quand même des pb de cohérence temporelle
 - 7) Faire le lien entre lastDate et na_trim (pour essayer d'appliquer l'un à l'autre...)
     - vérifier les check dans lastDate
+
 
 Idée pour plus tard :
 
@@ -77,4 +70,20 @@ packages ?)
     - https://michaelchirico.github.io/potools/
 - 5) Faire une recherche de toutes les classes "atomic" connues et vérifier lesquelles fonctionnent ou non avec des ts (pour étendre ou créer simplement des ts)
 - 6) Faire l'inventaire des if () stop() qui ne sont pas remplacer par du checkmate pour trouver l'équivalent checkmate à mettre à la place. (Par exemplepour tester que 2 objets sont de même signe)
+- 7) Mettre en place un fichier de NEWS (usethis::use_news_md())
+- 8) Concernant les checks, regarder les fonctions + check suivants :
+    - le package rhub
+    - le package goodpractice
+    - le package inteRgrate
+    - tous les tests de devtools (devtools::check_mac_release(), win_release, ...)
+    - CRAN specific check
+    - Faire une fiche avec tous les check existants et dans quel ordre les effectuer :
+        - https://www.marinedatascience.co/blog/2020/01/09/checklist-for-r-package-re-submissions-on-cran/
+        - https://www.r-bloggers.com/2020/07/how-to-write-your-own-r-package-and-publish-it-on-cran/
+- 9) Lire https://r-pkgs.org/
+- 10) Faire un hexagone
+- 11) Ajouter le + de badges possible sur le github
+- 12) Faire un pkgdown
+- 13)
+
 

@@ -18,6 +18,7 @@ En sortie, la fonction retourne une chaine de caractère qui correspond au libel
 La fonction \code{libelles_one_date} créé le libelé pour une date à une fréquence donnée.modifie la ou les valeurs d'un objet ts à une date donnée.
 }
 \examples{
-libelles_one_date(date = c(2020L, 4L), frequency = 12L)
-libelles_one_date(date = c(2020L, 4L), frequency = 4L)
+ts4conj:::libelles_one_date(date_ts = c(2020L, 4L), frequency = 12L)
+ts4conj:::libelles_one_date(date_ts = c(2020L, 4L), frequency = 4L)
+
 }

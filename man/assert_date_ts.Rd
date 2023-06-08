@@ -28,26 +28,21 @@ Lorsque l'objet \code{x} en entrée est au mauvais format, il est corrigé penda
 }
 \examples{
 # De bons formats de date
-assert_date_ts(c(2020L, 8L))
-assert_date_ts(c(2020L, 2L))
-assert_date_ts(2022L)
+assert_date_ts(c(2020L, 8L), frequency = 12L)
+assert_date_ts(c(2020L, 2L), frequency = 4L)
+assert_date_ts(2022L, frequency = 12L)
 
 # Format double --> génération d'un warning
-assert_date_ts(c(2020, 4))
-assert_date_ts(2022)
+assert_date_ts(c(2020., 4.), frequency = 4L)
+assert_date_ts(2022., frequency = 12L)
 
-# Dépassement la fréquence--> génération d'un warning
+# Fréquence au format double --> génération d'un warning
+assert_date_ts(c(2020L, 6L), frequency = 4.)
+assert_date_ts(c(2020L, 42L), frequency = 12.)
+
+# Dépassement la fréquence --> génération d'un warning
 assert_date_ts(c(2020L, 6L), frequency = 4L)
 assert_date_ts(c(2020L, 42L), frequency = 12L)
-assert_date_ts(c(2020L, -4L))
+assert_date_ts(c(2020L, -4L), frequency = 12L)
 
-# Mauvaise fréquence --> génération d'une erreur
-assert_date_ts(c(2020L, 7L), frequency = 3L)
-
-# Format non accepté --> génération d'une erreur
-assert_date_ts(2022.5)
-assert_date_ts(2022 + 1/12)
-assert_date_ts(2023 + 1/4)
-assert_date_ts("2020-04-01")
-assert_date_ts(as.Date("2020-04-01"))
 }

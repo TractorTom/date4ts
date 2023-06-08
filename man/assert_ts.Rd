@@ -24,11 +24,9 @@ Les fonctions du package ts4conj sont faites pour fonctionner avec des times-ser
 }
 \examples{
 ts1 <- ts(1:100, start = 2010L, frequency = 12L)
-ts2 <- ts(1:100, start = 2010 + 1/7, frequency = 12L)
-ts3 <- ts(1:100, start = 2010L, frequency = 1L)
+ts2 <- ts(1:10, start = c(2020L, 4L), frequency = 4L)
 
 assert_ts(ts1)
 assert_ts(ts2)
-assert_ts(ts3)
 
 }

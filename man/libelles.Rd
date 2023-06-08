@@ -25,4 +25,5 @@ Pour choisir la période, il faut spécifier une date de début de période et u
 \examples{
 libelles(date_ts = c(2019L, 10L), frequency = 12L, nb = 9L)
 libelles(date_ts = c(2019L, 4L), frequency = 4L, nb = 3L)
+
 }

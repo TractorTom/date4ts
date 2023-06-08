@@ -15,28 +15,23 @@
 #'
 #' @examples
 #' # De bons formats de date
-#' assert_date_ts(c(2020L, 8L))
-#' assert_date_ts(c(2020L, 2L))
-#' assert_date_ts(2022L)
+#' assert_date_ts(c(2020L, 8L), frequency = 12L)
+#' assert_date_ts(c(2020L, 2L), frequency = 4L)
+#' assert_date_ts(2022L, frequency = 12L)
 #'
 #' # Format double --> génération d'un warning
-#' assert_date_ts(c(2020, 4))
-#' assert_date_ts(2022)
+#' assert_date_ts(c(2020., 4.), frequency = 4L)
+#' assert_date_ts(2022., frequency = 12L)
 #'
-#' # Dépassement la fréquence--> génération d'un warning
+#' # Fréquence au format double --> génération d'un warning
+#' assert_date_ts(c(2020L, 6L), frequency = 4.)
+#' assert_date_ts(c(2020L, 42L), frequency = 12.)
+#'
+#' # Dépassement la fréquence --> génération d'un warning
 #' assert_date_ts(c(2020L, 6L), frequency = 4L)
 #' assert_date_ts(c(2020L, 42L), frequency = 12L)
-#' assert_date_ts(c(2020L, -4L))
+#' assert_date_ts(c(2020L, -4L), frequency = 12L)
 #'
-#' # Mauvaise fréquence --> génération d'une erreur
-#' assert_date_ts(c(2020L, 7L), frequency = 3L)
-#'
-#' # Format non accepté --> génération d'une erreur
-#' assert_date_ts(2022.5)
-#' assert_date_ts(2022 + 1/12)
-#' assert_date_ts(2023 + 1/4)
-#' assert_date_ts("2020-04-01")
-#' assert_date_ts(as.Date("2020-04-01"))
 assert_date_ts <- function(x, frequency, add = NULL, .var.name = checkmate::vname(x)) {
 
     if (is.null(add)) {
@@ -56,8 +51,8 @@ assert_date_ts <- function(x, frequency, add = NULL, .var.name = checkmate::vnam
     x <- checkmate::assert_integerish(x, coerce = TRUE, any.missing = FALSE,
                                       add = coll, .var.name = .var.name)
     # Check de la longueur
-    checkmate::assert_true(length(x) %in% c(1L, 2L),
-                           add = coll, .var.name = .var.name)
+    checkmate::assert_choice(x = length(x), choices = c(1L, 2L),
+                             add = coll, .var.name = .var.name)
 
     if ((length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency))) {
         warning(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency))
@@ -83,12 +78,10 @@ assert_date_ts <- function(x, frequency, add = NULL, .var.name = checkmate::vnam
 #'
 #' @examples
 #' ts1 <- ts(1:100, start = 2010L, frequency = 12L)
-#' ts2 <- ts(1:100, start = 2010 + 1/7, frequency = 12L)
-#' ts3 <- ts(1:100, start = 2010L, frequency = 1L)
+#' ts2 <- ts(1:10, start = c(2020L, 4L), frequency = 4L)
 #'
 #' assert_ts(ts1)
 #' assert_ts(ts2)
-#' assert_ts(ts3)
 #'
 assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
