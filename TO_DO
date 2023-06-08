@@ -5,29 +5,10 @@ Urgent pour faire fonctionner le package :
 - 1) Date négatives :
     - rechercher dan l'historique pk dans getTimeUnits on veut pas de dates négatives
     - dans libelle_one_date, il faut gérer les dates négatives => as.Date("-2000-01-01") ne marche pas mais as.Date(-1, origin = "0000-01-01") fonctionne...
-- 2) Finir avec les nouveaux assert (relire tout ça pour finir !)
-    Concernant les check, assert, is...
-        - On va faire 3 type de fonctions :
-            - les assert_... :
-                - retourne une erreur à lapremière erreur rencontrée
-                - sinon ne retourne rien
-                - retourne un warning si il y a un détail (double à la place de integer, ...)
-            - les check_... retourne TRUE si c'est bon et le (les ?) message d'erreur en character
-            - is_... retourne juste TRUE ou FALSE
-        - Les assert_ remplaceront TOUS les stop que l'on a mis à la main
-        - Pour les autres appels aux fonctions de check actuelles, on utilisera les check_ et les if_
-        - Aussi on va retirer tous les warn
-        - finalement, se réferrer à https://community.rstudio.com/t/implementation-best-practices-for-good-error-messages/4927/2 pour voir un exemple de code qui est pas mal !
-        - Faire et vérifier que toutes les conversion de double en int / de formattage sont faites (à chaque fois qu'on utilise une fonction qui génère un warning --> il faut que la correction soit faite juste après (avant de tester une nouvelle erreur :
-            Si je teste la fréquence et qu'en suite je teste date + fréquence, il fautq ue je corrige la fréquence entre les 2 assert sinon j'aurai 2 fois le warning))
-        - vérifier que l'on a bien collecter toutes les erreurs à chaque fois
-        - Finalement, un pb va peut être se poser si on collecte toutes les erreurs à la fin :
-            - (1) soit on corrige au fur et à mesure des objets (as.integer, ...) au risque de générer de nouvelles erreurs car la conversion est impossible et on a pas affiché encore l'erreur
-            - (2) soit on corrige à la toute fin et on affiche des warnings en plusieurs exemplaire
-            - (3) soit on corrige au fur et à mesure et on affiche les erreurs au fur et à mesure
-            - (4) soit on applique la décision (3) lorsqu'on doit corriger des objets et les décisions (1) et (2) lorsqu'on a pas de correction ni de warning qui peuvent s'afficher --> ça veut dire qu'une fonction qui fait un traitement après avoir checker un argument DOIT retourner une erreur avant le traitement.
-        - Modifier la doc des fonctions assert_... avec leur réel comportement
-        - Revoir aussi les tests des fonctions...
+- 2) Nouveaux assert :
+    - se réferrer à https://community.rstudio.com/t/implementation-best-practices-for-good-error-messages/4927/2 pour insérer du code directement issus de stop("") dans des assert
+    - retirer les assert_true ou autre pour mettre un message un peu + personnalisés
+    - Vréifier que la pose d'un warning implique un coerce implique une modification de l'objet
 
 
 Développement à venir :
