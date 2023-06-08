@@ -27,7 +27,7 @@ setValue_ts <- function(dataTS, date_ts, value) {
     coll <- checkmate::makeAssertCollection()
 
     # Check du format date_ts
-    assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
+    date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
     # Check de l'objet x un vecteur atomic
     checkmate::assert_atomic_vector(x, add = coll, .var.name = "x")
     if (checkmate::anyMissing(value)) {
@@ -96,13 +96,15 @@ combine2ts <- function(a, b) {
     assert_ts(a, .var.name = "a")
     # Check de l'objet b
     assert_ts(b, .var.name = "b")
+    # Check same frequency
+    assert_true(stats::frequency(a) == stats::frequency(b))
+    # Check same type
+    assert_true(typeof(a) == typeof(b))
 
-    if (stats::frequency(a) != stats::frequency(b)) stop("Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
-    if (typeof(a) != typeof(b))                     stop("Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
-
-    temporalConsistence <- (stats::start(a) - stats::start(b)) * stats::frequency(a)
-    if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
-        stop("Les objets `a` et `b` doivent \u00eatre coh\u00e9rents temporellement.")
+    # temporalConsistence <- (stats::start(a) - stats::start(b)) * stats::frequency(a)
+    # if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence)))) {
+    #     stop("Les objets `a` et `b` doivent \u00eatre coh\u00e9rents temporellement.")
+    # }
 
     outputTS <- a
 
@@ -133,7 +135,9 @@ combine2ts <- function(a, b) {
     } else if (is.numeric(stats::frequency(outputTS))) {
 
         outputDF <- as.data.frame(cbind(a, b))
-        if (sum(is.na(outputDF$a) & (!is.na(outputDF$b))) > 0L) warning("extending time series when replacing values")
+        if (sum(is.na(outputDF$a) & (!is.na(outputDF$b))) > 0L) {
+            warning("extending time series when replacing values")
+        }
 
         outputDF$res <- outputDF$a
         outputDF$res[!is.na(outputDF$b)] <- outputDF$b[!is.na(outputDF$b)]
@@ -169,11 +173,8 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
 
     if (!is.null(date_ts)) {
 
-        # Check de la fréquence
-        assert_frequency(frequency, .var.name = "frequency")
-
         # Check du format date_ts
-        assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
+        date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
 
         if (!is_before(start_replacement, date_ts, frequency = frequency)) {
             stop("La date de fin de remplacement est ant\u00e9rieur \u00e0 la date de fin des donn\u00e9es.")
@@ -195,15 +196,18 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
 
 na_trim <- function(dataTS) {
 
+    coll <- checkmate::makeAssertCollection()
+
     # Check de l'objet dataTS
-    assert_ts(dataTS, .var.name = "dataTS")
+    assert_ts(dataTS,
+              add = coll, .var.name = "dataTS")
+    # Check du contenu (pas que des NA)
+    checkmate::assert_atomic_vector(dataTS, all.missing = FALSE,
+                                    add = coll, .var.name = "dataTS")
+
+    checkmate::reportAssertions(coll)
 
     non_na <- seq_along(dataTS)[!is.na(dataTS)]
-
-    if (length(non_na) == 0L) {
-        stop("L'objet ne contient que des NAs.")
-    }
-
     content <- dataTS[min(non_na):max(non_na)]
 
     start_ts <- stats::start(dataTS)

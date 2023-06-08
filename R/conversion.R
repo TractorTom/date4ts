@@ -57,7 +57,7 @@ as.YYYYMM <- function(TimeUnits) {
 trim2mens <- function(date_ts) {
 
     # Check du format date_ts
-    assert_date_ts(x = date_ts, frequency = 4L, .var.name = "date_ts")
+    date_ts <- assert_date_ts(x = date_ts, frequency = 4L, .var.name = "date_ts")
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 4L
     trim <- (date_ts[2L] - 1L) %% 4L + 1L
@@ -79,7 +79,7 @@ trim2mens <- function(date_ts) {
 mens2trim <- function(date_ts) {
 
     # Check du format date_ts
-    assert_date_ts(x = date_ts, frequency = 12L, .var.name = "date_ts")
+    date_ts <- assert_date_ts(x = date_ts, frequency = 12L, .var.name = "date_ts")
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 12L
     month <- (date_ts[2L] - 1L) %% 12L + 1L
@@ -112,15 +112,20 @@ getTimeUnits <- function(date_ts, frequency) {
     coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
-    assert_frequency(frequency, add = coll, .var.name = "frequency")
+    frequency <- assert_frequency(frequency, add = coll, .var.name = "frequency")
     # Check du format date_ts
-    assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
+    date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
 
     checkmate::reportAssertions(coll)
 
-    # if (date_ts[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
+    # if (date_ts[1L] <= 0L) {
+    #     stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
+    # }
 
-    if (length(date_ts) == 2L) return(date_ts[1L] + (date_ts[2L] - 1) / frequency)
+    if (length(date_ts) == 2L) {
+        return(date_ts[1L] + (date_ts[2L] - 1) / frequency)
+    }
+
     return(date_ts[1L])
 }
 
@@ -148,7 +153,7 @@ date2date_ts <- function(date, frequency = 12L) {
     # Check de l'objet date
     assert_scalar_date(date, add = coll, .var.name = "date")
     # Check de la fréquence
-    assert_frequency(frequency, add = coll, .var.name = "frequency")
+    frequency <- assert_frequency(frequency, add = coll, .var.name = "frequency")
 
     checkmate::reportAssertions(coll)
 
@@ -178,8 +183,8 @@ date2date_ts <- function(date, frequency = 12L) {
 #'
 date_ts2date <- function(date_ts, frequency = 12L) {
 
-    # Check du format date_ts
-    assert_frequency(frequency, .var.name = "frequency")
+    # Check de la fréquence
+    frequency <- assert_frequency(frequency, .var.name = "frequency")
 
     year <- date_ts[1L]
     month <- "01"

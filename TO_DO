@@ -27,7 +27,7 @@ Création du package :
     - https://michaelchirico.github.io/potools/
 - 12) Faire une recherche de toutes les classes "atomic" connues et vérifier lesquelles fonctionnent ou non avec des ts (pour étendre ou créer simplement des ts)
 - 13) Ajouter de la documentation aux fonctions qui n'en ont pas
-- 14) Ajouter des retours à la ligne et des {} après chaque if
+- 14) dans libelle_one_date, il faut gérer les dates négatives => as.Date("-2000-01-01") ne marche pas mais as.Date(-1, origin = "0000-01-01") fonctionne...
 - 15) Ajouter un test de couverture globale avec covr (100%) (
     library("covr")
     covr <- package_coverage()
@@ -53,12 +53,13 @@ Création du package :
         - (2) soit on corrige à la toute fin et on affiche des warnings en plusieurs exemplaire
         - (3) soit on corrige au fur et à mesure et on affiche les erreurs au fur et à mesure
         - (4) soit on applique la décision (3) lorsqu'on doit corriger des objets et les décisions (1) et (2) lorsqu'on a pas de correction ni de warning qui peuvent s'afficher --> ça veut dire qu'une fonction qui fait un traitement après avoir checker un argument DOIT retourner une erreur avant le traitement.
-    - MOdifier la doc des fonctions assert_... avec leur réel comportement
+    - Modifier la doc des fonctions assert_... avec leur réel comportement
     - Revoir aussi les tests des fonctions...
 - 17) Ajouter un test de temporalConsistence (faire la recherche dans le pkg) et le renommer (temporal coherence ?)
+    - chercher des cas où la fréquence est la même et où il y a quand même des pb de cohérence temporelle
 - 18) rechercher dan l'historique pk dans getTimeUnits on veut pas de dates négatives
 - 19) faire le lien entre lastDate et na_trim (pour essayer d'apliquer l'un à l'autre...)
     - vérifier les check dans lastDate
 - 20) Qu'est ce que end_ts dans extend_ts ?
 - 21) Faire l'inventaire des if () stop() qui ne sont pas remplacer par du checkmate pour trouver l'équivalent checkmate à mettre à la place. (Par exemplepour tester que 2 objets sont de même signe)
-- 22) dans libelle_one_date, il faut gérer les dates négatives => as.Date("-2000-01-01") ne marche pas mais as.Date(-1, origin = "0000-01-01") fonctionne...
+

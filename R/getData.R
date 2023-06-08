@@ -5,11 +5,13 @@ getValue_ts <- function(dataTS, date_ts, nb = 1L) {
 
     # Check de l'objet dataTS
     assert_ts(dataTS, add = coll, .var.name = "dataTS")
+
+    frequency <- as.integer(stats::frequency(dataTS))
+
     # Check l'argument nb
-    assert_scalar_natural(nb, add = coll, .var.name = "nb")
+    nb <- assert_scalar_natural(nb, add = coll, .var.name = "nb")
     # Check du format date_ts
-    assert_date_ts(x = date_ts,
-                   frequency = as.integer(stats::frequency(dataTS)),
+    date_ts <- assert_date_ts(x = date_ts, frequency = frequency,
                    add = coll, .var.name = "date_ts")
 
     checkmate::reportAssertions(coll)
@@ -17,7 +19,7 @@ getValue_ts <- function(dataTS, date_ts, nb = 1L) {
     output_value <- as.numeric(stats::window(
         x = dataTS,
         start = date_ts,
-        end = next_date_ts(date_ts, frequency = 12L, lag = nb - 1L)))
+        end = next_date_ts(date_ts, frequency = frequency, lag = nb - 1L)))
 
     return(output_value)
 }

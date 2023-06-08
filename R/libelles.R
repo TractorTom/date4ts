@@ -16,12 +16,14 @@ libelles_one_date <- function(date_ts, frequency) {
     coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
-    assert_frequency(frequency, .var.name = "frequency")
+    frequency <- assert_frequency(frequency, add = coll, .var.name = "frequency")
     # Check du format date_ts
-    assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
+    date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
 
     # Check d'une date après JC
-    # if (date_ts[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
+    # if (date_ts[1L] <= 0L) {
+    #     stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
+    # }
 
     checkmate::reportAssertions(coll)
 
@@ -58,11 +60,11 @@ libelles <- function(date_ts, frequency, nb = 1L) {
     coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
-    assert_frequency(frequency, .var.name = "frequency")
+    frequency <- assert_frequency(frequency, add = coll, .var.name = "frequency")
     # Check de l'argument nb
-    assert_scalar_natural(nb, .var.name = "nb")
+    nb <- assert_scalar_natural(nb, add = coll, .var.name = "nb")
     # Check du format date_ts
-    assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
+    date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
 
     checkmate::reportAssertions(coll)
 

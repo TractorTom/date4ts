@@ -43,19 +43,23 @@ assert_date_ts <- function(x, frequency, add = NULL, .var.name = checkmate::vnam
         coll <- add
     }
 
-    # Check de la fréquence
-    assert_frequency(frequency, add = coll, .var.name = "frequency")
-    # Check du type
-    checkmate::assert_integerish(x, add = coll, any.missing = FALSE)
-    # Check de la longueur
-    checkmate::assert_true(length(x) %in% c(1L, 2L), add = coll)
-
     if (!isTRUE(checkmate::check_integer(x))) {
         warning(checkmate::check_integer(x))
     }
 
-    if (length(x) == 2L && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency))) {
+    # Check de la fréquence
+    frequency <- assert_frequency(frequency,
+                                  add = coll, .var.name = "frequency")
+    # Check du type
+    x <- checkmate::assert_integerish(x, coerce = TRUE, any.missing = FALSE,
+                                      add = coll, .var.name = .var.name)
+    # Check de la longueur
+    checkmate::assert_true(length(x) %in% c(1L, 2L),
+                           add = coll, .var.name = .var.name)
+
+    if ((length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency))) {
         warning(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency))
+        x <- format_date_ts(x, frequency, test = FALSE)
     }
 
     if (is.null(add)) {
@@ -109,13 +113,13 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
     }
 
     # Check de la fréquence
-    assert_frequency(frequency, add = coll, .var.name = "frequency")
+    frequency <- assert_frequency(frequency, add = coll, .var.name = "frequency")
     # Check de la temporalité
-    assert_date_ts(start_ts, add = coll, .var.name = "start")
-    assert_date_ts(end_ts, add = coll, .var.name = "end")
+    start_ts <- assert_date_ts(start_ts, frequency = frequency, add = coll, .var.name = "start")
+    end_ts <- assert_date_ts(end_ts, frequency = frequency, add = coll, .var.name = "end")
     # Check de la classe de l'objet
     checkmate::assert_class(x, classes = "ts", add = coll, .var.name = .var.name)
-    checkmate::assert_false(stats::is.mts(dataTS), add = coll, .var.name = .var.name)
+    checkmate::assert_false(stats::is.mts(x), add = coll, .var.name = .var.name)
     # Check du type de données
     checkmate::assert_atomic_vector(x, add = coll, .var.name = .var.name)
 
@@ -134,7 +138,9 @@ assert_TimeUnits <- function(x, frequency, add = NULL, .var.name = checkmate::vn
         coll <- add
     }
 
-    assert_frequency(frequency, add = coll, .var.name = "frequency")
+    # Check de la fréquence
+    frequency <- assert_frequency(frequency, add = coll, .var.name = "frequency")
+    # Check de l'objet x (TimeUnits)
     checkmate::assert_number(x, add = coll, .var.name = .var.name, finite = TRUE)
     checkmate::assert_int(x * frequency, add = coll, .var.name = .var.name)
 
@@ -153,12 +159,12 @@ assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
         coll <- add
     }
 
-    checkmate::assert_int(x, add = coll, .var.name = .var.name)
-    checkmate::assert_true(x %in% c(4L, 12L), add = coll, .var.name = .var.name)
-
     if (!isTRUE(checkmate::check_integer(x))) {
         warning(checkmate::check_integer(x))
     }
+
+    x <- checkmate::assert_int(x, coerce = TRUE, add = coll, .var.name = .var.name)
+    checkmate::assert_choice(x, choices = c(4L, 12L), add = coll, .var.name = .var.name)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
@@ -175,11 +181,11 @@ assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)
         coll <- add
     }
 
-    checkmate::assert_int(x, add = coll, .var.name = .var.name)
-
     if (!isTRUE(checkmate::check_integer(x))) {
         warning(checkmate::check_integer(x))
     }
+
+    x <- checkmate::assert_int(x, coerce = TRUE, add = coll, .var.name = .var.name)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
@@ -196,11 +202,12 @@ assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x)
         coll <- add
     }
 
-    checkmate::assert_count(x, add = coll, .var.name = .var.name)
-
     if (!isTRUE(checkmate::check_integer(x))) {
         warning(checkmate::check_integer(x))
     }
+
+    x <- checkmate::assert_count(x, coerce = TRUE,
+                                 add = coll, .var.name = .var.name)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)

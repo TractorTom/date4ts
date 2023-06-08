@@ -22,16 +22,18 @@
 #' format_date_ts(c(2020L, 7L), frequency = 4L) # 3ème trimestre de 2021
 #' format_date_ts(c(2020L, 13L), frequency = 4L) # janvier 2021
 #'
-format_date_ts <- function(date_ts, frequency) {
+format_date_ts <- function(date_ts, frequency, test = TRUE) {
 
-    coll <- checkmate::makeAssertCollection()
+    if (test) {
+        coll <- checkmate::makeAssertCollection()
 
-    # Check de la fréquence
-    assert_frequency(frequency, .var.name = "frequency")
-    # Check du format date_ts
-    assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
+        # Check de la fréquence
+        frequency <- assert_frequency(frequency, add = coll, .var.name = "frequency")
+        # Check du format date_ts
+        date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
 
-    checkmate::reportAssertions(coll)
+        checkmate::reportAssertions(coll)
+    }
 
     if (length(date_ts) == 2L) {
         year <- date_ts[1L]
@@ -39,6 +41,6 @@ format_date_ts <- function(date_ts, frequency) {
         return(c(year + ((period - 1L) %/% frequency),
                  1L + ((period - 1L) %% frequency)))
     } else {
-        return(date_ts)
+        return(c(date_ts, 1L))
     }
 }
