@@ -1,65 +1,80 @@
-Création du package :
-- 1) Regarder comment bien manager les erreurs pour renvoyer à des vignettes ou des fiches d'help
-    - voir si il existe de packages pour cela
-    - Préciser l'appel à d'autres fonctions
-- 2) Compléter le fuzzing avec d'autres objets R (regarder d'autres sources /
-    packages ?)
-- 3) Ajouter des Quasiquotation !! (bang-bang) pour mieux tester et analyser les
-    erreurs (notamment avec des précisions sur les inputs, ...)
-- 4) Lorsqu'on teste les erreurs, il faut itéré TOUS les arguments valides (exemple
-    tous les ts avec toutes les fréquences, start, len, typeA.. pour un type
-    d'erreur)
-- 5) relire + ré-écrire les 1er tests avec des bons / mauvais test
-- 6) Relire les commentaire Roxygen2 et à chaque fois que l'on précise "En sortie"
+A Faire :
+
+Urgent pour faire fonctionner le package :
+
+- 1) Résoudre les problèmes de check (à refaire tourner)
+- 2) Date négatives :
+    - rechercher dan l'historique pk dans getTimeUnits on veut pas de dates négatives
+    - dans libelle_one_date, il faut gérer les dates négatives => as.Date("-2000-01-01") ne marche pas mais as.Date(-1, origin = "0000-01-01") fonctionne...
+- 3) Finir avec les nouveaux assert (relire tout ça pour finir !)
+    Concernant les check, assert, is...
+        - On va faire 3 type de fonctions :
+            - les assert_... :
+                - retourne une erreur à lapremière erreur rencontrée
+                - sinon ne retourne rien
+                - retourne un warning si il y a un détail (double à la place de integer, ...)
+            - les check_... retourne TRUE si c'est bon et le (les ?) message d'erreur en character
+            - is_... retourne juste TRUE ou FALSE
+        - Les assert_ remplaceront TOUS les stop que l'on a mis à la main
+        - Pour les autres appels aux fonctions de check actuelles, on utilisera les check_ et les if_
+        - Aussi on va retirer tous les warn
+        - finalement, se réferrer à https://community.rstudio.com/t/implementation-best-practices-for-good-error-messages/4927/2 pour voir un exemple de code qui est pas mal !
+        - Faire et vérifier que toutes les conversion de double en int / de formattage sont faites (à chaque fois qu'on utilise une fonction qui génère un warning --> il faut que la correction soit faite juste après (avant de tester une nouvelle erreur :
+            Si je teste la fréquence et qu'en suite je teste date + fréquence, il fautq ue je corrige la fréquence entre les 2 assert sinon j'aurai 2 fois le warning))
+        - vérifier que l'on a bien collecter toutes les erreurs à chaque fois
+        - Finalement, un pb va peut être se poser si on collecte toutes les erreurs à la fin :
+            - (1) soit on corrige au fur et à mesure des objets (as.integer, ...) au risque de générer de nouvelles erreurs car la conversion est impossible et on a pas affiché encore l'erreur
+            - (2) soit on corrige à la toute fin et on affiche des warnings en plusieurs exemplaire
+            - (3) soit on corrige au fur et à mesure et on affiche les erreurs au fur et à mesure
+            - (4) soit on applique la décision (3) lorsqu'on doit corriger des objets et les décisions (1) et (2) lorsqu'on a pas de correction ni de warning qui peuvent s'afficher --> ça veut dire qu'une fonction qui fait un traitement après avoir checker un argument DOIT retourner une erreur avant le traitement.
+        - Modifier la doc des fonctions assert_... avec leur réel comportement
+        - Revoir aussi les tests des fonctions...
+- 4) W  checking package subdirectories ...
+   Subdirectory 'data' contains no data sets.
+
+
+
+Développement à venir :
+
+- 1) Création de vignettes. Idées :
+    - Expliquer les types d'objets attendus (pour expliquer les erreurs)
+    - Chercher comment faire des liens entre doc de fonction et vignettes
+- 2) Création et relecture des tests :
+    - Relire les tests existants pour compléter si il en manque (nouvelle idée)
+    - Faire le tour des fonctions pour lesquelles il manque des tests
+    - Itérer sur TOUS les arguments valides (exemple tous les ts avec toutes les
+    fréquences, start, len, typeA.. pour un type d'erreur)
+- 3) Relire les commentaire Roxygen2 et à chaque fois que l'on précise "En sortie"
     (@return), il faut préciser le type d'objet qu'il y a en sortie, un vecteur,
     un entier, la class, le mode et le calcul qui permet de sortir cette valeur.
     - Faire le tour des tags que l'on pourrait ajouter comme doc
-- 7) faire des vignettes par type d'erreurs (voir comment faire dess liens dabs l a dox des fonctions et les vignettes)
-    - l'idée est d'expliquier dans quels cas on peut obtenir cette erreur
-- 8) Faire le tour des tests à ajouter
-- 9) Résoudre les problèmes de check (à refaire tourner)ndow<-’
-- 10) Trouver un moyen de faire un CI/CD
-    - sur gitlab.insee (voir avec Julien Jamme) et
-    - sur le gitlab du SSP cloud (datalab et git.lab)
-- 11) Se renseigner au sujet des traductions :
-    - https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#R-messages
-    - https://r-pkgs.org/misc.html#other-directories
-    - https://michaelchirico.github.io/potools/
-- 12) Faire une recherche de toutes les classes "atomic" connues et vérifier lesquelles fonctionnent ou non avec des ts (pour étendre ou créer simplement des ts)
-- 13) Ajouter de la documentation aux fonctions qui n'en ont pas
-- 14) dans libelle_one_date, il faut gérer les dates négatives => as.Date("-2000-01-01") ne marche pas mais as.Date(-1, origin = "0000-01-01") fonctionne...
-- 15) Ajouter un test de couverture globale avec covr (100%) (
+- 4) Approfondir la doc :
+    - Relire les docs existantes (pour ré-écrire / compléter)
+    - Doc existante : ajouter le default des arguments
+    - Faire le tour des fonctions non documentées (les répertorier)
+- 5) Ajouter un test de couverture globale avec covr (lien test et doc) (100%) (
     library("covr")
     covr <- package_coverage()
     covr
     report(covr))
-- 16) Concernant les check, assert, is...
-    - On va faire 3 type de fonctions :
-        - les assert_... :
-            - retourne une erreur à lapremière erreur rencontrée
-            - sinon ne retourne rien
-            - retourne un warning si il y a un détail (double à la place de integer, ...)
-        - les check_... retourne TRUE si c'est bon et le (les ?) message d'erreur en character
-        - is_... retourne juste TRUE ou FALSE
-    - Les assert_ remplaceront TOUS les stop que l'on a mis à la main
-    - Pour les autres appels aux fonctions de check actuelles, on utilisera les check_ et les if_
-    - Aussi on va retirer tous les warn
-    - finalement, se réferrer à https://community.rstudio.com/t/implementation-best-practices-for-good-error-messages/4927/2 pour voir un exemple de code qui est pas mal !
-    - Faire et vérifier que toutes les conversion de double en int / de formattage sont faites (à chaque fois qu'on utilise une fonction qui génère un warning --> il faut que la correction soit faite juste après (avant de tester une nouvelle erreur :
-        Si je teste la fréquence et qu'en suite je teste date + fréquence, il fautq ue je corrige la fréquence entre les 2 assert sinon j'aurai 2 fois le warning))
-    - vérifier que l'on a bien collecter toutes les erreurs à chaque fois
-    - Finalement, un pb va peut être se poser si on collecte toutes les erreurs à la fin :
-        - (1) soit on corrige au fur et à mesure des objets (as.integer, ...) au risque de générer de nouvelles erreurs car la conversion est impossible et on a pas affiché encore l'erreur
-        - (2) soit on corrige à la toute fin et on affiche des warnings en plusieurs exemplaire
-        - (3) soit on corrige au fur et à mesure et on affiche les erreurs au fur et à mesure
-        - (4) soit on applique la décision (3) lorsqu'on doit corriger des objets et les décisions (1) et (2) lorsqu'on a pas de correction ni de warning qui peuvent s'afficher --> ça veut dire qu'une fonction qui fait un traitement après avoir checker un argument DOIT retourner une erreur avant le traitement.
-    - Modifier la doc des fonctions assert_... avec leur réel comportement
-    - Revoir aussi les tests des fonctions...
-- 17) Ajouter un test de temporalConsistence (faire la recherche dans le pkg) et le renommer (temporal coherence ?)
+- 6) Ajouter un test de temporalConsistence (faire la recherche dans le pkg) et le renommer (temporal coherence ?)
     - chercher des cas où la fréquence est la même et où il y a quand même des pb de cohérence temporelle
-- 18) rechercher dan l'historique pk dans getTimeUnits on veut pas de dates négatives
-- 19) faire le lien entre lastDate et na_trim (pour essayer d'apliquer l'un à l'autre...)
+- 7) Faire le lien entre lastDate et na_trim (pour essayer d'appliquer l'un à l'autre...)
     - vérifier les check dans lastDate
-- 20) Qu'est ce que end_ts dans extend_ts ?
-- 21) Faire l'inventaire des if () stop() qui ne sont pas remplacer par du checkmate pour trouver l'équivalent checkmate à mettre à la place. (Par exemplepour tester que 2 objets sont de même signe)
+
+Idée pour plus tard :
+
+- 1) Compléter le fuzzing avec d'autres objets R (regarder d'autres sources /
+packages ?)
+- 2) Ajouter des Quasiquotation !! (bang-bang) pour mieux tester et analyser les
+    erreurs (notamment avec des précisions sur les inputs, ...)
+- 3) Trouver un moyen de faire un CI/CD
+    - sur gitlab.insee (voir avec Julien Jamme) et
+    - sur le gitlab du SSP cloud (datalab et git.lab)
+- 4) Se renseigner au sujet des traductions :
+    - https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#R-messages
+    - https://r-pkgs.org/misc.html#other-directories
+    - https://michaelchirico.github.io/potools/
+- 5) Faire une recherche de toutes les classes "atomic" connues et vérifier lesquelles fonctionnent ou non avec des ts (pour étendre ou créer simplement des ts)
+- 6) Faire l'inventaire des if () stop() qui ne sont pas remplacer par du checkmate pour trouver l'équivalent checkmate à mettre à la place. (Par exemplepour tester que 2 objets sont de même signe)
 
