@@ -28,14 +28,13 @@ libelles_one_date <- function(date_ts, frequency) {
 
     checkmate::reportAssertions(coll)
 
+    date <- date_ts2date(date_ts, frequency = frequency)
+
     year <- date_ts[1L]
     if (frequency == 4L) {
-        quarter <- date_ts[2L]
-        return(paste0("T", quarter, " ", year))
+        return(paste(quarters(date), year))
     } else if (frequency == 12L) {
-        month <- date_ts[2L]
-        char_date <- paste(year, sprintf("%02.f", month), "01", sep = "-")
-        return(format(base::as.Date(char_date), format = "%b %Y"))
+        return(paste(months(date, abbreviate = TRUE), year))
     }
 }
 

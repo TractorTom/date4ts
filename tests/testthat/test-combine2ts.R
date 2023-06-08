@@ -34,7 +34,7 @@ for (typeA in list_type) {
                                 if (length(startB1) == 1L) startB1 <- c(startB1, 1L)
                                 startB1[2L] <- startB1[2L] - (param1 - 1L)
                                 ts_B1 <- ts(B1_content,  start = startB1, frequency = frequenceA)
-                                # ts_B1 <- ts(B1_content,  start = getTimeUnits(as.integer(end(ts_A)), frequency = frequenceA) - (param1 - 1L) / frequenceA, frequency = frequenceA)
+                                # ts_B1 <- ts(B1_content,  start = date_ts2TimeUnits(as.integer(end(ts_A)), frequency = frequenceA) - (param1 - 1L) / frequenceA, frequency = frequenceA)
 
                                 ts_ResAB1 <- ts(c(A_content[1L:(lenA - param1)], B1_content), start = startA, frequency = frequenceA)
                                 if (param2 == 0L) {
@@ -68,7 +68,7 @@ for (typeA in list_type) {
                                 if (length(startB2) == 1L) startB2 <- c(startB2, 1L)
                                 startB2[2L] <- startB2[2L] - param1
                                 ts_B2 <- ts(B2_content,  start = startB2, frequency = frequenceA)
-                                # ts_B2 <- ts(B2_content,  start = getTimeUnits(startA, frequency = frequenceA) - param1 / frequenceA, frequency = frequenceA)
+                                # ts_B2 <- ts(B2_content,  start = date_ts2TimeUnits(startA, frequency = frequenceA) - param1 / frequenceA, frequency = frequenceA)
 
                                 ts_ResAB2 <- ts(c(B2_content, A_content[(param2 + 1L):lenA]), start = start(ts_B2), frequency = frequenceA)
                                 if (param1 == 0L) {
@@ -103,7 +103,7 @@ for (typeA in list_type) {
                                 if (length(startB3) == 1L) startB3 <- c(startB3, 1L)
                                 startB3[2L] <- startB3[2L] - (param1 + param2)
                                 ts_B3 <- ts(B3_content,  start = startB3, frequency = frequenceA)
-                                # ts_B3 <- ts(B3_content, start = getTimeUnits(startA, frequency = frequenceA) - (param1 + param2) / frequenceA, frequency = frequenceA)
+                                # ts_B3 <- ts(B3_content, start = date_ts2TimeUnits(startA, frequency = frequenceA) - (param1 + param2) / frequenceA, frequency = frequenceA)
 
                                 if (typeA == "raw") {
                                     ts_ResAB3 <- ts(c(B3_content, rep(as.raw(0L), param2), A_content), start = start(ts_B3), frequency = frequenceA)
@@ -149,7 +149,7 @@ for (typeA in list_type) {
                                 if (length(startB4) == 1L) startB4 <- c(startB4, 1L)
                                 startB4[2L] <- startB4[2L] + param1 + 1L
                                 ts_B4 <- ts(B4_content,  start = startB4, frequency = frequenceA)
-                                # ts_B4 <- ts(B4_content,  start = getTimeUnits(as.integer(end(ts_A)), frequency = frequenceA) + (param1 + 1L) / frequenceA, frequency = frequenceA)
+                                # ts_B4 <- ts(B4_content,  start = date_ts2TimeUnits(as.integer(end(ts_A)), frequency = frequenceA) + (param1 + 1L) / frequenceA, frequency = frequenceA)
 
                                 if (typeA == "raw") {
                                     ts_ResAB4 <- ts(c(A_content, rep(as.raw(0L), param1), B4_content), start = startA, frequency = frequenceA)
@@ -194,7 +194,7 @@ for (typeA in list_type) {
                             if (length(startB5) == 1L) startB5 <- c(startB5, 1L)
                             startB5[2L] <- startB5[2L] - param1
                             ts_B5 <- ts(B5_content,  start = startB5, frequency = frequenceA)
-                            # ts_B5 <- ts(B5_content,  start = getTimeUnits(startA, frequency = frequenceA) - param1 / frequenceA, frequency = frequenceA)
+                            # ts_B5 <- ts(B5_content,  start = date_ts2TimeUnits(startA, frequency = frequenceA) - param1 / frequenceA, frequency = frequenceA)
                             ts_ResAB5 <- ts_B5
 
                             if (param1 == 0L & param2 == 0L) {
@@ -231,7 +231,7 @@ for (typeA in list_type) {
                                 if (length(startB6) == 1L) startB6 <- c(startB6, 1L)
                                 startB6[2L] <- startB6[2L] + param1
                                 ts_B6 <- ts(B6_content, start = startB6, frequency = frequenceA)
-                                # ts_B6 <- ts(B6_content,  start = getTimeUnits(startA, frequency = frequenceA) + param1 / frequenceA, frequency = frequenceA)
+                                # ts_B6 <- ts(B6_content,  start = date_ts2TimeUnits(startA, frequency = frequenceA) + param1 / frequenceA, frequency = frequenceA)
                                 if (param1 == 0L) {
                                     ts_ResAB6 <- ts(c(B6_content, A_content[(param1 + param2 + 1L):lenA]), start = startA, frequency = frequenceA)
                                 } else {

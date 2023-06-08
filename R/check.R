@@ -51,13 +51,15 @@ assert_date_ts <- function(x, frequency, add = NULL, .var.name = checkmate::vnam
     x <- checkmate::assert_integerish(x, coerce = TRUE, any.missing = FALSE,
                                       add = coll, .var.name = .var.name)
     # Check de la longueur
-    checkmate::assert_choice(x = length(x), choices = c(1L, 2L),
-                             add = coll, .var.name = .var.name)
+    checkmate::assert_choice(
+        x = length(x), choices = c(1L, 2L),
+        add = coll, .var.name = paste0("length(", .var.name, ")"))
 
     if ((length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency))) {
         warning(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency))
-        x <- format_date_ts(x, frequency, test = FALSE)
     }
+
+    x <- format_date_ts(x, frequency, test = FALSE)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)

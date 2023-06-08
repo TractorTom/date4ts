@@ -150,9 +150,9 @@ combine2ts <- function(a, b) {
         outputTS <- stats::ts(
             data = outputDF$res,
             frequency = stats::frequency(a),
-            start = min(getTimeUnits(as.integer(stats::start(a)),
+            start = min(date_ts2TimeUnits(as.integer(stats::start(a)),
                                      frequency = stats::frequency(a)),
-                        getTimeUnits(as.integer(stats::start(b)),
+                        date_ts2TimeUnits(as.integer(stats::start(b)),
                                      frequency = stats::frequency(b))))
     }
     return(outputTS)

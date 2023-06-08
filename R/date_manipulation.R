@@ -121,8 +121,8 @@ is_before <- function(a, b, frequency) {
 
     checkmate::reportAssertions(coll)
 
-    tu_a <- getTimeUnits(a, frequency = frequency)
-    tu_b <- getTimeUnits(b, frequency = frequency)
+    tu_a <- date_ts2TimeUnits(a, frequency = frequency)
+    tu_b <- date_ts2TimeUnits(b, frequency = frequency)
     return(tu_a <= tu_b)
 }
 

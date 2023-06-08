@@ -101,13 +101,13 @@ mens2trim <- function(date_ts) {
 #'
 #' @examples
 #'
-#' getTimeUnits(date_ts = c(2020L, 4L), frequency = 12L) # Avril 2020
-#' getTimeUnits(date_ts = c(2022L, 11L), frequency = 12L) # Novembre 2020
+#' date_ts2TimeUnits(date_ts = c(2020L, 4L), frequency = 12L) # Avril 2020
+#' date_ts2TimeUnits(date_ts = c(2022L, 11L), frequency = 12L) # Novembre 2020
 #'
-#' getTimeUnits(date_ts = c(2022, 4L), frequency = 4L) # 4ème trimestre de 2022
-#' getTimeUnits(date_ts = c(1995L, 2L), frequency = 4L) # 2ème trimestre de 1995
+#' date_ts2TimeUnits(date_ts = c(2022, 4L), frequency = 4L) # 4ème trimestre de 2022
+#' date_ts2TimeUnits(date_ts = c(1995L, 2L), frequency = 4L) # 2ème trimestre de 1995
 #'
-getTimeUnits <- function(date_ts, frequency) {
+date_ts2TimeUnits <- function(date_ts, frequency) {
 
     coll <- checkmate::makeAssertCollection()
 
@@ -167,6 +167,25 @@ date2date_ts <- function(date, frequency = 12L) {
     return(c(year, month))
 }
 
+# date est un objet de type Date
+substr_year <- function(date, n = 1L) {
+
+    coll <- checkmate::makeAssertCollection()
+
+    assert_scalar_date(date, add = coll, .var.name = "date")
+    assert_scalar_natural(n, add = coll, .var.name = "n")
+
+    checkmate::reportAssertions(coll)
+
+    year <- as.integer(format(date, format = "%Y"))
+    is_leap_year <- as.logical((year %% 4 == 0L) - (year %% 100 == 0L) + (year %% 400 == 0L))
+
+    if (TRUE) {
+
+    }
+    return(TRUE)
+}
+
 #' Conversion d'une date du format TS au format date
 #'
 #' @param date_ts un vecteur numérique, de préférence integer, au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
@@ -177,14 +196,19 @@ date2date_ts <- function(date, frequency = 12L) {
 #'
 #' @examples
 #'
-#' date_ts2date(date_ts = c(2020L, 4L))
 #' date_ts2date(date_ts = c(2020L, 11L), frequency = 12L)
 #' date_ts2date(date_ts = c(1995L, 2L), frequency = 4L)
 #'
-date_ts2date <- function(date_ts, frequency = 12L) {
+date_ts2date <- function(date_ts, frequency) {
+
+    coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
-    frequency <- assert_frequency(frequency, .var.name = "frequency")
+    frequency <- assert_frequency(frequency, add = coll, .var.name = "frequency")
+    # Check du format date_ts
+    date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
+
+    checkmate::reportAssertions(coll)
 
     year <- date_ts[1L]
     month <- "01"

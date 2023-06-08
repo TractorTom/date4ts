@@ -3,12 +3,14 @@ A Faire :
 Urgent pour faire fonctionner le package :
 
 - 1) Date négatives :
-    - rechercher dan l'historique pk dans getTimeUnits on veut pas de dates négatives
+    - rechercher dans l'historique pk dans getTimeUnits on veut pas de dates négatives
     - dans libelle_one_date, il faut gérer les dates négatives => as.Date("-2000-01-01") ne marche pas mais as.Date(-1, origin = "0000-01-01") fonctionne...
+    - Même chose pour la fonction date_ts2date
 - 2) Nouveaux assert :
     - se réferrer à https://community.rstudio.com/t/implementation-best-practices-for-good-error-messages/4927/2 pour insérer du code directement issus de stop("") dans des assert
     - retirer les assert_true ou autre pour mettre un message un peu + personnalisés
     - Vréifier que la pose d'un warning implique un coerce implique une modification de l'objet
+- 3) Faire la doc de toutes les fonctions exportées
 
 
 Développement à venir :
@@ -34,6 +36,7 @@ Développement à venir :
     - chercher des cas où la fréquence est la même et où il y a quand même des pb de cohérence temporelle
 - 7) Faire le lien entre lastDate et na_trim (pour essayer d'appliquer l'un à l'autre...)
     - vérifier les check dans lastDate
+- 8) Trouver comment ajouter un .var.name à un check_
 
 
 Idée pour plus tard :
