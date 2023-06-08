@@ -7,44 +7,47 @@
 assert_date_ts(x, frequency, add = NULL, .var.name = checkmate::vname(x))
 }
 \arguments{
+\item{x}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+
 \item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 
-\item{date_ts}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 
-\item{warn}{un booléen}
+\item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
 }
 \value{
-En sortie la fonction retourne un booleen et un warning additionnel si besoin.
+En sortie la fonction retourne l'objet de manière invisible ou une erreur.
 }
 \description{
-La fonction \code{is_date_ts} vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
+La fonction \code{assert_date_ts} vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
 }
 \details{
 Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
 On cherche donc à favoriser l'utilisation de vecteur c(AAAA, MM) pour désigner la date choisie.
+Lorsque l'objet \code{x} en entrée est au mauvais format, il est corrigé pendant la vérification et l'objet en sortie est au bon format.
 }
 \examples{
 # De bons formats de date
-is_date_ts(c(2020L, 8L))
-is_date_ts(c(2020L, 2L))
-is_date_ts(2022L)
+assert_date_ts(c(2020L, 8L))
+assert_date_ts(c(2020L, 2L))
+assert_date_ts(2022L)
 
 # Format double --> génération d'un warning
-is_date_ts(c(2020, 4))
-is_date_ts(2022)
+assert_date_ts(c(2020, 4))
+assert_date_ts(2022)
 
 # Dépassement la fréquence--> génération d'un warning
-is_date_ts(c(2020L, 6L), frequency = 4L)
-is_date_ts(c(2020L, 42L), frequency = 12L)
-is_date_ts(c(2020L, -4L))
+assert_date_ts(c(2020L, 6L), frequency = 4L)
+assert_date_ts(c(2020L, 42L), frequency = 12L)
+assert_date_ts(c(2020L, -4L))
 
-# Mauvaise fréquence --> reponse FALSE
-is_date_ts(c(2020L, 7L))
+# Mauvaise fréquence --> génération d'une erreur
+assert_date_ts(c(2020L, 7L), frequency = 3L)
 
-# Format non accepté --> reponse FALSE
-is_date_ts(2022.5)
-is_date_ts(2022 + 1/12)
-is_date_ts(2023 + 1/4)
-is_date_ts("2020-04-01")
-is_date_ts(as.Date("2020-04-01"))
+# Format non accepté --> génération d'une erreur
+assert_date_ts(2022.5)
+assert_date_ts(2022 + 1/12)
+assert_date_ts(2023 + 1/4)
+assert_date_ts("2020-04-01")
+assert_date_ts(as.Date("2020-04-01"))
 }

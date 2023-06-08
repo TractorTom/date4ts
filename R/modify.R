@@ -5,36 +5,36 @@
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
 #' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param value un vecteur de même type que le ts `dataTS`
+#' @param x un vecteur de même type que le ts `dataTS`
 #'
-#' @return En sortie, la fonction retourne l'objet `dataTS` n objet ts modifié avec les valeurs de `value` imputés à partir de la date `date`.
+#' @return En sortie, la fonction retourne l'objet `dataTS` n objet ts modifié avec les valeurs de `x` imputés à partir de la date `date`.
 #' @export
 #'
 #' @examples
 #' setValue_ts(
 #'     dataTS = ev_pib,
 #'     date_ts = c(2021L, 2L),
-#'     value = c(1, 2, 3)
+#'     x = c(1, 2, 3)
 #'     )
 #'
-setValue_ts <- function(dataTS, date_ts, value) {
-
-    # Check de l'objet dataTS
-    assert_ts(dataTS, .var.name = "dataTS")
-
-    frequency <- as.integer(stats::frequency(dataTS))
+setValue_ts <- function(dataTS, date_ts, x) {
 
     coll <- checkmate::makeAssertCollection()
+
+    # Check de l'objet dataTS
+    assert_ts(dataTS, add = coll, .var.name = "dataTS")
+
+    frequency <- as.integer(stats::frequency(dataTS))
 
     # Check du format date_ts
     date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
     # Check de l'objet x un vecteur atomic
     checkmate::assert_atomic_vector(x, add = coll, .var.name = "x")
-    if (checkmate::anyMissing(value)) {
-        warning(checkmate::check_atomic_vector(value, any.missing = FALSE))
+    if (checkmate::anyMissing(x)) {
+        warning(checkmate::check_atomic_vector(x, any.missing = FALSE))
     }
     # Check des types des objets
-    checkmate::assert_true(typeof(dataTS) == typeof(value))
+    checkmate::assert_true(typeof(dataTS) == typeof(x), add = coll, .var.name = "dataTS")
 
     checkmate::reportAssertions(coll)
 
@@ -47,7 +47,7 @@ setValue_ts <- function(dataTS, date_ts, value) {
                 data = as.integer(outputTS),
                 start = stats::start(outputTS),
                 frequency = stats::frequency(outputTS)),
-            date_ts = date_ts, value = as.integer(value))
+            date_ts = date_ts, x = as.integer(x))
         outputTS <- stats::ts(
             data = as.raw(outputTS),
             start = stats::start(outputTS),
@@ -56,11 +56,11 @@ setValue_ts <- function(dataTS, date_ts, value) {
         start_ts <- format_date_ts(date_ts,
                                    frequency = as.integer(stats::frequency(dataTS)))
         end_ts <- next_date_ts(date_ts, frequency = as.integer(stats::frequency(dataTS)),
-                               lag = length(value) - 1L)
+                               lag = length(x) - 1L)
         stats::window(
             x = outputTS, start = start_ts,
             end = end_ts,
-            extend = TRUE) <- value
+            extend = TRUE) <- x
     }
 
     return(outputTS)
@@ -88,23 +88,27 @@ setValue_ts <- function(dataTS, date_ts, value) {
 #' # La série de PIB est écrasé par trim_1 sur la période temporelle de trim_1
 #' combine2ts(ev_pib, trim_1)
 #'
-#' # La période temporelle interne entre les séries temporelles mens_1 et mens_2 est complétée par des NA
+#' # La période entre les séries temporelles mens_1 et mens_2 est complétée par des NA
 #' combine2ts(mens_1, mens_2)
 combine2ts <- function(a, b) {
 
+    coll <- checkmate::makeAssertCollection()
+
     # Check de l'objet a
-    assert_ts(a, .var.name = "a")
+    assert_ts(a, add = coll, .var.name = "a")
     # Check de l'objet b
-    assert_ts(b, .var.name = "b")
+    assert_ts(b, add = coll, .var.name = "b")
     # Check same frequency
-    assert_true(stats::frequency(a) == stats::frequency(b))
+    checkmate::assert_true(stats::frequency(a) == stats::frequency(b), add = coll)
     # Check same type
-    assert_true(typeof(a) == typeof(b))
+    checkmate::assert_true(typeof(a) == typeof(b), add = coll)
 
     # temporalConsistence <- (stats::start(a) - stats::start(b)) * stats::frequency(a)
     # if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence)))) {
     #     stop("Les objets `a` et `b` doivent \u00eatre coh\u00e9rents temporellement.")
     # }
+
+    checkmate::reportAssertions(coll)
 
     outputTS <- a
 
@@ -126,13 +130,14 @@ combine2ts <- function(a, b) {
             start = stats::start(outputTS),
             frequency = stats::frequency(outputTS))
 
-    } else if (isTRUE(all.equal(stats::frequency(a),
-                                round(stats::frequency(a))))) {
+        # Fréquence entière
+    } else if (isTRUE(checkmate::check_int(stats::frequency(outputTS)))) {
 
         stats::window(x = outputTS, start = stats::start(b),
                       end = stats::end(b), extend = TRUE) <- b
 
-    } else if (is.numeric(stats::frequency(outputTS))) {
+        # Fréquence décimale
+    } else if (isTRUE(checkmate::check_number(stats::frequency(outputTS)))) {
 
         outputDF <- as.data.frame(cbind(a, b))
         if (sum(is.na(outputDF$a) & (!is.na(outputDF$b))) > 0L) {
@@ -153,28 +158,36 @@ combine2ts <- function(a, b) {
     return(outputTS)
 }
 
-
+#' @export
 extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
 
+    coll <- checkmate::makeAssertCollection()
+
     # Check de l'objet dataTS
-    assert_ts(dataTS, .var.name = "dataTS")
+    assert_ts(dataTS, add = coll, .var.name = "dataTS")
     # Check de l'objet x un vecteur atomic
-    checkmate::assert_atomic_vector(x, .var.name = "x")
+    checkmate::assert_atomic_vector(x, add = coll, .var.name = "x")
     # Check de replace_na
-    checkmate::assert_flag(replace_na)
+    checkmate::assert_flag(replace_na, add = coll, .var.name = "replace_na")
+    # Check du format date_ts
+    if (!is.null(date_ts)) {
+        date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
+    }
+
+    checkmate::reportAssertions(coll)
+
+    start_ts <- as.integer(stats::start(dataTS))
+    end_ts <- as.integer(stats::end(dataTS))
 
     if (replace_na) {
         start_replacement <- next_date_ts(lastDate(dataTS))
     } else {
-        start_replacement <- next_date_ts(stats::end(dataTS))
+        start_replacement <- next_date_ts(end_ts)
     }
 
     frequency <- as.integer(stats::frequency(dataTS))
 
     if (!is.null(date_ts)) {
-
-        # Check du format date_ts
-        date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
 
         if (!is_before(start_replacement, date_ts, frequency = frequency)) {
             stop("La date de fin de remplacement est ant\u00e9rieur \u00e0 la date de fin des donn\u00e9es.")
@@ -187,20 +200,20 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
         end_replacement <- date_ts
 
     } else {
-        end_replacement <- next_date_ts(end_ts, lag = length(x) + 1L, frequency = frequency)
+        end_replacement <- next_date_ts(start_replacement, lag = length(x), frequency = frequency)
     }
 
-    window(dataTS, start = start_replacement, end = date_ts, extend = TRUE) <- x
+    stats::window(dataTS, start = start_replacement, end = end_replacement, extend = TRUE) <- x
     return(dataTS)
 }
 
+#' @export
 na_trim <- function(dataTS) {
 
     coll <- checkmate::makeAssertCollection()
 
     # Check de l'objet dataTS
-    assert_ts(dataTS,
-              add = coll, .var.name = "dataTS")
+    assert_ts(dataTS, add = coll, .var.name = "dataTS")
     # Check du contenu (pas que des NA)
     checkmate::assert_atomic_vector(dataTS, all.missing = FALSE,
                                     add = coll, .var.name = "dataTS")
@@ -210,13 +223,13 @@ na_trim <- function(dataTS) {
     non_na <- seq_along(dataTS)[!is.na(dataTS)]
     content <- dataTS[min(non_na):max(non_na)]
 
-    start_ts <- stats::start(dataTS)
+    start_ts <- as.integer(stats::start(dataTS))
     frequency <- as.integer(stats::frequency(dataTS))
 
-    return(ts(data = dataTS,
-              start = next_date_ts(date_ts = start_ts,
-                                   frequency = frequency_ts,
-                                   lag = min(non_na) - 1L),
-              frequency = frequency_ts)
+    return(stats::ts(data = dataTS,
+                     start = next_date_ts(date_ts = start_ts,
+                                          frequency = frequency,
+                                          lag = min(non_na) - 1L),
+                     frequency = frequency)
     )
 }

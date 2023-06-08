@@ -4,15 +4,18 @@
 \alias{format_date_ts}
 \title{Formatter un objet date_ts}
 \usage{
-format_date_ts(date_ts, frequency)
+format_date_ts(date_ts, frequency, test = TRUE)
 }
 \arguments{
 \item{date_ts}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
 \item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+
+\item{test}{un booléen (Default is TRUE)}
 }
 \value{
 En sortie, la fonction retourne une date au format date_ts avec la période inclus entre 1 et la fréquence.
+Si l'argument \code{test} est mis à FALSE, alors aucun test ne sera effectué sur les données en entrée.
 }
 \description{
 Formatter un objet date_ts
