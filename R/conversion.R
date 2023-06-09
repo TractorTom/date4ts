@@ -177,13 +177,15 @@ substr_year <- function(date, n = 1L) {
 
     checkmate::reportAssertions(coll)
 
-    year <- as.integer(format(date, format = "%Y"))
-    is_leap_year <- as.logical((year %% 4 == 0L) - (year %% 100 == 0L) + (year %% 400 == 0L))
+    date_1 <- as.Date(paste("2000", format(date, format = "%m-%d"), sep = "-"))
+    date_2 <- as.Date("2000-02-28")
+    before_leap <- date_1 <= date_2
 
-    if (TRUE) {
+    year <- as.integer(format(date, format = "%Y")) - before_leap
+    years <- year:(year - n + 1L)
+    leap_year <- sum(as.logical((years %% 4 == 0L) - (years %% 100 == 0L) + (years %% 400 == 0L)))
 
-    }
-    return(TRUE)
+    return(date - 365 * n - leap_year)
 }
 
 #' Conversion d'une date du format TS au format date
@@ -211,7 +213,6 @@ date_ts2date <- function(date_ts, frequency) {
     checkmate::reportAssertions(coll)
 
     year <- date_ts[1L]
-    month <- "01"
 
     if (length(date_ts) == 2L) {
         if (frequency == 4L) {
@@ -221,5 +222,9 @@ date_ts2date <- function(date_ts, frequency) {
         }
     }
 
-    return(as.Date(paste(year, month, "01", sep = "-")))
+    if (year < 0) {
+        return(substr_year(as.Date(paste("0000", month, "01", sep = "-")), -year))
+    } else {
+        return(as.Date(paste(year, month, "01", sep = "-")))
+    }
 }

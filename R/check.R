@@ -41,7 +41,8 @@ assert_date_ts <- function(x, frequency, add = NULL, .var.name = checkmate::vnam
     }
 
     if (!isTRUE(checkmate::check_integer(x))) {
-        warning(checkmate::check_integer(x))
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
     }
 
     # Check de la fréquence
@@ -56,7 +57,8 @@ assert_date_ts <- function(x, frequency, add = NULL, .var.name = checkmate::vnam
         add = coll, .var.name = paste0("length(", .var.name, ")"))
 
     if ((length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency))) {
-        warning(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency))
+        err <- try(checkmate::assert_integerish(x[2L], lower = 1L, upper = frequency, .var.name = "period"), silent = TRUE)
+        warning(attr(err, "condition")$message)
     }
 
     x <- format_date_ts(x, frequency, test = FALSE)
@@ -157,7 +159,8 @@ assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
     }
 
     if (!isTRUE(checkmate::check_integer(x))) {
-        warning(checkmate::check_integer(x))
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
     }
 
     x <- checkmate::assert_int(x, coerce = TRUE, add = coll, .var.name = .var.name)
@@ -180,7 +183,8 @@ assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)
     }
 
     if (!isTRUE(checkmate::check_integer(x))) {
-        warning(checkmate::check_integer(x))
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
     }
 
     x <- checkmate::assert_int(x, coerce = TRUE, add = coll, .var.name = .var.name)
@@ -201,7 +205,8 @@ assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x)
     }
 
     if (!isTRUE(checkmate::check_integer(x))) {
-        warning(checkmate::check_integer(x))
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
     }
 
     x <- checkmate::assert_count(x, coerce = TRUE,

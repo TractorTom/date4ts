@@ -4,7 +4,7 @@
 \alias{date_ts2date}
 \title{Conversion d'une date du format TS au format date}
 \usage{
-date_ts2date(date_ts, frequency = 12L)
+date_ts2date(date_ts, frequency)
 }
 \arguments{
 \item{date_ts}{un vecteur numérique, de préférence integer, au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
@@ -19,7 +19,6 @@ Conversion d'une date du format TS au format date
 }
 \examples{
 
-date_ts2date(date_ts = c(2020L, 4L))
 date_ts2date(date_ts = c(2020L, 11L), frequency = 12L)
 date_ts2date(date_ts = c(1995L, 2L), frequency = 4L)
 

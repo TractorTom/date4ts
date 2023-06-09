@@ -31,7 +31,8 @@ setValue_ts <- function(dataTS, date_ts, x) {
     # Check de l'objet x un vecteur atomic
     checkmate::assert_atomic_vector(x, add = coll, .var.name = "x")
     if (checkmate::anyMissing(x)) {
-        warning(checkmate::check_atomic_vector(x, any.missing = FALSE))
+        err <- try(checkmate::assert_atomic_vector(x, any.missing = FALSE, .var.name = "x"), silent = TRUE)
+        warning(attr(err, "condition")$message)
     }
     # Check des types des objets
     checkmate::assert_true(typeof(dataTS) == typeof(x), add = coll, .var.name = "dataTS")
@@ -143,7 +144,6 @@ combine2ts <- function(a, b) {
         if (sum(is.na(outputDF$a) & (!is.na(outputDF$b))) > 0L) {
             warning("extending time series when replacing values")
         }
-
         outputDF$res <- outputDF$a
         outputDF$res[!is.na(outputDF$b)] <- outputDF$b[!is.na(outputDF$b)]
 
