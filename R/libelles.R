@@ -21,11 +21,6 @@ libelles_one_date <- function(date_ts, frequency) {
     # Check du format date_ts
     date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
 
-    # Check d'une date après JC
-    # if (date_ts[1L] <= 0L) {
-    #     stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
-    # }
-
     checkmate::reportAssertions(coll)
 
     date <- date_ts2date(date_ts, frequency = frequency)
@@ -44,7 +39,7 @@ libelles_one_date <- function(date_ts, frequency) {
 #'
 #' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
-#' @param nb un entier
+#' @param n un entier
 #'
 #' @details Pour choisir la période, il faut spécifier une date de début de période et un nombre de valeur.
 #'
@@ -52,17 +47,17 @@ libelles_one_date <- function(date_ts, frequency) {
 #' @export
 #'
 #' @examples
-#' libelles(date_ts = c(2019L, 10L), frequency = 12L, nb = 9L)
-#' libelles(date_ts = c(2019L, 4L), frequency = 4L, nb = 3L)
+#' libelles(date_ts = c(2019L, 10L), frequency = 12L, n = 9L)
+#' libelles(date_ts = c(2019L, 4L), frequency = 4L, n = 3L)
 #'
-libelles <- function(date_ts, frequency, nb = 1L) {
+libelles <- function(date_ts, frequency, n = 1L) {
 
     coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
     frequency <- assert_frequency(frequency, add = coll, .var.name = "frequency")
-    # Check de l'argument nb
-    nb <- assert_scalar_natural(nb, add = coll, .var.name = "nb")
+    # Check de l'argument n
+    n <- assert_scalar_natural(n, add = coll, .var.name = "n")
     # Check du format date_ts
     date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
 
@@ -73,5 +68,5 @@ libelles <- function(date_ts, frequency, nb = 1L) {
         return(libelles_one_date(date_temp, frequency = frequency))
     }
 
-    return(sapply(seq_len(nb) - 1L, FUN = decale_libele))
+    return(sapply(seq_len(n) - 1L, FUN = decale_libele))
 }

@@ -18,4 +18,5 @@ La fonction \code{mens2trim} prend en argument une date au format c(AAAA, MM) et
 \examples{
 mens2trim(c(2019L, 4L)) #Avril 2019 --> 2ème trimestre 2019
 mens2trim(c(2020L, 11L)) #Novembre 2020 --> 4ème trimestre 2020
+
 }

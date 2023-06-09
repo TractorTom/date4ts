@@ -35,10 +35,11 @@ setValue_ts <- function(dataTS, date_ts, x) {
         warning(attr(err, "condition")$message)
     }
     # Check des types des objets
-    checkmate::assert_true(typeof(dataTS) == typeof(x), add = coll, .var.name = "dataTS")
+    if (!isTRUE(typeof(dataTS) == typeof(x))) {
+        coll$push("Les objets `dataTS` et `x` doivent \u00eatre de m\u00eame type.")
+    }
 
     checkmate::reportAssertions(coll)
-
 
     outputTS <- dataTS
 
@@ -100,9 +101,13 @@ combine2ts <- function(a, b) {
     # Check de l'objet b
     assert_ts(b, add = coll, .var.name = "b")
     # Check same frequency
-    checkmate::assert_true(stats::frequency(a) == stats::frequency(b), add = coll)
-    # Check same type
-    checkmate::assert_true(typeof(a) == typeof(b), add = coll)
+    if (!isTRUE(stats::frequency(a) == stats::frequency(b))) {
+        coll$push("Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
+    }
+    # Check des types des objets
+    if (!isTRUE(typeof(a) == typeof(b))) {
+        coll$push("Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
+    }
 
     # temporalConsistence <- (stats::start(a) - stats::start(b)) * stats::frequency(a)
     # if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence)))) {

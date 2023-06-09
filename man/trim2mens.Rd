@@ -18,4 +18,5 @@ La fonction \code{trim2mens} prend en argument une date au format c(AAAA, TT) et
 \examples{
 trim2mens(c(2019L, 4L)) #4ème trimestre 2019 --> Octobre 2019
 trim2mens(c(2020L, 1L)) #1er trimestre 2020 --> Janvier 2020
+
 }

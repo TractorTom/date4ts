@@ -2,17 +2,25 @@ A Faire :
 
 Urgent pour faire fonctionner le package :
 
-- 1) Nouveaux assert :
-    - se réferrer à https://community.rstudio.com/t/implementation-best-practices-for-good-error-messages/4927/2 pour insérer du code directement issus de stop("") dans des assert
-    - retirer les assert_true ou autre pour mettre un message un peu + personnalisés
-    - Vréifier que la pose d'un warning implique un coerce implique une modification de l'objet
-- 2) Faire la doc de toutes les fonctions exportées
+- 1) Faire la doc de toutes les fonctions exportées :
+    - extend_ts
+    - na_trim
+    - getValue_ts
+    - assert_TimeUnits
+    - assert_frequency
+    - assert_scalar_integer
+    - assert_scalar_date
+    - firstDate
+    - lastDate
+    - is_before
 
 
 Développement à venir :
 
 - 1) Création de vignettes. Idées :
-    - Expliquer les types d'objets attendus (pour expliquer les erreurs)
+    - Expliquer les types d'objets attendus (pour expliquer les erreurs) :
+        - date_ts sans fréquence ne veut rien dire
+        - qu'est ce qu'un objet TimeUnits
     - Chercher comment faire des liens entre doc de fonction et vignettes
 - 2) Création et relecture des tests :
     - Relire les tests existants pour compléter si il en manque (nouvelle idée)
@@ -32,6 +40,8 @@ Développement à venir :
     - chercher des cas où la fréquence est la même et où il y a quand même des pb de cohérence temporelle
 - 7) Faire le lien entre lastDate et na_trim (pour essayer d'appliquer l'un à l'autre...)
     - vérifier les check dans lastDate
+- 8) Faire la doc des fonctions non exportées :
+    - substr_year
 
 
 Idée pour plus tard :

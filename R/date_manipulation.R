@@ -85,7 +85,7 @@ next_date_ts <- function(date_ts, frequency, lag = 1L) {
     } else return(date_ts + lag / frequency)
 }
 
-
+#' @export
 firstDate <- function(dataTS) {
 
     # Check de l'objet dataTS
@@ -97,6 +97,7 @@ firstDate <- function(dataTS) {
     return(c(firstTime %/% 1L, (firstTime %% 1L) * frequency + 1L))
 }
 
+#' @export
 lastDate <- function(dataTS) {
 
     # Check de l'objet dataTS
@@ -108,6 +109,7 @@ lastDate <- function(dataTS) {
     return(c(lastTime %/% 1L, (lastTime %% 1L) * frequency + 1L))
 }
 
+#' @export
 is_before <- function(a, b, frequency) {
 
     coll <- checkmate::makeAssertCollection()
@@ -126,6 +128,31 @@ is_before <- function(a, b, frequency) {
     return(tu_a <= tu_b)
 }
 
+
+#' Intervalle entre 2 dates
+#'
+#' @param a un objet date_ts, c'est-à-dire un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param b un objet date_ts, c'est-à-dire un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#'
+#' @return En sortie, la fonction retourne un entier qui désigne le nombre de période (mois ou trimestres) qui sépare les 2 dates `a` et `b`.
+#'
+#' @details On travaille ici avec des dates au format date_ts, c'est-à-dire qui passe le test de la fonction `assert_date_ts`. Lorsqu'on parle d'intervalle et de nombre de période entre `a` et `b`, les bornes sont incluses. Ainsi `diff_periode(2020L, 2020L, 12L)` retourne bien 1L et non 2L ou 0L.
+#'
+#' @export
+#'
+#' @examples
+#' # Une seule période
+#' diff_periode(a = 2020L, b = 2020L, frequency = 4L)
+#'
+#' diff_periode(a = c(2000L, 1L), b = c(2020L, 4L), frequency = 4L)
+#'
+#' # Ordre chronologique respecté
+#' diff_periode(a = c(2021L, 5L), b = c(2023L, 8L), frequency = 12L)
+#'
+#' # Date inversées
+#' diff_periode(a = c(2023L, 8L), b = c(2021L, 5L), frequency = 12L)
+#'
 diff_periode <- function(a, b, frequency) {
 
     coll <- checkmate::makeAssertCollection()

@@ -4,14 +4,14 @@
 \alias{libelles}
 \title{Libelés pour une période}
 \usage{
-libelles(date_ts, frequency, nb = 1L)
+libelles(date_ts, frequency, n = 1L)
 }
 \arguments{
 \item{date_ts}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
 \item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 
-\item{nb}{un entier}
+\item{n}{un entier}
 }
 \value{
 En sortie, la fonction retourne un vecteur de char avec les libelés de la période.
@@ -23,7 +23,7 @@ La fonction \code{libelles} créé un vecteur de chaines de caractère contenant
 Pour choisir la période, il faut spécifier une date de début de période et un nombre de valeur.
 }
 \examples{
-libelles(date_ts = c(2019L, 10L), frequency = 12L, nb = 9L)
-libelles(date_ts = c(2019L, 4L), frequency = 4L, nb = 3L)
+libelles(date_ts = c(2019L, 10L), frequency = 12L, n = 9L)
+libelles(date_ts = c(2019L, 4L), frequency = 4L, n = 3L)
 
 }

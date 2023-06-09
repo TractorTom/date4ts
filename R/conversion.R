@@ -12,6 +12,7 @@
 #' as.YYYYTT(2019.75) #4ème trimestre 2019
 #' as.YYYYTT(2020) #1er trimestre 2020
 #' as.YYYYTT(2022 + 1/4) #2ème trimestre 2022
+#'
 as.YYYYTT <- function(TimeUnits) {
 
     # Check de l'objet TimeUnits
@@ -34,6 +35,7 @@ as.YYYYTT <- function(TimeUnits) {
 #' as.YYYYMM(2020) #Janvier 2020
 #' as.YYYYMM(2020 + 1/12) #Février 2020
 #' as.YYYYMM(2020 + 12/12) #Janvier 2021
+#'
 as.YYYYMM <- function(TimeUnits) {
 
     # Check de l'objet TimeUnits
@@ -54,6 +56,7 @@ as.YYYYMM <- function(TimeUnits) {
 #' @examples
 #' trim2mens(c(2019L, 4L)) #4ème trimestre 2019 --> Octobre 2019
 #' trim2mens(c(2020L, 1L)) #1er trimestre 2020 --> Janvier 2020
+#'
 trim2mens <- function(date_ts) {
 
     # Check du format date_ts
@@ -76,6 +79,7 @@ trim2mens <- function(date_ts) {
 #' @examples
 #' mens2trim(c(2019L, 4L)) #Avril 2019 --> 2ème trimestre 2019
 #' mens2trim(c(2020L, 11L)) #Novembre 2020 --> 4ème trimestre 2020
+#'
 mens2trim <- function(date_ts) {
 
     # Check du format date_ts
@@ -117,10 +121,6 @@ date_ts2TimeUnits <- function(date_ts, frequency) {
     date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
 
     checkmate::reportAssertions(coll)
-
-    # if (date_ts[1L] <= 0L) {
-    #     stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
-    # }
 
     if (length(date_ts) == 2L) {
         return(date_ts[1L] + (date_ts[2L] - 1) / frequency)
@@ -173,7 +173,7 @@ substr_year <- function(date, n = 1L) {
     coll <- checkmate::makeAssertCollection()
 
     assert_scalar_date(date, add = coll, .var.name = "date")
-    assert_scalar_natural(n, add = coll, .var.name = "n")
+    n <- assert_scalar_natural(n, add = coll, .var.name = "n")
 
     checkmate::reportAssertions(coll)
 

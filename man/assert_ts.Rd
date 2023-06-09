@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{assert_ts}
 \alias{assert_ts}
-\title{Vérifie la conformité d'un objet ts dans le cadre des enquêtes de conjoncture}
+\title{Vérifie la conformité d'un objet ts}
 \usage{
 assert_ts(x, add = NULL, .var.name = checkmate::vname(x))
 }
@@ -14,13 +14,17 @@ assert_ts(x, add = NULL, .var.name = checkmate::vname(x))
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
 }
 \value{
-En sortie la fonction retourne un booleen qui précise si l'argument \code{dataTS} est conforme ou non.
+En sortie la fonction retourne l'objet \code{x} de manière invisible ou une erreur.
 }
 \description{
-Vérifie la conformité d'un objet ts dans le cadre des enquêtes de conjoncture
+Vérifie la conformité d'un objet ts
 }
 \details{
-Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques. On travaille avec des données numériques (integer, double ou logical) mais les autres types atomic sont acceptés également.
+Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basées sur le système des mois, trimestres et années classiques. On travaille avec des données numériques (integer, double ou logical) mais les autres types atomic sont acceptés également.
+
+Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basées sur le système des mois, trimestres et années classiques.
+On cherche donc à favoriser l'utilisation de séries temporelles classiques utilisants des types atomiques.
+Lorsque l'objet \code{x} en entrée est au mauvais format, une erreur est généré.
 }
 \examples{
 ts1 <- ts(1:100, start = 2010L, frequency = 12L)

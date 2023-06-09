@@ -1,5 +1,6 @@
 
-getValue_ts <- function(dataTS, date_ts, nb = 1L) {
+#' @export
+getValue_ts <- function(dataTS, date_ts, n = 1L) {
 
     coll <- checkmate::makeAssertCollection()
 
@@ -8,8 +9,8 @@ getValue_ts <- function(dataTS, date_ts, nb = 1L) {
 
     frequency <- as.integer(stats::frequency(dataTS))
 
-    # Check l'argument nb
-    nb <- assert_scalar_natural(nb, add = coll, .var.name = "nb")
+    # Check l'argument n
+    n <- assert_scalar_natural(n, add = coll, .var.name = "n")
     # Check du format date_ts
     date_ts <- assert_date_ts(x = date_ts, frequency = frequency,
                    add = coll, .var.name = "date_ts")
@@ -19,7 +20,7 @@ getValue_ts <- function(dataTS, date_ts, nb = 1L) {
     output_value <- as.numeric(stats::window(
         x = dataTS,
         start = date_ts,
-        end = next_date_ts(date_ts, frequency = frequency, lag = nb - 1L)))
+        end = next_date_ts(date_ts, frequency = frequency, lag = n - 1L)))
 
     return(output_value)
 }
