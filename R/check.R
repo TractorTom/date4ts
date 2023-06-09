@@ -3,7 +3,7 @@
 #'
 #' @description La fonction `assert_date_ts` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param x un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #'
@@ -15,24 +15,24 @@
 #'
 #' @examples
 #' # De bons formats de date
-#' assert_date_ts(c(2020L, 8L), frequency = 12L)
-#' assert_date_ts(c(2020L, 2L), frequency = 4L)
-#' assert_date_ts(2022L, frequency = 12L)
+#' assert_date_ts(c(2020L, 8L), frequency_ts = 12L)
+#' assert_date_ts(c(2020L, 2L), frequency_ts = 4L)
+#' assert_date_ts(2022L, frequency_ts = 12L)
 #'
 #' # Format double --> génération d'un warning
-#' assert_date_ts(c(2020., 4.), frequency = 4L)
-#' assert_date_ts(2022., frequency = 12L)
+#' assert_date_ts(c(2020., 4.), frequency_ts = 4L)
+#' assert_date_ts(2022., frequency_ts = 12L)
 #'
 #' # Fréquence au format double --> génération d'un warning
-#' assert_date_ts(c(2020L, 6L), frequency = 4.)
-#' assert_date_ts(c(2020L, 42L), frequency = 12.)
+#' assert_date_ts(c(2020L, 6L), frequency_ts = 4.)
+#' assert_date_ts(c(2020L, 42L), frequency_ts = 12.)
 #'
 #' # Dépassement la fréquence --> génération d'un warning
-#' assert_date_ts(c(2020L, 6L), frequency = 4L)
-#' assert_date_ts(c(2020L, 42L), frequency = 12L)
-#' assert_date_ts(c(2020L, -4L), frequency = 12L)
+#' assert_date_ts(c(2020L, 6L), frequency_ts = 4L)
+#' assert_date_ts(c(2020L, 42L), frequency_ts = 12L)
+#' assert_date_ts(c(2020L, -4L), frequency_ts = 12L)
 #'
-assert_date_ts <- function(x, frequency, add = NULL, .var.name = checkmate::vname(x)) {
+assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x)) {
 
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
@@ -46,8 +46,8 @@ assert_date_ts <- function(x, frequency, add = NULL, .var.name = checkmate::vnam
     }
 
     # Check de la fréquence
-    frequency <- assert_frequency(frequency,
-                                  add = coll, .var.name = "frequency")
+    frequency_ts <- assert_frequency(frequency_ts,
+                                  add = coll, .var.name = "frequency_ts")
     # Check du type
     x <- checkmate::assert_integerish(x, coerce = TRUE, any.missing = FALSE,
                                       add = coll, .var.name = .var.name)
@@ -56,12 +56,12 @@ assert_date_ts <- function(x, frequency, add = NULL, .var.name = checkmate::vnam
         x = length(x), choices = c(1L, 2L),
         add = coll, .var.name = paste0("length(", .var.name, ")"))
 
-    if ((length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency))) {
-        err <- try(checkmate::assert_integerish(x[2L], lower = 1L, upper = frequency, .var.name = "period"), silent = TRUE)
+    if ((length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency_ts))) {
+        err <- try(checkmate::assert_integerish(x[2L], lower = 1L, upper = frequency_ts, .var.name = "period"), silent = TRUE)
         warning(attr(err, "condition")$message)
     }
 
-    x <- format_date_ts(x, frequency, test = FALSE)
+    x <- format_date_ts(x, frequency_ts, test = FALSE)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
@@ -94,13 +94,13 @@ assert_date_ts <- function(x, frequency, add = NULL, .var.name = checkmate::vnam
 #'
 assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
-    frequency <- stats::frequency(x)
+    frequency_ts <- stats::frequency(x)
     start_ts <- stats::start(x)
     end_ts <- stats::end(x)
 
     # Check de la fréquence
-    checkmate::assert_count(frequency, .var.name = "frequency")
-    frequency <- as.integer(frequency)
+    checkmate::assert_count(frequency_ts, .var.name = "frequency_ts")
+    frequency_ts <- as.integer(frequency_ts)
     # Check de la temporalité - start
     checkmate::assert_integerish(start_ts, .var.name = "start")
     start_ts <- as.integer(start_ts)
@@ -115,10 +115,10 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
     }
 
     # Check de la fréquence
-    frequency <- assert_frequency(frequency, add = coll, .var.name = "frequency")
+    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
     # Check de la temporalité
-    start_ts <- assert_date_ts(start_ts, frequency = frequency, add = coll, .var.name = "start")
-    end_ts <- assert_date_ts(end_ts, frequency = frequency, add = coll, .var.name = "end")
+    start_ts <- assert_date_ts(start_ts, frequency_ts = frequency_ts, add = coll, .var.name = "start")
+    end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end")
     # Check de la classe de l'objet
     checkmate::assert_class(x, classes = "ts", add = coll, .var.name = .var.name)
     checkmate::assert_false(stats::is.mts(x), add = coll, .var.name = .var.name)
@@ -135,7 +135,7 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 #' Vérifie la conformité d'un objet TimeUnits
 #'
 #' @param x un numérique qui représente le time units de
-#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #'
@@ -146,14 +146,14 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 #'
 #' @examples
 #'
-#' assert_TimeUnits(2020.5, frequency = 12L)
-#' assert_TimeUnits(2020.5, frequency = 4L)
-#' assert_TimeUnits(2023, frequency = 12L)
+#' assert_TimeUnits(2020.5, frequency_ts = 12L)
+#' assert_TimeUnits(2020.5, frequency_ts = 4L)
+#' assert_TimeUnits(2023, frequency_ts = 12L)
 #'
-#' assert_TimeUnits(2000 + 5/12, frequency = 12L)
-#' assert_TimeUnits(2015 + 3/4, frequency = 4L)
+#' assert_TimeUnits(2000 + 5/12, frequency_ts = 12L)
+#' assert_TimeUnits(2015 + 3/4, frequency_ts = 4L)
 #'
-assert_TimeUnits <- function(x, frequency, add = NULL, .var.name = checkmate::vname(x)) {
+assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x)) {
 
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
@@ -162,10 +162,10 @@ assert_TimeUnits <- function(x, frequency, add = NULL, .var.name = checkmate::vn
     }
 
     # Check de la fréquence
-    frequency <- assert_frequency(frequency, add = coll, .var.name = "frequency")
+    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
     # Check de l'objet x (TimeUnits)
     checkmate::assert_number(x, add = coll, .var.name = .var.name, finite = TRUE)
-    checkmate::assert_int(x * frequency, add = coll, .var.name = .var.name)
+    checkmate::assert_int(x * frequency_ts, add = coll, .var.name = .var.name)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
@@ -175,7 +175,7 @@ assert_TimeUnits <- function(x, frequency, add = NULL, .var.name = checkmate::vn
 }
 
 #' @export
-assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
+assert_frequency_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()

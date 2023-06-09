@@ -24,10 +24,10 @@ setValue_ts <- function(dataTS, date_ts, x) {
     # Check de l'objet dataTS
     assert_ts(dataTS, add = coll, .var.name = "dataTS")
 
-    frequency <- as.integer(stats::frequency(dataTS))
+    frequency_ts <- as.integer(stats::frequency(dataTS))
 
     # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
     # Check de l'objet x un vecteur atomic
     checkmate::assert_atomic_vector(x, add = coll, .var.name = "x")
     if (checkmate::anyMissing(x)) {
@@ -56,8 +56,8 @@ setValue_ts <- function(dataTS, date_ts, x) {
             frequency = stats::frequency(outputTS))
     } else {
         start_ts <- format_date_ts(date_ts,
-                                   frequency = as.integer(stats::frequency(dataTS)))
-        end_ts <- next_date_ts(date_ts, frequency = as.integer(stats::frequency(dataTS)),
+                                   frequency_ts = as.integer(stats::frequency(dataTS)))
+        end_ts <- next_date_ts(date_ts, frequency_ts = as.integer(stats::frequency(dataTS)),
                                lag = length(x) - 1L)
         stats::window(
             x = outputTS, start = start_ts,
@@ -100,7 +100,7 @@ combine2ts <- function(a, b) {
     assert_ts(a, add = coll, .var.name = "a")
     # Check de l'objet b
     assert_ts(b, add = coll, .var.name = "b")
-    # Check same frequency
+    # Check same frequency_ts
     if (!isTRUE(stats::frequency(a) == stats::frequency(b))) {
         coll$push("Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
     }
@@ -156,9 +156,9 @@ combine2ts <- function(a, b) {
             data = outputDF$res,
             frequency = stats::frequency(a),
             start = min(date_ts2TimeUnits(as.integer(stats::start(a)),
-                                     frequency = stats::frequency(a)),
+                                     frequency_ts = stats::frequency(a)),
                         date_ts2TimeUnits(as.integer(stats::start(b)),
-                                     frequency = stats::frequency(b))))
+                                     frequency_ts = stats::frequency(b))))
     }
     return(outputTS)
 }
@@ -176,7 +176,7 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
     checkmate::assert_flag(replace_na, add = coll, .var.name = "replace_na")
     # Check du format date_ts
     if (!is.null(date_ts)) {
-        date_ts <- assert_date_ts(x = date_ts, frequency, add = coll, .var.name = "date_ts")
+        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
     }
 
     checkmate::reportAssertions(coll)
@@ -190,22 +190,22 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
         start_replacement <- next_date_ts(end_ts)
     }
 
-    frequency <- as.integer(stats::frequency(dataTS))
+    frequency_ts <- as.integer(stats::frequency(dataTS))
 
     if (!is.null(date_ts)) {
 
-        if (!is_before(start_replacement, date_ts, frequency = frequency)) {
+        if (!is_before(start_replacement, date_ts, frequency_ts = frequency_ts)) {
             stop("La date de fin de remplacement est ant\u00e9rieur \u00e0 la date de fin des donn\u00e9es.")
         }
         length_replacement <- diff_periode(a = start_replacement,
-                                           b = date_ts, frequency = frequency)
+                                           b = date_ts, frequency_ts = frequency_ts)
         if (length_replacement %% length(x) != 0L) {
             stop("number of values supplied is not a sub-multiple of the number of values to be replaced")
         }
         end_replacement <- date_ts
 
     } else {
-        end_replacement <- next_date_ts(start_replacement, lag = length(x), frequency = frequency)
+        end_replacement <- next_date_ts(start_replacement, lag = length(x), frequency_ts = frequency_ts)
     }
 
     stats::window(dataTS, start = start_replacement, end = end_replacement, extend = TRUE) <- x
@@ -229,12 +229,12 @@ na_trim <- function(dataTS) {
     content <- dataTS[min(non_na):max(non_na)]
 
     start_ts <- as.integer(stats::start(dataTS))
-    frequency <- as.integer(stats::frequency(dataTS))
+    frequency_ts <- as.integer(stats::frequency(dataTS))
 
     return(stats::ts(data = dataTS,
                      start = next_date_ts(date_ts = start_ts,
-                                          frequency = frequency,
+                                          frequency_ts = frequency_ts,
                                           lag = min(non_na) - 1L),
-                     frequency = frequency)
+                     frequency = frequency_ts)
     )
 }
