@@ -4,12 +4,12 @@
 \alias{format_date_ts}
 \title{Formatter un objet date_ts}
 \usage{
-format_date_ts(date_ts, frequency, test = TRUE)
+format_date_ts(date_ts, frequency_ts, test = TRUE)
 }
 \arguments{
 \item{date_ts}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
-\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 
 \item{test}{un booléen (Default is TRUE)}
 }
@@ -26,15 +26,15 @@ Ici le formattage correspond à une réécriture de la date sans en changer la v
 \examples{
 
 # Formattage inchangée
-format_date_ts(c(2020L, 1L), frequency = 4L) # 1er trimestre de 2020
-format_date_ts(c(2020L, 8L), frequency = 12L) # Aout 2020
+format_date_ts(c(2020L, 1L), frequency_ts = 4L) # 1er trimestre de 2020
+format_date_ts(c(2020L, 8L), frequency_ts = 12L) # Aout 2020
 
 # Retour dans le passé
-format_date_ts(c(2020L, 0L), frequency = 4L) # 4ème trimestre de 2019
-format_date_ts(c(2020L, -10L), frequency = 12L) # février 2019
+format_date_ts(c(2020L, 0L), frequency_ts = 4L) # 4ème trimestre de 2019
+format_date_ts(c(2020L, -10L), frequency_ts = 12L) # février 2019
 
 # Avancée dans le futur
-format_date_ts(c(2020L, 7L), frequency = 4L) # 3ème trimestre de 2021
-format_date_ts(c(2020L, 13L), frequency = 4L) # janvier 2021
+format_date_ts(c(2020L, 7L), frequency_ts = 4L) # 3ème trimestre de 2021
+format_date_ts(c(2020L, 13L), frequency_ts = 4L) # janvier 2021
 
 }

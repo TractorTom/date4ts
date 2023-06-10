@@ -4,12 +4,12 @@
 \alias{assert_date_ts}
 \title{Vérifie le format de date}
 \usage{
-assert_date_ts(x, frequency, add = NULL, .var.name = checkmate::vname(x))
+assert_date_ts(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x))
 }
 \arguments{
 \item{x}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
-\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 
@@ -28,21 +28,21 @@ Lorsque l'objet \code{x} en entrée est au mauvais format, il est corrigé penda
 }
 \examples{
 # De bons formats de date
-assert_date_ts(c(2020L, 8L), frequency = 12L)
-assert_date_ts(c(2020L, 2L), frequency = 4L)
-assert_date_ts(2022L, frequency = 12L)
+assert_date_ts(c(2020L, 8L), frequency_ts = 12L)
+assert_date_ts(c(2020L, 2L), frequency_ts = 4L)
+assert_date_ts(2022L, frequency_ts = 12L)
 
 # Format double --> génération d'un warning
-assert_date_ts(c(2020., 4.), frequency = 4L)
-assert_date_ts(2022., frequency = 12L)
+assert_date_ts(c(2020., 4.), frequency_ts = 4L)
+assert_date_ts(2022., frequency_ts = 12L)
 
 # Fréquence au format double --> génération d'un warning
-assert_date_ts(c(2020L, 6L), frequency = 4.)
-assert_date_ts(c(2020L, 42L), frequency = 12.)
+assert_date_ts(c(2020L, 6L), frequency_ts = 4.)
+assert_date_ts(c(2020L, 42L), frequency_ts = 12.)
 
 # Dépassement la fréquence --> génération d'un warning
-assert_date_ts(c(2020L, 6L), frequency = 4L)
-assert_date_ts(c(2020L, 42L), frequency = 12L)
-assert_date_ts(c(2020L, -4L), frequency = 12L)
+assert_date_ts(c(2020L, 6L), frequency_ts = 4L)
+assert_date_ts(c(2020L, 42L), frequency_ts = 12L)
+assert_date_ts(c(2020L, -4L), frequency_ts = 12L)
 
 }

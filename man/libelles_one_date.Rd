@@ -4,12 +4,12 @@
 \alias{libelles_one_date}
 \title{Libelé pour une date}
 \usage{
-libelles_one_date(date_ts, frequency)
+libelles_one_date(date_ts, frequency_ts)
 }
 \arguments{
 \item{date_ts}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
-\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 }
 \value{
 En sortie, la fonction retourne une chaine de caractère qui correspond au libelés de la date \code{date}.
@@ -18,7 +18,7 @@ En sortie, la fonction retourne une chaine de caractère qui correspond au libel
 La fonction \code{libelles_one_date} créé le libelé pour une date à une fréquence donnée.modifie la ou les valeurs d'un objet ts à une date donnée.
 }
 \examples{
-ts4conj:::libelles_one_date(date_ts = c(2020L, 4L), frequency = 12L)
-ts4conj:::libelles_one_date(date_ts = c(2020L, 4L), frequency = 4L)
+ts4conj:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 12L)
+ts4conj:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 4L)
 
 }

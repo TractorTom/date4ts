@@ -4,12 +4,12 @@
 \alias{previous_date_ts}
 \title{Obtenir la date précédente}
 \usage{
-previous_date_ts(date_ts, frequency, lag = 1L)
+previous_date_ts(date_ts, frequency_ts, lag = 1L)
 }
 \arguments{
 \item{date_ts}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
-\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 
 \item{lag}{un entier}
 }
@@ -27,11 +27,11 @@ Cependant, lorsque l'argument \code{lag} vaut zéro, la fonction retourne la \co
 }
 \examples{
 
-previous_date_ts(c(2020L, 4L), frequency = 4L, lag = 2L)
-previous_date_ts(c(2021L, 1L), frequency = 4L, lag = -2L)
+previous_date_ts(c(2020L, 4L), frequency_ts = 4L, lag = 2L)
+previous_date_ts(c(2021L, 1L), frequency_ts = 4L, lag = -2L)
 
-previous_date_ts(c(2020L, 4L), frequency = 12L, lag = 2L)
-previous_date_ts(c(2022L, 6L), frequency = 12L, lag = 12L)
+previous_date_ts(c(2020L, 4L), frequency_ts = 12L, lag = 2L)
+previous_date_ts(c(2022L, 6L), frequency_ts = 12L, lag = 12L)
 }
 \seealso{
 \code{next_date_ts}

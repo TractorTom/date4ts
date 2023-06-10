@@ -85,7 +85,29 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
     } else return(date_ts + lag / frequency_ts)
 }
 
+#' Première date non NA
+#'
+#' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
+#'
+#' @return En sortie, la fonction retourne la première date pour laquelle l'objet `dataTS` ne vaut pas NA.
+#'
+#' @details La date retournée en output est au format date_ts. Si l'objet `dataTS` ne contient que des NAs, la fonction retourne une erreur.
+#'
 #' @export
+#'
+#' @seealso `lastDate`
+#'
+#' @examples
+#'
+#' ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12)
+#' ts2 <- ts(c(1:10, NA), start = 2020, frequency = 4)
+#'
+#' stats::start(ts1)
+#' firstDate(ts1)
+#'
+#' stats::start(ts1)
+#' firstDate(ts2)
+#'
 firstDate <- function(dataTS) {
 
     # Check de l'objet dataTS
@@ -97,7 +119,29 @@ firstDate <- function(dataTS) {
     return(c(firstTime %/% 1L, (firstTime %% 1L) * frequency_ts + 1L))
 }
 
+#' Dernière date non NA
+#'
+#' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
+#'
+#' @return En sortie, la fonction retourne la dernière date pour laquelle l'objet `dataTS` ne vaut pas NA.
+#'
+#' @details La date retournée en output est au format date_ts. Si l'objet `dataTS` ne contient que des NAs, la fonction retourne une erreur.
+#'
 #' @export
+#'
+#' @seealso `firstDate`
+#'
+#' @examples
+#'
+#' ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12)
+#' ts2 <- ts(c(1:10), start = 2020, frequency = 4)
+#'
+#' stats::end(ts1)
+#' lastDate(ts1)
+#'
+#' stats::end(ts1)
+#' lastDate(ts2)
+#'
 lastDate <- function(dataTS) {
 
     # Check de l'objet dataTS
@@ -109,7 +153,27 @@ lastDate <- function(dataTS) {
     return(c(lastTime %/% 1L, (lastTime %% 1L) * frequency_ts + 1L))
 }
 
+#' Comparaison de 2 date_ts
+#'
+#' @param a un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param b un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#'
+#' @return En sortie, la fonction retourne un booleen qui indique si la date `a` est antérieure à la date `b`.
+#'
+#' @details Les dates `a` et `b` sont au  format date_ts. L'argument frequency_ts est nécessaire pour interpréter les dates.
+#' Ainsi, si je souhaite comparer la date `a = c(2023L, 4L)` et la date `b = c(2023L, -2L)`. Dans le cas d'une fréquence mensuelle, la date `a` est antérieure à la date `b`. Dans le cas d'une fréquence mensuelle, c'est l'inverse.
 #' @export
+#'
+#' @examples
+#'
+#' is_before(a = c(2020L, 3L), b = c(2022L, 4L), frequency_ts = 12L)
+#' is_before(a = c(2022L, 3L), b = c(2010L, 1L), frequency_ts = 4L)
+#'
+#' # Importance de la fréquence
+#' is_before(a = c(2022L, -3L), b = c(2021L, 8L), frequency_ts = 12L)
+#' is_before(a = c(2022L, -3L), b = c(2021L, 8L), frequency_ts = 4L)
+#'
 is_before <- function(a, b, frequency_ts) {
 
     coll <- checkmate::makeAssertCollection()

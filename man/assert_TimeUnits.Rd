@@ -4,12 +4,12 @@
 \alias{assert_TimeUnits}
 \title{Vérifie la conformité d'un objet TimeUnits}
 \usage{
-assert_TimeUnits(x, frequency, add = NULL, .var.name = checkmate::vname(x))
+assert_TimeUnits(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x))
 }
 \arguments{
 \item{x}{un numérique qui représente le time units de}
 
-\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 
@@ -26,11 +26,11 @@ Un objet de type TimeUnits est un numérique qui désigne l'année et la périod
 }
 \examples{
 
-assert_TimeUnits(2020.5, frequency = 12L)
-assert_TimeUnits(2020.5, frequency = 4L)
-assert_TimeUnits(2023, frequency = 12L)
+assert_TimeUnits(2020.5, frequency_ts = 12L)
+assert_TimeUnits(2020.5, frequency_ts = 4L)
+assert_TimeUnits(2023, frequency_ts = 12L)
 
-assert_TimeUnits(2000 + 5/12, frequency = 12L)
-assert_TimeUnits(2015 + 3/4, frequency = 4L)
+assert_TimeUnits(2000 + 5/12, frequency_ts = 12L)
+assert_TimeUnits(2015 + 3/4, frequency_ts = 4L)
 
 }

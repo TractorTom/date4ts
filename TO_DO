@@ -9,9 +9,6 @@ Urgent pour faire fonctionner le package :
     - assert_frequency
     - assert_scalar_integer
     - assert_scalar_date
-    - firstDate
-    - lastDate
-    - is_before
 
 
 Développement à venir :

@@ -4,12 +4,12 @@
 \alias{date_ts2date}
 \title{Conversion d'une date du format TS au format date}
 \usage{
-date_ts2date(date_ts, frequency)
+date_ts2date(date_ts, frequency_ts)
 }
 \arguments{
 \item{date_ts}{un vecteur numérique, de préférence integer, au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
-\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 }
 \value{
 En sortie, la fonction retourne la date au format Date.
@@ -19,7 +19,7 @@ Conversion d'une date du format TS au format date
 }
 \examples{
 
-date_ts2date(date_ts = c(2020L, 11L), frequency = 12L)
-date_ts2date(date_ts = c(1995L, 2L), frequency = 4L)
+date_ts2date(date_ts = c(2020L, 11L), frequency_ts = 12L)
+date_ts2date(date_ts = c(1995L, 2L), frequency_ts = 4L)
 
 }

@@ -175,7 +175,7 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
 }
 
 #' @export
-assert_frequency_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
+assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()

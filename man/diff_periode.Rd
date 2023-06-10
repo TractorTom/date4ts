@@ -4,14 +4,14 @@
 \alias{diff_periode}
 \title{Intervalle entre 2 dates}
 \usage{
-diff_periode(a, b, frequency)
+diff_periode(a, b, frequency_ts)
 }
 \arguments{
 \item{a}{un objet date_ts, c'est-à-dire un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
 \item{b}{un objet date_ts, c'est-à-dire un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
-\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 }
 \value{
 En sortie, la fonction retourne un entier qui désigne le nombre de période (mois ou trimestres) qui sépare les 2 dates \code{a} et \code{b}.
@@ -24,14 +24,14 @@ On travaille ici avec des dates au format date_ts, c'est-à-dire qui passe le te
 }
 \examples{
 # Une seule période
-diff_periode(a = 2020L, b = 2020L, frequency = 4L)
+diff_periode(a = 2020L, b = 2020L, frequency_ts = 4L)
 
-diff_periode(a = c(2000L, 1L), b = c(2020L, 4L), frequency = 4L)
+diff_periode(a = c(2000L, 1L), b = c(2020L, 4L), frequency_ts = 4L)
 
 # Ordre chronologique respecté
-diff_periode(a = c(2021L, 5L), b = c(2023L, 8L), frequency = 12L)
+diff_periode(a = c(2021L, 5L), b = c(2023L, 8L), frequency_ts = 12L)
 
 # Date inversées
-diff_periode(a = c(2023L, 8L), b = c(2021L, 5L), frequency = 12L)
+diff_periode(a = c(2023L, 8L), b = c(2021L, 5L), frequency_ts = 12L)
 
 }

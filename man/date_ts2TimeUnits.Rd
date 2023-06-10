@@ -4,12 +4,12 @@
 \alias{date_ts2TimeUnits}
 \title{Conversion d'une date du format date_ts au format TimeUnits}
 \usage{
-date_ts2TimeUnits(date_ts, frequency)
+date_ts2TimeUnits(date_ts, frequency_ts)
 }
 \arguments{
 \item{date_ts}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
-\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 }
 \value{
 En sortie, la fonction retourne la date au format AAAA + TT/4 ou AAAA + MM/12.
@@ -24,10 +24,10 @@ TT signifie que le trimestre est au format numérique (Exemple : le troisième t
 }
 \examples{
 
-date_ts2TimeUnits(date_ts = c(2020L, 4L), frequency = 12L) # Avril 2020
-date_ts2TimeUnits(date_ts = c(2022L, 11L), frequency = 12L) # Novembre 2020
+date_ts2TimeUnits(date_ts = c(2020L, 4L), frequency_ts = 12L) # Avril 2020
+date_ts2TimeUnits(date_ts = c(2022L, 11L), frequency_ts = 12L) # Novembre 2020
 
-date_ts2TimeUnits(date_ts = c(2022, 4L), frequency = 4L) # 4ème trimestre de 2022
-date_ts2TimeUnits(date_ts = c(1995L, 2L), frequency = 4L) # 2ème trimestre de 1995
+date_ts2TimeUnits(date_ts = c(2022, 4L), frequency_ts = 4L) # 4ème trimestre de 2022
+date_ts2TimeUnits(date_ts = c(1995L, 2L), frequency_ts = 4L) # 2ème trimestre de 1995
 
 }
