@@ -70,5 +70,5 @@ jobs:
       - uses: r-lib/actions/check-r-package@v2
         with:
           args: 'c("--no-tests", "--as-cran")'
-          error-on: '"error"'
-          check-dir: '"check"'
+          error-on: '"note"'
+          # check-dir: '"check"'
