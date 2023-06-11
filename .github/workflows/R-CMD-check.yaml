@@ -79,4 +79,4 @@ jobs:
           
       - name: Manual
         run: |
-          R CMD Rd2pdf .
+          R CMD Rd2pdf
