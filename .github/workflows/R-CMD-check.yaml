@@ -72,3 +72,7 @@ jobs:
           args: 'c("--no-tests", "--as-cran")'
           error-on: '"note"'
           # check-dir: '"check"'
+          
+      - name: Manual
+        run: |
+          R CMD Rd2pdf .
