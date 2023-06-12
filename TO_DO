@@ -6,9 +6,6 @@ Urgent pour faire fonctionner le package :
     - extend_ts
     - na_trim
     - getValue_ts
-    - assert_frequency
-    - assert_scalar_integer
-    - assert_scalar_date
 
 
 Développement à venir :

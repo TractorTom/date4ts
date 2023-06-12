@@ -21,7 +21,6 @@ Vérifie la conformité d'un entier naturel
 }
 \details{
 Cette fonction s'appuie essentiellement sur la fonction \code{checkmate::assert_count}.
-Cette fonction s'appuie essentiellement sur les fonctions \code{checkmate::assert_int} et \code{checkmate::assert_choice}.
 Il y a néanmoins une petite subtilité : on vérifie si l'objet \code{x} est de type double ou integer.
 Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, \code{x} est retourné de manière invisible.
 }
