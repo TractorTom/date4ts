@@ -69,8 +69,7 @@ jobs:
       
       - name: Setup makeindex
         run: |
-          tinytex::tlmgr_install("makeindex")
-        shell: Rscript {0}
+          tlmgr install makeindex
         
       - uses: r-lib/actions/check-r-package@v2
         with:
@@ -80,4 +79,4 @@ jobs:
           
       - name: Manual
         run: |
-          R CMD Rd2pdf .
+          R CMD Rd2pdf
