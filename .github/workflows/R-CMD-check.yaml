@@ -77,6 +77,3 @@ jobs:
           error-on: '"error"'
           # check-dir: '"check"'
           
-      - name: Manual
-        run: |
-          R CMD Rd2pdf
