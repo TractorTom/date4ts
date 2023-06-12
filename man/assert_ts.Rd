@@ -20,9 +20,8 @@ En sortie la fonction retourne l'objet \code{x} de manière invisible ou une err
 Vérifie la conformité d'un objet ts
 }
 \details{
-Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basées sur le système des mois, trimestres et années classiques. On travaille avec des données numériques (integer, double ou logical) mais les autres types atomic sont acceptés également.
-
 Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basées sur le système des mois, trimestres et années classiques.
+On travaille avec des données numériques (integer, double ou logical) mais les autres types atomic sont acceptés également.
 On cherche donc à favoriser l'utilisation de séries temporelles classiques utilisants des types atomiques.
 Lorsque l'objet \code{x} en entrée est au mauvais format, une erreur est généré.
 }

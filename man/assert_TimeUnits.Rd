@@ -22,7 +22,8 @@ En sortie la fonction retourne l'objet \code{x} de manière invisible ou une err
 Vérifie la conformité d'un objet TimeUnits
 }
 \details{
-Un objet de type TimeUnits est un numérique qui désigne l'année et la période en cours avec ses décimales. Ainsi pour une série temporelle mensuelle, \code{2020.5} représente la moitié de l'année donc juillet 2020 et s'écrit \code{c(2020L, 7L)} au format date_ts.
+Un objet de type TimeUnits est un numérique qui désigne l'année et la période en cours avec ses décimales.
+Ainsi pour une série temporelle mensuelle, \code{2020.5} représente la moitié de l'année donc juillet 2020 et s'écrit \code{c(2020L, 7L)} au format date_ts.
 }
 \examples{
 

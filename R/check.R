@@ -76,10 +76,9 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #'
-#' @details Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basées sur le système des mois, trimestres et années classiques. On travaille avec des données numériques (integer, double ou logical) mais les autres types atomic sont acceptés également.
-#'
 #' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
 #' @details Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basées sur le système des mois, trimestres et années classiques.
+#' On travaille avec des données numériques (integer, double ou logical) mais les autres types atomic sont acceptés également.
 #' On cherche donc à favoriser l'utilisation de séries temporelles classiques utilisants des types atomiques.
 #' Lorsque l'objet `x` en entrée est au mauvais format, une erreur est généré.
 #'
@@ -141,7 +140,8 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 #'
 #' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
 #'
-#' @details Un objet de type TimeUnits est un numérique qui désigne l'année et la période en cours avec ses décimales. Ainsi pour une série temporelle mensuelle, `2020.5` représente la moitié de l'année donc juillet 2020 et s'écrit `c(2020L, 7L)` au format date_ts.
+#' @details Un objet de type TimeUnits est un numérique qui désigne l'année et la période en cours avec ses décimales.
+#' Ainsi pour une série temporelle mensuelle, `2020.5` représente la moitié de l'année donc juillet 2020 et s'écrit `c(2020L, 7L)` au format date_ts.
 #' @export
 #'
 #' @examples
@@ -174,7 +174,26 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
     return(invisible(x))
 }
 
+#' Vérifie la conformité d'une fréquence
+#'
+#' @param x un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
+#' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#'
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
+#'
+#' @details La fréquence d'une série temporelle est soit mensuelle (`12L` ou `12.`) soit trimestrielle (`4L` ou `4.`). Les autres fréquences ne sont pas acceptées.
+#' Cette fonction s'appuie essentiellement sur les fonctions `checkmate::assert_int` et `checkmate::assert_choice`.
+#' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer.
+#' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
+#'
 #' @export
+#'
+#' @examples
+#'
+#' assert_frequency(4L)
+#' assert_frequency(12L)
+#'
 assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
     if (is.null(add)) {
@@ -198,7 +217,31 @@ assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
     return(invisible(x))
 }
 
+
+#' Vérifie la conformité d'un entier scalaire
+#'
+#' @param x un entier
+#' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
+#' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#'
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
+#'
+#' @details On vérifie que l'objet `x` en entrée est bien un entier.
+#' Cette fonction s'appuie essentiellement sur la fonction `checkmate::assert_int`.
+#' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer.
+#' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
+#'
 #' @export
+#'
+#' @seealso [assert_scalar_natural()]
+#'
+#' @examples
+#'
+#' assert_scalar_integer(1L)
+#' assert_scalar_integer(100L)
+#' assert_scalar_integer(-4L)
+#' assert_scalar_integer(0L)
+#'
 assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
     if (is.null(add)) {
@@ -229,8 +272,12 @@ assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)
 #'
 #' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
 #'
-#' @details Cette fonction s'appuie essentiellement sur la fonction `checkmate::assert_count`. Il y a néanmoins une petite subtilité : on vérifie si l'objet est de type double ou integer. Dans le premier cas, on affichera un warning et on corrigera l'objet pour les traitements ultérieurs puis l'objet au format integer sera retourné de manière invisible.
+#' @details Cette fonction s'appuie essentiellement sur la fonction `checkmate::assert_count`.
+#' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer.
+#' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
 #' @export
+#'
+#' @seealso [assert_scalar_integer()]
 #'
 #' @examples
 #'
@@ -265,7 +312,25 @@ assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x)
     return(invisible(x))
 }
 
+#' Vérifie la conformité d'une date scalaire
+#'
+#' @param x un objet de type `Date`.
+#' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
+#' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#'
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
+#'
+#' @details On vérifie que l'objet `x` en entrée est bien au format `Date` et qu'il s'agit d'un scalaire (vecteur de taille 1).
+#' Cette fonction s'appuie essentiellement sur les fonctions `checkmate::assert_date` et `checkmate::assert_scalar`.
+#'
 #' @export
+#'
+#' @examples
+#'
+#' assert_scalar_date(as.Date("2018-01-24"))
+#' assert_scalar_date(as.Date("2000-02-29"))
+#' assert_scalar_date(Sys.Date())
+#'
 assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
     if (is.null(add)) {
