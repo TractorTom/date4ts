@@ -1,7 +1,7 @@
 
 #' Obtenir la date précédente
 #'
-#' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param lag un entier
 #'
@@ -43,7 +43,7 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 
 #' Obtenir la date suivante
 #'
-#' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param lag un entier
 #'
@@ -150,13 +150,14 @@ lastDate <- function(dataTS) {
     timeTS <- stats::time(na_trim(dataTS))
     lastTime <- timeTS[length(timeTS)]
     frequency_ts <- as.integer(stats::frequency(dataTS))
-    return(c(lastTime %/% 1L, (lastTime %% 1L) * frequency_ts + 1L))
+
+    return(as.integer(c(lastTime %/% 1L, (lastTime %% 1L) * frequency_ts + 1L)))
 }
 
 #' Comparaison de 2 date_ts
 #'
-#' @param a un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param b un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param a un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param b un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #'
 #' @return En sortie, la fonction retourne un booleen qui indique si la date `a` est antérieure à la date `b`.
@@ -195,8 +196,8 @@ is_before <- function(a, b, frequency_ts) {
 
 #' Intervalle entre 2 dates
 #'
-#' @param a un objet date_ts, c'est-à-dire un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param b un objet date_ts, c'est-à-dire un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param a un objet date_ts, c'est-à-dire un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param b un objet date_ts, c'est-à-dire un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #'
 #' @return En sortie, la fonction retourne un entier qui désigne le nombre de période (mois ou trimestres) qui sépare les 2 dates `a` et `b`.

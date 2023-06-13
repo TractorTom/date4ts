@@ -2,7 +2,8 @@
 #' Vérifie le format de date
 #'
 #' @description La fonction `assert_date_ts` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param x un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#'
+#' @param x un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
@@ -72,6 +73,8 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 
 #' Vérifie la conformité d'un objet ts
 #'
+#' @description La fonction `assert_ts` vérifie qu'un objet ts est bien conforme.
+#'
 #' @param x un objet ts unidimensionnel
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
@@ -132,6 +135,8 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 }
 
 #' Vérifie la conformité d'un objet TimeUnits
+#'
+#' @description La fonction `assert_TimeUnits` vérifie qu'un objet est un TimeUnits.
 #'
 #' @param x un numérique qui représente le time units de
 #' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
