@@ -19,7 +19,7 @@ assert_TimeUnits(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x))
 En sortie la fonction retourne l'objet \code{x} de manière invisible ou une erreur.
 }
 \description{
-Vérifie la conformité d'un objet TimeUnits
+La fonction \code{assert_TimeUnits} vérifie qu'un objet est un TimeUnits.
 }
 \details{
 Un objet de type TimeUnits est un numérique qui désigne l'année et la période en cours avec ses décimales.

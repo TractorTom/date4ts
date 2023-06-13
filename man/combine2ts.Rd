@@ -33,4 +33,5 @@ combine2ts(ev_pib, trim_1)
 
 # La période entre les séries temporelles mens_1 et mens_2 est complétée par des NA
 combine2ts(mens_1, mens_2)
+
 }

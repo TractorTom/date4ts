@@ -9,7 +9,7 @@ setValue_ts(dataTS, date_ts, x)
 \arguments{
 \item{dataTS}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 
-\item{date_ts}{un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
 \item{x}{un vecteur de même type que le ts \code{dataTS}}
 }
