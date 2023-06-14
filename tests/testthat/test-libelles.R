@@ -7,10 +7,10 @@ set.seed(2026L)
 # Tests de résultats positifs --------------------------------------------------
 
 testthat::test_that("good result for monthly date", {
-    for (month in c(warning_integer_months, good_months)) {
+    for (month in good_months) {
         for (year in good_years) {
-            for (len in list_len) {
-                testthat::expect_identical(libelles(date = c(year, month), frequency = 12L, nb = len),
+            for (len in list_len[-1L]) {
+                testthat::expect_identical(libelles(date = c(year, month), frequency = 12L, n = len),
                                            paste(list_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
                                                  year +            ((month:(month + len - 1L)) - 1L) %/% 12L))
             }
@@ -19,42 +19,117 @@ testthat::test_that("good result for monthly date", {
 })
 
 testthat::test_that("good result for quarter date", {
-    for (quarter in c(warning_integer_quarters, good_quarters)) {
+    for (quarter in good_quarters) {
         for (year in good_years) {
-            for (len in list_len) {
-                testthat::expect_identical(libelles(date = c(year, quarter), frequency = 4L, nb = len),
-                                           paste0("T",   ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
+            for (len in list_len[-1L]) {
+                testthat::expect_identical(libelles(date = c(year, quarter), frequency = 4L, n = len),
+                                           paste0("Q",   ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
                                                   year + ((quarter:(quarter + len - 1L)) - 1L) %/% 4L))
             }
         }
     }
 })
 
+# Tests de résultats positifs avec warning -------------------------------------
+
+testthat::test_that("warning result for monthly date", {
+    for (month in warning_integer_months) {
+        for (year in good_years) {
+            for (len in list_len[-1L]) {
+                testthat::expect_warning(
+                    testthat::expect_identical(libelles(date = c(year, month), frequency = 12L, n = len),
+                                               paste(list_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
+                                                     year +            ((month:(month + len - 1L)) - 1L) %/% 12L))
+                )
+            }
+        }
+    }
+})
+
+testthat::test_that("warning result for quarter date", {
+    for (quarter in warning_integer_quarters) {
+        for (year in good_years) {
+            for (len in list_len[-1L]) {
+                testthat::expect_warning(
+                    testthat::expect_identical(libelles(date = c(year, quarter), frequency = 4L, n = len),
+                                               paste0("Q",   ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
+                                                      year + ((quarter:(quarter + len - 1L)) - 1L) %/% 4L))
+                )
+            }
+        }
+    }
+})
+
+
+testthat::test_that("warning result for monthly date double", {
+    for (month in double_months) {
+        for (year in good_years) {
+            for (len in list_len[-1L]) {
+                testthat::expect_warning(
+                    testthat::expect_identical(libelles(date = c(year, month), frequency = 12L, n = len),
+                                               paste(list_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
+                                                     year +            ((month:(month + len - 1L)) - 1L) %/% 12L))
+                )
+            }
+        }
+    }
+    for (month in good_months) {
+        for (year in double_years) {
+            for (len in list_len[-1L]) {
+                testthat::expect_warning(
+                    testthat::expect_identical(libelles(date = c(year, month), frequency = 12L, n = len),
+                                               paste(list_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
+                                                     year +            ((month:(month + len - 1L)) - 1L) %/% 12L))
+                )
+            }
+        }
+    }
+})
+
+testthat::test_that("warning result for quarter date double", {
+    for (quarter in double_quarters) {
+        for (year in good_years) {
+            for (len in list_len[-1L]) {
+                testthat::expect_warning(
+                    testthat::expect_identical(libelles(date = c(year, quarter), frequency = 4L, n = len),
+                                               paste0("Q",   ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
+                                                      year + ((quarter:(quarter + len - 1L)) - 1L) %/% 4L))
+                )
+            }
+        }
+    }
+    for (quarter in good_quarters) {
+        for (year in double_years) {
+            for (len in list_len[-1L]) {
+                testthat::expect_warning(
+                    testthat::expect_identical(libelles(date = c(year, quarter), frequency = 4L, n = len),
+                                               paste0("Q",   ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
+                                                      year + ((quarter:(quarter + len - 1L)) - 1L) %/% 4L))
+                )
+            }
+        }
+    }
+})
 
 # Tests de résultats négatifs --------------------------------------------------
 
 testthat::test_that("miscellaneous date are not allowed", {
     for (wrong_date in wrong_dates) {
-        testthat::expect_error(libelles(date = wrong_date, frequency = 12L),
-                               regexp = "La date est au mauvais format.")
-        testthat::expect_error(libelles(date = wrong_date, frequency = 4L),
-                               regexp = "La date est au mauvais format.")
+        testthat::expect_error(libelles(date = wrong_date, frequency = 12L))
+        testthat::expect_error(libelles(date = wrong_date, frequency = 4L))
     }
 })
 
 testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
-        testthat::expect_error(libelles(date = create_random_date(), frequency = wrong_frequency),
-                               regexp = "La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
+        testthat::expect_error(libelles(date = create_random_date(), frequency = wrong_frequency))
     }
 })
 
-testthat::test_that("miscellaneous nb are not allowed", {
-    for (wrong_nb in c(object_bank_R[-10])) {
-        testthat::expect_error(libelles(date = create_random_date(), frequency = 12L),
-                               regexp = "L'argument nb doit \u00eatre un entier.")
-        testthat::expect_error(libelles(date = create_random_date(), frequency = 4L),
-                               regexp = "L'argument nb doit \u00eatre un entier.")
+testthat::test_that("miscellaneous n are not allowed", {
+    for (wrong_n in c(list(0., 0L), object_bank_R[-10])) {
+        testthat::expect_error(libelles(date = create_random_date(), frequency = 12L, n = wrong_n))
+        testthat::expect_error(libelles(date = create_random_date(), frequency = 4L, n = wrong_n))
     }
 })
 

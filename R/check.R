@@ -289,17 +289,18 @@ assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x)
         coll <- add
     }
 
-    if (!isTRUE(checkmate::check_integer(x))) {
-        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
-        warning(attr(err, "condition")$message)
-    }
-
-    x <- checkmate::assert_count(x, coerce = TRUE, positive = TRUE,
+    x_corr <- checkmate::assert_count(x, coerce = TRUE, positive = TRUE,
                                  add = coll, .var.name = .var.name)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
     }
+
+    if (!isTRUE(checkmate::check_integer(x))) {
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+    x <- x_corr
 
     return(invisible(x))
 }
