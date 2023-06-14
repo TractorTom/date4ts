@@ -11,7 +11,8 @@ Développement à venir :
         - qu'est ce qu'un objet TimeUnits
     - Chercher comment faire des liens entre doc de fonction et vignettes
 - 2) Création et relecture des tests :
-    - Relire les tests existants pour compléter si il en manque (nouvelle idée)
+    - Refaire les tests qui ne sont pas plus valide
+    - Refaire format_date_ts
     - Faire le tour des fonctions pour lesquelles il manque des tests
     - Itérer sur TOUS les arguments valides (exemple tous les ts avec toutes les
     fréquences, start, len, typeA.. pour un type d'erreur)

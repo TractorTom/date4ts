@@ -19,15 +19,11 @@
 #'
 setValue_ts <- function(dataTS, date_ts, x) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de l'objet dataTS
     assert_ts(dataTS, add = coll, .var.name = "dataTS")
-
-    frequency_ts <- as.integer(stats::frequency(dataTS))
-
-    # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
     # Check de l'objet x un vecteur atomic
     checkmate::assert_atomic_vector(x, add = coll, .var.name = "x")
     if (checkmate::anyMissing(x)) {
@@ -39,7 +35,12 @@ setValue_ts <- function(dataTS, date_ts, x) {
         coll$push("Les objets `dataTS` et `x` doivent \u00eatre de m\u00eame type.")
     }
 
-    checkmate::reportAssertions(coll)
+    # checkmate::reportAssertions(coll)
+
+    frequency_ts <- as.integer(stats::frequency(dataTS))
+
+    # Check du format date_ts
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts, .var.name = "date_ts")
 
     outputTS <- dataTS
 
@@ -95,19 +96,23 @@ setValue_ts <- function(dataTS, date_ts, x) {
 #'
 combine2ts <- function(a, b) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de l'objet a
     assert_ts(a, add = coll, .var.name = "a")
     # Check de l'objet b
     assert_ts(b, add = coll, .var.name = "b")
+
+    # checkmate::reportAssertions(coll)
+
     # Check same frequency_ts
     if (!isTRUE(stats::frequency(a) == stats::frequency(b))) {
-        coll$push("Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
+        stop("Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
     }
     # Check des types des objets
     if (!isTRUE(typeof(a) == typeof(b))) {
-        coll$push("Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
+        stop("Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
     }
 
     # temporalConsistence <- (stats::start(a) - stats::start(b)) * stats::frequency(a)
@@ -115,7 +120,6 @@ combine2ts <- function(a, b) {
     #     stop("Les objets `a` et `b` doivent \u00eatre coh\u00e9rents temporellement.")
     # }
 
-    checkmate::reportAssertions(coll)
 
     outputTS <- a
 
@@ -188,15 +192,20 @@ combine2ts <- function(a, b) {
 #'
 extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de l'objet dataTS
     assert_ts(dataTS, add = coll, .var.name = "dataTS")
-    frequency_ts <- as.integer(stats::frequency(dataTS))
     # Check de l'objet x un vecteur atomic
     checkmate::assert_atomic_vector(x, add = coll, .var.name = "x")
     # Check de replace_na
     checkmate::assert_flag(replace_na, add = coll, .var.name = "replace_na")
+
+    # checkmate::reportAssertions(coll)
+
+    frequency_ts <- as.integer(stats::frequency(dataTS))
+
     # Check du format date_ts
     if (!is.null(date_ts)) {
         date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
@@ -205,7 +214,6 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
     start_ts <- as.integer(stats::start(dataTS))
     end_ts <- as.integer(stats::end(dataTS))
 
-    checkmate::reportAssertions(coll)
 
     if (replace_na) {
         start_replacement <- next_date_ts(lastDate(dataTS), frequency_ts = frequency_ts)
@@ -255,7 +263,8 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
 #'
 na_trim <- function(dataTS) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de l'objet dataTS
     assert_ts(dataTS, add = coll, .var.name = "dataTS")
@@ -263,7 +272,7 @@ na_trim <- function(dataTS) {
     checkmate::assert_atomic_vector(dataTS, all.missing = FALSE,
                                     add = coll, .var.name = "dataTS")
 
-    checkmate::reportAssertions(coll)
+    # checkmate::reportAssertions(coll)
 
     non_na <- seq_along(dataTS)[!is.na(dataTS)]
     content <- dataTS[min(non_na):max(non_na)]

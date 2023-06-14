@@ -20,20 +20,21 @@
 #'
 getValue_ts <- function(dataTS, date_ts, n = 1L) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de l'objet dataTS
     assert_ts(dataTS, add = coll, .var.name = "dataTS")
+    # Check l'argument n
+    n <- assert_scalar_natural(n, add = coll, .var.name = "n")
+
+    # checkmate::reportAssertions(coll)
 
     frequency_ts <- as.integer(stats::frequency(dataTS))
 
-    # Check l'argument n
-    n <- assert_scalar_natural(n, add = coll, .var.name = "n")
     # Check du format date_ts
     date_ts <- assert_date_ts(x = date_ts, frequency_ts = frequency_ts,
-                   add = coll, .var.name = "date_ts")
-
-    checkmate::reportAssertions(coll)
+                              .var.name = "date_ts")
 
     output_value <- stats::window(
         x = dataTS,

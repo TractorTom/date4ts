@@ -14,14 +14,15 @@
 #'
 libelles_one_date <- function(date_ts, frequency_ts) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
     # Check du format date_ts
     date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
 
-    checkmate::reportAssertions(coll)
+    # checkmate::reportAssertions(coll)
 
     date <- date_ts2date(date_ts, frequency_ts = frequency_ts)
 
@@ -52,7 +53,8 @@ libelles_one_date <- function(date_ts, frequency_ts) {
 #'
 libelles <- function(date_ts, frequency_ts, n = 1L) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
@@ -61,7 +63,7 @@ libelles <- function(date_ts, frequency_ts, n = 1L) {
     # Check du format date_ts
     date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
 
-    checkmate::reportAssertions(coll)
+    # checkmate::reportAssertions(coll)
 
     decale_libele <- function(x) {
         date_temp <- next_date_ts(date_ts = date_ts, frequency_ts = frequency_ts, lag = x)

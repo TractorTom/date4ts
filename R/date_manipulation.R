@@ -24,7 +24,8 @@
 #' previous_date_ts(c(2022L, 6L), frequency_ts = 12L, lag = 12L)
 previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
@@ -33,7 +34,7 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
     # Check l'argument lag
     lag <- assert_scalar_integer(lag, add = coll, .var.name = "lag")
 
-    checkmate::reportAssertions(coll)
+    # checkmate::reportAssertions(coll)
 
     year <- date_ts[1L]
     month <- date_ts[2L]
@@ -66,7 +67,8 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 #' next_date_ts(c(2022L, 6L), frequency_ts = 12L, lag = 12L)
 next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
@@ -75,7 +77,7 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
     # Check l'argument lag
     lag <- assert_scalar_integer(lag, add = coll, .var.name = "lag")
 
-    checkmate::reportAssertions(coll)
+    # checkmate::reportAssertions(coll)
 
     if (length(date_ts) == 2L) {
         year <- date_ts[1L]
@@ -177,7 +179,8 @@ lastDate <- function(dataTS) {
 #'
 is_before <- function(a, b, frequency_ts) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
@@ -186,7 +189,7 @@ is_before <- function(a, b, frequency_ts) {
     # Check du format date_ts b
     b <- assert_date_ts(x = b, frequency_ts, add = coll, .var.name = "b")
 
-    checkmate::reportAssertions(coll)
+    # checkmate::reportAssertions(coll)
 
     tu_a <- date_ts2TimeUnits(a, frequency_ts = frequency_ts)
     tu_b <- date_ts2TimeUnits(b, frequency_ts = frequency_ts)
@@ -220,7 +223,8 @@ is_before <- function(a, b, frequency_ts) {
 #'
 diff_periode <- function(a, b, frequency_ts) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
@@ -229,7 +233,7 @@ diff_periode <- function(a, b, frequency_ts) {
     # Check du format date_ts b
     b <- assert_date_ts(x = b, frequency_ts, add = coll, .var.name = "b")
 
-    checkmate::reportAssertions(coll)
+    # checkmate::reportAssertions(coll)
 
     if (!is_before(a, b, frequency_ts)) {
         return(diff_periode(b, a, frequency_ts))
