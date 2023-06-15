@@ -2,6 +2,10 @@ A Faire :
 
 Urgent pour faire fonctionner le package :
 
+1) pour test_libelles (faire un test de la langue ?)
+`actual`:   "Aug 1998"  "Sep 1998"  
+`expected`: "août 1998" "sept. 1998"
+
 
 Développement à venir :
 
