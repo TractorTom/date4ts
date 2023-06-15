@@ -44,7 +44,12 @@ packages ?)
 - 2) Ajouter des Quasiquotation !! (bang-bang) pour mieux tester et analyser les
     erreurs (notamment avec des précisions sur les inputs, ...)
 - 3) Trouver un moyen de faire un CI/CD
-    - sur gitlab.insee (voir avec Julien Jamme) et
+    - sur gitlab.insee :
+        - interlocuteurs : Julien Jamme, Théo Leroy, Pierre-Yves Berrard
+        - https://gitlab.insee.fr/dsct/ica/rmonica/-/tree/main/
+        - https://gitlab.insee.fr/ecmoss-self/fichiers-info/pkg-fier/
+        - https://gitlab.insee.fr/demographie-entreprises/sine/pkg-sine
+        - Chercher le tag r-package sur gitlab
     - sur le gitlab du SSP cloud (datalab et git.lab)
 - 4) Se renseigner au sujet des traductions :
     - https://cran.r-project.org/doc/manuals/r-devel/R-exts.html#R-messages
