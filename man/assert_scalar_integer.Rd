@@ -4,7 +4,12 @@
 \alias{assert_scalar_integer}
 \title{Vérifie la conformité d'un entier scalaire}
 \usage{
-assert_scalar_integer(x, add = NULL, .var.name = checkmate::vname(x))
+assert_scalar_integer(
+  x,
+  add = NULL,
+  .var.name = checkmate::vname(x),
+  warn = TRUE
+)
 }
 \arguments{
 \item{x}{un entier}
@@ -12,6 +17,8 @@ assert_scalar_integer(x, add = NULL, .var.name = checkmate::vname(x))
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
+
+\item{warn}{un booleen}
 }
 \value{
 En sortie la fonction retourne l'objet \code{x} de manière invisible ou une erreur.
@@ -24,6 +31,7 @@ On vérifie que l'objet \code{x} en entrée est bien un entier.
 Cette fonction s'appuie essentiellement sur la fonction \code{checkmate::assert_int}.
 Il y a néanmoins une petite subtilité : on vérifie si l'objet \code{x} est de type double ou integer.
 Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, \code{x} est retourné de manière invisible.
+Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de warning lors de l'évaluation.
 }
 \examples{
 

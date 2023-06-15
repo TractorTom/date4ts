@@ -4,7 +4,13 @@
 \alias{assert_date_ts}
 \title{Vérifie le format de date}
 \usage{
-assert_date_ts(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x))
+assert_date_ts(
+  x,
+  frequency_ts,
+  add = NULL,
+  .var.name = checkmate::vname(x),
+  warn = TRUE
+)
 }
 \arguments{
 \item{x}{un vecteur numérique, de préférence \code{integer} au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
@@ -14,6 +20,8 @@ assert_date_ts(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x))
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
+
+\item{warn}{un booleen}
 }
 \value{
 En sortie la fonction retourne l'objet de manière invisible ou une erreur.
@@ -25,6 +33,7 @@ La fonction \code{assert_date_ts} vérifie qu'un objet est de type AAAA, c(AAAA,
 Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
 On cherche donc à favoriser l'utilisation de vecteur c(AAAA, MM) pour désigner la date choisie.
 Lorsque l'objet \code{x} en entrée est au mauvais format, il est corrigé pendant la vérification et l'objet en sortie est au bon format.
+Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de warning lors de l'évaluation.
 }
 \examples{
 # De bons formats de date

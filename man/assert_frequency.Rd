@@ -4,7 +4,7 @@
 \alias{assert_frequency}
 \title{Vérifie la conformité d'une fréquence}
 \usage{
-assert_frequency(x, add = NULL, .var.name = checkmate::vname(x))
+assert_frequency(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE)
 }
 \arguments{
 \item{x}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
@@ -12,6 +12,8 @@ assert_frequency(x, add = NULL, .var.name = checkmate::vname(x))
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
+
+\item{warn}{un booleen}
 }
 \value{
 En sortie la fonction retourne l'objet \code{x} de manière invisible ou une erreur.
@@ -24,6 +26,7 @@ La fréquence d'une série temporelle est soit mensuelle (\code{12L} ou \code{12
 Cette fonction s'appuie essentiellement sur les fonctions \code{checkmate::assert_int} et \code{checkmate::assert_choice}.
 Il y a néanmoins une petite subtilité : on vérifie si l'objet \code{x} est de type double ou integer.
 Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, \code{x} est retourné de manière invisible.
+Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de warning lors de l'évaluation.
 }
 \examples{
 

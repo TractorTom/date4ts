@@ -7,11 +7,14 @@
 #' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#' @param warn un booleen
 #'
 #' @return En sortie la fonction retourne l'objet de manière invisible ou une erreur.
 #' @details Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
 #' On cherche donc à favoriser l'utilisation de vecteur c(AAAA, MM) pour désigner la date choisie.
 #' Lorsque l'objet `x` en entrée est au mauvais format, il est corrigé pendant la vérification et l'objet en sortie est au bon format.
+#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
+#'
 #' @export
 #'
 #' @examples
@@ -33,7 +36,7 @@
 #' assert_date_ts(c(2020L, 42L), frequency_ts = 12L)
 #' assert_date_ts(c(2020L, -4L), frequency_ts = 12L)
 #'
-assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x)) {
+assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
 
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
@@ -54,12 +57,12 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
                                            .var.name = .var.name,
                                            min.len = 1L, max.len = 2L)
 
-    if (!isTRUE(checkmate::check_integer(x))) {
+    if (warn && (!isTRUE(checkmate::check_integer(x)))) {
         err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
         warning(attr(err, "condition")$message)
     }
 
-    if ((length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency_ts))) {
+    if (warn && (length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency_ts))) {
         err <- try(checkmate::assert_integerish(x[2L], lower = 1L, upper = frequency_ts, .var.name = "period"), silent = TRUE)
         warning(attr(err, "condition")$message)
     }
@@ -101,10 +104,14 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
     }
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+    frequency_ts <- stats::frequency(x)
+    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts", warn = FALSE)
     # Check de la temporalité
-    start_ts <- assert_date_ts(start_ts, frequency_ts = frequency_ts, add = coll, .var.name = "start")
-    end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end")
+    start_ts <- stats::start(x)
+    start_ts <- assert_date_ts(start_ts, frequency_ts = frequency_ts, add = coll, .var.name = "start", warn = FALSE)
+
+    end_ts <- stats::end(x)
+    end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end", warn = FALSE)
     # Check de la classe de l'objet
     checkmate::assert_class(x, classes = "ts", add = coll, .var.name = .var.name)
     checkmate::assert_false(stats::is.mts(x), add = coll, .var.name = .var.name)
@@ -169,6 +176,7 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
 #' @param x un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#' @param warn un booleen
 #'
 #' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
 #'
@@ -176,6 +184,7 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
 #' Cette fonction s'appuie essentiellement sur les fonctions `checkmate::assert_int` et `checkmate::assert_choice`.
 #' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer.
 #' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
+#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
 #'
 #' @export
 #'
@@ -184,14 +193,13 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
 #' assert_frequency(4L)
 #' assert_frequency(12L)
 #'
-assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
+assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
 
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
     } else {
         coll <- add
     }
-
 
     x_corr <- checkmate::assert_int(x, coerce = TRUE, add = coll, .var.name = .var.name)
     checkmate::assert_choice(x_corr, choices = c(4L, 12L), add = coll, .var.name = .var.name)
@@ -200,7 +208,7 @@ assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
         checkmate::reportAssertions(coll)
     }
 
-    if (!isTRUE(checkmate::check_integer(x))) {
+    if (warn && (!isTRUE(checkmate::check_integer(x)))) {
         err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
         warning(attr(err, "condition")$message)
     }
@@ -215,6 +223,7 @@ assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 #' @param x un entier
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#' @param warn un booleen
 #'
 #' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
 #'
@@ -222,6 +231,7 @@ assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 #' Cette fonction s'appuie essentiellement sur la fonction `checkmate::assert_int`.
 #' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer.
 #' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
+#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
 #'
 #' @export
 #'
@@ -234,7 +244,7 @@ assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 #' assert_scalar_integer(-4L)
 #' assert_scalar_integer(0L)
 #'
-assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
+assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
 
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
@@ -242,7 +252,7 @@ assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)
         coll <- add
     }
 
-    if (!isTRUE(checkmate::check_integer(x))) {
+    if (warn && !isTRUE(checkmate::check_integer(x))) {
         err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
         warning(attr(err, "condition")$message)
     }
@@ -261,12 +271,15 @@ assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)
 #' @param x un entier naturel (strictement positif)
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#' @param warn un booleen
 #'
 #' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
 #'
 #' @details Cette fonction s'appuie essentiellement sur la fonction `checkmate::assert_count`.
 #' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer.
 #' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
+#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
+#'
 #' @export
 #'
 #' @seealso [assert_scalar_integer()]
@@ -281,7 +294,7 @@ assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)
 #' assert_scalar_natural(2.)
 #' assert_scalar_natural(457)
 #'
-assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
+assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
 
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
@@ -296,7 +309,7 @@ assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x)
         checkmate::reportAssertions(coll)
     }
 
-    if (!isTRUE(checkmate::check_integer(x))) {
+    if (warn && !isTRUE(checkmate::check_integer(x))) {
         err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
         warning(attr(err, "condition")$message)
     }
