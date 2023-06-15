@@ -10,25 +10,25 @@ name: R-CMD-check
 
 jobs:
   R-CMD-check:
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.os }}
 
-    name: ${{ matrix.config.os }} (r ${{ matrix.config.r }})
+    name: ${{ matrix.os }} (r ${{ matrix.r }})
 
     strategy:
       fail-fast: false
       matrix:
-        # os: [ 'windows-latest', 'macOS-latest' ]
-        # r: [ 'release', '4.2.1' ]
+        os: [ 'windows-latest', 'macOS-latest' ]
+        r: [ 'release', '4.2.1' ]
         # # os: [ 'ubuntu-latest', 'windows-latest', 'macOS-latest' ]
         # # r: [ 'devel', 'release', 'oldrel-1', '4.2.1', '4.1.1', '4.1.3', '3.6.1' ]
         # include:
         #   - http-user-agent: 'release'
         #     r: 'devel'
-        config:
+        # config:
           # - {os: macOS-latest,   r: 'release'}
           # - {os: windows-latest, r: 'release'}
           # - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
-          - {os: windows-latest, r: 'release'}
+          # - {os: windows-latest, r: 'release'}
           # - {os: ubuntu-latest,   r: 'oldrel-1'}
           # - {os: ubuntu-latest,   r: '3.6.1'}
           # - {os: ubuntu-latest,   r: '4.1.3'}
@@ -47,7 +47,7 @@ jobs:
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
         with:
-          r-version: ${{ matrix.config.r }}
+          r-version: ${{ matrix.r }}
           # http-user-agent: ${{ matrix.http-user-agent }}
           # use-public-rspm: true
 
@@ -59,21 +59,21 @@ jobs:
       # - name: "[Stage] [macOS] Install system libs for pkgdown"
       #   if: runner.os == 'macOS'
       #   run: brew install harfbuzz fribidi
-      
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
           needs: check
-          
+
       - uses: r-lib/actions/setup-tinytex@v2
-      
+
       - name: Setup makeindex
         run: |
           tlmgr install makeindex
-        
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           args: 'c("--no-tests", "--as-cran")'
-          error-on: '"error"'
+          error-on: '"note"'
           # check-dir: '"check"'
-          
+

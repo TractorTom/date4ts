@@ -1,6 +1,6 @@
 #' Formatter un objet date_ts
 #'
-#' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param test un booléen (Default is TRUE)
 #'
@@ -27,14 +27,15 @@
 format_date_ts <- function(date_ts, frequency_ts, test = TRUE) {
 
     if (test) {
-        coll <- checkmate::makeAssertCollection()
+        # coll <- checkmate::makeAssertCollection()
+        coll <- NULL
 
         # Check de la fréquence
         frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
         # Check du format date_ts
         date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
 
-        checkmate::reportAssertions(coll)
+        # checkmate::reportAssertions(coll)
     }
 
     if (length(date_ts) == 2L) {

@@ -92,7 +92,7 @@ mens2trim <- function(date_ts) {
 
 #' Conversion d'une date du format date_ts au format TimeUnits
 #'
-#' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #'
 #' @return En sortie, la fonction retourne la date au format AAAA + TT/4 ou AAAA + MM/12.
@@ -113,14 +113,15 @@ mens2trim <- function(date_ts) {
 #'
 date_ts2TimeUnits <- function(date_ts, frequency_ts) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
     # Check du format date_ts
     date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
 
-    checkmate::reportAssertions(coll)
+    # checkmate::reportAssertions(coll)
 
     if (length(date_ts) == 2L) {
         return(date_ts[1L] + (date_ts[2L] - 1) / frequency_ts)
@@ -148,14 +149,15 @@ date_ts2TimeUnits <- function(date_ts, frequency_ts) {
 #'
 date2date_ts <- function(date, frequency_ts = 12L) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de l'objet date
     assert_scalar_date(date, add = coll, .var.name = "date")
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
 
-    checkmate::reportAssertions(coll)
+    # checkmate::reportAssertions(coll)
 
     year <- as.numeric(format(date, format = "%Y"))
     month <- as.numeric(format(date, format = "%m"))
@@ -170,12 +172,13 @@ date2date_ts <- function(date, frequency_ts = 12L) {
 # date est un objet de type Date
 substr_year <- function(date, n = 1L) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     assert_scalar_date(date, add = coll, .var.name = "date")
     n <- assert_scalar_natural(n, add = coll, .var.name = "n")
 
-    checkmate::reportAssertions(coll)
+    # checkmate::reportAssertions(coll)
 
     date_1 <- as.Date(paste("2000", format(date, format = "%m-%d"), sep = "-"))
     date_2 <- as.Date("2000-02-28")
@@ -190,7 +193,7 @@ substr_year <- function(date, n = 1L) {
 
 #' Conversion d'une date du format TS au format date
 #'
-#' @param date_ts un vecteur numérique, de préférence integer, au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param date_ts un vecteur numérique, de préférence `integer`, au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #'
 #' @return En sortie, la fonction retourne la date au format Date.
@@ -203,14 +206,15 @@ substr_year <- function(date, n = 1L) {
 #'
 date_ts2date <- function(date_ts, frequency_ts) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
     # Check du format date_ts
     date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
 
-    checkmate::reportAssertions(coll)
+    # checkmate::reportAssertions(coll)
 
     year <- date_ts[1L]
 

@@ -2,7 +2,8 @@
 #' Vérifie le format de date
 #'
 #' @description La fonction `assert_date_ts` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param x un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#'
+#' @param x un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
@@ -40,37 +41,37 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
         coll <- add
     }
 
+    # Check de la fréquence
+    frequency_ts <- assert_frequency(frequency_ts,
+                                     add = coll, .var.name = "frequency_ts")
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    # Check du type
+    x_corr <- checkmate::assert_integerish(x, coerce = TRUE, any.missing = FALSE,
+                                           .var.name = .var.name,
+                                           min.len = 1L, max.len = 2L)
+
     if (!isTRUE(checkmate::check_integer(x))) {
         err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
         warning(attr(err, "condition")$message)
     }
-
-    # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts,
-                                  add = coll, .var.name = "frequency_ts")
-    # Check du type
-    x <- checkmate::assert_integerish(x, coerce = TRUE, any.missing = FALSE,
-                                      add = coll, .var.name = .var.name)
-    # Check de la longueur
-    checkmate::assert_choice(
-        x = length(x), choices = c(1L, 2L),
-        add = coll, .var.name = paste0("length(", .var.name, ")"))
 
     if ((length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency_ts))) {
         err <- try(checkmate::assert_integerish(x[2L], lower = 1L, upper = frequency_ts, .var.name = "period"), silent = TRUE)
         warning(attr(err, "condition")$message)
     }
 
-    x <- format_date_ts(x, frequency_ts, test = FALSE)
-
-    if (is.null(add)) {
-        checkmate::reportAssertions(coll)
-    }
+    x <- format_date_ts(x_corr, frequency_ts, test = FALSE)
 
     return(invisible(x))
 }
 
 #' Vérifie la conformité d'un objet ts
+#'
+#' @description La fonction `assert_ts` vérifie qu'un objet ts est bien conforme.
 #'
 #' @param x un objet ts unidimensionnel
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
@@ -92,20 +93,6 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 #' assert_ts(ts2)
 #'
 assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
-
-    frequency_ts <- stats::frequency(x)
-    start_ts <- stats::start(x)
-    end_ts <- stats::end(x)
-
-    # Check de la fréquence
-    checkmate::assert_count(frequency_ts, .var.name = "frequency_ts")
-    frequency_ts <- as.integer(frequency_ts)
-    # Check de la temporalité - start
-    checkmate::assert_integerish(start_ts, .var.name = "start")
-    start_ts <- as.integer(start_ts)
-    # Check de la temporalité - end
-    checkmate::assert_integerish(end_ts, .var.name = "end")
-    end_ts <- as.integer(end_ts)
 
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
@@ -132,6 +119,8 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 }
 
 #' Vérifie la conformité d'un objet TimeUnits
+#'
+#' @description La fonction `assert_TimeUnits` vérifie qu'un objet est un TimeUnits.
 #'
 #' @param x un numérique qui représente le time units de
 #' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
@@ -165,11 +154,12 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
     # Check de l'objet x (TimeUnits)
     checkmate::assert_number(x, add = coll, .var.name = .var.name, finite = TRUE)
-    checkmate::assert_int(x * frequency_ts, add = coll, .var.name = .var.name)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
     }
+
+    checkmate::assert_int(x * frequency_ts, .var.name = .var.name)
 
     return(invisible(x))
 }
@@ -202,17 +192,19 @@ assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
         coll <- add
     }
 
-    if (!isTRUE(checkmate::check_integer(x))) {
-        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
-        warning(attr(err, "condition")$message)
-    }
 
-    x <- checkmate::assert_int(x, coerce = TRUE, add = coll, .var.name = .var.name)
-    checkmate::assert_choice(x, choices = c(4L, 12L), add = coll, .var.name = .var.name)
+    x_corr <- checkmate::assert_int(x, coerce = TRUE, add = coll, .var.name = .var.name)
+    checkmate::assert_choice(x_corr, choices = c(4L, 12L), add = coll, .var.name = .var.name)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
     }
+
+    if (!isTRUE(checkmate::check_integer(x))) {
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+    x <- x_corr
 
     return(invisible(x))
 }
@@ -297,17 +289,18 @@ assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x)
         coll <- add
     }
 
-    if (!isTRUE(checkmate::check_integer(x))) {
-        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
-        warning(attr(err, "condition")$message)
-    }
-
-    x <- checkmate::assert_count(x, coerce = TRUE, positive = TRUE,
+    x_corr <- checkmate::assert_count(x, coerce = TRUE, positive = TRUE,
                                  add = coll, .var.name = .var.name)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
     }
+
+    if (!isTRUE(checkmate::check_integer(x))) {
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+    x <- x_corr
 
     return(invisible(x))
 }

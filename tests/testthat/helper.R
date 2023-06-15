@@ -15,7 +15,7 @@ create_random_type <- function(type, len = NULL) {
 }
 
 create_random_date <- function() {
-    if (runif(1L, 0L, 1L) > .5) return(sample(1950L:2022L, size = 1L))
+    if (runif(n = 1L, min = 0L, max = 1L) > .5) return(sample(1950L:2022L, size = 1L))
     return(c(sample(1950L:2022L, size = 1L),
              sample(-20L:20L, size = 1L)))
 }
@@ -99,7 +99,7 @@ conversion_quarter_month <- data.frame(quarter = 1L:4L, month = c(1L, 4L, 7L, 10
 conversion_month_quarter <- data.frame(month = 1L:12L, quarter = rep(1L:4L, each = 3L))
 
 # Labels
-list_months_name <- c("janv.", "f\u00e0vr.", "mars", "avr.", "mai", "juin", "juil.", "ao\u00f9t", "sept.", "oct.", "nov.", "d\u00e0c.")
+list_months_name <- c("janv.", "f\u00e9vr.", "mars", "avr.", "mai", "juin", "juil.", "ao\u00fbt", "sept.", "oct.", "nov.", "d\u00e9c.")
 
 
 # Autres objets ----------------------------------------------------------------

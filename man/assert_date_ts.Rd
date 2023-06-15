@@ -7,7 +7,7 @@
 assert_date_ts(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x))
 }
 \arguments{
-\item{x}{un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{x}{un vecteur numérique, de préférence \code{integer} au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
 
 \item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 

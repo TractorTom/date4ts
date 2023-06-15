@@ -17,7 +17,7 @@ assert_ts(x, add = NULL, .var.name = checkmate::vname(x))
 En sortie la fonction retourne l'objet \code{x} de manière invisible ou une erreur.
 }
 \description{
-Vérifie la conformité d'un objet ts
+La fonction \code{assert_ts} vérifie qu'un objet ts est bien conforme.
 }
 \details{
 Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basées sur le système des mois, trimestres et années classiques.

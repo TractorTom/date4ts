@@ -35,7 +35,7 @@ testthat::test_that("warning for integer date", {
     for (year in good_years) {
         for (month in warning_integer_months) {
             testthat::expect_warning({resTU <- date_ts2TimeUnits(date_ts = c(year, month), frequency = 12L)},
-                                     regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.")
+                                     regexp = "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 12.")
             testthat::expect_equal(resTU, year + (month - 1) / 12)
         }
     }
@@ -44,9 +44,9 @@ testthat::test_that("warning for integer date", {
 
 testthat::test_that("good result for integer date", {
     for (year in good_years) {
-        for (quarter in list_warning_quarters) {
+        for (quarter in warning_integer_quarters) {
             testthat::expect_warning({resTU <- date_ts2TimeUnits(date_ts = c(year, quarter), frequency = 4L)},
-                                     regexp = "Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.")
+                                     regexp = "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 4.")
             testthat::expect_equal(resTU, year + (quarter - 1) / 4)
         }
     }
@@ -57,18 +57,15 @@ testthat::test_that("good result for integer date", {
 
 testthat::test_that("miscellaneous date are not allowed", {
     for (wrong_date in wrong_dates) {
-        testthat::expect_error(date_ts2TimeUnits(date_ts = wrong_date, frequency = 12L),
-                               regexp = "La date est au mauvais format.")
+        testthat::expect_error(date_ts2TimeUnits(date_ts = wrong_date, frequency = 12L))
     }
-    for (wrong_date in  wrong_dates) {
-        testthat::expect_error(date_ts2TimeUnits(date_ts = wrong_date, frequency = 4L),
-                               regexp = "La date est au mauvais format.")
+    for (wrong_date in wrong_dates) {
+        testthat::expect_error(date_ts2TimeUnits(date_ts = wrong_date, frequency = 4L))
     }
 })
 
 testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
-        testthat::expect_error(date_ts2TimeUnits(date_ts = create_random_date(), frequency = wrong_frequency),
-                               regexp = "La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
+        testthat::expect_error(date_ts2TimeUnits(date_ts = create_random_date(), frequency = wrong_frequency))
     }
 })

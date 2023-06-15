@@ -3,7 +3,7 @@
 #'
 #' @description La fonction `libelles_one_date` créé le libelé pour une date à une fréquence donnée.modifie la ou les valeurs d'un objet ts à une date donnée.
 #'
-#' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #'
 #' @return En sortie, la fonction retourne une chaine de caractère qui correspond au libelés de la date `date`.
@@ -14,14 +14,15 @@
 #'
 libelles_one_date <- function(date_ts, frequency_ts) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
     # Check du format date_ts
     date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
 
-    checkmate::reportAssertions(coll)
+    # checkmate::reportAssertions(coll)
 
     date <- date_ts2date(date_ts, frequency_ts = frequency_ts)
 
@@ -37,7 +38,7 @@ libelles_one_date <- function(date_ts, frequency_ts) {
 #'
 #' @description La fonction `libelles` créé un vecteur de chaines de caractère contenant les libelés de toutes les dates sur une période
 #'
-#' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param n un entier
 #'
@@ -52,7 +53,8 @@ libelles_one_date <- function(date_ts, frequency_ts) {
 #'
 libelles <- function(date_ts, frequency_ts, n = 1L) {
 
-    coll <- checkmate::makeAssertCollection()
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
@@ -61,7 +63,7 @@ libelles <- function(date_ts, frequency_ts, n = 1L) {
     # Check du format date_ts
     date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
 
-    checkmate::reportAssertions(coll)
+    # checkmate::reportAssertions(coll)
 
     decale_libele <- function(x) {
         date_temp <- next_date_ts(date_ts = date_ts, frequency_ts = frequency_ts, lag = x)

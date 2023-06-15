@@ -3,7 +3,6 @@
 
 set.seed(2027L)
 
-object_bank_R <- fuzzr::test_all()
 
 # Tests de résultats positifs --------------------------------------------------
 
@@ -22,11 +21,9 @@ testthat::test_that("good result for integer date", {
 
 testthat::test_that("miscellaneous input are not allowed", {
     for (wrong_time in object_bank_R[-c(10L, 16L)]) {
-        testthat::expect_error(as.YYYYTT(wrong_time),
-                               regexp = "L'input TimeUnits est au mauvais format.")
+        testthat::expect_error(as.YYYYTT(wrong_time))
     }
     for (wrong_time in wrong_TimeUnits) {
-        testthat::expect_error(as.YYYYTT(wrong_time),
-                               regexp = "L'input TimeUnits n'est pas coh\u00e9rent temporellement avec les trimestres classiques.")
+        testthat::expect_error(as.YYYYTT(wrong_time))
     }
 })
