@@ -1,4 +1,8 @@
 
+# Options -----------------------------------------------------------------
+
+Sys.setlocale("LC_TIME", "C")
+
 # Création de fonctions ---------------------------------------------------
 
 create_random_type <- function(type, len = NULL) {
@@ -99,8 +103,8 @@ conversion_quarter_month <- data.frame(quarter = 1L:4L, month = c(1L, 4L, 7L, 10
 conversion_month_quarter <- data.frame(month = 1L:12L, quarter = rep(1L:4L, each = 3L))
 
 # Labels
-list_months_name <- c("janv.", "f\u00e9vr.", "mars", "avr.", "mai", "juin", "juil.", "ao\u00fbt", "sept.", "oct.", "nov.", "d\u00e9c.")
-
+# list_months_name <- c("janv.", "f\u00e9vr.", "mars", "avr.", "mai", "juin", "juil.", "ao\u00fbt", "sept.", "oct.", "nov.", "d\u00e9c.")
+list_months_name <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
 
 # Autres objets ----------------------------------------------------------------
 
