@@ -46,16 +46,17 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts,
-                                     add = coll, .var.name = "frequency_ts")
+                                     add = coll, .var.name = "frequency_ts", warn = warn)
+
+
+    # Check du type
+    x_corr <- checkmate::assert_integerish(x, coerce = TRUE, any.missing = FALSE, add = coll,
+                                           .var.name = .var.name,
+                                           min.len = 1L, max.len = 2L)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
     }
-
-    # Check du type
-    x_corr <- checkmate::assert_integerish(x, coerce = TRUE, any.missing = FALSE,
-                                           .var.name = .var.name,
-                                           min.len = 1L, max.len = 2L)
 
     if (warn && (!isTRUE(checkmate::check_integer(x)))) {
         err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
@@ -114,7 +115,7 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
     end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end", warn = FALSE)
     # Check de la classe de l'objet
     checkmate::assert_class(x, classes = "ts", add = coll, .var.name = .var.name)
-    checkmate::assert_false(stats::is.mts(x), add = coll, .var.name = .var.name)
+    checkmate::assert_false(stats::is.mts(x), add = coll, .var.name = paste0("is.mts(", .var.name, ")"))
     # Check du type de données
     checkmate::assert_atomic_vector(x, add = coll, .var.name = .var.name)
 

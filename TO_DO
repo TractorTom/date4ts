@@ -2,6 +2,27 @@ A Faire :
 
 Urgent pour faire fonctionner le package :
 
+1) utiliser le code suivant pour tester les fonctions que l'on fait tourner sans test (exemple stats::frequency(), stats::start(), as.integer()) pour récupérer des infos sans avoir tester les objets avant... :
+
+f <- function(x) {
+    res2 <- tryCatch({log(x)},
+                     error = function(e) e,
+                     warning = function(w) w)
+
+    if (is(res2, "warning")) {
+        warning("Il y a un truc bizarre avec x...")
+    } else if (is(res2, "error")){
+        stop("Confirmed !")
+    }
+
+    return(1)
+}
+
+f(3)
+f(-1)
+f("a")
+
+
 
 Développement à venir :
 
