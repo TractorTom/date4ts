@@ -13,7 +13,7 @@ Développement à venir :
 - 2) Création et relecture des tests :
     - Ajouter des tests sur libelés et libelé_one_date avec plusieurs dates pour tester.
     - Refaire les tests qui ne sont pas plus valide
-    - Refaire format_date_ts
+    - Refaire test-format_date_ts
     - Faire le tour des fonctions pour lesquelles il manque des tests
     - Itérer sur TOUS les arguments valides (exemple tous les ts avec toutes les
     fréquences, start, len, typeA.. pour un type d'erreur)
