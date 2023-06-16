@@ -50,9 +50,15 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 
 
     # Check du type
-    x_corr <- checkmate::assert_integerish(x, coerce = TRUE, any.missing = FALSE, add = coll,
-                                           .var.name = .var.name,
-                                           min.len = 1L, max.len = 2L)
+    if (isTRUE(checkmate::check_numeric(x, any.missing = FALSE,
+                                        min.len = 1L, max.len = 2L, finite = TRUE))) {
+        x_corr <- checkmate::assert_integerish(x, coerce = TRUE, any.missing = FALSE,
+                                               add = coll, .var.name = .var.name)
+    } else {
+        checkmate::assert_numeric(x, any.missing = FALSE,
+                                  add = coll, .var.name = .var.name,
+                                  min.len = 1L, max.len = 2L, finite = TRUE)
+    }
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
