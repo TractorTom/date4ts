@@ -2,10 +2,6 @@ A Faire :
 
 Urgent pour faire fonctionner le package :
 
-1) pour test_libelles (faire un test de la langue ?)
-`actual`:   "Aug 1998"  "Sep 1998"  
-`expected`: "août 1998" "sept. 1998"
-
 
 Développement à venir :
 
@@ -15,6 +11,7 @@ Développement à venir :
         - qu'est ce qu'un objet TimeUnits
     - Chercher comment faire des liens entre doc de fonction et vignettes
 - 2) Création et relecture des tests :
+    - Ajouter des tests sur libelés et libelé_one_date avec plusieurs dates pour tester.
     - Refaire les tests qui ne sont pas plus valide
     - Refaire format_date_ts
     - Faire le tour des fonctions pour lesquelles il manque des tests
@@ -73,5 +70,4 @@ packages ?)
 - 12) Faire un pkgdown
 - 13) Ajouter un readme
 - 14) Ajouter des options warn dans les fonctions pour ajouter (oui ou non) des warnings
-
 
