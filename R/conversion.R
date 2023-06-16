@@ -12,16 +12,13 @@
 #' as.YYYYTT(2019.75) #4ème trimestre 2019
 #' as.YYYYTT(2020) #1er trimestre 2020
 #' as.YYYYTT(2022 + 1/4) #2ème trimestre 2022
+#'
 as.YYYYTT <- function(TimeUnits) {
 
     # Check de l'objet TimeUnits
-    if (!is_TimeUnits(TimeUnits)) stop("L'input TimeUnits est au mauvais format.")
+    assert_TimeUnits(TimeUnits, frequency_ts = 4L, .var.name = "TimeUnits")
 
-    temporalConsistence <- 4 * TimeUnits
-    if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
-        stop("L'input TimeUnits n'est pas coh\u00e9rent temporellement avec les trimestres classiques.")
-
-    return(c(TimeUnits %/% 1, (TimeUnits %% 1L) * 4 + 1) |> round() |> as.integer())
+    return(as.integer(round(c(TimeUnits %/% 1L, (TimeUnits %% 1L) * 4L + 1L))))
 }
 
 #' Conversion au format c(AAAA, MM)
@@ -38,16 +35,13 @@ as.YYYYTT <- function(TimeUnits) {
 #' as.YYYYMM(2020) #Janvier 2020
 #' as.YYYYMM(2020 + 1/12) #Février 2020
 #' as.YYYYMM(2020 + 12/12) #Janvier 2021
+#'
 as.YYYYMM <- function(TimeUnits) {
 
     # Check de l'objet TimeUnits
-    if (!is_TimeUnits(TimeUnits)) stop("L'input TimeUnits est au mauvais format.")
+    assert_TimeUnits(TimeUnits, frequency_ts = 12L, .var.name = "TimeUnits")
 
-    temporalConsistence <- 12 * TimeUnits
-    if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
-        stop("L'input TimeUnits n'est pas coh\u00e9rent temporellement avec les trimestres classiques.")
-
-    return(c(TimeUnits %/% 1, (TimeUnits %% 1L) * 12 + 1) |> round() |> as.integer())
+    return(as.integer(round(c(TimeUnits %/% 1L, (TimeUnits %% 1L) * 12L + 1L))))
 }
 
 #' Correspondance d'une date trimestrielle au premier mois du trimestre
@@ -62,16 +56,15 @@ as.YYYYMM <- function(TimeUnits) {
 #' @examples
 #' trim2mens(c(2019L, 4L)) #4ème trimestre 2019 --> Octobre 2019
 #' trim2mens(c(2020L, 1L)) #1er trimestre 2020 --> Janvier 2020
+#'
 trim2mens <- function(date_ts) {
 
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency = 4L)) {
-        stop("La date est au mauvais format.")
-    }
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts = 4L, .var.name = "date_ts")
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 4L
     trim <- (date_ts[2L] - 1L) %% 4L + 1L
-    return(c(year, trim * 3L - 2L) |> as.integer())
+    return(as.integer(c(year, trim * 3L - 2L)))
 }
 
 #' Correspondance d'une date mensuelle au trimestre courant
@@ -86,22 +79,21 @@ trim2mens <- function(date_ts) {
 #' @examples
 #' mens2trim(c(2019L, 4L)) #Avril 2019 --> 2ème trimestre 2019
 #' mens2trim(c(2020L, 11L)) #Novembre 2020 --> 4ème trimestre 2020
+#'
 mens2trim <- function(date_ts) {
 
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency = 12L)) {
-        stop("La date est au mauvais format.")
-    }
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts = 12L, .var.name = "date_ts")
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 12L
     month <- (date_ts[2L] - 1L) %% 12L + 1L
-    return(c(year, 1L + ((month - 1L) %/% 3L)) |> as.integer())
+    return(as.integer(c(year, 1L + ((month - 1L) %/% 3L))))
 }
 
 #' Conversion d'une date du format date_ts au format TimeUnits
 #'
-#' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #'
 #' @return En sortie, la fonction retourne la date au format AAAA + TT/4 ou AAAA + MM/12.
 #'
@@ -113,107 +105,130 @@ mens2trim <- function(date_ts) {
 #'
 #' @examples
 #'
-#' getTimeUnits(date_ts = c(2020L, 4L), frequency = 12L) # Avril 2020
-#' getTimeUnits(date_ts = c(2022L, 11L), frequency = 12L) # Novembre 2020
+#' date_ts2TimeUnits(date_ts = c(2020L, 4L), frequency_ts = 12L) # Avril 2020
+#' date_ts2TimeUnits(date_ts = c(2022L, 11L), frequency_ts = 12L) # Novembre 2020
 #'
-#' getTimeUnits(date_ts = c(2022, 4L), frequency = 4L) # 4ème trimestre de 2022
-#' getTimeUnits(date_ts = c(1995L, 2L), frequency = 4L) # 2ème trimestre de 1995
+#' date_ts2TimeUnits(date_ts = c(2022, 4L), frequency_ts = 4L) # 4ème trimestre de 2022
+#' date_ts2TimeUnits(date_ts = c(1995L, 2L), frequency_ts = 4L) # 2ème trimestre de 1995
 #'
-getTimeUnits <- function(date_ts, frequency) {
+date_ts2TimeUnits <- function(date_ts, frequency_ts) {
+
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
-
+    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency = frequency)) {
-        stop("La date est au mauvais format.")
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+
+    # checkmate::reportAssertions(coll)
+
+    if (length(date_ts) == 2L) {
+        return(date_ts[1L] + (date_ts[2L] - 1) / frequency_ts)
     }
 
-    if (date_ts[1L] <= 0L) stop("La date doit \u00eatre apr\u00e8s JC (ann\u00e9e positive).")
-    if (!is.numeric(frequency) || length(frequency) != 1L || !frequency %in% c(4L, 12L))
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-
-    if (length(date_ts) == 2L) return(date_ts[1L] + (date_ts[2L] - 1) / frequency)
     return(date_ts[1L])
 }
 
 #' Conversion d'une date au format TS
 #'
 #' @param date un objet de type Date
-#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #'
 #' @description La fonction `date2date_ts` prend en argument une date au format date (integer avec une class Date) et la convertit au format c(AAAA, MM) ou c(AAAA, TT) avec le mois ou trimestre en cours.
-#' @return En sortie, la fonction retourne la date au format c(AAAA, MM) ou c(AAAA, TT) avec le mois ou trimestre en cours selon l'argument `frequency`.
+#' @return En sortie, la fonction retourne la date au format c(AAAA, MM) ou c(AAAA, TT) avec le mois ou trimestre en cours selon l'argument `frequency_ts`.
 #' @export
 #'
 #' @examples
 #'
 #' date2date_ts(as.Date("2000-01-01"))
-#' date2date_ts(as.Date("2000-01-01"), frequency = 12L)
+#' date2date_ts(as.Date("2000-01-01"), frequency_ts = 12L)
 #'
-#' date2date_ts(as.Date("2021-10-01"), frequency = 12L)
-#' date2date_ts(as.Date("2021-10-01"), frequency = 4L)
+#' date2date_ts(as.Date("2021-10-01"), frequency_ts = 12L)
+#' date2date_ts(as.Date("2021-10-01"), frequency_ts = 4L)
 #'
-date2date_ts <- function(date, frequency = 12L) {
+date2date_ts <- function(date, frequency_ts = 12L) {
+
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de l'objet date
-    if  (!is_single_date(date)) {
-        stop("La date n'est pas au bon format.")
-    }
-
+    assert_scalar_date(date, add = coll, .var.name = "date")
     # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
+    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+
+    # checkmate::reportAssertions(coll)
 
     year <- as.numeric(format(date, format = "%Y"))
     month <- as.numeric(format(date, format = "%m"))
 
-    if (frequency == 4L) {
+    if (frequency_ts == 4L) {
         month <- 1L + ((month - 1L) %/% 3L)
     }
 
     return(c(year, month))
 }
 
+# date est un objet de type Date
+substr_year <- function(date, n = 1L) {
+
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
+
+    assert_scalar_date(date, add = coll, .var.name = "date")
+    n <- assert_scalar_natural(n, add = coll, .var.name = "n")
+
+    # checkmate::reportAssertions(coll)
+
+    date_1 <- as.Date(paste("2000", format(date, format = "%m-%d"), sep = "-"))
+    date_2 <- as.Date("2000-02-28")
+    before_leap <- date_1 <= date_2
+
+    year <- as.integer(format(date, format = "%Y")) - before_leap
+    years <- year:(year - n + 1L)
+    leap_year <- sum(as.logical((years %% 4 == 0L) - (years %% 100 == 0L) + (years %% 400 == 0L)))
+
+    return(date - 365 * n - leap_year)
+}
+
 #' Conversion d'une date du format TS au format date
 #'
-#' @param date_ts un vecteur numérique, de préférence integer, au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param date_ts un vecteur numérique, de préférence `integer`, au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #'
 #' @return En sortie, la fonction retourne la date au format Date.
 #' @export
 #'
 #' @examples
 #'
-#' date_ts2date(date_ts = c(2020L, 4L))
-#' date_ts2date(date_ts = c(2020L, 11L), frequency = 12L)
-#' date_ts2date(date_ts = c(1995L, 2L), frequency = 4L)
+#' date_ts2date(date_ts = c(2020L, 11L), frequency_ts = 12L)
+#' date_ts2date(date_ts = c(1995L, 2L), frequency_ts = 4L)
 #'
-date_ts2date <- function(date_ts, frequency = 12L) {
+date_ts2date <- function(date_ts, frequency_ts) {
+
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
-
+    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency)) {
-        stop("La date est au mauvais format.")
-    }
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
 
-    year <- date_ts[1]
-    month <- "01"
+    # checkmate::reportAssertions(coll)
 
-    if (length(date_ts) == 2) {
-        if (frequency == 4L) {
-            month <- sprintf("%02d", date_ts[2] * 3L - 2L)
-        } else if (frequency == 12L) {
-            month <- sprintf("%02d", date_ts[2])
+    year <- date_ts[1L]
+
+    if (length(date_ts) == 2L) {
+        if (frequency_ts == 4L) {
+            month <- sprintf("%02d", date_ts[2L] * 3L - 2L)
+        } else if (frequency_ts == 12L) {
+            month <- sprintf("%02d", date_ts[2L])
         }
     }
 
-    return(as.Date(paste(year, month, "01", sep = "-")))
+    if (year < 0) {
+        return(substr_year(as.Date(paste("0000", month, "01", sep = "-")), -year))
+    } else {
+        return(as.Date(paste(year, month, "01", sep = "-")))
+    }
 }

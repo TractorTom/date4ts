@@ -4,15 +4,15 @@
 \alias{date2date_ts}
 \title{Conversion d'une date au format TS}
 \usage{
-date2date_ts(date, frequency = 12L)
+date2date_ts(date, frequency_ts = 12L)
 }
 \arguments{
 \item{date}{un objet de type Date}
 
-\item{frequency}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
 }
 \value{
-En sortie, la fonction retourne la date au format c(AAAA, MM) ou c(AAAA, TT) avec le mois ou trimestre en cours selon l'argument \code{frequency}.
+En sortie, la fonction retourne la date au format c(AAAA, MM) ou c(AAAA, TT) avec le mois ou trimestre en cours selon l'argument \code{frequency_ts}.
 }
 \description{
 La fonction \code{date2date_ts} prend en argument une date au format date (integer avec une class Date) et la convertit au format c(AAAA, MM) ou c(AAAA, TT) avec le mois ou trimestre en cours.
@@ -20,9 +20,9 @@ La fonction \code{date2date_ts} prend en argument une date au format date (integ
 \examples{
 
 date2date_ts(as.Date("2000-01-01"))
-date2date_ts(as.Date("2000-01-01"), frequency = 12L)
+date2date_ts(as.Date("2000-01-01"), frequency_ts = 12L)
 
-date2date_ts(as.Date("2021-10-01"), frequency = 12L)
-date2date_ts(as.Date("2021-10-01"), frequency = 4L)
+date2date_ts(as.Date("2021-10-01"), frequency_ts = 12L)
+date2date_ts(as.Date("2021-10-01"), frequency_ts = 4L)
 
 }

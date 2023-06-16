@@ -1,4 +1,8 @@
 
+# Options -----------------------------------------------------------------
+
+Sys.setlocale("LC_TIME", "C")
+
 # Création de fonctions ---------------------------------------------------
 
 create_random_type <- function(type, len = NULL) {
@@ -15,7 +19,7 @@ create_random_type <- function(type, len = NULL) {
 }
 
 create_random_date <- function() {
-    if (runif(1L, 0L, 1L) > .5) return(sample(1950L:2022L, size = 1L))
+    if (runif(n = 1L, min = 0L, max = 1L) > .5) return(sample(1950L:2022L, size = 1L))
     return(c(sample(1950L:2022L, size = 1L),
              sample(-20L:20L, size = 1L)))
 }
@@ -75,7 +79,7 @@ warning_double_quarters <- c(-200., -20., -5., -3., -2., -1., 0., 5., 12., 13., 
 warning_integer_quarters <- c(-200L, -20L, -5L, -3L, -2L, -1L, 0L, 5L, 12L, 13L, 46L)
 
 double_quarters <- c(1., 2., 3., 4.)
-list_good_quarters <- 1L:4L
+good_quarters <- 1L:4L
 
 # Dates
 
@@ -96,11 +100,11 @@ wrong_dates <- c(
 
 # Conversion
 conversion_quarter_month <- data.frame(quarter = 1L:4L, month = c(1L, 4L, 7L, 10L))
-conversion_month_quarter <- data.frame(month = 1L:12L, quarter = rep(1L:4L, each = 3))
+conversion_month_quarter <- data.frame(month = 1L:12L, quarter = rep(1L:4L, each = 3L))
 
 # Labels
-list_months_name <- c("janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc.")
-
+# list_months_name <- c("janv.", "f\u00e9vr.", "mars", "avr.", "mai", "juin", "juil.", "ao\u00fbt", "sept.", "oct.", "nov.", "d\u00e9c.")
+list_months_name <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
 
 # Autres objets ----------------------------------------------------------------
 

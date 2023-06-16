@@ -3,53 +3,67 @@
 #'
 #' @description La fonction `setValue_ts` modifie la ou les valeurs d'un objet ts à une date donnée.
 #'
-#' @param dataTS un objet ts unidimensionnel conforme aux règles de isGoodTS
-#' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param value un vecteur de même type que le ts `dataTS`
+#' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
+#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param x un vecteur de même type que le ts `dataTS`
 #'
-#' @return En sortie, la fonction retourne l'objet `dataTS` n objet ts modifié avec les valeurs de `value` imputés à partir de la date `date`.
+#' @return En sortie, la fonction retourne l'objet `dataTS` n objet ts modifié avec les valeurs de `x` imputés à partir de la date `date`.
 #' @export
 #'
 #' @examples
-#' ev_pib |> setValue_ts(date = c(2021L, 2L), value = c(1, 2, 3))
-setValue_ts <- function(dataTS, date_ts, value) {
+#' setValue_ts(
+#'     dataTS = ev_pib,
+#'     date_ts = c(2021L, 2L),
+#'     x = c(1, 2, 3)
+#'     )
+#'
+setValue_ts <- function(dataTS, date_ts, x) {
+
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de l'objet dataTS
-    if  (!isGoodTS(dataTS, warn = FALSE)) {
-        stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
+    assert_ts(dataTS, add = coll, .var.name = "dataTS")
+    # Check de l'objet x un vecteur atomic
+    checkmate::assert_atomic_vector(x, add = coll, .var.name = "x")
+    if (checkmate::anyMissing(x)) {
+        err <- try(checkmate::assert_atomic_vector(x, any.missing = FALSE, .var.name = "x"), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+    # Check des types des objets
+    if (!isTRUE(typeof(dataTS) == typeof(x))) {
+        coll$push("Les objets `dataTS` et `x` doivent \u00eatre de m\u00eame type.")
     }
 
-    frequency <- stats::frequency(dataTS)
+    # checkmate::reportAssertions(coll)
 
-    # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
+    frequency_ts <- as.integer(stats::frequency(dataTS))
 
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency = frequency)) {
-        stop("La date est au mauvais format.")
-    }
-
-    if (!is.null(dim(value))) stop("L'argument value doit \u00eatre unidimensionnel.")
-    if (typeof(dataTS) != typeof(value)) stop("Les objets dataTS et value doivent \u00eatre de m\u00eame type.")
-    if (any(is.na(value))) warning("L'argument value contient des NAs.")
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts, .var.name = "date_ts")
 
     outputTS <- dataTS
 
     if (is.raw(outputTS)) {
-        outputTS <- outputTS |>
-            as.integer() |>
-            stats::ts(start = stats::start(outputTS), frequency = stats::frequency(outputTS)) |>
-            setValue_ts(date_ts = date_ts, value = as.integer(value))
-        outputTS <- outputTS |>
-            as.raw() |>
-            stats::ts(start = stats::start(outputTS), frequency = stats::frequency(outputTS))
+        outputTS <- setValue_ts(
+            dataTS = stats::ts(
+                data = as.integer(outputTS),
+                start = stats::start(outputTS),
+                frequency = stats::frequency(outputTS)),
+            date_ts = date_ts, x = as.integer(x))
+        outputTS <- stats::ts(
+            data = as.raw(outputTS),
+            start = stats::start(outputTS),
+            frequency = stats::frequency(outputTS))
     } else {
-        outputTS |>
-            stats::window(start = date_ts |> format_date_ts(frequency = stats::frequency(dataTS)),
-                          end =   date_ts |> next_date_ts(frequency = stats::frequency(dataTS), lag = length(value) - 1L),
-                          extend = TRUE) <- value
+        start_ts <- format_date_ts(date_ts,
+                                   frequency_ts = as.integer(stats::frequency(dataTS)))
+        end_ts <- next_date_ts(date_ts, frequency_ts = as.integer(stats::frequency(dataTS)),
+                               lag = length(x) - 1L)
+        stats::window(
+            x = outputTS, start = start_ts,
+            end = end_ts,
+            extend = TRUE) <- x
     }
 
     return(outputTS)
@@ -59,8 +73,8 @@ setValue_ts <- function(dataTS, date_ts, value) {
 #'
 #' @description La fonction `combine2ts` combine (comme c()) 2 time series de même fréquence (mensuelle ou trimestrielle).
 #'
-#' @param a un objet ts unidimensionnel conforme aux règles de isGoodTS
-#' @param b un objet ts unidimensionnel conforme aux règles de isGoodTS
+#' @param a un objet ts unidimensionnel conforme aux règles de assert_ts
+#' @param b un objet ts unidimensionnel conforme aux règles de assert_ts
 #'
 #' @return En sortie, la fonction retourne un ts qui contient les valeurs de `a` aux temps de `a` et les valeurs de `b` aux temps de `b`.
 #' @details Si `a` et `b` ont une période en commun, les valeurs de `b` écrasent celles de a sur la période concernée.
@@ -77,113 +91,199 @@ setValue_ts <- function(dataTS, date_ts, value) {
 #' # La série de PIB est écrasé par trim_1 sur la période temporelle de trim_1
 #' combine2ts(ev_pib, trim_1)
 #'
-#' # La période temporelle interne entre les séries temporelles mens_1 et mens_2 est complétée par des NA
+#' # La période entre les séries temporelles mens_1 et mens_2 est complétée par des NA
 #' combine2ts(mens_1, mens_2)
+#'
 combine2ts <- function(a, b) {
 
-    # Check des objets a et b
-    if  (!(isGoodTS(a, warn = FALSE) &
-           isGoodTS(b, warn = FALSE))) {
-        stop("Les objets `a` et `b` doivent \u00eatre des ts unidimensionnels de fr\u00e9quence mensuelle ou trimestrielle.")
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
+
+    # Check de l'objet a
+    assert_ts(a, add = coll, .var.name = "a")
+    # Check de l'objet b
+    assert_ts(b, add = coll, .var.name = "b")
+
+    # checkmate::reportAssertions(coll)
+
+    # Check same frequency_ts
+    if (!isTRUE(stats::frequency(a) == stats::frequency(b))) {
+        stop("Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
+    }
+    # Check des types des objets
+    if (!isTRUE(typeof(a) == typeof(b))) {
+        stop("Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
     }
 
-    if (stats::frequency(a) != stats::frequency(b)) stop("Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
-    if (typeof(a) != typeof(b))                     stop("Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
+    # temporalConsistence <- (stats::start(a) - stats::start(b)) * stats::frequency(a)
+    # if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence)))) {
+    #     stop("Les objets `a` et `b` doivent \u00eatre coh\u00e9rents temporellement.")
+    # }
 
-    temporalConsistence <- (stats::start(a) - stats::start(b)) * stats::frequency(a)
-    if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence))))
-        stop("Les objets `a` et `b` doivent \u00eatre coh\u00e9rents temporellement.")
 
     outputTS <- a
 
     if (is.raw(a)) {
-        a <- a |>
-            as.integer() |>
-            stats::ts(start = stats::start(a),
-                      frequency = stats::frequency(a))
-        b <- b |>
-            as.integer() |>
-            stats::ts(start = stats::start(b),
-                      frequency = stats::frequency(b))
+
+        a <- stats::ts(
+            x = as.integer(a),
+            start = stats::start(a),
+            frequency = stats::frequency(a))
+        b <- stats::ts(
+            x = as.integer(b),
+            start = stats::start(b),
+            frequency = stats::frequency(b))
+
         outputTS <- combine2ts(a, b)
-        outputTS <- outputTS |>
-            as.raw() |>
-            stats::ts(start = stats::start(outputTS),
-                      frequency = stats::frequency(outputTS))
 
-    } else if (isTRUE(all.equal(stats::frequency(a),
-                                round(stats::frequency(a))))) {
-        outputTS |>
-            stats::window(start = stats::start(b),
-                          end = stats::end(b), extend = TRUE) <- b
+        outputTS <- stats::ts(
+            x = as.raw(outputTS),
+            start = stats::start(outputTS),
+            frequency = stats::frequency(outputTS))
 
-    } else if (is.numeric(stats::frequency(outputTS))) {
-        outputDF <- cbind(a, b) |> as.data.frame()
-        if (sum(is.na(outputDF$a) & (!is.na(outputDF$b))) > 0) warning("extending time series when replacing values")
+        # Fréquence entière
+    } else if (isTRUE(checkmate::check_int(stats::frequency(outputTS)))) {
 
+        stats::window(x = outputTS, start = stats::start(b),
+                      end = stats::end(b), extend = TRUE) <- b
+
+        # Fréquence décimale
+    } else if (isTRUE(checkmate::check_number(stats::frequency(outputTS)))) {
+
+        outputDF <- as.data.frame(cbind(a, b))
+        if (sum(is.na(outputDF$a) & (!is.na(outputDF$b))) > 0L) {
+            warning("extending time series when replacing values")
+        }
         outputDF$res <- outputDF$a
         outputDF$res[!is.na(outputDF$b)] <- outputDF$b[!is.na(outputDF$b)]
 
         outputTS <- stats::ts(
             data = outputDF$res,
             frequency = stats::frequency(a),
-            start = min(getTimeUnits(stats::start(a) |> as.integer(),
-                                              frequency = stats::frequency(a)),
-                        getTimeUnits(stats::start(b) |> as.integer(),
-                                              frequency = stats::frequency(b))))
+            start = min(date_ts2TimeUnits(as.integer(stats::start(a)),
+                                     frequency_ts = stats::frequency(a)),
+                        date_ts2TimeUnits(as.integer(stats::start(b)),
+                                     frequency_ts = stats::frequency(b))))
     }
     return(outputTS)
 }
 
-
+#' Ajoute de nouvelles valeurs à un ts
+#'
+#' @description La fonction `extend_ts` ajoute de nouvelles valeurs à un ts
+#'
+#' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
+#' @param x un vecteur de même type que le ts `dataTS`
+#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param replace_na un booléen
+#'
+#' @return En sortie, la fonction retourne un ts complété avec le vecteur `x`.
+#' @details Si `replace_na` vaut `TRUE` alors le remplacement commence dès que l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu, qu'il contienne des NA ou non à la fin.
+#' @export
+#'
+#' @examples
+#'
+#' ts1 <- ts(c(rep(NA, 3L), 1:10, rep(NA, 3L)), start = 2020, frequency = 12)
+#' x <- rep(3, 2)
+#'
+#' extend_ts(ts1, x)
+#' extend_ts(ts1, x, replace_na = FALSE)
+#' extend_ts(ts1, x, replace_na = TRUE, date_ts = c(2021L, 7L))
+#'
 extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
 
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
+
     # Check de l'objet dataTS
-    if  (!isGoodTS(dataTS, warn = FALSE)) {
-        stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
-    }
-
-    if (!is_vector(x)) stop("L'objet `x` doit \u00eatre un vecteur unidimentionnel non vide.")
-
+    assert_ts(dataTS, add = coll, .var.name = "dataTS")
+    # Check de l'objet x un vecteur atomic
+    checkmate::assert_atomic_vector(x, add = coll, .var.name = "x")
     # Check de replace_na
-    if (!is_single_boolean(x = replace_na)) {
-        stop("L'argument replace_na doit \u00eatre un bool\u00e9en de longueur 1.")
+    checkmate::assert_flag(replace_na, add = coll, .var.name = "replace_na")
+
+    # checkmate::reportAssertions(coll)
+
+    frequency_ts <- as.integer(stats::frequency(dataTS))
+
+    # Check du format date_ts
+    if (!is.null(date_ts)) {
+        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
     }
+
+    start_ts <- as.integer(stats::start(dataTS))
+    end_ts <- as.integer(stats::end(dataTS))
+
 
     if (replace_na) {
-        start_replacement <- lastDate(dataTS) |> next_date_ts()
+        start_replacement <- next_date_ts(lastDate(dataTS), frequency_ts = frequency_ts)
     } else {
-        start_replacement <- end(dataTS) |> next_date_ts()
+        start_replacement <- next_date_ts(end_ts, frequency_ts = frequency_ts)
     }
-
-    frequency <- stats::frequency(dataTS)
 
     if (!is.null(date_ts)) {
 
-        # Check de la fréquence
-        if (!is_good_frequency(frequency)) {
-            stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-        }
-
-        # Check du format date_ts
-        if (!is_date_ts(date_ts, frequency = frequency)) {
-            stop("La date est au mauvais format.")
-        }
-
-        if (!is_before(start_replacement, date_ts, frequency = frequency)) {
-            stop("La date de fin de remplacement est antérieur \u00e0 la date de fin des donn\u00e9es.")
+        if (!is_before(start_replacement, date_ts, frequency_ts = frequency_ts)) {
+            stop("La date de fin de remplacement est ant\u00e9rieur \u00e0 la date de fin des donn\u00e9es.")
         }
         length_replacement <- diff_periode(a = start_replacement,
-                                           b = date_ts, frequency = frequency)
-        if (length_replacement %% length(x) != 0) {
+                                           b = date_ts, frequency_ts = frequency_ts)
+        if (length_replacement %% length(x) != 0L) {
             stop("number of values supplied is not a sub-multiple of the number of values to be replaced")
         }
         end_replacement <- date_ts
 
     } else {
-        end_replacement <- next_date_ts(end_ts, lag = length(x) + 1, frequency = frequency)
+        end_replacement <- next_date_ts(start_replacement, lag = length(x) - 1L, frequency_ts = frequency_ts)
     }
 
-    window(dataTS, start = start_replacement, end = date_ts, extend = TRUE) <- x
+    stats::window(dataTS, start = start_replacement, end = end_replacement, extend = TRUE) <- x
     return(dataTS)
+}
+
+#' Supprime les NA aux bords
+#'
+#' @description La fonction `na_trim` supprime les NA en début et en fin de période.
+#'
+#' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
+#'
+#' @return En sortie, la fonction retourne un ts corrigé des NA et début et fin de série.
+#' @details L'objet retourné commence et finis par des valeurs non manquantes.
+#' @export
+#'
+#' @examples
+#'
+#' ts1 <- ts(c(rep(NA, 3L), 1:10, rep(NA, 3L)), start = 2020, frequency = 12)
+#' ts2 <- ts(c(1:10, rep(NA, 3L)), start = c(2023, 2), frequency = 4)
+#' ts3 <- ts(c(rep(NA, 3L), 1:10), start = 2000, frequency = 12)
+#'
+#' na_trim(ts1)
+#' na_trim(ts2)
+#' na_trim(ts3)
+#'
+na_trim <- function(dataTS) {
+
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
+
+    # Check de l'objet dataTS
+    assert_ts(dataTS, add = coll, .var.name = "dataTS")
+    # Check du contenu (pas que des NA)
+    checkmate::assert_atomic_vector(dataTS, all.missing = FALSE,
+                                    add = coll, .var.name = "dataTS")
+
+    # checkmate::reportAssertions(coll)
+
+    non_na <- seq_along(dataTS)[!is.na(dataTS)]
+    content <- dataTS[min(non_na):max(non_na)]
+
+    start_ts <- as.integer(stats::start(dataTS))
+    frequency_ts <- as.integer(stats::frequency(dataTS))
+
+    return(stats::ts(data = content,
+                     start = next_date_ts(date_ts = start_ts,
+                                          frequency_ts = frequency_ts,
+                                          lag = min(non_na) - 1L),
+                     frequency = frequency_ts)
+    )
 }

@@ -1,8 +1,8 @@
 
 #' Obtenir la date précédente
 #'
-#' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param lag un entier
 #'
 #' @return En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période passée.
@@ -17,40 +17,35 @@
 #'
 #' @examples
 #'
-#' previous_date_ts(c(2020L, 4L), frequency = 4L, lag = 2L)
-#' previous_date_ts(c(2021L, 1L), frequency = 4L, lag = -2L)
+#' previous_date_ts(c(2020L, 4L), frequency_ts = 4L, lag = 2L)
+#' previous_date_ts(c(2021L, 1L), frequency_ts = 4L, lag = -2L)
 #'
-#' previous_date_ts(c(2020L, 4L), frequency = 12L, lag = 2L)
-#' previous_date_ts(c(2022L, 6L), frequency = 12L, lag = 12L)
-previous_date_ts <- function(date_ts, frequency, lag = 1L) {
+#' previous_date_ts(c(2020L, 4L), frequency_ts = 12L, lag = 2L)
+#' previous_date_ts(c(2022L, 6L), frequency_ts = 12L, lag = 12L)
+previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
+
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
-
+    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency = frequency)) {
-        stop("La date est au mauvais format.")
-    }
-
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
     # Check l'argument lag
-    if (is_single_integer(lag)) {
-        stop("L'argument lag doit \u00eatre un entier (vecteur de longueur 1).")
-    }
+    lag <- assert_scalar_integer(lag, add = coll, .var.name = "lag")
 
-    if (is.double(lag)) warning("L'argument lag est de type double. Il faut privil\u00e9gier le format integer.")
+    # checkmate::reportAssertions(coll)
 
     year <- date_ts[1L]
     month <- date_ts[2L]
-    return(c(year + ((month - 1L - lag) %/% frequency),
-             1L + ((month - 1L - lag) %% frequency)))
+    return(c(year + ((month - 1L - lag) %/% frequency_ts),
+             1L + ((month - 1L - lag) %% frequency_ts)))
 }
 
 #' Obtenir la date suivante
 #'
-#' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
 #' @param lag un entier
 #'
 #' @return En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période future.
@@ -65,104 +60,189 @@ previous_date_ts <- function(date_ts, frequency, lag = 1L) {
 #'
 #' @examples
 #'
-#' next_date_ts(c(2020L, 4L), frequency = 4L, lag = 2L)
-#' next_date_ts(c(2021L, 1L), frequency = 4L, lag = -2L)
+#' next_date_ts(c(2020L, 4L), frequency_ts = 4L, lag = 2L)
+#' next_date_ts(c(2021L, 1L), frequency_ts = 4L, lag = -2L)
 #'
-#' next_date_ts(c(2020L, 4L), frequency = 12L, lag = 2L)
-#' next_date_ts(c(2022L, 6L), frequency = 12L, lag = 12L)
-next_date_ts <- function(date_ts, frequency, lag = 1L) {
+#' next_date_ts(c(2020L, 4L), frequency_ts = 12L, lag = 2L)
+#' next_date_ts(c(2022L, 6L), frequency_ts = 12L, lag = 12L)
+next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
+
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
-
+    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
     # Check du format date_ts
-    if (!is_date_ts(date_ts, frequency = frequency)) {
-        stop("La date est au mauvais format.")
-    }
-
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
     # Check l'argument lag
-    if (is_single_integer(lag)) {
-        stop("L'argument lag doit \u00eatre un entier (vecteur de longueur 1).")
-    }
+    lag <- assert_scalar_integer(lag, add = coll, .var.name = "lag")
 
-    if (is.double(lag)) warning("L'argument lag est de type double. Il faut privil\u00e9gier le format integer.")
+    # checkmate::reportAssertions(coll)
 
     if (length(date_ts) == 2L) {
         year <- date_ts[1L]
         month <- date_ts[2L]
-        return(c(year + ((month - 1L + lag) %/% frequency),
-                 1L + ((month - 1L + lag) %% frequency)))
-    } else return(date_ts + lag / frequency)
+        return(c(year + ((month - 1L + lag) %/% frequency_ts),
+                 1L + ((month - 1L + lag) %% frequency_ts)))
+    } else return(date_ts + lag / frequency_ts)
 }
 
-
+#' Première date non NA
+#'
+#' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
+#'
+#' @return En sortie, la fonction retourne la première date pour laquelle l'objet `dataTS` ne vaut pas NA.
+#'
+#' @details La date retournée en output est au format date_ts. Si l'objet `dataTS` ne contient que des NAs, la fonction retourne une erreur.
+#'
+#' @export
+#'
+#' @seealso `lastDate`
+#'
+#' @examples
+#'
+#' ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12)
+#' ts2 <- ts(c(1:10, NA), start = 2020, frequency = 4)
+#'
+#' stats::start(ts1)
+#' firstDate(ts1)
+#'
+#' stats::start(ts1)
+#' firstDate(ts2)
+#'
 firstDate <- function(dataTS) {
 
     # Check de l'objet dataTS
-    if  (!isGoodTS(dataTS, warn = FALSE)) {
-        stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
-    }
+    assert_ts(dataTS, .var.name = "dataTS")
 
-    timeTS <- dataTS |> zoo::na.trim() |> stats::time()
+    timeTS <- stats::time(na_trim(dataTS))
     firstTime <- timeTS[1L]
-    return(c(firstTime %/% 1L, (firstTime %% 1L) * stats::frequency(dataTS) + 1L))
+    frequency_ts <- as.integer(stats::frequency(dataTS))
+    return(c(firstTime %/% 1L, (firstTime %% 1L) * frequency_ts + 1L))
 }
 
+#' Dernière date non NA
+#'
+#' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
+#'
+#' @return En sortie, la fonction retourne la dernière date pour laquelle l'objet `dataTS` ne vaut pas NA.
+#'
+#' @details La date retournée en output est au format date_ts. Si l'objet `dataTS` ne contient que des NAs, la fonction retourne une erreur.
+#'
+#' @export
+#'
+#' @seealso `firstDate`
+#'
+#' @examples
+#'
+#' ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12)
+#' ts2 <- ts(c(1:10), start = 2020, frequency = 4)
+#'
+#' stats::end(ts1)
+#' lastDate(ts1)
+#'
+#' stats::end(ts1)
+#' lastDate(ts2)
+#'
 lastDate <- function(dataTS) {
 
     # Check de l'objet dataTS
-    if  (!isGoodTS(dataTS, warn = FALSE)) {
-        stop("L'objet `dataTS` doit \u00eatre un ts unidimensionnel de fr\u00e9quence mensuelle ou trimestrielle.")
-    }
+    assert_ts(dataTS, .var.name = "dataTS")
 
-    timeTS <- dataTS |> zoo::na.trim() |> stats::time()
+    timeTS <- stats::time(na_trim(dataTS))
     lastTime <- timeTS[length(timeTS)]
-    return(c(lastTime %/% 1L, (lastTime %% 1L) * stats::frequency(dataTS) + 1L))
+    frequency_ts <- as.integer(stats::frequency(dataTS))
+
+    return(as.integer(c(lastTime %/% 1L, (lastTime %% 1L) * frequency_ts + 1L)))
 }
 
-is_before <- function(a, b, frequency) {
+#' Comparaison de 2 date_ts
+#'
+#' @param a un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param b un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#'
+#' @return En sortie, la fonction retourne un booleen qui indique si la date `a` est antérieure à la date `b`.
+#'
+#' @details Les dates `a` et `b` sont au  format date_ts. L'argument frequency_ts est nécessaire pour interpréter les dates.
+#' Ainsi, si je souhaite comparer la date `a = c(2023L, 4L)` et la date `b = c(2023L, -2L)`. Dans le cas d'une fréquence mensuelle, la date `a` est antérieure à la date `b`. Dans le cas d'une fréquence mensuelle, c'est l'inverse.
+#' @export
+#'
+#' @examples
+#'
+#' is_before(a = c(2020L, 3L), b = c(2022L, 4L), frequency_ts = 12L)
+#' is_before(a = c(2022L, 3L), b = c(2010L, 1L), frequency_ts = 4L)
+#'
+#' # Importance de la fréquence
+#' is_before(a = c(2022L, -3L), b = c(2021L, 8L), frequency_ts = 12L)
+#' is_before(a = c(2022L, -3L), b = c(2021L, 8L), frequency_ts = 4L)
+#'
+is_before <- function(a, b, frequency_ts) {
+
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
+    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+    # Check du format date_ts a
+    a <- assert_date_ts(x = a, frequency_ts, add = coll, .var.name = "a")
+    # Check du format date_ts b
+    b <- assert_date_ts(x = b, frequency_ts, add = coll, .var.name = "b")
 
-    # Check du format date_ts
-    if (!is_date_ts(a, frequency = frequency)) {
-        stop("La date a est au mauvais format.")
-    }
+    # checkmate::reportAssertions(coll)
 
-    # Check du format date_ts
-    if (!is_date_ts(b, frequency = frequency)) {
-        stop("La date b est au mauvais format.")
-    }
-
-    tu_a <- getTimeUnits(a, frequency = frequency)
-    tu_b <- getTimeUnits(b, frequency = frequency)
+    tu_a <- date_ts2TimeUnits(a, frequency_ts = frequency_ts)
+    tu_b <- date_ts2TimeUnits(b, frequency_ts = frequency_ts)
     return(tu_a <= tu_b)
 }
 
-diff_periode <- function(a, b, frequency) {
+
+#' Intervalle entre 2 dates
+#'
+#' @param a un objet date_ts, c'est-à-dire un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param b un objet date_ts, c'est-à-dire un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#'
+#' @return En sortie, la fonction retourne un entier qui désigne le nombre de période (mois ou trimestres) qui sépare les 2 dates `a` et `b`.
+#'
+#' @details On travaille ici avec des dates au format date_ts, c'est-à-dire qui passe le test de la fonction `assert_date_ts`. Lorsqu'on parle d'intervalle et de nombre de période entre `a` et `b`, les bornes sont incluses. Ainsi `diff_periode(2020L, 2020L, 12L)` retourne bien 1L et non 2L ou 0L.
+#'
+#' @export
+#'
+#' @examples
+#' # Une seule période
+#' diff_periode(a = 2020L, b = 2020L, frequency_ts = 4L)
+#'
+#' diff_periode(a = c(2000L, 1L), b = c(2020L, 4L), frequency_ts = 4L)
+#'
+#' # Ordre chronologique respecté
+#' diff_periode(a = c(2021L, 5L), b = c(2023L, 8L), frequency_ts = 12L)
+#'
+#' # Date inversées
+#' diff_periode(a = c(2023L, 8L), b = c(2021L, 5L), frequency_ts = 12L)
+#'
+diff_periode <- function(a, b, frequency_ts) {
+
+    # coll <- checkmate::makeAssertCollection()
+    coll <- NULL
 
     # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
-    }
+    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+    # Check du format date_ts a
+    a <- assert_date_ts(x = a, frequency_ts, add = coll, .var.name = "a")
+    # Check du format date_ts b
+    b <- assert_date_ts(x = b, frequency_ts, add = coll, .var.name = "b")
 
-    # Check du format date_ts
-    if (!is_date_ts(a, frequency = frequency)) {
-        stop("La date a est au mauvais format.")
-    }
+    # checkmate::reportAssertions(coll)
 
-    # Check du format date_ts
-    if (!is_date_ts(b, frequency = frequency)) {
-        stop("La date b est au mauvais format.")
+    if (!is_before(a, b, frequency_ts)) {
+        return(diff_periode(b, a, frequency_ts))
     }
-
-    if (!is_before(a, b, frequency)) return(diff_periode(b, a, frequency))
-    if (length(a) == 1L) a <- c(a, 1L)
-    if (length(b) == 1L) b <- c(b, 1L)
-    return((b[1] - a[1]) * frequency + b[2] - a[2] + 1)
+    if (length(a) == 1L) {
+        a <- c(a, 1L)
+    }
+    if (length(b) == 1L) {
+        b <- c(b, 1L)
+    }
+    return((b[1L] - a[1L]) * frequency_ts + b[2L] - a[2L] + 1L)
 }

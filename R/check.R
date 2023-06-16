@@ -1,214 +1,355 @@
 
 #' Vérifie le format de date
 #'
-#' @description La fonction `is_date_ts` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param date_ts un vecteur numérique, de préférence integer au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
-#' @param warn un booléen
+#' @description La fonction `assert_date_ts` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #'
-#' @return En sortie la fonction retourne un booleen et un warning additionnel si besoin.
+#' @param x un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
+#' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#' @param warn un booleen
+#'
+#' @return En sortie la fonction retourne l'objet de manière invisible ou une erreur.
 #' @details Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
 #' On cherche donc à favoriser l'utilisation de vecteur c(AAAA, MM) pour désigner la date choisie.
+#' Lorsque l'objet `x` en entrée est au mauvais format, il est corrigé pendant la vérification et l'objet en sortie est au bon format.
+#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
+#'
 #' @export
 #'
 #' @examples
 #' # De bons formats de date
-#' is_date_ts(c(2020L, 8L))
-#' is_date_ts(c(2020L, 2L))
-#' is_date_ts(2022L)
+#' assert_date_ts(c(2020L, 8L), frequency_ts = 12L)
+#' assert_date_ts(c(2020L, 2L), frequency_ts = 4L)
+#' assert_date_ts(2022L, frequency_ts = 12L)
 #'
 #' # Format double --> génération d'un warning
-#' is_date_ts(c(2020, 4))
-#' is_date_ts(2022)
+#' assert_date_ts(c(2020., 4.), frequency_ts = 4L)
+#' assert_date_ts(2022., frequency_ts = 12L)
 #'
-#' # Dépassement la fréquence--> génération d'un warning
-#' is_date_ts(c(2020L, 6L), frequency = 4L)
-#' is_date_ts(c(2020L, 42L), frequency = 12L)
-#' is_date_ts(c(2020L, -4L))
+#' # Fréquence au format double --> génération d'un warning
+#' assert_date_ts(c(2020L, 6L), frequency_ts = 4.)
+#' assert_date_ts(c(2020L, 42L), frequency_ts = 12.)
 #'
-#' # Mauvaise fréquence --> reponse FALSE
-#' is_date_ts(c(2020L, 7L))
+#' # Dépassement la fréquence --> génération d'un warning
+#' assert_date_ts(c(2020L, 6L), frequency_ts = 4L)
+#' assert_date_ts(c(2020L, 42L), frequency_ts = 12L)
+#' assert_date_ts(c(2020L, -4L), frequency_ts = 12L)
 #'
-#' # Format non accepté --> reponse FALSE
-#' is_date_ts(2022.5)
-#' is_date_ts(2022 + 1/12)
-#' is_date_ts(2023 + 1/4)
-#' is_date_ts("2020-04-01")
-#' is_date_ts(as.Date("2020-04-01"))
-is_date_ts <- function(date_ts, frequency = 12L, warn = TRUE) {
+assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
 
-    # Check de warn
-    if (!is_single_boolean(x = warn)) {
-        stop("L'argument warn doit \u00eatre un bool\u00e9en de longueur 1.")
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
     }
 
     # Check de la fréquence
-    if (!is_good_frequency(frequency)) {
-        stop("La fr\u00e9quence doit \u00eatre trimestrielle ou mensuelle.")
+    frequency_ts <- assert_frequency(frequency_ts,
+                                     add = coll, .var.name = "frequency_ts")
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
     }
 
-    if (!class(date_ts) %in% c("integer", "numeric")) {
-        return(FALSE)
+    # Check du type
+    x_corr <- checkmate::assert_integerish(x, coerce = TRUE, any.missing = FALSE,
+                                           .var.name = .var.name,
+                                           min.len = 1L, max.len = 2L)
+
+    if (warn && (!isTRUE(checkmate::check_integer(x)))) {
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
     }
 
-    cond_warning <- (is.double(date_ts)) &&
-        (length(date_ts) %in% 1L:2L) &&
-        (isTRUE(all.equal(date_ts, round(date_ts)))) &&
-        (all(!is.na(date_ts)))
-
-    cond_TRUE <- (is.integer(date_ts)) &&
-        (length(date_ts) %in% 1L:2L) &&
-        (all(!is.na(date_ts)))
-
-    if (!cond_warning && !cond_TRUE) {
-        return(FALSE)
+    if (warn && (length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency_ts))) {
+        err <- try(checkmate::assert_integerish(x[2L], lower = 1L, upper = frequency_ts, .var.name = "period"), silent = TRUE)
+        warning(attr(err, "condition")$message)
     }
 
-    if (cond_warning) {
-        if (warn) warning("La date est de type double. Il faut privil\u00e9gier le format integer.")
-    }
+    x <- format_date_ts(x_corr, frequency_ts, test = FALSE)
 
-    if (length(date_ts) == 2L && (date_ts[2] <= 0L || date_ts[2] > frequency)) {
-        if (warn) warning("Le nombre de p\u00e9riode est n\u00e9gatif ou nul ou d\u00e9passe la fr\u00e9quence. La date va \u00eatre reformatt\u00e9e.")
-    }
-    return(TRUE)
+    return(invisible(x))
 }
 
-#' Vérifie la conformité d'un objet ts dans le cadre des enquêtes de conjoncture
+#' Vérifie la conformité d'un objet ts
 #'
-#' @param dataTS un objet ts unidimensionnel
-#' @param warn un booléen
+#' @description La fonction `assert_ts` vérifie qu'un objet ts est bien conforme.
 #'
-#' @return En sortie la fonction retourne un booleen qui précise si l'argument `dataTS` est conforme ou non.
-#' Dans le cas où warn vaut TRUE et que le TS n'est pas conforme, un warning qui précise la raison sera déclenché.
-#' @details Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques. On travaille avec des données numériques (integer, double ou logical) mais les autres types atomic sont acceptés également.
+#' @param x un objet ts unidimensionnel
+#' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
+#' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#'
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
+#' @details Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basées sur le système des mois, trimestres et années classiques.
+#' On travaille avec des données numériques (integer, double ou logical) mais les autres types atomic sont acceptés également.
+#' On cherche donc à favoriser l'utilisation de séries temporelles classiques utilisants des types atomiques.
+#' Lorsque l'objet `x` en entrée est au mauvais format, une erreur est généré.
+#'
 #' @export
 #'
 #' @examples
 #' ts1 <- ts(1:100, start = 2010L, frequency = 12L)
-#' ts2 <- ts(1:100, start = 2010 + 1/7, frequency = 12L)
-#' ts3 <- ts(1:100, start = 2010L, frequency = 1L)
+#' ts2 <- ts(1:10, start = c(2020L, 4L), frequency = 4L)
 #'
-#' isGoodTS(ts1)
-#' isGoodTS(ts2)
-#' isGoodTS(ts3)
+#' assert_ts(ts1)
+#' assert_ts(ts2)
 #'
-#' isGoodTS(ts2, warn = FALSE)
-#' isGoodTS(ts3, warn = FALSE)
-isGoodTS <- function(dataTS, warn = TRUE) {
+assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
-    # Check de warn
-    if (!(warn |> (\(.x) (is.logical(.x) && length(.x) == 1 && !is.na(.x)))(.x = _)))
-        stop("L'argument warn doit \u00eatre un bool\u00e9en de longueur 1.")
-
-    # Check du type d'objet
-    if (!stats::is.ts(dataTS) | stats::is.mts(dataTS)) {
-        if (warn) warning("L'objet dataTS doit \u00eatre un ts unidimensionnel.")
-        return(FALSE)
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
     }
 
     # Check de la fréquence
-    if (!(stats::frequency(dataTS) %in% c(4L, 12L))) {
-        if (warn) warning("L'objet dataTS doit \u00eatre de fr\u00e9quence mensuelle ou trimestrielle.")
-        return(FALSE)
-    }
+    frequency_ts <- stats::frequency(x)
+    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts", warn = FALSE)
     # Check de la temporalité
-    if (withCallingHandlers({
-        !is_date_ts(stats::start(dataTS), frequency = stats::frequency(dataTS)) |
-            !is_date_ts(stats::end(dataTS), frequency = stats::frequency(dataTS))},
-        warning = function(w) {
-            if (w$message == "La date est de type double. Il faut privil\u00e9gier le format integer.") invokeRestart("muffleWarning")
-        })
-    ) {
-        if (warn) warning("L'objet dataTS doit \u00eatre coh\u00e9rent avec la temporalit\u00e9 classique.")
-        return(FALSE)
-    }
-    # Check du type des données
-    if (!is.atomic(dataTS)) {
-        if (warn) warning("L'objet dataTS doit \u00eatre d'un type atomic.")
-        return(FALSE)
+    start_ts <- stats::start(x)
+    start_ts <- assert_date_ts(start_ts, frequency_ts = frequency_ts, add = coll, .var.name = "start", warn = FALSE)
+
+    end_ts <- stats::end(x)
+    end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end", warn = FALSE)
+    # Check de la classe de l'objet
+    checkmate::assert_class(x, classes = "ts", add = coll, .var.name = .var.name)
+    checkmate::assert_false(stats::is.mts(x), add = coll, .var.name = .var.name)
+    # Check du type de données
+    checkmate::assert_atomic_vector(x, add = coll, .var.name = .var.name)
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
     }
 
-    return(TRUE)
+    return(invisible(x))
 }
 
-#' Vérifie qu'on objet est bien un vecteur non vide
+#' Vérifie la conformité d'un objet TimeUnits
 #'
-#' @param x un vecteur
+#' @description La fonction `assert_TimeUnits` vérifie qu'un objet est un TimeUnits.
 #'
-#' @return En sortie la fonction retourne un booleen qui précise si l'argument `x` est bien un vecteur (unidimentionnel) non vide.
+#' @param x un numérique qui représente le time units de
+#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
+#' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#'
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
+#'
+#' @details Un objet de type TimeUnits est un numérique qui désigne l'année et la période en cours avec ses décimales.
+#' Ainsi pour une série temporelle mensuelle, `2020.5` représente la moitié de l'année donc juillet 2020 et s'écrit `c(2020L, 7L)` au format date_ts.
 #' @export
 #'
 #' @examples
 #'
-#' # Réponse positive
-#' is_vector(1:3)
-#' is_vector(letters)
-#' is_vector(seq(
-#'     from = as.Date("2000-01-01"),
-#'     to = as.Date("2023-05-28"),
-#'     by = "month"))
+#' assert_TimeUnits(2020.5, frequency_ts = 12L)
+#' assert_TimeUnits(2020.5, frequency_ts = 4L)
+#' assert_TimeUnits(2023, frequency_ts = 12L)
 #'
-#' # Réponse négative
-#' is_vector(NULL)
-#' is_vector(list(1, 2, 3))
-#' is_vector()
-is_vector <- function(x) {
+#' assert_TimeUnits(2000 + 5/12, frequency_ts = 12L)
+#' assert_TimeUnits(2015 + 3/4, frequency_ts = 4L)
+#'
+assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x)) {
 
-    if (!is.atomic(x)) return(FALSE)
-    if (length(x) == 0) return(FALSE)
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
 
-    return(TRUE)
+    # Check de la fréquence
+    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+    # Check de l'objet x (TimeUnits)
+    checkmate::assert_number(x, add = coll, .var.name = .var.name, finite = TRUE)
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    checkmate::assert_int(x * frequency_ts, .var.name = .var.name)
+
+    return(invisible(x))
 }
 
-is_TimeUnits <- function(x) {
-    return(is.numeric(x) && length(x) == 1L && !all(is.na(x)))
+#' Vérifie la conformité d'une fréquence
+#'
+#' @param x un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
+#' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#' @param warn un booleen
+#'
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
+#'
+#' @details La fréquence d'une série temporelle est soit mensuelle (`12L` ou `12.`) soit trimestrielle (`4L` ou `4.`). Les autres fréquences ne sont pas acceptées.
+#' Cette fonction s'appuie essentiellement sur les fonctions `checkmate::assert_int` et `checkmate::assert_choice`.
+#' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer.
+#' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
+#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
+#'
+#' @export
+#'
+#' @examples
+#'
+#' assert_frequency(4L)
+#' assert_frequency(12L)
+#'
+assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
+
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
+
+    x_corr <- checkmate::assert_int(x, coerce = TRUE, add = coll, .var.name = .var.name)
+    checkmate::assert_choice(x_corr, choices = c(4L, 12L), add = coll, .var.name = .var.name)
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    if (warn && (!isTRUE(checkmate::check_integer(x)))) {
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+    x <- x_corr
+
+    return(invisible(x))
 }
 
-is_good_frequency <- function(x) {
-    return(is.numeric(x) && length(x) == 1L && x %in% c(4L, 12L))
+
+#' Vérifie la conformité d'un entier scalaire
+#'
+#' @param x un entier
+#' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
+#' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#' @param warn un booleen
+#'
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
+#'
+#' @details On vérifie que l'objet `x` en entrée est bien un entier.
+#' Cette fonction s'appuie essentiellement sur la fonction `checkmate::assert_int`.
+#' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer.
+#' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
+#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
+#'
+#' @export
+#'
+#' @seealso [assert_scalar_natural()]
+#'
+#' @examples
+#'
+#' assert_scalar_integer(1L)
+#' assert_scalar_integer(100L)
+#' assert_scalar_integer(-4L)
+#' assert_scalar_integer(0L)
+#'
+assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
+
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
+
+    if (warn && !isTRUE(checkmate::check_integer(x))) {
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+
+    x <- checkmate::assert_int(x, coerce = TRUE, add = coll, .var.name = .var.name)
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    return(invisible(x))
 }
 
-is_single_integer <- function(x, warn = FALSE) {
+#' Vérifie la conformité d'un entier naturel
+#'
+#' @param x un entier naturel (strictement positif)
+#' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
+#' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#' @param warn un booleen
+#'
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
+#'
+#' @details Cette fonction s'appuie essentiellement sur la fonction `checkmate::assert_count`.
+#' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer.
+#' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
+#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
+#'
+#' @export
+#'
+#' @seealso [assert_scalar_integer()]
+#'
+#' @examples
+#'
+#' # Avec des entier integer
+#' assert_scalar_natural(1L)
+#' assert_scalar_natural(100L)
+#'
+#' # Avec des entiers double
+#' assert_scalar_natural(2.)
+#' assert_scalar_natural(457)
+#'
+assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
 
-    # Check de warn
-    if (!is_single_boolean(x = warn)) {
-        stop("L'argument warn doit \u00eatre un bool\u00e9en de longueur 1.")
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
     }
 
-    if (!isTRUE(reason <- checkmate::check_count(x))) {
-        if (warn) warning(reason)
-        return(FALSE)
+    x_corr <- checkmate::assert_count(x, coerce = TRUE, positive = TRUE,
+                                 add = coll, .var.name = .var.name)
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
     }
-    return(TRUE)
+
+    if (warn && !isTRUE(checkmate::check_integer(x))) {
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+    x <- x_corr
+
+    return(invisible(x))
 }
 
-is_single_boolean <- function(x, warn = FALSE) {
+#' Vérifie la conformité d'une date scalaire
+#'
+#' @param x un objet de type `Date`.
+#' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
+#' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#'
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
+#'
+#' @details On vérifie que l'objet `x` en entrée est bien au format `Date` et qu'il s'agit d'un scalaire (vecteur de taille 1).
+#' Cette fonction s'appuie essentiellement sur les fonctions `checkmate::assert_date` et `checkmate::assert_scalar`.
+#'
+#' @export
+#'
+#' @examples
+#'
+#' assert_scalar_date(as.Date("2018-01-24"))
+#' assert_scalar_date(as.Date("2000-02-29"))
+#' assert_scalar_date(Sys.Date())
+#'
+assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
-    if (!isTRUE(reason <- checkmate::check_logical(x))) {
-        if (warn) warning(reason)
-        return(FALSE)
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
+    checkmate::assert_date(x, add = coll, .var.name = .var.name)
+    checkmate::assert_scalar(x, add = coll, .var.name = .var.name)
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
     }
 
-    if (length(x) != 0) {
-        if (warn) warning("L'argument x doit être de longueur 1.")
-        return(FALSE)
-    }
-
-    return(TRUE)
-}
-
-is_single_date <- function(x, warn = FALSE) {
-
-    if (!isTRUE(reason <- checkmate::check_date(x))) {
-        if (warn) warning(reason)
-        return(FALSE)
-    }
-
-    if (length(x) != 0) {
-        if (warn) warning("L'argument x doit être de longueur 1.")
-        return(FALSE)
-    }
-
-    return(TRUE)
+    return(invisible(x))
 }

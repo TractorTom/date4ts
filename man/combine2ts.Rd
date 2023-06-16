@@ -7,9 +7,9 @@
 combine2ts(a, b)
 }
 \arguments{
-\item{a}{un objet ts unidimensionnel conforme aux règles de isGoodTS}
+\item{a}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 
-\item{b}{un objet ts unidimensionnel conforme aux règles de isGoodTS}
+\item{b}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 }
 \value{
 En sortie, la fonction retourne un ts qui contient les valeurs de \code{a} aux temps de \code{a} et les valeurs de \code{b} aux temps de \code{b}.
@@ -31,6 +31,7 @@ mens_2 <- stats::ts(rep(2, 4), start = 2022, frequency = 12)
 # La série de PIB est écrasé par trim_1 sur la période temporelle de trim_1
 combine2ts(ev_pib, trim_1)
 
-# La période temporelle interne entre les séries temporelles mens_1 et mens_2 est complétée par des NA
+# La période entre les séries temporelles mens_1 et mens_2 est complétée par des NA
 combine2ts(mens_1, mens_2)
+
 }
