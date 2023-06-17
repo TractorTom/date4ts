@@ -110,6 +110,9 @@ combine2ts <- function(a, b) {
     if (!isTRUE(stats::frequency(a) == stats::frequency(b))) {
         stop("Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
     }
+
+    frequency_ts <- stats::frequency(a)
+
     # Check des types des objets
     if (!isTRUE(typeof(a) == typeof(b))) {
         stop("Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
@@ -128,27 +131,27 @@ combine2ts <- function(a, b) {
         a <- stats::ts(
             x = as.integer(a),
             start = stats::start(a),
-            frequency = stats::frequency(a))
+            frequency = frequency_ts)
         b <- stats::ts(
             x = as.integer(b),
             start = stats::start(b),
-            frequency = stats::frequency(b))
+            frequency = frequency_ts)
 
         outputTS <- combine2ts(a, b)
 
         outputTS <- stats::ts(
             x = as.raw(outputTS),
             start = stats::start(outputTS),
-            frequency = stats::frequency(outputTS))
+            frequency = frequency_ts)
 
         # Fréquence entière
-    } else if (isTRUE(checkmate::check_int(stats::frequency(outputTS)))) {
+    } else if (isTRUE(checkmate::check_int(frequency_ts))) {
 
         stats::window(x = outputTS, start = stats::start(b),
                       end = stats::end(b), extend = TRUE) <- b
 
         # Fréquence décimale
-    } else if (isTRUE(checkmate::check_number(stats::frequency(outputTS)))) {
+    } else if (isTRUE(checkmate::check_number(frequency_ts))) {
 
         outputDF <- as.data.frame(cbind(a, b))
         if (sum(is.na(outputDF$a) & (!is.na(outputDF$b))) > 0L) {
@@ -159,11 +162,11 @@ combine2ts <- function(a, b) {
 
         outputTS <- stats::ts(
             data = outputDF$res,
-            frequency = stats::frequency(a),
+            frequency = frequency_ts,
             start = min(date_ts2TimeUnits(as.integer(stats::start(a)),
-                                     frequency_ts = stats::frequency(a)),
+                                     frequency_ts = frequency_ts),
                         date_ts2TimeUnits(as.integer(stats::start(b)),
-                                     frequency_ts = stats::frequency(b))))
+                                     frequency_ts = frequency_ts)))
     }
     return(outputTS)
 }

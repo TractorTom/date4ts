@@ -32,9 +32,13 @@ Développement à venir :
         - qu'est ce qu'un objet TimeUnits
     - Chercher comment faire des liens entre doc de fonction et vignettes
 - 2) Création et relecture des tests :
+    - Créer des messages d'erreur + warning dans helper personnalisés avec noms de variable et pour tous les test
     - Ajouter des tests sur libelés et libelé_one_date avec plusieurs dates pour tester.
     - Refaire les tests qui ne sont pas plus valide
     - Refaire test-format_date_ts
+    - Compléter le check de test-assert_date_ts pour ajouter :
+        - des check sur les frequency
+        - des checks que le résultats output (lrsqu'il y a des warning soit bien égale à la version integer des inputs double)
     - Faire le tour des fonctions pour lesquelles il manque des tests
     - Itérer sur TOUS les arguments valides (exemple tous les ts avec toutes les
     fréquences, start, len, typeA.. pour un type d'erreur)

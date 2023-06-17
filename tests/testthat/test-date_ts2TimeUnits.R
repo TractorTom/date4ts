@@ -35,7 +35,7 @@ testthat::test_that("warning for integer date", {
     for (year in good_years) {
         for (month in warning_integer_months) {
             testthat::expect_warning({resTU <- date_ts2TimeUnits(date_ts = c(year, month), frequency = 12L)},
-                                     regexp = "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 12.")
+                                     regexp = invalid_monthly_period)
             testthat::expect_equal(resTU, year + (month - 1) / 12)
         }
     }
@@ -46,7 +46,7 @@ testthat::test_that("good result for integer date", {
     for (year in good_years) {
         for (quarter in warning_integer_quarters) {
             testthat::expect_warning({resTU <- date_ts2TimeUnits(date_ts = c(year, quarter), frequency = 4L)},
-                                     regexp = "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 4.")
+                                     regexp = invalid_quaterly_period)
             testthat::expect_equal(resTU, year + (quarter - 1) / 4)
         }
     }

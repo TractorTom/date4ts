@@ -50,6 +50,7 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 
 
     # Check du type
+    # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
     if (isTRUE(checkmate::check_numeric(x, any.missing = FALSE,
                                         min.len = 1L, max.len = 2L, finite = TRUE))) {
         x_corr <- checkmate::assert_integerish(x, coerce = TRUE, any.missing = FALSE,
@@ -111,17 +112,26 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
     }
 
     # Check de la fréquence
-    frequency_ts <- stats::frequency(x)
+    frequency_ts <- assert_expression(
+        expr = {stats::frequency(x)},
+        .var.name = "frequency(x)")
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts", warn = FALSE)
+
     # Check de la temporalité
-    start_ts <- stats::start(x)
+    start_ts <- assert_expression(
+        expr = {stats::start(x)},
+        .var.name = "start(x)")
     start_ts <- assert_date_ts(start_ts, frequency_ts = frequency_ts, add = coll, .var.name = "start", warn = FALSE)
 
-    end_ts <- stats::end(x)
+    end_ts <- assert_expression(
+        expr = {stats::end(x)},
+        .var.name = "end(x)")
     end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end", warn = FALSE)
+
     # Check de la classe de l'objet
     checkmate::assert_class(x, classes = "ts", add = coll, .var.name = .var.name)
     checkmate::assert_false(stats::is.mts(x), add = coll, .var.name = paste0("is.mts(", .var.name, ")"))
+
     # Check du type de données
     checkmate::assert_atomic_vector(x, add = coll, .var.name = .var.name)
 
@@ -208,8 +218,17 @@ assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x), war
         coll <- add
     }
 
-    x_corr <- checkmate::assert_int(x, coerce = TRUE, add = coll, .var.name = .var.name)
-    checkmate::assert_choice(x_corr, choices = c(4L, 12L), add = coll, .var.name = .var.name)
+    # Check du type
+    # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
+    if (isTRUE(checkmate::check_numeric(x, any.missing = FALSE, finite = TRUE))) {
+        x_corr <- checkmate::assert_int(x, coerce = TRUE, add = coll,
+                                        .var.name = .var.name)
+        checkmate::assert_choice(x_corr, choices = c(4L, 12L),
+                                 add = coll, .var.name = .var.name)
+    } else {
+        checkmate::assert_numeric(x, any.missing = FALSE,finite = TRUE,
+                                  add = coll, .var.name = .var.name)
+    }
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
@@ -260,7 +279,8 @@ assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)
     }
 
     if (warn && !isTRUE(checkmate::check_integer(x))) {
-        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name),
+                   silent = TRUE)
         warning(attr(err, "condition")$message)
     }
 
@@ -309,8 +329,15 @@ assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x)
         coll <- add
     }
 
-    x_corr <- checkmate::assert_count(x, coerce = TRUE, positive = TRUE,
-                                 add = coll, .var.name = .var.name)
+    # Check du type
+    # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
+    if (isTRUE(checkmate::check_numeric(x, finite = TRUE))) {
+        x_corr <- checkmate::assert_count(x, coerce = TRUE, positive = TRUE,
+                                          add = coll, .var.name = .var.name)
+    } else {
+        checkmate::assert_numeric(x, finite = TRUE,
+                                  add = coll, .var.name = .var.name)
+    }
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
@@ -359,4 +386,16 @@ assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
     }
 
     return(invisible(x))
+}
+
+assert_expression <- function(expr, .var.name) {
+    x <- tryCatch(expr,
+                  error = function(e) e,
+                  warning = function(w) w)
+
+    if (is(frequency_ts, "warning") || is(frequency_ts, "error")){
+        stop(paste("Invalid", .var.name))
+    }
+
+    return(x)
 }
