@@ -2,27 +2,6 @@ A Faire :
 
 Urgent pour faire fonctionner le package :
 
-1) utiliser le code suivant pour tester les fonctions que l'on fait tourner sans test (exemple stats::frequency(), stats::start(), as.integer()) pour récupérer des infos sans avoir tester les objets avant... :
-
-f <- function(x) {
-    res2 <- tryCatch({log(x)},
-                     error = function(e) e,
-                     warning = function(w) w)
-
-    if (is(res2, "warning")) {
-        warning("Il y a un truc bizarre avec x...")
-    } else if (is(res2, "error")){
-        stop("Confirmed !")
-    }
-
-    return(1)
-}
-
-f(3)
-f(-1)
-f("a")
-
-
 
 Développement à venir :
 
@@ -43,8 +22,11 @@ Développement à venir :
     - Itérer sur TOUS les arguments valides (exemple tous les ts avec toutes les
     fréquences, start, len, typeA.. pour un type d'erreur)
 - 3) Relire les commentaire Roxygen2 et à chaque fois que l'on précise "En sortie"
-    (@return), il faut préciser le type d'objet qu'il y a en sortie, un vecteur,
-    un entier, la class, le mode et le calcul qui permet de sortir cette valeur.
+    (@return), il faut préciser :
+        - le type d'objet qu'il y a en sortie, un vecteur,
+    un entier,
+        - la class, le mode et
+    - Dans la partie @detail, détailler le calcul qui permet de sortir cette valeur.
     - Faire le tour des tags que l'on pourrait ajouter comme doc
 - 4) Approfondir la doc :
     - Relire les docs existantes (pour ré-écrire / compléter)
@@ -55,8 +37,6 @@ Développement à venir :
     - chercher des cas où la fréquence est la même et où il y a quand même des pb de cohérence temporelle
 - 7) Faire le lien entre lastDate et na_trim (pour essayer d'appliquer l'un à l'autre...)
     - vérifier les check dans lastDate
-- 8) Faire la doc des fonctions non exportées :
-    - substr_year
 
 
 Idée pour plus tard :

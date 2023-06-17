@@ -393,7 +393,7 @@ assert_expression <- function(expr, .var.name) {
                   error = function(e) e,
                   warning = function(w) w)
 
-    if (is(frequency_ts, "warning") || is(frequency_ts, "error")){
+    if (is(x, "warning") || is(x, "error")){
         stop(paste("Invalid", .var.name))
     }
 

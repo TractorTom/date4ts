@@ -7,7 +7,7 @@
 #' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
 #' @param n un entier
 #'
-#' @return En sortie, la fonction retourne un vecteur avec les valeurs extraites.
+#' @return En sortie, la fonction retourne un vecteur (atomic) de même type que `dataTS` avec les valeurs extraites.
 #' @export
 #'
 #' @examples

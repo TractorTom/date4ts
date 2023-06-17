@@ -169,7 +169,25 @@ date2date_ts <- function(date, frequency_ts = 12L) {
     return(c(year, month))
 }
 
-# date est un objet de type Date
+#' Retire une année à une date
+#'
+#' @param date un objet de type Date
+#' @param n un entier
+#'
+#' @description La fonction `substr_year` retire `n` annnée(s) à une date.
+#' @return En sortie, la fonction retourne une date.
+#' @export
+#'
+#' @examples
+#'
+#' substr_year(as.Date("2000-02-29"), n = 1L)
+#' substr_year(as.Date("2000-02-29"), n = 3L)
+#' substr_year(as.Date("2000-02-29"), n = 4L)
+#' substr_year(as.Date("2000-02-29"), n = 16L)
+#'
+#' substr_year(as.Date("2023-01-25"), n = 10L)
+#' substr_year(as.Date("2022-11-01"), n = 3L)
+#'
 substr_year <- function(date, n = 1L) {
 
     # coll <- checkmate::makeAssertCollection()
