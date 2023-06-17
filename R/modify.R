@@ -32,7 +32,8 @@ setValue_ts <- function(dataTS, date_ts, x) {
     }
     # Check des types des objets
     if (!isTRUE(typeof(dataTS) == typeof(x))) {
-        coll$push("Les objets `dataTS` et `x` doivent \u00eatre de m\u00eame type.")
+        # coll$push("Les objets `dataTS` et `x` doivent \u00eatre de m\u00eame type.")
+        stop("Les objets `dataTS` et `x` doivent \u00eatre de m\u00eame type.")
     }
 
     # checkmate::reportAssertions(coll)
