@@ -1,12 +1,12 @@
 
 #' Libelé pour une date
 #'
-#' @description La fonction `libelles_one_date` créé le libelé pour une date à une fréquence donnée.modifie la ou les valeurs d'un objet ts à une date donnée.
+#' @description La fonction `libelles_one_date` créé le libellé pour une date à une fréquence donnée.modifie la ou les valeurs d'un objet ts à une date donnée.
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #'
-#' @return En sortie, la fonction retourne une chaine de caractère qui correspond au libelés de la date `date`.
+#' @return En sortie, la fonction retourne une chaîne de caractère de longueur 1 qui correspond au libellé de la date `date_ts`.
 #'
 #' @examples
 #' ts4conj:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 12L)
@@ -38,13 +38,14 @@ libelles_one_date <- function(date_ts, frequency_ts) {
 #'
 #' @description La fonction `libelles` créé un vecteur de chaines de caractère contenant les libelés de toutes les dates sur une période
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #' @param n un entier
 #'
-#' @details Pour choisir la période, il faut spécifier une date de début de période et un nombre de valeur.
+#' @return En sortie, la fonction retourne un vecteur de chaine de caractère de longueur `n` avec les libellés de la période (de la date `date_ts` à la date `date_ts + n périodes`.
 #'
-#' @return En sortie, la fonction retourne un vecteur de char avec les libelés de la période.
+#' @details Pour choisir la période, il faut spécifier une date de début `date_ts`, une fréquence `frequency_ts` pour le pas entre 2 dates (trimestrielle ou mensuelle) et un nombre de valeur `n` (nombre de période).
+#'
 #' @export
 #'
 #' @examples

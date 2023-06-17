@@ -21,12 +21,9 @@ Développement à venir :
     - Faire le tour des fonctions pour lesquelles il manque des tests
     - Itérer sur TOUS les arguments valides (exemple tous les ts avec toutes les
     fréquences, start, len, typeA.. pour un type d'erreur)
-- 3) Relire les commentaire Roxygen2 et à chaque fois que l'on précise "En sortie"
-    (@return), il faut préciser :
-        - le type d'objet qu'il y a en sortie, un vecteur,
-    un entier,
-        - la class, le mode et
+- 3) Relire les commentaire Roxygen2 :
     - Dans la partie @detail, détailler le calcul qui permet de sortir cette valeur.
+    - Ajouter une partie @description pour expliquer ce que fait la fonction
     - Faire le tour des tags que l'on pourrait ajouter comme doc
 - 4) Approfondir la doc :
     - Relire les docs existantes (pour ré-écrire / compléter)
@@ -37,6 +34,7 @@ Développement à venir :
     - chercher des cas où la fréquence est la même et où il y a quand même des pb de cohérence temporelle
 - 7) Faire le lien entre lastDate et na_trim (pour essayer d'appliquer l'un à l'autre...)
     - vérifier les check dans lastDate
+- 8) regarder les projets de théo leroy pour voir si il fixe une librairie temporaire autrepart dans sont projet pour installer les packages 1 fois (sans les installer à chaque fois)
 
 
 Idée pour plus tard :

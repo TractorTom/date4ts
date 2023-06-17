@@ -1,11 +1,11 @@
 
-#' Conversion au format c(AAAA, TT)
+#' Conversion au format `c(AAAA, TT)`
 #'
-#' @description La fonction `as.YYYYTT` convertit une date en année en date au format c(AAAA, TT).
+#' @description La fonction `as.YYYYTT` convertit une date en année en date au format `c(AAAA, TT)`.
 #'
 #' @param TimeUnits une date en année (Par exemple 2015.25 pour le 2ème trimestre 2015)
 #'
-#' @return En sortie, la fonction retourne la date au format (AAAA, TT)
+#' @return En sortie, la fonction retourne la date au format `date_ts` (c'est-à-dire un vecteur d'entiers de la forme `c(AAAA, TT)`)
 #' @export
 #'
 #' @examples
@@ -21,13 +21,13 @@ as.YYYYTT <- function(TimeUnits) {
     return(as.integer(round(c(TimeUnits %/% 1L, (TimeUnits %% 1L) * 4L + 1L))))
 }
 
-#' Conversion au format c(AAAA, MM)
+#' Conversion au format `c(AAAA, MM)`
 #'
-#' @description La fonction `as.YYYYMM` convertit une date en année en date au format c(AAAA, MM).
+#' @description La fonction `as.YYYYMM` convertit une date en année en date au format `c(AAAA, MM)`.
 #'
-#' @param TimeUnits une date en année (Par exemple 2021.83333333333 pour Novembre 2021)
+#' @param TimeUnits une date en année (Par exemple `2021.83333333333` pour Novembre 2021)
 #'
-#' @return En sortie, la fonction retourne la date au format c(AAAA, MM)
+#' @return En sortie, la fonction retourne la date au format `date_ts` (c'est-à-dire un vecteur d'entiers de la forme `c(AAAA, MM)`)
 #' @export
 #'
 #' @examples
@@ -46,11 +46,11 @@ as.YYYYMM <- function(TimeUnits) {
 
 #' Correspondance d'une date trimestrielle au premier mois du trimestre
 #'
-#' @description La fonction `trim2mens` prend en argument une date au format c(AAAA, TT) et la convertit au format c(AAAA, MM) en choisissant le premier mois du trimestre.
+#' @description La fonction `trim2mens` prend en argument une date au format `c(AAAA, TT)` et la convertit au format `c(AAAA, MM)` en choisissant le premier mois du trimestre.
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer`, au format c(AAAA, TT)
+#' @param date_ts un vecteur numérique, de préférence `integer`, au format `c(AAAA, TT)`
 #'
-#' @return En sortie, la fonction retourne la date au format c(AAAA, MM)
+#' @return En sortie, la fonction retourne la date au format `date_ts` (c'est-à-dire un vecteur d'entiers de la forme `c(AAAA, MM)`)
 #' @export
 #'
 #' @examples
@@ -69,11 +69,11 @@ trim2mens <- function(date_ts) {
 
 #' Correspondance d'une date mensuelle au trimestre courant
 #'
-#' @description La fonction `mens2trim` prend en argument une date au format c(AAAA, MM) et la convertit au format c(AAAA, TT) avec le trimestre en cours.
+#' @description La fonction `mens2trim` prend en argument une date au format `c(AAAA, MM)` et la convertit au format `c(AAAA, TT)` avec le trimestre en cours.
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer`, au format c(AAAA, MM)
+#' @param date_ts un vecteur numérique, de préférence `integer`, au format `c(AAAA, MM)`
 #'
-#' @return En sortie, la fonction retourne la date au format c(AAAA, TT) correspondant au trimestre courant du mois `date_ts`.
+#' @return En sortie, la fonction retourne la date au format `date_ts` (c'est-à-dire un vecteur d'entiers de la forme `c(AAAA, TT)`), correspondant au trimestre courant du mois de la date `date_ts`.
 #' @export
 #'
 #' @examples
@@ -92,13 +92,13 @@ mens2trim <- function(date_ts) {
 
 #' Conversion d'une date du format date_ts au format TimeUnits
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #'
-#' @return En sortie, la fonction retourne la date au format AAAA + TT/4 ou AAAA + MM/12.
+#' @return En sortie, la fonction retourne la date au format `AAAA + TT/4` ou `AAAA + MM/12` (un numeric de longueur 1).
 #'
 #' @details
-#'  AAAA signifie que l'année est au format numérique avec 4 chiffres (Exemple : l'année deux mille vingt-deux s'écrit 2022 et non 22)
+#'  `AAAA` signifie que l'année est au format numérique avec 4 chiffres (Exemple : l'année deux mille vingt-deux s'écrit 2022 et non 22)
 #'  MM signifie que le mois est au format numérique (Exemple : le mois de mai s'écrit 5, le moi de décembre s'écrit 12)
 #'  TT signifie que le trimestre est au format numérique (Exemple : le troisième trimestre s'écrit 3)
 #' @export
@@ -132,11 +132,12 @@ date_ts2TimeUnits <- function(date_ts, frequency_ts) {
 
 #' Conversion d'une date au format TS
 #'
-#' @param date un objet de type Date
-#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @description La fonction `date2date_ts` prend en argument une date au format date (integer avec une class Date) et la convertit au format `date_ts` : `c(AAAA, MM)` ou `c(AAAA, TT)` avec le mois ou trimestre en cours.
 #'
-#' @description La fonction `date2date_ts` prend en argument une date au format date (integer avec une class Date) et la convertit au format c(AAAA, MM) ou c(AAAA, TT) avec le mois ou trimestre en cours.
-#' @return En sortie, la fonction retourne la date au format c(AAAA, MM) ou c(AAAA, TT) avec le mois ou trimestre en cours selon l'argument `frequency_ts`.
+#' @param date un objet de type Date
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#'
+#' @return En sortie, la fonction retourne la date au format `date_ts` (`c(AAAA, MM)` ou `c(AAAA, TT)`) avec le mois ou trimestre en cours selon l'argument `frequency_ts`.
 #' @export
 #'
 #' @examples
@@ -175,7 +176,7 @@ date2date_ts <- function(date, frequency_ts = 12L) {
 #' @param n un entier
 #'
 #' @description La fonction `substr_year` retire `n` annnée(s) à une date.
-#' @return En sortie, la fonction retourne une date.
+#' @return En sortie, la fonction retourne un objet de type Date (atomic) de longueur 1.
 #' @export
 #'
 #' @examples
@@ -211,10 +212,10 @@ substr_year <- function(date, n = 1L) {
 
 #' Conversion d'une date du format TS au format date
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer`, au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param date_ts un vecteur numérique, de préférence `integer`, au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #'
-#' @return En sortie, la fonction retourne la date au format Date.
+#' @return En sortie, la fonction retourne un objet de type Date (atomic) de longueur 1 qui correspond à l'objet `date_ts`.
 #' @export
 #'
 #' @examples

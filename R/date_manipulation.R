@@ -1,11 +1,11 @@
 
 #' Obtenir la date précédente
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #' @param lag un entier
 #'
-#' @return En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période passée.
+#' @return En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période passée au format `date_ts`.
 #'
 #' @details Lorsqu'on parle de date précédente, on parle de date passée.
 #' L'argument `lag` est entier et désigne le nombre de décalage que l'on affecte à notre date.
@@ -44,11 +44,11 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 
 #' Obtenir la date suivante
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #' @param lag un entier
 #'
-#' @return En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période future.
+#' @return En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période future au format `date_ts`.
 #'
 #' @details Lorsqu'on parle de date suivante, on parle de date future.
 #' L'argument `lag` est entier et désigne le nombre de décalage que l'on affecte à notre date.
@@ -89,11 +89,13 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 
 #' Première date non NA
 #'
+#' @description Cette fonction calcule la première date pour laquelle l'objet `dataTS` ne vaut pas NA.
+#'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
 #'
-#' @return En sortie, la fonction retourne la première date pour laquelle l'objet `dataTS` ne vaut pas NA.
+#' @return En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`)
 #'
-#' @details La date retournée en output est au format date_ts. Si l'objet `dataTS` ne contient que des NAs, la fonction retourne une erreur.
+#' @details La date retournée en output est au format `date_ts`. Si l'objet `dataTS` ne contient que des NAs, la fonction retourne une erreur.
 #'
 #' @export
 #'
@@ -123,11 +125,13 @@ firstDate <- function(dataTS) {
 
 #' Dernière date non NA
 #'
+#' @description Cette fonction calcule la dernière date pour laquelle l'objet `dataTS` ne vaut pas NA.
+#'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
 #'
-#' @return En sortie, la fonction retourne la dernière date pour laquelle l'objet `dataTS` ne vaut pas NA.
+#' @return En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`)
 #'
-#' @details La date retournée en output est au format date_ts. Si l'objet `dataTS` ne contient que des NAs, la fonction retourne une erreur.
+#' @details La date retournée en output est au format `date_ts`. Si l'objet `dataTS` ne contient que des NAs, la fonction retourne une erreur.
 #'
 #' @export
 #'
@@ -158,11 +162,11 @@ lastDate <- function(dataTS) {
 
 #' Comparaison de 2 date_ts
 #'
-#' @param a un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param b un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param a un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param b un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #'
-#' @return En sortie, la fonction retourne un booleen qui indique si la date `a` est antérieure à la date `b`.
+#' @return En sortie, la fonction retourne un booleen (de longueur 1) qui indique si la date `a` est antérieure à la date `b`.
 #'
 #' @details Les dates `a` et `b` sont au  format date_ts. L'argument frequency_ts est nécessaire pour interpréter les dates.
 #' Ainsi, si je souhaite comparer la date `a = c(2023L, 4L)` et la date `b = c(2023L, -2L)`. Dans le cas d'une fréquence mensuelle, la date `a` est antérieure à la date `b`. Dans le cas d'une fréquence mensuelle, c'est l'inverse.
@@ -199,9 +203,9 @@ is_before <- function(a, b, frequency_ts) {
 
 #' Intervalle entre 2 dates
 #'
-#' @param a un objet date_ts, c'est-à-dire un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param b un objet date_ts, c'est-à-dire un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param a un objet date_ts, c'est-à-dire un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param b un objet date_ts, c'est-à-dire un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #'
 #' @return En sortie, la fonction retourne un entier qui désigne le nombre de période (mois ou trimestres) qui sépare les 2 dates `a` et `b`.
 #'

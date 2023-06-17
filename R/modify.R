@@ -4,10 +4,10 @@
 #' @description La fonction `setValue_ts` modifie la ou les valeurs d'un objet ts à une date donnée.
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
-#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #' @param x un vecteur de même type que le ts `dataTS`
 #'
-#' @return En sortie, la fonction retourne l'objet `dataTS` n objet ts modifié avec les valeurs de `x` imputés à partir de la date `date`.
+#' @return En sortie, la fonction retourne une copie de l'objet `dataTS` modifié avec les valeurs de `x` imputés à partir de la date `date_ts`.
 #' @export
 #'
 #' @examples
@@ -177,10 +177,10 @@ combine2ts <- function(a, b) {
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
 #' @param x un vecteur de même type que le ts `dataTS`
-#' @param date_ts un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #' @param replace_na un booléen
 #'
-#' @return En sortie, la fonction retourne un ts complété avec le vecteur `x`.
+#' @return En sortie, la fonction retourne une copie de l'objet `dataTS` complété avec le vecteur `x`.
 #' @details Si `replace_na` vaut `TRUE` alors le remplacement commence dès que l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu, qu'il contienne des NA ou non à la fin.
 #' @export
 #'
@@ -250,7 +250,7 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
 #'
-#' @return En sortie, la fonction retourne un ts corrigé des NA et début et fin de série.
+#' @return En sortie, la fonction retourne une copie de l'objet `dataTS` corrigé des NA et début et fin de série.
 #' @details L'objet retourné commence et finis par des valeurs non manquantes.
 #' @export
 #'

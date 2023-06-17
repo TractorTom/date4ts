@@ -1,17 +1,17 @@
 
 #' Vérifie le format de date
 #'
-#' @description La fonction `assert_date_ts` vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
+#' @description La fonction `assert_date_ts` vérifie qu'un objet est de type `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #'
-#' @param x un vecteur numérique, de préférence `integer` au format AAAA, c(AAAA, MM) ou c(AAAA, TT)
-#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param x un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #' @param warn un booleen
 #'
-#' @return En sortie la fonction retourne l'objet de manière invisible ou une erreur.
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
 #' @details Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
-#' On cherche donc à favoriser l'utilisation de vecteur c(AAAA, MM) pour désigner la date choisie.
+#' On cherche donc à favoriser l'utilisation de vecteur `c(AAAA, MM)` pour désigner la date choisie.
 #' Lorsque l'objet `x` en entrée est au mauvais format, il est corrigé pendant la vérification et l'objet en sortie est au bon format.
 #' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
 #'
@@ -147,7 +147,7 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 #' @description La fonction `assert_TimeUnits` vérifie qu'un objet est un TimeUnits.
 #'
 #' @param x un numérique qui représente le time units de
-#' @param frequency_ts un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #'
@@ -190,7 +190,7 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
 
 #' Vérifie la conformité d'une fréquence
 #'
-#' @param x un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.
+#' @param x un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #' @param warn un booleen
@@ -397,5 +397,5 @@ assert_expression <- function(expr, .var.name) {
         stop(paste("Invalid", .var.name))
     }
 
-    return(x)
+    return(invisible(x))
 }
