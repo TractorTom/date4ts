@@ -4,7 +4,7 @@
 \alias{is_before}
 \title{Comparaison de 2 date_ts}
 \usage{
-is_before(a, b, frequency_ts)
+is_before(a, b, frequency_ts, strict = FALSE)
 }
 \arguments{
 \item{a}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
@@ -12,6 +12,8 @@ is_before(a, b, frequency_ts)
 \item{b}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
 \item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
+
+\item{strict}{un booleen (default \code{FALSE})}
 }
 \value{
 En sortie, la fonction retourne un booleen (de longueur 1) qui indique si la date \code{a} est antérieure à la date \code{b}.
@@ -21,12 +23,15 @@ Comparaison de 2 date_ts
 }
 \details{
 Les dates \code{a} et \code{b} sont au  format date_ts. L'argument frequency_ts est nécessaire pour interpréter les dates.
-Ainsi, si je souhaite comparer la date \code{a = c(2023L, 4L)} et la date \code{b = c(2023L, -2L)}. Dans le cas d'une fréquence mensuelle, la date \code{a} est antérieure à la date \code{b}. Dans le cas d'une fréquence mensuelle, c'est l'inverse.
+Ainsi, si je souhaite comparer la date \code{a = c(2023L, 4L)} et la date \code{b = c(2023L, -2L)}. Dans le cas d'une fréquence mensuelle, la date \code{a} est antérieure à la date \code{b}. Dans le cas d'une fréquence mensuelle, c'est l'inverse. Si \code{strict} vaut \code{TRUE}, la fonction compare strictement les dates \code{a} et \code{b} (\code{<}).
 }
 \examples{
 
 is_before(a = c(2020L, 3L), b = c(2022L, 4L), frequency_ts = 12L)
 is_before(a = c(2022L, 3L), b = c(2010L, 1L), frequency_ts = 4L)
+
+is_before(a = c(2022L, 4L), b = c(2022L, 4L), frequency_ts = 12L)
+is_before(a = c(2022L, 4L), b = c(2022L, 4L), frequency_ts = 12L, strict = TRUE)
 
 # Importance de la fréquence
 is_before(a = c(2022L, -3L), b = c(2021L, 8L), frequency_ts = 12L)

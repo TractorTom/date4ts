@@ -10,8 +10,17 @@ Développement à venir :
 
 - 1) Création de vignettes. Idées :
     - Expliquer les types d'objets attendus (pour expliquer les erreurs) :
-        - date_ts sans fréquence ne veut rien dire
-        - qu'est ce qu'un objet TimeUnits
+        - Format de date :
+            - Date (base R)
+            - date_ts (fonctionne avec une fréquence)
+            - TimeUnits
+            - Fonction de conversion, de comparaison
+        - Objet ts attendu :
+            - Type, Contenu ?
+            - fréquences ?
+            - Structure et date ?
+            - Fonctions de modification
+        - Fonctions de tests : s'inspirent du package checkmate (extension de checkmate) et ont pour but de sortir des erreurs (ce sont des assert et non des test ou des checks)
     - Chercher comment faire des liens entre doc de fonction et vignettes
 - 2) Création et relecture des tests :
     - Créer des messages d'erreur + warning dans helper personnalisés avec noms de variable et pour tous les test
@@ -27,6 +36,13 @@ Développement à venir :
         - lastDate
         - is_before
         - diff_periode
+        - extend_ts
+        - na_trim
+        - assert_TimeUnits
+        - assert_frequency
+        - assert_scalar_integer
+        - assert_scalar_natural
+        - assert_scalar_date
     - Refaire test-format_date_ts
     - Compléter le check de test-assert_date_ts pour ajouter :
         - des check sur les frequency
@@ -49,10 +65,9 @@ Développement à venir :
     - vérifier les check dans lastDate
 - 8) regarder les projets de théo leroy pour voir si il fixe une librairie temporaire autrepart dans sont projet pour installer les packages 1 fois (sans les installer à chaque fois)
     - checker le fichier .Renviron aussi
-- 9) Faire la pull request au package checkmate
-- 10) Se renseigner sur la manière de faire du renv sur AUS + session avec gestion de cache
-- 11) getValue_ts, proposer date_from et date_to pour spécifier les dates pendant lesquelles on veut extraire les valeurs d'un ts
-- 12) Ajouter une option stricte pour tester si is_before est strictement inférieur à la date
+- 9) Se renseigner sur la manière de faire du renv sur AUS + session avec gestion de cache
+- 10) getValue_ts, proposer date_from et date_to pour spécifier les dates pendant lesquelles on veut extraire les valeurs d'un ts
+
 
 Idée pour plus tard :
 

@@ -165,11 +165,12 @@ lastDate <- function(dataTS) {
 #' @param a un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #' @param b un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param strict un booleen (default `FALSE`)
 #'
 #' @return En sortie, la fonction retourne un booleen (de longueur 1) qui indique si la date `a` est antérieure à la date `b`.
 #'
 #' @details Les dates `a` et `b` sont au  format date_ts. L'argument frequency_ts est nécessaire pour interpréter les dates.
-#' Ainsi, si je souhaite comparer la date `a = c(2023L, 4L)` et la date `b = c(2023L, -2L)`. Dans le cas d'une fréquence mensuelle, la date `a` est antérieure à la date `b`. Dans le cas d'une fréquence mensuelle, c'est l'inverse.
+#' Ainsi, si je souhaite comparer la date `a = c(2023L, 4L)` et la date `b = c(2023L, -2L)`. Dans le cas d'une fréquence mensuelle, la date `a` est antérieure à la date `b`. Dans le cas d'une fréquence mensuelle, c'est l'inverse. Si `strict` vaut `TRUE`, la fonction compare strictement les dates `a` et `b` (`<`).
 #' @export
 #'
 #' @examples
@@ -177,14 +178,20 @@ lastDate <- function(dataTS) {
 #' is_before(a = c(2020L, 3L), b = c(2022L, 4L), frequency_ts = 12L)
 #' is_before(a = c(2022L, 3L), b = c(2010L, 1L), frequency_ts = 4L)
 #'
+#' is_before(a = c(2022L, 4L), b = c(2022L, 4L), frequency_ts = 12L)
+#' is_before(a = c(2022L, 4L), b = c(2022L, 4L), frequency_ts = 12L, strict = TRUE)
+#'
 #' # Importance de la fréquence
 #' is_before(a = c(2022L, -3L), b = c(2021L, 8L), frequency_ts = 12L)
 #' is_before(a = c(2022L, -3L), b = c(2021L, 8L), frequency_ts = 4L)
 #'
-is_before <- function(a, b, frequency_ts) {
+is_before <- function(a, b, frequency_ts, strict = FALSE) {
 
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
+
+    # Check de strict
+    checkmate::assert_flag(strict, add = coll, .var.name = "replace_na")
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
@@ -197,7 +204,12 @@ is_before <- function(a, b, frequency_ts) {
 
     tu_a <- date_ts2TimeUnits(a, frequency_ts = frequency_ts)
     tu_b <- date_ts2TimeUnits(b, frequency_ts = frequency_ts)
-    return(tu_a <= tu_b)
+
+    if (strict) {
+        return(tu_a < tu_b)
+    } else {
+        return(tu_a <= tu_b)
+    }
 }
 
 

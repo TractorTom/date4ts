@@ -130,18 +130,18 @@ combine2ts <- function(a, b) {
     if (is.raw(a)) {
 
         a <- stats::ts(
-            x = as.integer(a),
+            data = as.integer(a),
             start = stats::start(a),
             frequency = frequency_ts)
         b <- stats::ts(
-            x = as.integer(b),
+            data = as.integer(b),
             start = stats::start(b),
             frequency = frequency_ts)
 
         outputTS <- combine2ts(a, b)
 
         outputTS <- stats::ts(
-            x = as.raw(outputTS),
+            data = as.raw(outputTS),
             start = stats::start(outputTS),
             frequency = frequency_ts)
 
