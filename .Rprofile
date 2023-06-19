@@ -17,10 +17,6 @@ options(download.file.extra = "--noproxy \"*\"")
 # renv::snapshot()
 
 
-# .libPaths("U:/library/")
-
-
 # options(repos = c(nexuspublic = "https://nexus.insee.fr/repository/r-public",
 #                   CRAN = "https://cloud.r-project.org"))
-
 
