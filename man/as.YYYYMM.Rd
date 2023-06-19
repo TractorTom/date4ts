@@ -2,18 +2,18 @@
 % Please edit documentation in R/conversion.R
 \name{as.YYYYMM}
 \alias{as.YYYYMM}
-\title{Conversion au format c(AAAA, MM)}
+\title{Conversion au format \code{c(AAAA, MM)}}
 \usage{
 as.YYYYMM(TimeUnits)
 }
 \arguments{
-\item{TimeUnits}{une date en année (Par exemple 2021.83333333333 pour Novembre 2021)}
+\item{TimeUnits}{une date en année (Par exemple \code{2021.83333333333} pour Novembre 2021)}
 }
 \value{
-En sortie, la fonction retourne la date au format c(AAAA, MM)
+En sortie, la fonction retourne la date au format \code{date_ts} (c'est-à-dire un vecteur d'entiers de la forme \code{c(AAAA, MM)})
 }
 \description{
-La fonction \code{as.YYYYMM} convertit une date en année en date au format c(AAAA, MM).
+La fonction \code{as.YYYYMM} convertit une date en année en date au format \code{c(AAAA, MM)}.
 }
 \examples{
 as.YYYYMM(2019.75) #Octobre 2019

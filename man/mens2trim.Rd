@@ -7,13 +7,13 @@
 mens2trim(date_ts)
 }
 \arguments{
-\item{date_ts}{un vecteur numérique, de préférence \code{integer}, au format c(AAAA, MM)}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer}, au format \code{c(AAAA, MM)}}
 }
 \value{
-En sortie, la fonction retourne la date au format c(AAAA, TT) correspondant au trimestre courant du mois \code{date_ts}.
+En sortie, la fonction retourne la date au format \code{date_ts} (c'est-à-dire un vecteur d'entiers de la forme \code{c(AAAA, TT)}), correspondant au trimestre courant du mois de la date \code{date_ts}.
 }
 \description{
-La fonction \code{mens2trim} prend en argument une date au format c(AAAA, MM) et la convertit au format c(AAAA, TT) avec le trimestre en cours.
+La fonction \code{mens2trim} prend en argument une date au format \code{c(AAAA, MM)} et la convertit au format \code{c(AAAA, TT)} avec le trimestre en cours.
 }
 \examples{
 mens2trim(c(2019L, 4L)) #Avril 2019 --> 2ème trimestre 2019

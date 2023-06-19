@@ -7,11 +7,11 @@
 diff_periode(a, b, frequency_ts)
 }
 \arguments{
-\item{a}{un objet date_ts, c'est-à-dire un vecteur numérique, de préférence \code{integer} au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{a}{un objet date_ts, c'est-à-dire un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{b}{un objet date_ts, c'est-à-dire un vecteur numérique, de préférence \code{integer} au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{b}{un objet date_ts, c'est-à-dire un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 }
 \value{
 En sortie, la fonction retourne un entier qui désigne le nombre de période (mois ou trimestres) qui sépare les 2 dates \code{a} et \code{b}.

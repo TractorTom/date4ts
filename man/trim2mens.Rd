@@ -7,13 +7,13 @@
 trim2mens(date_ts)
 }
 \arguments{
-\item{date_ts}{un vecteur numérique, de préférence \code{integer}, au format c(AAAA, TT)}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer}, au format \code{c(AAAA, TT)}}
 }
 \value{
-En sortie, la fonction retourne la date au format c(AAAA, MM)
+En sortie, la fonction retourne la date au format \code{date_ts} (c'est-à-dire un vecteur d'entiers de la forme \code{c(AAAA, MM)})
 }
 \description{
-La fonction \code{trim2mens} prend en argument une date au format c(AAAA, TT) et la convertit au format c(AAAA, MM) en choisissant le premier mois du trimestre.
+La fonction \code{trim2mens} prend en argument une date au format \code{c(AAAA, TT)} et la convertit au format \code{c(AAAA, MM)} en choisissant le premier mois du trimestre.
 }
 \examples{
 trim2mens(c(2019L, 4L)) #4ème trimestre 2019 --> Octobre 2019

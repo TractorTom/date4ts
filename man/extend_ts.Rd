@@ -11,12 +11,12 @@ extend_ts(dataTS, x, date_ts = NULL, replace_na = TRUE)
 
 \item{x}{un vecteur de même type que le ts \code{dataTS}}
 
-\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
 \item{replace_na}{un booléen}
 }
 \value{
-En sortie, la fonction retourne un ts complété avec le vecteur \code{x}.
+En sortie, la fonction retourne une copie de l'objet \code{dataTS} complété avec le vecteur \code{x}.
 }
 \description{
 La fonction \code{extend_ts} ajoute de nouvelles valeurs à un ts

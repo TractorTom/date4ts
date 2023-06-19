@@ -7,14 +7,14 @@
 is_before(a, b, frequency_ts)
 }
 \arguments{
-\item{a}{un vecteur numérique, de préférence \code{integer} au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{a}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{b}{un vecteur numérique, de préférence \code{integer} au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{b}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 }
 \value{
-En sortie, la fonction retourne un booleen qui indique si la date \code{a} est antérieure à la date \code{b}.
+En sortie, la fonction retourne un booleen (de longueur 1) qui indique si la date \code{a} est antérieure à la date \code{b}.
 }
 \description{
 Comparaison de 2 date_ts
