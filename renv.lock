@@ -5,10 +5,6 @@
       {
         "Name": "nexuspublic",
         "URL": "https://nexus.insee.fr/repository/r-public"
-      },
-      {
-        "Name": "CRAN",
-        "URL": "https://cloud.r-project.org"
       }
     ]
   },

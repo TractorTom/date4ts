@@ -1,13 +1,26 @@
 source("renv/activate.R")
 
 options(download.file.method = "curl")
+options(download.file.extra = "--noproxy \"*\"")
 
 # options(download.file.method = "libcurl")
 # Sys.setenv(RENV_DOWNLOAD_FILE_METHOD = "libcurl")
 
-options(download.file.extra = "--noproxy \"*\"")
 
-options(repos = c(nexuspublic = "https://nexus.insee.fr/repository/r-public"))
+# if (Sys.getenv("USERDNSDOMAIN") == "AD.INSEE.INTRA") {
+#     # Cas sur un ordi de l'Insee (AUS ou sessino classique)
+#     options(repos = c(nexuspublic = "https://nexus.insee.fr/repository/r-public"))
+# } else {
+#     # Autres cas
+#     options(repos = c(CRAN = "https://cloud.r-project.org"))
+# }
+# renv::snapshot()
 
-options(repos = c(nexuspublic = "https://nexus.insee.fr/repository/r-public",
-                  CRAN = "https://cloud.r-project.org"))
+
+# .libPaths("U:/library/")
+
+
+# options(repos = c(nexuspublic = "https://nexus.insee.fr/repository/r-public",
+#                   CRAN = "https://cloud.r-project.org"))
+
+
