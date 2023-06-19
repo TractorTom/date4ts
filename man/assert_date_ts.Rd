@@ -13,9 +13,9 @@ assert_date_ts(
 )
 }
 \arguments{
-\item{x}{un vecteur numérique, de préférence \code{integer} au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{x}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 
@@ -24,14 +24,14 @@ assert_date_ts(
 \item{warn}{un booleen}
 }
 \value{
-En sortie la fonction retourne l'objet de manière invisible ou une erreur.
+En sortie la fonction retourne l'objet \code{x} de manière invisible ou une erreur.
 }
 \description{
-La fonction \code{assert_date_ts} vérifie qu'un objet est de type AAAA, c(AAAA, MM) ou c(AAAA, TT)
+La fonction \code{assert_date_ts} vérifie qu'un objet est de type \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}
 }
 \details{
 Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
-On cherche donc à favoriser l'utilisation de vecteur c(AAAA, MM) pour désigner la date choisie.
+On cherche donc à favoriser l'utilisation de vecteur \code{c(AAAA, MM)} pour désigner la date choisie.
 Lorsque l'objet \code{x} en entrée est au mauvais format, il est corrigé pendant la vérification et l'objet en sortie est au bon format.
 Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de warning lors de l'évaluation.
 }

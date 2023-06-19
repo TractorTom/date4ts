@@ -9,12 +9,12 @@ getValue_ts(dataTS, date_ts, n = 1L)
 \arguments{
 \item{dataTS}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 
-\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
 \item{n}{un entier}
 }
 \value{
-En sortie, la fonction retourne un vecteur avec les valeurs extraites.
+En sortie, la fonction retourne un vecteur (atomic) de même type que \code{dataTS} avec les valeurs extraites.
 }
 \description{
 La fonction \code{getValue_ts} permet de récupérer des valeurs.

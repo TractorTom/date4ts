@@ -2,7 +2,7 @@
 % Please edit documentation in R/conversion.R
 \name{as.YYYYTT}
 \alias{as.YYYYTT}
-\title{Conversion au format c(AAAA, TT)}
+\title{Conversion au format \code{c(AAAA, TT)}}
 \usage{
 as.YYYYTT(TimeUnits)
 }
@@ -10,10 +10,10 @@ as.YYYYTT(TimeUnits)
 \item{TimeUnits}{une date en année (Par exemple 2015.25 pour le 2ème trimestre 2015)}
 }
 \value{
-En sortie, la fonction retourne la date au format (AAAA, TT)
+En sortie, la fonction retourne la date au format \code{date_ts} (c'est-à-dire un vecteur d'entiers de la forme \code{c(AAAA, TT)})
 }
 \description{
-La fonction \code{as.YYYYTT} convertit une date en année en date au format c(AAAA, TT).
+La fonction \code{as.YYYYTT} convertit une date en année en date au format \code{c(AAAA, TT)}.
 }
 \examples{
 as.YYYYTT(2019.75) #4ème trimestre 2019

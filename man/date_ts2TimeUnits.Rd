@@ -7,18 +7,18 @@
 date_ts2TimeUnits(date_ts, frequency_ts)
 }
 \arguments{
-\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 }
 \value{
-En sortie, la fonction retourne la date au format AAAA + TT/4 ou AAAA + MM/12.
+En sortie, la fonction retourne la date au format \code{AAAA + TT/4} ou \code{AAAA + MM/12} (un numeric de longueur 1).
 }
 \description{
 Conversion d'une date du format date_ts au format TimeUnits
 }
 \details{
-AAAA signifie que l'année est au format numérique avec 4 chiffres (Exemple : l'année deux mille vingt-deux s'écrit 2022 et non 22)
+\code{AAAA} signifie que l'année est au format numérique avec 4 chiffres (Exemple : l'année deux mille vingt-deux s'écrit 2022 et non 22)
 MM signifie que le mois est au format numérique (Exemple : le mois de mai s'écrit 5, le moi de décembre s'écrit 12)
 TT signifie que le trimestre est au format numérique (Exemple : le troisième trimestre s'écrit 3)
 }

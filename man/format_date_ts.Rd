@@ -7,21 +7,21 @@
 format_date_ts(date_ts, frequency_ts, test = TRUE)
 }
 \arguments{
-\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format AAAA, c(AAAA, MM) ou c(AAAA, TT)}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 
 \item{test}{un booléen (Default is TRUE)}
 }
 \value{
-En sortie, la fonction retourne une date au format date_ts avec la période inclus entre 1 et la fréquence.
-Si l'argument \code{test} est mis à FALSE, alors aucun test ne sera effectué sur les données en entrée.
+En sortie, la fonction retourne une date au même format que l'objet \code{date_ts} avec la période inclus entre 1 et la fréquence.
 }
 \description{
 Formatter un objet date_ts
 }
 \details{
 Ici le formattage correspond à une réécriture de la date sans en changer la valeur. Alors que l'objet c(2020L, 12L) désigne le mois de décembre 2020 et c(2021L, 1L) le mois de janvier 2021, on peut imaginer que la date_ts c(2021L, 0L) peut aussi représenter le mois de décembre 2020.
+Si l'argument \code{test} est mis à FALSE, alors aucun test ne sera effectué sur les données en entrée.
 }
 \examples{
 

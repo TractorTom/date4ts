@@ -9,7 +9,7 @@ assert_TimeUnits(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x))
 \arguments{
 \item{x}{un numérique qui représente le time units de}
 
-\item{frequency_ts}{un entier qui vaut 4L (ou 4.) pour les séries trimestrielles et 12L (ou 12.) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 
