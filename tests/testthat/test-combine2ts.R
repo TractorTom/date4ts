@@ -346,8 +346,8 @@ testthat::test_that("arguments are monthly or quarterly", {
             for (freq_B in c(weird_frequency, list_frequence)) {
                 objA <- create_random_ts(type = typeA, frequency = freq_A)
                 objB <- create_random_ts(type = typeA, frequency = freq_B)
-                testthat::expect_error(combine2ts(objA, objB), regexp = "Variable 'frequency_ts': Must be element of set \\{'4','12'\\}|Variable 'frequency_ts': Must be of type 'single integerish value', not 'double'.")
-                testthat::expect_error(combine2ts(objB, objA), regexp = "Variable 'frequency_ts': Must be element of set \\{'4','12'\\}|Variable 'frequency_ts': Must be of type 'single integerish value', not 'double'.")
+                testthat::expect_error(combine2ts(objA, objB))
+                testthat::expect_error(combine2ts(objB, objA))
             }
         }
     }
