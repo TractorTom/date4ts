@@ -4,6 +4,7 @@ Urgent pour faire fonctionner le package :
 
 - 1) Clarifier la fonction extend_ts pour comprendre sa principale différence avec la fonction setValue_ts.
     - recoder la fonction extend_ts pout
+- 2) Regarder pk le as.package de devtools ne marche pas (dans la fonction test_coverage)
 
 
 Développement à venir :
