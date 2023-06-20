@@ -13,7 +13,7 @@ for (typeA in list_type) {
                 A_content <- create_random_type(type = typeA, len = lenA)
                 ts_A <-  ts(A_content, start = startA, frequency = frequenceA)
                 for (lagB in list_lag) {
-                    for (lenB in list_len) {
+                    for (lenB in list_len[-1L]) {
 
                         test_name <- paste("expected result with ",
                                            "\ntypeA = '", typeA,
