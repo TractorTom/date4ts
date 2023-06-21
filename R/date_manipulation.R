@@ -44,9 +44,7 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 
 #' Obtenir la date suivante
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
-#' @param lag un entier
+#' @inheritParams previous_date_ts
 #'
 #' @return En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période future au format `date_ts`.
 #'
@@ -127,7 +125,7 @@ firstDate <- function(dataTS) {
 #'
 #' @description Cette fonction calcule la dernière date pour laquelle l'objet `dataTS` ne vaut pas NA.
 #'
-#' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
+#' @inheritParams firstDate
 #'
 #' @return En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`)
 #'
@@ -162,9 +160,7 @@ lastDate <- function(dataTS) {
 
 #' Comparaison de 2 date_ts
 #'
-#' @param a un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param b un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @inheritParams diff_periode
 #' @param strict un booleen (default `FALSE`)
 #'
 #' @return En sortie, la fonction retourne un booleen (de longueur 1) qui indique si la date `a` est antérieure à la date `b`.

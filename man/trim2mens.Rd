@@ -2,21 +2,27 @@
 % Please edit documentation in R/conversion.R
 \name{trim2mens}
 \alias{trim2mens}
-\title{Correspondance d'une date trimestrielle au premier mois du trimestre}
+\alias{mens2trim}
+\title{Conversion entre date mensuelle et trimestrielle}
 \usage{
 trim2mens(date_ts)
+
+mens2trim(date_ts)
 }
 \arguments{
-\item{date_ts}{un vecteur numérique, de préférence \code{integer}, au format \code{c(AAAA, TT)}}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer}, au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 }
 \value{
-En sortie, la fonction retourne la date au format \code{date_ts} (c'est-à-dire un vecteur d'entiers de la forme \code{c(AAAA, MM)})
+En sortie, la fonction retourne la date toujours au format \code{date_ts}.
 }
 \description{
-La fonction \code{trim2mens} prend en argument une date au format \code{c(AAAA, TT)} et la convertit au format \code{c(AAAA, MM)} en choisissant le premier mois du trimestre.
+Les fonctions \code{trim2mens} et \code{mens2trim} convertissent une \code{date_ts} du format mensuelle \code{c(AAAA, MM)} au format trimestrielle \code{c(AAAA, TT)}.
 }
 \examples{
 trim2mens(c(2019L, 4L)) #4ème trimestre 2019 --> Octobre 2019
 trim2mens(c(2020L, 1L)) #1er trimestre 2020 --> Janvier 2020
+
+mens2trim(c(2019L, 4L)) #Avril 2019 --> 2ème trimestre 2019
+mens2trim(c(2020L, 11L)) #Novembre 2020 --> 4ème trimestre 2020
 
 }

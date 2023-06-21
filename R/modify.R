@@ -178,11 +178,12 @@ combine2ts <- function(a, b) {
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
 #' @param x un vecteur de même type que le ts `dataTS`
-#' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param date_ts un vecteur numérique, de préférence `integer` au format `date_ts` (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`) (default NULL)
 #' @param replace_na un booléen
 #'
 #' @return En sortie, la fonction retourne une copie de l'objet `dataTS` complété avec le vecteur `x`.
 #' @details Si `replace_na` vaut `TRUE` alors le remplacement commence dès que l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu, qu'il contienne des NA ou non à la fin.
+#' Si le vecteur `x` est de taille un sous-multiple de la différence de période entre la date de fin de `dataTS` et `date_ts`, le vecteur `x` est répété.
 #' @export
 #'
 #' @examples

@@ -1,17 +1,25 @@
 
-#' Conversion au format `c(AAAA, TT)`
+#' Conversion au format date_ts
 #'
-#' @description La fonction `as.YYYYTT` convertit une date en année en date au format `c(AAAA, TT)`.
+#' @description Les fonctions `as.YYYYTT` et `as.YYYYMM` convertissent une date du format TimeUnits au format `date_ts`.
 #'
-#' @param TimeUnits une date en année (Par exemple 2015.25 pour le 2ème trimestre 2015)
+#' @param TimeUnits une date en année (Par exemple 2015.25 pour le 2ème trimestre 2015 ou `2021.83333333333` pour novembre 2021)
 #'
-#' @return En sortie, la fonction retourne la date au format `date_ts` (c'est-à-dire un vecteur d'entiers de la forme `c(AAAA, TT)`)
+#' @return En sortie, ces fonctions retournent la date au format `date_ts` (c'est-à-dire un vecteur d'entiers de la forme `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`)
+#' @details
+#' La fonction `as.YYYYTT` retourne la date par trimestre et la fonction `as.YYYYMM` retourne la date par mois.
+#'
 #' @export
 #'
 #' @examples
 #' as.YYYYTT(2019.75) #4ème trimestre 2019
 #' as.YYYYTT(2020) #1er trimestre 2020
 #' as.YYYYTT(2022 + 1/4) #2ème trimestre 2022
+#'
+#' as.YYYYMM(2019.75) #Octobre 2019
+#' as.YYYYMM(2020) #Janvier 2020
+#' as.YYYYMM(2020 + 1/12) #Février 2020
+#' as.YYYYMM(2020 + 12/12) #Janvier 2021
 #'
 as.YYYYTT <- function(TimeUnits) {
 
@@ -21,20 +29,9 @@ as.YYYYTT <- function(TimeUnits) {
     return(as.integer(round(c(TimeUnits %/% 1L, (TimeUnits %% 1L) * 4L + 1L))))
 }
 
-#' Conversion au format `c(AAAA, MM)`
+#' @name as.YYYYTT
 #'
-#' @description La fonction `as.YYYYMM` convertit une date en année en date au format `c(AAAA, MM)`.
-#'
-#' @param TimeUnits une date en année (Par exemple `2021.83333333333` pour Novembre 2021)
-#'
-#' @return En sortie, la fonction retourne la date au format `date_ts` (c'est-à-dire un vecteur d'entiers de la forme `c(AAAA, MM)`)
 #' @export
-#'
-#' @examples
-#' as.YYYYMM(2019.75) #Octobre 2019
-#' as.YYYYMM(2020) #Janvier 2020
-#' as.YYYYMM(2020 + 1/12) #Février 2020
-#' as.YYYYMM(2020 + 12/12) #Janvier 2021
 #'
 as.YYYYMM <- function(TimeUnits) {
 
@@ -44,18 +41,21 @@ as.YYYYMM <- function(TimeUnits) {
     return(as.integer(round(c(TimeUnits %/% 1L, (TimeUnits %% 1L) * 12L + 1L))))
 }
 
-#' Correspondance d'une date trimestrielle au premier mois du trimestre
+#' Conversion entre date mensuelle et trimestrielle
 #'
-#' @description La fonction `trim2mens` prend en argument une date au format `c(AAAA, TT)` et la convertit au format `c(AAAA, MM)` en choisissant le premier mois du trimestre.
+#' @description Les fonctions `trim2mens` et `mens2trim` convertissent une `date_ts` du format mensuelle `c(AAAA, MM)` au format trimestrielle `c(AAAA, TT)`.
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer`, au format `c(AAAA, TT)`
+#' @param date_ts un vecteur numérique, de préférence `integer`, au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #'
-#' @return En sortie, la fonction retourne la date au format `date_ts` (c'est-à-dire un vecteur d'entiers de la forme `c(AAAA, MM)`)
+#' @return En sortie, la fonction retourne la date toujours au format `date_ts`.
 #' @export
 #'
 #' @examples
 #' trim2mens(c(2019L, 4L)) #4ème trimestre 2019 --> Octobre 2019
 #' trim2mens(c(2020L, 1L)) #1er trimestre 2020 --> Janvier 2020
+#'
+#' mens2trim(c(2019L, 4L)) #Avril 2019 --> 2ème trimestre 2019
+#' mens2trim(c(2020L, 11L)) #Novembre 2020 --> 4ème trimestre 2020
 #'
 trim2mens <- function(date_ts) {
 
@@ -67,18 +67,9 @@ trim2mens <- function(date_ts) {
     return(as.integer(c(year, trim * 3L - 2L)))
 }
 
-#' Correspondance d'une date mensuelle au trimestre courant
+#' @name trim2mens
 #'
-#' @description La fonction `mens2trim` prend en argument une date au format `c(AAAA, MM)` et la convertit au format `c(AAAA, TT)` avec le trimestre en cours.
-#'
-#' @param date_ts un vecteur numérique, de préférence `integer`, au format `c(AAAA, MM)`
-#'
-#' @return En sortie, la fonction retourne la date au format `date_ts` (c'est-à-dire un vecteur d'entiers de la forme `c(AAAA, TT)`), correspondant au trimestre courant du mois de la date `date_ts`.
 #' @export
-#'
-#' @examples
-#' mens2trim(c(2019L, 4L)) #Avril 2019 --> 2ème trimestre 2019
-#' mens2trim(c(2020L, 11L)) #Novembre 2020 --> 4ème trimestre 2020
 #'
 mens2trim <- function(date_ts) {
 

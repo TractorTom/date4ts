@@ -2,22 +2,33 @@
 % Please edit documentation in R/conversion.R
 \name{as.YYYYTT}
 \alias{as.YYYYTT}
-\title{Conversion au format \code{c(AAAA, TT)}}
+\alias{as.YYYYMM}
+\title{Conversion au format date_ts}
 \usage{
 as.YYYYTT(TimeUnits)
+
+as.YYYYMM(TimeUnits)
 }
 \arguments{
-\item{TimeUnits}{une date en année (Par exemple 2015.25 pour le 2ème trimestre 2015)}
+\item{TimeUnits}{une date en année (Par exemple 2015.25 pour le 2ème trimestre 2015 ou \code{2021.83333333333} pour novembre 2021)}
 }
 \value{
-En sortie, la fonction retourne la date au format \code{date_ts} (c'est-à-dire un vecteur d'entiers de la forme \code{c(AAAA, TT)})
+En sortie, ces fonctions retournent la date au format \code{date_ts} (c'est-à-dire un vecteur d'entiers de la forme \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)})
 }
 \description{
-La fonction \code{as.YYYYTT} convertit une date en année en date au format \code{c(AAAA, TT)}.
+Les fonctions \code{as.YYYYTT} et \code{as.YYYYMM} convertissent une date du format TimeUnits au format \code{date_ts}.
+}
+\details{
+La fonction \code{as.YYYYTT} retourne la date par trimestre et la fonction \code{as.YYYYMM} retourne la date par mois.
 }
 \examples{
 as.YYYYTT(2019.75) #4ème trimestre 2019
 as.YYYYTT(2020) #1er trimestre 2020
 as.YYYYTT(2022 + 1/4) #2ème trimestre 2022
+
+as.YYYYMM(2019.75) #Octobre 2019
+as.YYYYMM(2020) #Janvier 2020
+as.YYYYMM(2020 + 1/12) #Février 2020
+as.YYYYMM(2020 + 12/12) #Janvier 2021
 
 }

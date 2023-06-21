@@ -11,7 +11,7 @@ extend_ts(dataTS, x, date_ts = NULL, replace_na = TRUE)
 
 \item{x}{un vecteur de même type que le ts \code{dataTS}}
 
-\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format \code{date_ts} (\code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}) (default NULL)}
 
 \item{replace_na}{un booléen}
 }
@@ -23,6 +23,7 @@ La fonction \code{extend_ts} ajoute de nouvelles valeurs à un ts
 }
 \details{
 Si \code{replace_na} vaut \code{TRUE} alors le remplacement commence dès que l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu, qu'il contienne des NA ou non à la fin.
+Si le vecteur \code{x} est de taille un sous-multiple de la différence de période entre la date de fin de \code{dataTS} et \code{date_ts}, le vecteur \code{x} est répété.
 }
 \examples{
 
