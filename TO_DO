@@ -47,23 +47,15 @@ Développement à venir :
     - Faire le tour des fonctions pour lesquelles il manque des tests
     - Itérer sur TOUS les arguments valides (exemple tous les ts avec toutes les
     fréquences, start, len, typeA.. pour un type d'erreur)
-- 3) Relire les commentaire Roxygen2 :
+- 3) Documenation :
+    - Relire les commentaire Roxygen2
     - Dans la partie @detail, détailler le calcul qui permet de sortir cette valeur.
     - Ajouter une partie @description pour expliquer ce que fait la fonction
     - Faire le tour des tags que l'on pourrait ajouter comme doc
-- 4) Approfondir la doc :
     - Relire les docs existantes (pour ré-écrire / compléter)
     - Doc existante : ajouter le default des arguments
     - Faire le tour des fonctions non documentées (les répertorier)
-- 5) Ajouter un test de couverture globale avec le package covr (lien test et doc) + devtools::test_coverage() (ce qui revient au même)
-- 6) Ajouter un test de temporalConsistence (faire la recherche dans le pkg) et le renommer (temporal coherence ?)
-    - chercher des cas où la fréquence est la même et où il y a quand même des pb de cohérence temporelle
-- 7) Faire le lien entre lastDate et na_trim (pour essayer d'appliquer l'un à l'autre...)
-    - vérifier les check dans lastDate
-- 8) regarder les projets de théo leroy pour voir si il fixe une librairie temporaire autrepart dans sont projet pour installer les packages 1 fois (sans les installer à chaque fois)
-    - checker le fichier .Renviron aussi
-- 9) Se renseigner sur la manière de faire du renv sur AUS + session avec gestion de cache
-- 10) getValue_ts, proposer date_from et date_to pour spécifier les dates pendant lesquelles on veut extraire les valeurs d'un ts
+- 4) Ajouter un test de couverture globale avec le package covr (lien test et doc) + devtools::test_coverage() (ce qui revient au même)
 
 
 Idée pour plus tard :

@@ -4,12 +4,14 @@
 \alias{getValue_ts}
 \title{Récupère des valeurs d'un ts}
 \usage{
-getValue_ts(dataTS, date_ts, n = 1L)
+getValue_ts(dataTS, date_from, date_to, n)
 }
 \arguments{
 \item{dataTS}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 
-\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
+\item{date_from}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
+
+\item{date_to}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
 \item{n}{un entier}
 }
@@ -21,10 +23,12 @@ La fonction \code{getValue_ts} permet de récupérer des valeurs.
 }
 \examples{
 
-ts1 <- ts(1:10, start = 2023, frequency = 12)
-ts2 <- ts(letters, start = 2020, frequency = 4)
+ts1 <- ts(1:100, start = 2012, frequency = 12)
+ts2 <- ts(letters, start = 2014, frequency = 4)
+ts3 <- ts(exp(-(1:50)), start = 2015, frequency = 12)
 
-getValue_ts(ts1, date_ts = c(2023L, 7L))
-getValue_ts(ts2, date_ts = c(2021L, 4L), n = 4L)
+getValue_ts(ts1, date_from = c(2015L, 7L), date_to = c(2018L, 6L))
+getValue_ts(ts2, date_from = c(2018L, 4L), n = 4L)
+getValue_ts(ts3, date_to = c(2018L, 4L), n = 14L)
 
 }
