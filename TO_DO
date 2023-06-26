@@ -90,7 +90,8 @@ packages ?)
         - https://www.r-bloggers.com/2020/07/how-to-write-your-own-r-package-and-publish-it-on-cran/
 - 9) Lire https://r-pkgs.org/
 - 10) Faire un hexagone
-- 11) Ajouter le + de badges possible sur le github
+- 11) Ajouter le + de badges possible sur le github :
+    - Voir doremifasol
 - 12) Faire un pkgdown
 - 13) Ajouter un readme
 - 14) Ajouter des options warn dans les fonctions pour ajouter (oui ou non) des warnings
