@@ -155,8 +155,6 @@ testthat::test_that("warning for double quaterly frequency", {
 testthat::test_that("miscellaneous date are not allowed", {
     for (wrong_date in wrong_dates) {
         testthat::expect_error(libelles_one_date(date = wrong_date, frequency_ts = 12L))
-    }
-    for (wrong_date in wrong_dates) {
         testthat::expect_error(libelles_one_date(date = wrong_date, frequency_ts = 4L))
     }
 })

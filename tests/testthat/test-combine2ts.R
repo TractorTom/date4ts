@@ -271,7 +271,7 @@ testthat::test_that("Several dimensions are not allowed", {
 
                     ts_A <-  create_random_ts(type = typeA, start = startA, frequency = frequenceA, len = lenA)
                     B_content <- as.data.frame(lapply(1L:5L, function(i) create_random_type(type = typeA, len = 100L)))
-                    startB = create_random_date()
+                    startB <- create_random_date()
 
                     if (typeA == "complex") {
                         mts_B <- do.call(
