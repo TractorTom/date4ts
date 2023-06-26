@@ -110,7 +110,7 @@ list_months_name <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "S
 # Autres objets ----------------------------------------------------------------
 
 list_len <- c(0L:5L, 10L, 100L, 10000L)
-list_lag <- c(-1000L, -5L, -1L, 0L, 1L, 5L, 1000L)
+list_lag <- c(-1000L, -5L, -2L:2L, 5L, 1000L)
 
 
 # Error / warning messages ------------------------------------------------
@@ -118,4 +118,4 @@ list_lag <- c(-1000L, -5L, -1L, 0L, 1L, 5L, 1000L)
 invalid_monthly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 12."
 invalid_quaterly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 4."
 double_instead_of_integer <- "Assertion on 'warning_date' failed: Must be of type 'integer', not 'double'."
-frequency_double <- "Assertion on 'frequency_ts' failed: Must be of type 'integer', not 'double'."
+warning_frequency_double <- "Assertion on 'frequency_ts' failed: Must be of type 'integer', not 'double'."

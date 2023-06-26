@@ -130,7 +130,7 @@ testthat::test_that("warning for double monthly frequency", {
         for (year in good_years) {
             real_year <- year + (month - 1L) %/% 12L
             testthat::expect_warning({libel <- libelles_one_date(date = c(year, month), frequency_ts = 12)},
-                                     regexp = "Assertion on 'frequency_ts' failed: Must be of type 'integer', not 'double'.")
+                                     regexp = warning_frequency_double)
             testthat::expect_identical(libel,
                                        paste(list_months_name[(month - 1L) %% 12L + 1L], real_year))
         }
@@ -142,7 +142,7 @@ testthat::test_that("warning for double quaterly frequency", {
         for (year in good_years) {
             real_year <- year + (quarter - 1L) %/% 4L
             testthat::expect_warning({libel <- libelles_one_date(date = c(year, quarter), frequency_ts = 4)},
-                                     regexp = "Assertion on 'frequency_ts' failed: Must be of type 'integer', not 'double'.")
+                                     regexp = warning_frequency_double)
             testthat::expect_identical(libel,
                                        paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year))
         }
