@@ -1,0 +1,19 @@
+f <- 365.25
+
+#Cas 1 où ça marche
+deb <- 2000
+ts_ex <- ts(1:5, start = deb, frequency = f)
+
+ts_ex
+window(ts_ex, start = deb + 1/f, end = deb + 1/f)
+window(ts_ex, start = deb + 1/f, end = deb + 1/f) <- 22
+ts_ex
+
+#Cas avec une erreur
+deb2 <- 2022
+ts_ex2 <- ts(1:5, start = deb2, frequency = f)
+
+ts_ex2
+window(ts_ex2, start = deb2 + 1/f, end = deb2 + 1/f)
+window(ts_ex2, start = deb2 + 1/f, end = deb2 + 1/f) <- 22
+ts_ex2

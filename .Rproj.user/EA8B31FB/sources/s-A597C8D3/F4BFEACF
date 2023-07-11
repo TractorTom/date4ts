@@ -1,0 +1,26 @@
+{
+    "id": "F4BFEACF",
+    "path": "~/Projets R/Projets perso/ts4conj/tests/testthat/test-isGoodTS.R",
+    "project_path": "tests/testthat/test-isGoodTS.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1655401431381.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "106,58",
+        "scrollLine": "92"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1655134502,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1655134502,
+    "read_only": false,
+    "read_only_alternatives": []
+}

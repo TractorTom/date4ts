@@ -1,0 +1,25 @@
+[core]
+	bare = false
+	repositoryformatversion = 0
+	filemode = false
+	symlinks = false
+	ignorecase = true
+	precomposeunicode = false
+	logallrefupdates = true
+[branch "main"]
+	remote = origin-github
+	merge = refs/heads/main
+[remote "origin-sspcloud"]
+	url = git@git.lab.sspcloud.fr:tbarthelemy/ts4conj.git
+	fetch = +refs/heads/*:refs/remotes/origin-sspcloud/*
+[remote "origin-github"]
+	url = https://github.com/TanguyBarthelemy/ts4conj.git
+	fetch = +refs/heads/*:refs/remotes/origin-github/*
+[remote "origin-gitlab"]
+	url = git@gitlab.insee.fr:utzk0m/ts4conj.git
+	fetch = +refs/heads/*:refs/remotes/origin-gitlab/*
+[remote "origin"]
+	url = https://github.com/TractorTom/TractorTsbox.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[user]
+	email = tangbarth@hotmail.fr

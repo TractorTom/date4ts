@@ -1,0 +1,16 @@
+{
+    "dialog-state": {
+        "query": "ts4conj",
+        "path": "C:/Users/UTZK0M/Documents/Projets R/Projets perso/TractorTsbox",
+        "regex": false,
+        "caseSensitive": false,
+        "wholeWord": false,
+        "filePatterns": [],
+        "useGitGrep": true,
+        "excludeGitIgnore": false,
+        "excludeFilePatterns": [],
+        "resultsCount": 3,
+        "errorCount": 0,
+        "replaceErrors": ""
+    }
+}
