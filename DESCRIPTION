@@ -2,7 +2,7 @@ Package: TractorTsbox
 Title: Outils de gestion des ts et des dates des ts
 Version: 0.1.0.1
 Authors@R: 
-    person("Tanguy", "Barthelemy", email = "tanguy.barthelemy@insee.fr", role = c("aut", "cre"))
+    person("Tanguy", "Barthelemy", email = "tangbarth@hotmail.fr", role = c("aut", "cre"))
 Description: Ce package propose des outils pour gérer les dates des objets ts.
     On utilise que des dates mensuelles ou trimestrielles sous la forme c(2022, 9) pour septembre 2022 ou c(2021, 2) pour le deuxième trimestre 2021 selon la fréquence.
     L'idée générale est de se passer des dates "2021-07-01" ou 2021.5833333 qui sont soit trop contraignantes, soit trop imprécises selon les arrondies.
