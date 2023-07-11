@@ -30,7 +30,7 @@ En sortie la fonction retourne l'objet \code{x} de manière invisible ou une err
 La fonction \code{assert_date_ts} vérifie qu'un objet est de type \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}
 }
 \details{
-Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
+Les fonctions du package TractorTsbox sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
 On cherche donc à favoriser l'utilisation de vecteur \code{c(AAAA, MM)} pour désigner la date choisie.
 Lorsque l'objet \code{x} en entrée est au mauvais format, il est corrigé pendant la vérification et l'objet en sortie est au bon format.
 Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de warning lors de l'évaluation.

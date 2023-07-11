@@ -9,8 +9,8 @@
 #' @return En sortie, la fonction retourne une chaîne de caractère de longueur 1 qui correspond au libellé de la date `date_ts`.
 #'
 #' @examples
-#' ts4conj:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 12L)
-#' ts4conj:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 4L)
+#' TractorTsbox:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 12L)
+#' TractorTsbox:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 4L)
 #'
 libelles_one_date <- function(date_ts, frequency_ts) {
 

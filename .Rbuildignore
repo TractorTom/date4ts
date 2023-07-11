@@ -1,8 +1,11 @@
 ^renv$
 ^renv\.lock$
-^ts4conj\.Rproj$
+^TractorTsbox\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^TO_DO$
 ^.github
 ^.gitlab-ci.yml
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

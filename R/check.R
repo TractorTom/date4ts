@@ -10,7 +10,7 @@
 #' @param warn un booleen
 #'
 #' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
-#' @details Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
+#' @details Les fonctions du package TractorTsbox sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
 #' On cherche donc à favoriser l'utilisation de vecteur `c(AAAA, MM)` pour désigner la date choisie.
 #' Lorsque l'objet `x` en entrée est au mauvais format, il est corrigé pendant la vérification et l'objet en sortie est au bon format.
 #' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
@@ -89,7 +89,7 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #'
 #' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
-#' @details Les fonctions du package ts4conj sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basées sur le système des mois, trimestres et années classiques.
+#' @details Les fonctions du package TractorTsbox sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basées sur le système des mois, trimestres et années classiques.
 #' On travaille avec des données numériques (integer, double ou logical) mais les autres types atomic sont acceptés également.
 #' On cherche donc à favoriser l'utilisation de séries temporelles classiques utilisants des types atomiques.
 #' Lorsque l'objet `x` en entrée est au mauvais format, une erreur est généré.
