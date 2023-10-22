@@ -427,6 +427,23 @@ assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
     return(invisible(x))
 }
 
+#' Vérifie la conformité d'une expression
+#'
+#' @param expr une expression à évaluer
+#' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#'
+#' @return En sortie la fonction retourne l'objet `x` (le résultat de l'évaluation de l'expression `expr`) de manière invisible ou une erreur.
+#'
+#' @details La fonction évalue l'expression `expr`. Si elle génère une erreur ou un warning, alors on retourne une erreur. Si elle ne génère aucun message particulier, on retourne alors l'objet `x` (le résultat de l'évaluation de l'expression `expr`), sans erreur.
+#'
+#' @export
+#'
+#' @examples
+#'
+#' assert_expression(expr = {2 + 2})
+#' assert_expression(expr = {is.integer(1L)})
+#' try(assert_expression(expr = {log("a")}), silent = TRUE)
+#'
 assert_expression <- function(expr, .var.name) {
     x <- tryCatch(expr,
         error = function(e) e,

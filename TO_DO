@@ -58,41 +58,7 @@ Développement à venir :
     - Doc existante : ajouter le default des arguments
     - Faire le tour des fonctions non documentées (les répertorier)
 
-- 4) Ajouter un test de couverture globale avec le package covr (lien test et doc) + devtools::test_coverage() (ce qui revient au même)
-
-- 5) Re-créer les fonctions assert à partir de fonction de check. Par exemple pour une fonction random check_1, plutôt que de créer assert_1 à la main, il vaut mieux créer une assertion avec makeAssertion (du package checkmate) :
-
-    library("checkmate")
-
-    check_1 <- function(x) {
-        if (x == 1L) {
-            return(TRUE)
-        } else {
-            return("Error")
-        }
-    }
-
-    assert_1 <- function(x) {
-        if (x == 1L) {
-            return(invisible(x))
-        } else {
-            stop("Error")
-        }
-    }
-
-    # Create the respective assert function
-    assert_2 <- function(x, .var.name = vname(x), add = NULL) {
-        res <- check_1(x)
-        makeAssertion(x, res, .var.name, add)
-    }
-
-    assert_3 <- makeAssertionFunction(check_1)
-
-    x <- 2L
-    check_1(x)
-    assert_1(x)
-    assert_2(x)
-    assert_3(x)
+- 4) Re-écrire les fonctions assert à partir de fonction de check. Par exemple pour une fonction random check_1, plutôt que de créer assert_1 à la main, il vaut mieux créer une assertion avec makeAssertion (du package checkmate) :
 
 
 
