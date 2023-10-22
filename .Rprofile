@@ -17,6 +17,6 @@ options(download.file.extra = "--noproxy \"*\"")
 # renv::snapshot()
 
 
-# options(repos = c(nexuspublic = "https://nexus.insee.fr/repository/r-public",
-#                   CRAN = "https://cloud.r-project.org"))
+options(repos = c(CRAN = "https://cloud.r-project.org",
+                  nexuspublic = "https://nexus.insee.fr/repository/r-public"))
 
