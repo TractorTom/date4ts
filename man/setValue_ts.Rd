@@ -24,6 +24,6 @@ setValue_ts(
     dataTS = ev_pib,
     date_ts = c(2021L, 2L),
     x = c(1, 2, 3)
-    )
+)
 
 }

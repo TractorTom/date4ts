@@ -22,13 +22,13 @@ Les fonctions \code{as.YYYYTT} et \code{as.YYYYMM} convertissent une date du for
 La fonction \code{as.YYYYTT} retourne la date par trimestre et la fonction \code{as.YYYYMM} retourne la date par mois.
 }
 \examples{
-as.YYYYTT(2019.75) #4ème trimestre 2019
-as.YYYYTT(2020) #1er trimestre 2020
-as.YYYYTT(2022 + 1/4) #2ème trimestre 2022
+as.YYYYTT(2019.75) # 4ème trimestre 2019
+as.YYYYTT(2020) # 1er trimestre 2020
+as.YYYYTT(2022 + 1 / 4) # 2ème trimestre 2022
 
-as.YYYYMM(2019.75) #Octobre 2019
-as.YYYYMM(2020) #Janvier 2020
-as.YYYYMM(2020 + 1/12) #Février 2020
-as.YYYYMM(2020 + 12/12) #Janvier 2021
+as.YYYYMM(2019.75) # Octobre 2019
+as.YYYYMM(2020) # Janvier 2020
+as.YYYYMM(2020 + 1 / 12) # Février 2020
+as.YYYYMM(2020 + 12 / 12) # Janvier 2021
 
 }

@@ -19,10 +19,10 @@ En sortie, la fonction retourne la date toujours au format \code{date_ts}.
 Les fonctions \code{trim2mens} et \code{mens2trim} convertissent une \code{date_ts} du format mensuelle \code{c(AAAA, MM)} au format trimestrielle \code{c(AAAA, TT)}.
 }
 \examples{
-trim2mens(c(2019L, 4L)) #4ème trimestre 2019 --> Octobre 2019
-trim2mens(c(2020L, 1L)) #1er trimestre 2020 --> Janvier 2020
+trim2mens(c(2019L, 4L)) # 4ème trimestre 2019 --> Octobre 2019
+trim2mens(c(2020L, 1L)) # 1er trimestre 2020 --> Janvier 2020
 
-mens2trim(c(2019L, 4L)) #Avril 2019 --> 2ème trimestre 2019
-mens2trim(c(2020L, 11L)) #Novembre 2020 --> 4ème trimestre 2020
+mens2trim(c(2019L, 4L)) # Avril 2019 --> 2ème trimestre 2019
+mens2trim(c(2020L, 11L)) # Novembre 2020 --> 4ème trimestre 2020
 
 }

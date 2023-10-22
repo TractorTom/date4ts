@@ -278,7 +278,7 @@ check_frequency <- function(x, warn = TRUE) {
 
 #' @name check_frequency
 #' @export
-assert_frequency <- makeAssertionFunction(check_frequency)
+assert_frequency <- checkmate::makeAssertionFunction(check_frequency)
 
 
 #' Vérifie la conformité d'un entier scalaire

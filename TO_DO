@@ -56,7 +56,12 @@ Développement à venir :
     - Faire le tour des tags que l'on pourrait ajouter comme doc
     - Relire les docs existantes (pour ré-écrire / compléter)
     - Doc existante : ajouter le default des arguments
-    - Faire le tour des fonctions non documentées (les répertorier)
+    - Faire le tour des fonctions non documentées (les répertorier) :
+        - date_manipulation.R
+        - getData.R
+        - formattage.R
+        - libelles.R
+        - modify.R
 
 - 4) Re-écrire les fonctions assert à partir de fonction de check. Par exemple pour une fonction random check_1, plutôt que de créer assert_1 à la main, il vaut mieux créer une assertion avec makeAssertion (du package checkmate) :
 

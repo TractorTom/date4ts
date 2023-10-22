@@ -31,7 +31,7 @@ assert_TimeUnits(2020.5, frequency_ts = 12L)
 assert_TimeUnits(2020.5, frequency_ts = 4L)
 assert_TimeUnits(2023, frequency_ts = 12L)
 
-assert_TimeUnits(2000 + 5/12, frequency_ts = 12L)
-assert_TimeUnits(2015 + 3/4, frequency_ts = 4L)
+assert_TimeUnits(2000 + 5 / 12, frequency_ts = 12L)
+assert_TimeUnits(2015 + 3 / 4, frequency_ts = 4L)
 
 }
