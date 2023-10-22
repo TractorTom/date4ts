@@ -1,4 +1,3 @@
-
 #' Obtenir la date précédente
 #'
 #' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
@@ -23,7 +22,6 @@
 #' previous_date_ts(c(2020L, 4L), frequency_ts = 12L, lag = 2L)
 #' previous_date_ts(c(2022L, 6L), frequency_ts = 12L, lag = 12L)
 previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
-
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
 
@@ -38,8 +36,10 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 
     year <- date_ts[1L]
     month <- date_ts[2L]
-    return(c(year + ((month - 1L - lag) %/% frequency_ts),
-             1L + ((month - 1L - lag) %% frequency_ts)))
+    return(c(
+        year + ((month - 1L - lag) %/% frequency_ts),
+        1L + ((month - 1L - lag) %% frequency_ts)
+    ))
 }
 
 #' Obtenir la date suivante
@@ -64,7 +64,6 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 #' next_date_ts(c(2020L, 4L), frequency_ts = 12L, lag = 2L)
 #' next_date_ts(c(2022L, 6L), frequency_ts = 12L, lag = 12L)
 next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
-
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
 
@@ -80,9 +79,13 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
     if (length(date_ts) == 2L) {
         year <- date_ts[1L]
         month <- date_ts[2L]
-        return(c(year + ((month - 1L + lag) %/% frequency_ts),
-                 1L + ((month - 1L + lag) %% frequency_ts)))
-    } else return(date_ts + lag / frequency_ts)
+        return(c(
+            year + ((month - 1L + lag) %/% frequency_ts),
+            1L + ((month - 1L + lag) %% frequency_ts)
+        ))
+    } else {
+        return(date_ts + lag / frequency_ts)
+    }
 }
 
 #' Première date non NA
@@ -111,7 +114,6 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 #' firstDate(ts2)
 #'
 firstDate <- function(dataTS) {
-
     # Check de l'objet dataTS
     assert_ts(dataTS, .var.name = "dataTS")
 
@@ -147,7 +149,6 @@ firstDate <- function(dataTS) {
 #' lastDate(ts2)
 #'
 lastDate <- function(dataTS) {
-
     # Check de l'objet dataTS
     assert_ts(dataTS, .var.name = "dataTS")
 
@@ -182,7 +183,6 @@ lastDate <- function(dataTS) {
 #' is_before(a = c(2022L, -3L), b = c(2021L, 8L), frequency_ts = 4L)
 #'
 is_before <- function(a, b, frequency_ts, strict = FALSE) {
-
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
 
@@ -234,7 +234,6 @@ is_before <- function(a, b, frequency_ts, strict = FALSE) {
 #' diff_periode(a = c(2023L, 8L), b = c(2021L, 5L), frequency_ts = 12L)
 #'
 diff_periode <- function(a, b, frequency_ts) {
-
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
 

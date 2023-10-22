@@ -1,4 +1,3 @@
-
 # Initialisation ---------------------------------------------------------------
 
 set.seed(2029L)
@@ -33,8 +32,12 @@ testthat::test_that("detection of wrong dates", {
 testthat::test_that("warning for integer date", {
     for (good_year in good_years) {
         for (warning_quarter in warning_integer_quarters) {
-
-            testthat::expect_warning({resMonthly <- trim2mens(c(good_year, warning_quarter))}, regexp = "Assertion on 'period' failed: Element 1 is not <= 4.|Assertion on 'period' failed: Element 1 is not >= 1.")
+            testthat::expect_warning(
+                {
+                    resMonthly <- trim2mens(c(good_year, warning_quarter))
+                },
+                regexp = "Assertion on 'period' failed: Element 1 is not <= 4.|Assertion on 'period' failed: Element 1 is not >= 1."
+            )
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- good_year + (warning_quarter - 1L) %/% 4L
@@ -49,8 +52,12 @@ testthat::test_that("warning for integer date", {
 testthat::test_that("warning for double date", {
     for (warning_year in double_years) {
         for (good_quarter in good_quarters) {
-
-            testthat::expect_warning({resMonthly <- trim2mens(c(warning_year, good_quarter))}, regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'.")
+            testthat::expect_warning(
+                {
+                    resMonthly <- trim2mens(c(warning_year, good_quarter))
+                },
+                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+            )
 
             real_quarter <- (good_quarter - 1L) %% 4L + 1L
             year_real <- warning_year + (good_quarter - 1L) %/% 4L
@@ -63,8 +70,12 @@ testthat::test_that("warning for double date", {
 
     for (good_year in good_years) {
         for (warning_quarter in double_quarters) {
-
-            testthat::expect_warning({resMonthly <- trim2mens(c(good_year, warning_quarter))}, regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'.")
+            testthat::expect_warning(
+                {
+                    resMonthly <- trim2mens(c(good_year, warning_quarter))
+                },
+                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+            )
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- good_year + (warning_quarter - 1L) %/% 4L
@@ -77,8 +88,12 @@ testthat::test_that("warning for double date", {
 
     for (warning_year in double_years) {
         for (warning_quarter in double_quarters) {
-
-            testthat::expect_warning({resMonthly <- trim2mens(c(good_year, warning_quarter))}, regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'.")
+            testthat::expect_warning(
+                {
+                    resMonthly <- trim2mens(c(good_year, warning_quarter))
+                },
+                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+            )
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- good_year + (warning_quarter - 1L) %/% 4L
@@ -93,8 +108,9 @@ testthat::test_that("warning for double date", {
 testthat::test_that("several warning", {
     for (warning_year in double_years) {
         for (warning_quarter in warning_integer_quarters) {
-
-            w <- testthat::capture_warnings({resMonthly <- trim2mens(c(warning_year, warning_quarter))})
+            w <- testthat::capture_warnings({
+                resMonthly <- trim2mens(c(warning_year, warning_quarter))
+            })
             testthat::expect_match(object = w, regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'.", all = FALSE)
             testthat::expect_match(object = w, regexp = "Assertion on 'period' failed: Element 1 is not <= 4.|Assertion on 'period' failed: Element 1 is not >= 1.", all = FALSE)
 
@@ -109,8 +125,9 @@ testthat::test_that("several warning", {
 
     for (warning_year in double_years) {
         for (warning_quarter in warning_double_quarters) {
-
-            w <- testthat::capture_warnings({resMonthly <- trim2mens(c(warning_year, warning_quarter))})
+            w <- testthat::capture_warnings({
+                resMonthly <- trim2mens(c(warning_year, warning_quarter))
+            })
             testthat::expect_match(object = w, regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'.", all = FALSE)
             testthat::expect_match(object = w, regexp = "Assertion on 'period' failed: Element 1 is not <= 4.|Assertion on 'period' failed: Element 1 is not >= 1.", all = FALSE)
 
@@ -125,8 +142,9 @@ testthat::test_that("several warning", {
 
     for (good_year in good_years) {
         for (warning_quarter in warning_double_quarters) {
-
-            w <- testthat::capture_warnings({resMonthly <- trim2mens(c(good_year, warning_quarter))})
+            w <- testthat::capture_warnings({
+                resMonthly <- trim2mens(c(good_year, warning_quarter))
+            })
             testthat::expect_match(object = w, regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'.", all = FALSE)
             testthat::expect_match(object = w, regexp = "Assertion on 'period' failed: Element 1 is not <= 4.|Assertion on 'period' failed: Element 1 is not >= 1.", all = FALSE)
 
@@ -139,4 +157,3 @@ testthat::test_that("several warning", {
         }
     }
 })
-

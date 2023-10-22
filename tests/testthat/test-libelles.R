@@ -1,4 +1,3 @@
-
 # Initialisation ---------------------------------------------------------------
 
 set.seed(2026L)
@@ -10,9 +9,13 @@ testthat::test_that("good result for monthly date", {
     for (month in good_months) {
         for (year in good_years) {
             for (len in list_len[c(-1L, -9L)]) {
-                testthat::expect_identical(libelles(date = c(year, month), frequency_ts = 12L, n = len),
-                                           paste(list_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
-                                                 year +           ((month:(month + len - 1L)) - 1L) %/% 12L))
+                testthat::expect_identical(
+                    libelles(date = c(year, month), frequency_ts = 12L, n = len),
+                    paste(
+                        list_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
+                        year + ((month:(month + len - 1L)) - 1L) %/% 12L
+                    )
+                )
             }
         }
     }
@@ -22,9 +25,13 @@ testthat::test_that("good result for quarter date", {
     for (quarter in good_quarters) {
         for (year in good_years) {
             for (len in list_len[c(-1L, -9L)]) {
-                testthat::expect_identical(libelles(date = c(year, quarter), frequency_ts = 4L, n = len),
-                                           paste0("Q",   ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
-                                                  year + ((quarter:(quarter + len - 1L)) - 1L) %/% 4L))
+                testthat::expect_identical(
+                    libelles(date = c(year, quarter), frequency_ts = 4L, n = len),
+                    paste0(
+                        "Q", ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
+                        year + ((quarter:(quarter + len - 1L)) - 1L) %/% 4L
+                    )
+                )
             }
         }
     }
@@ -38,9 +45,13 @@ testthat::test_that("warning result for monthly date", {
         for (year in good_years) {
             for (len in list_len[c(-1L, -9L)]) {
                 testthat::expect_warning(
-                    testthat::expect_identical(libelles(date = c(year, month), frequency_ts = 12L, n = len),
-                                               paste(list_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
-                                                     year +           ((month:(month + len - 1L)) - 1L) %/% 12L))
+                    testthat::expect_identical(
+                        libelles(date = c(year, month), frequency_ts = 12L, n = len),
+                        paste(
+                            list_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
+                            year + ((month:(month + len - 1L)) - 1L) %/% 12L
+                        )
+                    )
                 )
             }
         }
@@ -52,9 +63,13 @@ testthat::test_that("warning result for quarter date", {
         for (year in good_years) {
             for (len in list_len[c(-1L, -9L)]) {
                 testthat::expect_warning(
-                    testthat::expect_identical(libelles(date = c(year, quarter), frequency_ts = 4L, n = len),
-                                               paste0("Q",   ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
-                                                      year + ((quarter:(quarter + len - 1L)) - 1L) %/% 4L))
+                    testthat::expect_identical(
+                        libelles(date = c(year, quarter), frequency_ts = 4L, n = len),
+                        paste0(
+                            "Q", ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
+                            year + ((quarter:(quarter + len - 1L)) - 1L) %/% 4L
+                        )
+                    )
                 )
             }
         }
@@ -67,9 +82,13 @@ testthat::test_that("warning result for monthly date double", {
         for (year in good_years) {
             for (len in list_len[c(-1L, -9L)]) {
                 testthat::expect_warning(
-                    testthat::expect_identical(libelles(date = c(year, month), frequency_ts = 12L, n = len),
-                                               paste(list_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
-                                                     year +           ((month:(month + len - 1L)) - 1L) %/% 12L))
+                    testthat::expect_identical(
+                        libelles(date = c(year, month), frequency_ts = 12L, n = len),
+                        paste(
+                            list_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
+                            year + ((month:(month + len - 1L)) - 1L) %/% 12L
+                        )
+                    )
                 )
             }
         }
@@ -78,9 +97,13 @@ testthat::test_that("warning result for monthly date double", {
         for (year in double_years) {
             for (len in list_len[c(-1L, -9L)]) {
                 testthat::expect_warning(
-                    testthat::expect_identical(libelles(date = c(year, month), frequency_ts = 12L, n = len),
-                                               paste(list_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
-                                                     year +           ((month:(month + len - 1L)) - 1L) %/% 12L))
+                    testthat::expect_identical(
+                        libelles(date = c(year, month), frequency_ts = 12L, n = len),
+                        paste(
+                            list_months_name[((month:(month + len - 1L)) - 1L) %% 12L + 1L],
+                            year + ((month:(month + len - 1L)) - 1L) %/% 12L
+                        )
+                    )
                 )
             }
         }
@@ -92,9 +115,13 @@ testthat::test_that("warning result for quarter date double", {
         for (year in good_years) {
             for (len in list_len[c(-1L, -9L)]) {
                 testthat::expect_warning(
-                    testthat::expect_identical(libelles(date = c(year, quarter), frequency_ts = 4L, n = len),
-                                               paste0("Q",   ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
-                                                      year + ((quarter:(quarter + len - 1L)) - 1L) %/% 4L))
+                    testthat::expect_identical(
+                        libelles(date = c(year, quarter), frequency_ts = 4L, n = len),
+                        paste0(
+                            "Q", ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
+                            year + ((quarter:(quarter + len - 1L)) - 1L) %/% 4L
+                        )
+                    )
                 )
             }
         }
@@ -103,9 +130,13 @@ testthat::test_that("warning result for quarter date double", {
         for (year in double_years) {
             for (len in list_len[c(-1L, -9L)]) {
                 testthat::expect_warning(
-                    testthat::expect_identical(libelles(date = c(year, quarter), frequency_ts = 4L, n = len),
-                                               paste0("Q",   ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
-                                                      year + ((quarter:(quarter + len - 1L)) - 1L) %/% 4L))
+                    testthat::expect_identical(
+                        libelles(date = c(year, quarter), frequency_ts = 4L, n = len),
+                        paste0(
+                            "Q", ((quarter:(quarter + len - 1L)) - 1L) %% 4L + 1L, " ",
+                            year + ((quarter:(quarter + len - 1L)) - 1L) %/% 4L
+                        )
+                    )
                 )
             }
         }
@@ -134,4 +165,3 @@ testthat::test_that("miscellaneous n are not allowed", {
         testthat::expect_error(libelles(date = create_random_date(), frequency_ts = 4L, n = wrong_n))
     }
 })
-

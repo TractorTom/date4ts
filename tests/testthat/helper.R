@@ -1,4 +1,3 @@
-
 # Options -----------------------------------------------------------------
 
 Sys.setlocale("LC_TIME", "C")
@@ -7,21 +6,41 @@ Sys.setlocale("LC_TIME", "C")
 
 create_random_type <- function(type, len = NULL) {
     if (is.null(len)) len <- sample(1L:1000L, size = 1L)
-    if (type == "character") return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1L]])
-    if (type == "integer") return(sample(-20000000L:20000000L, size = len, replace = TRUE))
-    if (type == "double") return(runif(n = len, min = -10000L, max = 10000L))
-    if (type == "logical") return(sample(x = c(TRUE, FALSE), size = len, replace = TRUE))
-    if (type == "complex") return(complex(real = runif(n = len, min = -10000L, max = 10000L),
-                                          imaginary = runif(n = len, min = -10000L, max = 10000L)))
-    if (type == "raw") return(sample(x = as.raw(0L:255L), size = len, replace = TRUE))
-    if (type == "Date") return(sample(x = seq(as.Date('1950-01-01'), as.Date('2022-01-01'), by = "day"), size = len, replace = TRUE))
+    if (type == "character") {
+        return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1L]])
+    }
+    if (type == "integer") {
+        return(sample(-20000000L:20000000L, size = len, replace = TRUE))
+    }
+    if (type == "double") {
+        return(runif(n = len, min = -10000L, max = 10000L))
+    }
+    if (type == "logical") {
+        return(sample(x = c(TRUE, FALSE), size = len, replace = TRUE))
+    }
+    if (type == "complex") {
+        return(complex(
+            real = runif(n = len, min = -10000L, max = 10000L),
+            imaginary = runif(n = len, min = -10000L, max = 10000L)
+        ))
+    }
+    if (type == "raw") {
+        return(sample(x = as.raw(0L:255L), size = len, replace = TRUE))
+    }
+    if (type == "Date") {
+        return(sample(x = seq(as.Date("1950-01-01"), as.Date("2022-01-01"), by = "day"), size = len, replace = TRUE))
+    }
     stop("Le type n'est pas reconnu.")
 }
 
 create_random_date <- function() {
-    if (runif(n = 1L, min = 0L, max = 1L) > .5) return(sample(1950L:2022L, size = 1L))
-    return(c(sample(1950L:2022L, size = 1L),
-             sample(-20L:20L, size = 1L)))
+    if (runif(n = 1L, min = 0L, max = 1L) > .5) {
+        return(sample(1950L:2022L, size = 1L))
+    }
+    return(c(
+        sample(1950L:2022L, size = 1L),
+        sample(-20L:20L, size = 1L)
+    ))
 }
 
 create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL) {
@@ -55,16 +74,16 @@ wrong_type_ts <- list(
 ## Fréquences ------------------------------------------------------------------
 
 list_frequence <- c(4L, 12L)
-weird_frequency <- list(1L, 2, 7, .1, 1/3, 3.5, 365, 365.25, pi)
+weird_frequency <- list(1L, 2, 7, .1, 1 / 3, 3.5, 365, 365.25, pi)
 
 
 ## Dates -----------------------------------------------------------------------
 
 # Time Units
-wrong_TimeUnits <- list(2020 + 1/7, pi, 2020 - 1/13, Inf)
+wrong_TimeUnits <- list(2020 + 1 / 7, pi, 2020 - 1 / 13, Inf)
 
 # Années
-good_years <- c(-200L, -1L, 0L, 1L, 2L, 1950L, 1999L, 2000L, 2001L,  2022L, 3000L)
+good_years <- c(-200L, -1L, 0L, 1L, 2L, 1950L, 1999L, 2000L, 2001L, 2022L, 3000L)
 double_years <- c(-200., -1., 0., 1., 2., 1950., 2000., 2022., 3000.)
 
 # Month
@@ -90,7 +109,7 @@ wrong_dates <- c(
     list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
     lapply(list_type[-c(1L, 3L)], create_random_type, len = 2),
     lapply(list_type, create_random_type, len = 3),
-    list(2019.5, 2020 + 1/12, pi / 4, c(2020, 2.5), c(2010.25, 3), c(2002, 3, 1), c("2002", "3")),
+    list(2019.5, 2020 + 1 / 12, pi / 4, c(2020, 2.5), c(2010.25, 3), c(2002, 3, 1), c("2002", "3")),
     list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5), c(NA_real_, NA_real_)),
     list(2L:4L, c(2020.0, 7, 1), c(2020L, 0L, NA_integer_), numeric(0), integer(0), Inf, c(2000L, Inf), c(Inf, 4))
 )

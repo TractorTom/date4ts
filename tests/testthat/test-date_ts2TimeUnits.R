@@ -1,4 +1,3 @@
-
 # Initialisation ---------------------------------------------------------------
 
 set.seed(2031L)
@@ -8,22 +7,30 @@ set.seed(2031L)
 
 testthat::test_that("good result for integer date", {
     for (year in good_years) {
-        testthat::expect_equal(date_ts2TimeUnits(date_ts = year, frequency_ts = 12L),
-                               year)
+        testthat::expect_equal(
+            date_ts2TimeUnits(date_ts = year, frequency_ts = 12L),
+            year
+        )
         for (month in good_months) {
-            testthat::expect_equal(date_ts2TimeUnits(date_ts = c(year, month), frequency_ts = 12L),
-                                   year + (month - 1) / 12)
+            testthat::expect_equal(
+                date_ts2TimeUnits(date_ts = c(year, month), frequency_ts = 12L),
+                year + (month - 1) / 12
+            )
         }
     }
 })
 
 testthat::test_that("good result for integer date", {
     for (year in good_years) {
-        testthat::expect_equal(date_ts2TimeUnits(date_ts = year, frequency_ts = 4L),
-                               year)
+        testthat::expect_equal(
+            date_ts2TimeUnits(date_ts = year, frequency_ts = 4L),
+            year
+        )
         for (quarter in good_quarters) {
-            testthat::expect_equal(date_ts2TimeUnits(date_ts = c(year, quarter), frequency_ts = 4L),
-                                   year + (quarter - 1) / 4)
+            testthat::expect_equal(
+                date_ts2TimeUnits(date_ts = c(year, quarter), frequency_ts = 4L),
+                year + (quarter - 1) / 4
+            )
         }
     }
 })
@@ -34,8 +41,12 @@ testthat::test_that("good result for integer date", {
 testthat::test_that("warning for integer date", {
     for (year in good_years) {
         for (month in warning_integer_months) {
-            testthat::expect_warning({resTU <- date_ts2TimeUnits(date_ts = c(year, month), frequency_ts = 12L)},
-                                     regexp = invalid_monthly_period)
+            testthat::expect_warning(
+                {
+                    resTU <- date_ts2TimeUnits(date_ts = c(year, month), frequency_ts = 12L)
+                },
+                regexp = invalid_monthly_period
+            )
             testthat::expect_equal(resTU, year + (month - 1) / 12)
         }
     }
@@ -45,8 +56,12 @@ testthat::test_that("warning for integer date", {
 testthat::test_that("good result for integer date", {
     for (year in good_years) {
         for (quarter in warning_integer_quarters) {
-            testthat::expect_warning({resTU <- date_ts2TimeUnits(date_ts = c(year, quarter), frequency_ts = 4L)},
-                                     regexp = invalid_quaterly_period)
+            testthat::expect_warning(
+                {
+                    resTU <- date_ts2TimeUnits(date_ts = c(year, quarter), frequency_ts = 4L)
+                },
+                regexp = invalid_quaterly_period
+            )
             testthat::expect_equal(resTU, year + (quarter - 1) / 4)
         }
     }

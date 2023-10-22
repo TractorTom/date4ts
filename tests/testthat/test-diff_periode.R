@@ -1,4 +1,3 @@
-
 # Initialisation ---------------------------------------------------------------
 
 set.seed(2033L)
@@ -30,8 +29,10 @@ testthat::test_that("good result", {
 
             for (month in good_months) {
                 date_a <- c(year, month)
-                date_b <- c(year + (month + len - 1L) %/% 12L,
-                            (month + len - 1L) %% 12L + 1L)
+                date_b <- c(
+                    year + (month + len - 1L) %/% 12L,
+                    (month + len - 1L) %% 12L + 1L
+                )
 
                 res1 <- diff_periode(date_a, date_b, frequency_ts = 12L)
                 res2 <- diff_periode(date_b, date_a, frequency_ts = 12L)
@@ -44,8 +45,10 @@ testthat::test_that("good result", {
 
             for (quarter in good_quarters) {
                 date_a <- c(year, quarter)
-                date_b <- c(year + (quarter + len - 1L) %/% 4L,
-                            (quarter + len - 1L) %% 4L + 1L)
+                date_b <- c(
+                    year + (quarter + len - 1L) %/% 4L,
+                    (quarter + len - 1L) %% 4L + 1L
+                )
 
                 res1 <- diff_periode(date_a, date_b, frequency_ts = 4L)
                 res2 <- diff_periode(date_b, date_a, frequency_ts = 4L)
@@ -55,7 +58,6 @@ testthat::test_that("good result", {
                 testthat::expect_identical(res1, abs(len) + 1L)
                 testthat::expect_identical(res2, abs(len) + 1L)
             }
-
         }
     }
 })
@@ -69,50 +71,66 @@ testthat::test_that("warning with double years", {
             date_a <- year
             date_b <- year + len
 
-            w <- testthat::capture_warnings({res1 <- diff_periode(date_a, date_b, frequency_ts = 12L)})
+            w <- testthat::capture_warnings({
+                res1 <- diff_periode(date_a, date_b, frequency_ts = 12L)
+            })
             testthat::expect_match(
                 object = w,
                 regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
-                all = FALSE)
+                all = FALSE
+            )
             testthat::expect_match(
                 object = w,
                 regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
-                all = FALSE)
+                all = FALSE
+            )
 
-            w <- testthat::capture_warnings({res2 <- diff_periode(date_b, date_a, frequency_ts = 12L)})
+            w <- testthat::capture_warnings({
+                res2 <- diff_periode(date_b, date_a, frequency_ts = 12L)
+            })
             testthat::expect_match(
                 object = w,
                 regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
-                all = FALSE)
+                all = FALSE
+            )
             testthat::expect_match(
                 object = w,
                 regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
-                all = FALSE)
+                all = FALSE
+            )
 
             testthat::expect_type(res1, "integer")
             testthat::expect_type(res2, "integer")
             testthat::expect_identical(res1, abs(len) * 12L + 1L)
             testthat::expect_identical(res2, abs(len) * 12L + 1L)
 
-            w <- testthat::capture_warnings({res1 <- diff_periode(date_a, date_b, frequency_ts = 4L)})
+            w <- testthat::capture_warnings({
+                res1 <- diff_periode(date_a, date_b, frequency_ts = 4L)
+            })
             testthat::expect_match(
                 object = w,
                 regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
-                all = FALSE)
+                all = FALSE
+            )
             testthat::expect_match(
                 object = w,
                 regexp = "Assertion on 'b' failed: Must be of type 'integer', not 'double'.",
-                all = FALSE)
+                all = FALSE
+            )
 
-            w <- testthat::capture_warnings({res2 <- diff_periode(date_b, date_a, frequency_ts = 4L)})
+            w <- testthat::capture_warnings({
+                res2 <- diff_periode(date_b, date_a, frequency_ts = 4L)
+            })
             testthat::expect_match(
                 object = w,
                 regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
-                all = FALSE)
+                all = FALSE
+            )
             testthat::expect_match(
                 object = w,
                 regexp = "Assertion on 'b' failed: Must be of type 'integer', not 'double'.",
-                all = FALSE)
+                all = FALSE
+            )
 
             testthat::expect_type(res1, "integer")
             testthat::expect_type(res2, "integer")
@@ -123,15 +141,19 @@ testthat::test_that("warning with double years", {
                 date_a <- c(year, month)
                 date_b <- c(year, month + len - 1L)
 
-                w <- testthat::capture_warnings({res1 <- diff_periode(date_a, date_b, frequency_ts = 4L)})
+                w <- testthat::capture_warnings({
+                    res1 <- diff_periode(date_a, date_b, frequency_ts = 4L)
+                })
                 testthat::expect_match(
                     object = w,
                     regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
-                    all = FALSE)
+                    all = FALSE
+                )
                 testthat::expect_match(
                     object = w,
                     regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
-                    all = FALSE)
+                    all = FALSE
+                )
 
                 testthat::expect_type(res1, "integer")
                 testthat::expect_type(res2, "integer")
@@ -143,22 +165,25 @@ testthat::test_that("warning with double years", {
                 date_a <- c(year, quarter)
                 date_b <- c(year, quarter + len - 1L)
 
-                w <- testthat::capture_warnings({res2 <- diff_periode(date_b, date_a, frequency_ts = 4L)})
+                w <- testthat::capture_warnings({
+                    res2 <- diff_periode(date_b, date_a, frequency_ts = 4L)
+                })
                 testthat::expect_match(
                     object = w,
                     regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
-                    all = FALSE)
+                    all = FALSE
+                )
                 testthat::expect_match(
                     object = w,
                     regexp = "Assertion on 'b' failed: Must be of type 'integer', not 'double'.",
-                    all = FALSE)
+                    all = FALSE
+                )
 
                 testthat::expect_type(res1, "integer")
                 testthat::expect_type(res2, "integer")
                 testthat::expect_identical(res1, abs(len))
                 testthat::expect_identical(res2, abs(len))
             }
-
         }
     }
 })
@@ -170,11 +195,17 @@ testthat::test_that("warning frequency", {
             date_b <- year + len
 
             testthat::expect_warning(
-                object = {res1 <- diff_periode(date_a, date_b, frequency_ts = 12.)},
-                regexp = warning_frequency_double)
+                object = {
+                    res1 <- diff_periode(date_a, date_b, frequency_ts = 12.)
+                },
+                regexp = warning_frequency_double
+            )
             testthat::expect_warning(
-                object = {res2 <- diff_periode(date_b, date_a, frequency_ts = 12.)},
-                regexp = warning_frequency_double)
+                object = {
+                    res2 <- diff_periode(date_b, date_a, frequency_ts = 12.)
+                },
+                regexp = warning_frequency_double
+            )
 
             testthat::expect_type(res1, "integer")
             testthat::expect_type(res2, "integer")
@@ -182,11 +213,17 @@ testthat::test_that("warning frequency", {
             testthat::expect_identical(res2, abs(len) * 12L + 1L)
 
             testthat::expect_warning(
-                object = {res1 <- diff_periode(date_a, date_b, frequency_ts = 4.)},
-                regexp = warning_frequency_double)
+                object = {
+                    res1 <- diff_periode(date_a, date_b, frequency_ts = 4.)
+                },
+                regexp = warning_frequency_double
+            )
             testthat::expect_warning(
-                object = {res2 <- diff_periode(date_b, date_a, frequency_ts = 4.)},
-                regexp = warning_frequency_double)
+                object = {
+                    res2 <- diff_periode(date_b, date_a, frequency_ts = 4.)
+                },
+                regexp = warning_frequency_double
+            )
 
             testthat::expect_type(res1, "integer")
             testthat::expect_type(res2, "integer")
@@ -195,15 +232,23 @@ testthat::test_that("warning frequency", {
 
             for (month in good_months) {
                 date_a <- c(year, month)
-                date_b <- c(year + (month + len - 1L) %/% 12L,
-                            (month + len - 1L) %% 12L + 1L)
+                date_b <- c(
+                    year + (month + len - 1L) %/% 12L,
+                    (month + len - 1L) %% 12L + 1L
+                )
 
                 testthat::expect_warning(
-                    object = {res1 <- diff_periode(date_a, date_b, frequency_ts = 12.)},
-                    regexp = warning_frequency_double)
+                    object = {
+                        res1 <- diff_periode(date_a, date_b, frequency_ts = 12.)
+                    },
+                    regexp = warning_frequency_double
+                )
                 testthat::expect_warning(
-                    object = {res2 <- diff_periode(date_b, date_a, frequency_ts = 12.)},
-                    regexp = warning_frequency_double)
+                    object = {
+                        res2 <- diff_periode(date_b, date_a, frequency_ts = 12.)
+                    },
+                    regexp = warning_frequency_double
+                )
 
                 testthat::expect_type(res1, "integer")
                 testthat::expect_type(res2, "integer")
@@ -213,22 +258,29 @@ testthat::test_that("warning frequency", {
 
             for (quarter in good_quarters) {
                 date_a <- c(year, quarter)
-                date_b <- c(year + (quarter + len - 1L) %/% 4L,
-                            (quarter + len - 1L) %% 4L + 1L)
+                date_b <- c(
+                    year + (quarter + len - 1L) %/% 4L,
+                    (quarter + len - 1L) %% 4L + 1L
+                )
 
                 testthat::expect_warning(
-                    object = {res1 <- diff_periode(date_a, date_b, frequency_ts = 4.)},
-                    regexp = warning_frequency_double)
+                    object = {
+                        res1 <- diff_periode(date_a, date_b, frequency_ts = 4.)
+                    },
+                    regexp = warning_frequency_double
+                )
                 testthat::expect_warning(
-                    object = {res2 <- diff_periode(date_b, date_a, frequency_ts = 4.)},
-                    regexp = warning_frequency_double)
+                    object = {
+                        res2 <- diff_periode(date_b, date_a, frequency_ts = 4.)
+                    },
+                    regexp = warning_frequency_double
+                )
 
                 testthat::expect_type(res1, "integer")
                 testthat::expect_type(res2, "integer")
                 testthat::expect_identical(res1, abs(len) + 1L)
                 testthat::expect_identical(res2, abs(len) + 1L)
             }
-
         }
     }
 })

@@ -1,4 +1,3 @@
-
 #' Récupère des valeurs d'un ts
 #'
 #' @description La fonction `getValue_ts` permet de récupérer des valeurs.
@@ -22,7 +21,6 @@
 #' getValue_ts(ts3, date_to = c(2018L, 4L), n = 14L)
 #'
 getValue_ts <- function(dataTS, date_from, date_to, n) {
-
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
 
@@ -37,27 +35,39 @@ getValue_ts <- function(dataTS, date_from, date_to, n) {
         # Check l'argument n
         n <- assert_scalar_natural(n, add = coll, .var.name = "n")
         # Check du format date_ts
-        date_to <- assert_date_ts(x = date_to, frequency_ts = frequency_ts,
-                                  .var.name = "date_from")
+        date_to <- assert_date_ts(
+            x = date_to, frequency_ts = frequency_ts,
+            .var.name = "date_from"
+        )
 
-        date_from <- previous_date_ts(date_ts = date_to,
-                                       frequency_ts = frequency_ts, lag = n - 1L)
+        date_from <- previous_date_ts(
+            date_ts = date_to,
+            frequency_ts = frequency_ts, lag = n - 1L
+        )
     } else if (missing(date_to)) {
         # Check l'argument n
         n <- assert_scalar_natural(n, add = coll, .var.name = "n")
         # Check du format date_ts
-        date_from <- assert_date_ts(x = date_from, frequency_ts = frequency_ts,
-                                    .var.name = "date_from")
+        date_from <- assert_date_ts(
+            x = date_from, frequency_ts = frequency_ts,
+            .var.name = "date_from"
+        )
 
-        date_to <- next_date_ts(date_ts = date_from,
-                                frequency_ts = frequency_ts, lag = n - 1L)
+        date_to <- next_date_ts(
+            date_ts = date_from,
+            frequency_ts = frequency_ts, lag = n - 1L
+        )
     } else if (missing(n)) {
         # Check du format date_ts
-        date_from <- assert_date_ts(x = date_from, frequency_ts = frequency_ts,
-                                    .var.name = "date_from")
+        date_from <- assert_date_ts(
+            x = date_from, frequency_ts = frequency_ts,
+            .var.name = "date_from"
+        )
         # Check du format date_ts
-        date_to <- assert_date_ts(x = date_to, frequency_ts = frequency_ts,
-                                    .var.name = "date_from")
+        date_to <- assert_date_ts(
+            x = date_to, frequency_ts = frequency_ts,
+            .var.name = "date_from"
+        )
         checkmate::assert_true(is_before(a = date_from, b = date_to, frequency_ts = frequency_ts, strict = FALSE))
     }
 
@@ -66,7 +76,8 @@ getValue_ts <- function(dataTS, date_from, date_to, n) {
     output_value <- stats::window(
         x = dataTS,
         start = date_from,
-        end = date_to, extend = TRUE)
+        end = date_to, extend = TRUE
+    )
     attributes(output_value) <- NULL
 
     return(output_value)

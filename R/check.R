@@ -1,4 +1,3 @@
-
 #' Vérifie le format de date
 #'
 #' @description La fonction `assert_date_ts` vérifie qu'un objet est de type `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
@@ -37,7 +36,6 @@
 #' assert_date_ts(c(2020L, -4L), frequency_ts = 12L)
 #'
 assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
-
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
     } else {
@@ -46,19 +44,26 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts,
-                                     add = coll, .var.name = "frequency_ts", warn = warn)
+        add = coll, .var.name = "frequency_ts", warn = warn
+    )
 
 
     # Check du type
     # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
-    if (isTRUE(checkmate::check_numeric(x, any.missing = FALSE,
-                                        min.len = 1L, max.len = 2L, finite = TRUE))) {
-        x_corr <- checkmate::assert_integerish(x, coerce = TRUE, any.missing = FALSE,
-                                               add = coll, .var.name = .var.name)
+    if (isTRUE(checkmate::check_numeric(x,
+        any.missing = FALSE,
+        min.len = 1L, max.len = 2L, finite = TRUE
+    ))) {
+        x_corr <- checkmate::assert_integerish(x,
+            coerce = TRUE, any.missing = FALSE,
+            add = coll, .var.name = .var.name
+        )
     } else {
-        checkmate::assert_numeric(x, any.missing = FALSE,
-                                  add = coll, .var.name = .var.name,
-                                  min.len = 1L, max.len = 2L, finite = TRUE)
+        checkmate::assert_numeric(x,
+            any.missing = FALSE,
+            add = coll, .var.name = .var.name,
+            min.len = 1L, max.len = 2L, finite = TRUE
+        )
     }
 
     if (is.null(add)) {
@@ -104,7 +109,6 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 #' assert_ts(ts2)
 #'
 assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
-
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
     } else {
@@ -113,19 +117,28 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
     # Check de la fréquence
     frequency_ts <- assert_expression(
-        expr = {stats::frequency(x)},
-        .var.name = "frequency(x)")
+        expr = {
+            stats::frequency(x)
+        },
+        .var.name = "frequency(x)"
+    )
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts", warn = FALSE)
 
     # Check de la temporalité
     start_ts <- assert_expression(
-        expr = {stats::start(x)},
-        .var.name = "start(x)")
+        expr = {
+            stats::start(x)
+        },
+        .var.name = "start(x)"
+    )
     start_ts <- assert_date_ts(start_ts, frequency_ts = frequency_ts, add = coll, .var.name = "start", warn = FALSE)
 
     end_ts <- assert_expression(
-        expr = {stats::end(x)},
-        .var.name = "end(x)")
+        expr = {
+            stats::end(x)
+        },
+        .var.name = "end(x)"
+    )
     end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end", warn = FALSE)
 
     # Check de la classe de l'objet
@@ -163,11 +176,10 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 #' assert_TimeUnits(2020.5, frequency_ts = 4L)
 #' assert_TimeUnits(2023, frequency_ts = 12L)
 #'
-#' assert_TimeUnits(2000 + 5/12, frequency_ts = 12L)
-#' assert_TimeUnits(2015 + 3/4, frequency_ts = 4L)
+#' assert_TimeUnits(2000 + 5 / 12, frequency_ts = 12L)
+#' assert_TimeUnits(2015 + 3 / 4, frequency_ts = 4L)
 #'
 assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x)) {
-
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
     } else {
@@ -211,7 +223,6 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
 #' assert_frequency(12L)
 #'
 assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
-
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
     } else {
@@ -221,13 +232,19 @@ assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x), war
     # Check du type
     # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
     if (isTRUE(checkmate::check_numeric(x, any.missing = FALSE, finite = TRUE))) {
-        x_corr <- checkmate::assert_int(x, coerce = TRUE, add = coll,
-                                        .var.name = .var.name)
-        checkmate::assert_choice(x_corr, choices = c(4L, 12L),
-                                 add = coll, .var.name = .var.name)
+        x_corr <- checkmate::assert_int(x,
+            coerce = TRUE, add = coll,
+            .var.name = .var.name
+        )
+        checkmate::assert_choice(x_corr,
+            choices = c(4L, 12L),
+            add = coll, .var.name = .var.name
+        )
     } else {
-        checkmate::assert_numeric(x, any.missing = FALSE,finite = TRUE,
-                                  add = coll, .var.name = .var.name)
+        checkmate::assert_numeric(x,
+            any.missing = FALSE, finite = TRUE,
+            add = coll, .var.name = .var.name
+        )
     }
 
     if (is.null(add)) {
@@ -271,7 +288,6 @@ assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x), war
 #' assert_scalar_integer(0L)
 #'
 assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
-
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
     } else {
@@ -280,7 +296,8 @@ assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)
 
     if (warn && !isTRUE(checkmate::check_integer(x))) {
         err <- try(checkmate::assert_integer(x, .var.name = .var.name),
-                   silent = TRUE)
+            silent = TRUE
+        )
         warning(attr(err, "condition")$message)
     }
 
@@ -322,7 +339,6 @@ assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)
 #' assert_scalar_natural(457)
 #'
 assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
-
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
     } else {
@@ -332,11 +348,15 @@ assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x)
     # Check du type
     # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
     if (isTRUE(checkmate::check_numeric(x, finite = TRUE))) {
-        x_corr <- checkmate::assert_count(x, coerce = TRUE, positive = TRUE,
-                                          add = coll, .var.name = .var.name)
+        x_corr <- checkmate::assert_count(x,
+            coerce = TRUE, positive = TRUE,
+            add = coll, .var.name = .var.name
+        )
     } else {
-        checkmate::assert_numeric(x, finite = TRUE,
-                                  add = coll, .var.name = .var.name)
+        checkmate::assert_numeric(x,
+            finite = TRUE,
+            add = coll, .var.name = .var.name
+        )
     }
 
     if (is.null(add)) {
@@ -372,7 +392,6 @@ assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x)
 #' assert_scalar_date(Sys.Date())
 #'
 assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
-
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
     } else {
@@ -390,10 +409,11 @@ assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
 assert_expression <- function(expr, .var.name) {
     x <- tryCatch(expr,
-                  error = function(e) e,
-                  warning = function(w) w)
+        error = function(e) e,
+        warning = function(w) w
+    )
 
-    if (inherits(x, "warning") || inherits(x, "error")){
+    if (inherits(x, "warning") || inherits(x, "error")) {
         stop(paste("Invalid", .var.name))
     }
 

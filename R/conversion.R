@@ -1,4 +1,3 @@
-
 #' Conversion au format date_ts
 #'
 #' @description Les fonctions `as.YYYYTT` et `as.YYYYMM` convertissent une date du format TimeUnits au format `date_ts`.
@@ -12,17 +11,16 @@
 #' @export
 #'
 #' @examples
-#' as.YYYYTT(2019.75) #4ème trimestre 2019
-#' as.YYYYTT(2020) #1er trimestre 2020
-#' as.YYYYTT(2022 + 1/4) #2ème trimestre 2022
+#' as.YYYYTT(2019.75) # 4ème trimestre 2019
+#' as.YYYYTT(2020) # 1er trimestre 2020
+#' as.YYYYTT(2022 + 1 / 4) # 2ème trimestre 2022
 #'
-#' as.YYYYMM(2019.75) #Octobre 2019
-#' as.YYYYMM(2020) #Janvier 2020
-#' as.YYYYMM(2020 + 1/12) #Février 2020
-#' as.YYYYMM(2020 + 12/12) #Janvier 2021
+#' as.YYYYMM(2019.75) # Octobre 2019
+#' as.YYYYMM(2020) # Janvier 2020
+#' as.YYYYMM(2020 + 1 / 12) # Février 2020
+#' as.YYYYMM(2020 + 12 / 12) # Janvier 2021
 #'
 as.YYYYTT <- function(TimeUnits) {
-
     # Check de l'objet TimeUnits
     assert_TimeUnits(TimeUnits, frequency_ts = 4L, .var.name = "TimeUnits")
 
@@ -34,7 +32,6 @@ as.YYYYTT <- function(TimeUnits) {
 #' @export
 #'
 as.YYYYMM <- function(TimeUnits) {
-
     # Check de l'objet TimeUnits
     assert_TimeUnits(TimeUnits, frequency_ts = 12L, .var.name = "TimeUnits")
 
@@ -51,14 +48,13 @@ as.YYYYMM <- function(TimeUnits) {
 #' @export
 #'
 #' @examples
-#' trim2mens(c(2019L, 4L)) #4ème trimestre 2019 --> Octobre 2019
-#' trim2mens(c(2020L, 1L)) #1er trimestre 2020 --> Janvier 2020
+#' trim2mens(c(2019L, 4L)) # 4ème trimestre 2019 --> Octobre 2019
+#' trim2mens(c(2020L, 1L)) # 1er trimestre 2020 --> Janvier 2020
 #'
-#' mens2trim(c(2019L, 4L)) #Avril 2019 --> 2ème trimestre 2019
-#' mens2trim(c(2020L, 11L)) #Novembre 2020 --> 4ème trimestre 2020
+#' mens2trim(c(2019L, 4L)) # Avril 2019 --> 2ème trimestre 2019
+#' mens2trim(c(2020L, 11L)) # Novembre 2020 --> 4ème trimestre 2020
 #'
 trim2mens <- function(date_ts) {
-
     # Check du format date_ts
     date_ts <- assert_date_ts(x = date_ts, frequency_ts = 4L, .var.name = "date_ts")
 
@@ -72,7 +68,6 @@ trim2mens <- function(date_ts) {
 #' @export
 #'
 mens2trim <- function(date_ts) {
-
     # Check du format date_ts
     date_ts <- assert_date_ts(x = date_ts, frequency_ts = 12L, .var.name = "date_ts")
 
@@ -103,7 +98,6 @@ mens2trim <- function(date_ts) {
 #' date_ts2TimeUnits(date_ts = c(1995L, 2L), frequency_ts = 4L) # 2ème trimestre de 1995
 #'
 date_ts2TimeUnits <- function(date_ts, frequency_ts) {
-
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
 
@@ -140,7 +134,6 @@ date_ts2TimeUnits <- function(date_ts, frequency_ts) {
 #' date2date_ts(as.Date("2021-10-01"), frequency_ts = 4L)
 #'
 date2date_ts <- function(date, frequency_ts = 12L) {
-
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
 
@@ -181,7 +174,6 @@ date2date_ts <- function(date, frequency_ts = 12L) {
 #' substr_year(as.Date("2022-11-01"), n = 3L)
 #'
 substr_year <- function(date, n = 1L) {
-
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
 
@@ -215,7 +207,6 @@ substr_year <- function(date, n = 1L) {
 #' date_ts2date(date_ts = c(1995L, 2L), frequency_ts = 4L)
 #'
 date_ts2date <- function(date_ts, frequency_ts) {
-
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
 

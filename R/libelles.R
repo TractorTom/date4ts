@@ -1,4 +1,3 @@
-
 #' Libelé pour une date
 #'
 #' @description La fonction `libelles_one_date` créé le libellé pour une date à une fréquence donnée.modifie la ou les valeurs d'un objet ts à une date donnée.
@@ -13,7 +12,6 @@
 #' TractorTsbox:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 4L)
 #'
 libelles_one_date <- function(date_ts, frequency_ts) {
-
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
 
@@ -53,7 +51,6 @@ libelles_one_date <- function(date_ts, frequency_ts) {
 #' libelles(date_ts = c(2019L, 4L), frequency_ts = 4L, n = 3L)
 #'
 libelles <- function(date_ts, frequency_ts, n = 1L) {
-
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
 

@@ -24,7 +24,6 @@
 #' format_date_ts(c(2020L, 13L), frequency_ts = 4L) # janvier 2021
 #'
 format_date_ts <- function(date_ts, frequency_ts, test = TRUE) {
-
     if (test) {
         # coll <- checkmate::makeAssertCollection()
         coll <- NULL
@@ -40,8 +39,10 @@ format_date_ts <- function(date_ts, frequency_ts, test = TRUE) {
     if (length(date_ts) == 2L) {
         year <- date_ts[1L]
         period <- date_ts[2L]
-        return(c(year + ((period - 1L) %/% frequency_ts),
-                 1L + ((period - 1L) %% frequency_ts)))
+        return(c(
+            year + ((period - 1L) %/% frequency_ts),
+            1L + ((period - 1L) %% frequency_ts)
+        ))
     } else {
         return(c(date_ts, 1L))
     }

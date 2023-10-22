@@ -1,4 +1,3 @@
-
 # Initialisation ---------------------------------------------------------------
 
 set.seed(2028L)
@@ -28,4 +27,3 @@ testthat::test_that("miscellaneous input are not allowed", {
         testthat::expect_error(as.YYYYMM(wrong_time))
     }
 })
-
