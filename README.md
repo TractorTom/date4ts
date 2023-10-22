@@ -2,12 +2,14 @@
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/TractorTsbox)](https://CRAN.R-project.org/package=TractorTsbox)
-[![CRAN version](http://www.r-pkg.org/badges/version/TractorTsbox)](https://cran.r-project.org/package=TractorTsbox)
 [![GH Pages built](https://github.com/TractorTom/TractorTsbox/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/pkgdown.yaml)
 [![R-CMD-check](https://github.com/TractorTom/TractorTsbox/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/R-CMD-check.yaml)
 
 [![Codecov test coverage](https://codecov.io/gh/TractorTom/TractorTsbox/branch/master/graph/badge.svg)](https://app.codecov.io/gh/TractorTom/TractorTsbox?branch=main)
 [![Test coverage](https://github.com/TractorTom/TractorTsbox/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/test-coverage.yaml)
+
+[![CodeFactor](https://www.codefactor.io/repository/github/TractorTom/TractorTsbox/badge)](https://www.codefactor.io/repository/github/TractorTom/TractorTsbox)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/afab36ff8f064dc1b428efb06fa9f56c)](https://app.codacy.com/gh/TractorTom/TractorTsbox/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 <!-- badges: end -->
 
 
