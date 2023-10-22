@@ -47,7 +47,6 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
         add = coll, .var.name = "frequency_ts", warn = warn
     )
 
-
     # Check du type
     # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
     if (isTRUE(checkmate::check_numeric(x,
@@ -131,7 +130,10 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
         },
         .var.name = "start(x)"
     )
-    start_ts <- assert_date_ts(start_ts, frequency_ts = frequency_ts, add = coll, .var.name = "start", warn = FALSE)
+
+    if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
+        start_ts <- assert_date_ts(start_ts, frequency_ts = frequency_ts, add = coll, .var.name = "start", warn = FALSE)
+    }
 
     end_ts <- assert_expression(
         expr = {
@@ -139,7 +141,10 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
         },
         .var.name = "end(x)"
     )
-    end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end", warn = FALSE)
+
+    if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
+        end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end", warn = FALSE)
+    }
 
     # Check de la classe de l'objet
     checkmate::assert_class(x, classes = "ts", add = coll, .var.name = .var.name)
@@ -203,17 +208,25 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
 #' Vérifie la conformité d'une fréquence
 #'
 #' @param x un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param warn un booleen
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
-#' @param warn un booleen
-#'
-#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
 #'
 #' @details La fréquence d'une série temporelle est soit mensuelle (`12L` ou `12.`) soit trimestrielle (`4L` ou `4.`). Les autres fréquences ne sont pas acceptées.
-#' Cette fonction s'appuie essentiellement sur les fonctions `checkmate::assert_int` et `checkmate::assert_choice`.
+#' Cette fonction s'appuie essentiellement sur les fonctions `checkmate::check_numeric`, `checkmate::check_int` et `checkmate::check_choice`.
 #' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer.
 #' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
 #' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
+#'
+#' Selon le préfixe de la fonction :
+#'
+#'  - si le check réussi :
+#'      - la fonction `assert_frequency` retourne l'objet `x` de manière invisible,
+#'      - la fonction `check_frequency` retourne le booléen `TRUE`.
+#'
+#'  - si le check échoue :
+#'      - la fonction `assert_frequency` retourne un message d'erreur
+#'      - la fonction `check_frequency` retourne le booléen `FALSE`.
 #'
 #' @export
 #'
@@ -222,43 +235,50 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
 #' assert_frequency(4L)
 #' assert_frequency(12L)
 #'
-assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
-    if (is.null(add)) {
-        coll <- checkmate::makeAssertCollection()
+#' check_frequency(4L)
+#' check_frequency(12L)
+#'
+#' # Avec des erreurs,
+#'
+#' check_frequency(Inf, warn = FALSE)
+#' check_frequency(1:10)
+#' check_frequency(1L)
+#'
+check_frequency <- function(x, warn = TRUE) {
+
+    verif <- TRUE
+    output <- c()
+
+    if (!isTRUE(checkmate::check_numeric(x, any.missing = FALSE, finite = TRUE))) {
+        verif <- FALSE
+        output <- c(output, checkmate::check_numeric(x, any.missing = FALSE, finite = TRUE))
     } else {
-        coll <- add
+        if (warn && (!isTRUE(checkmate::check_integer(x)))) {
+            err <- try(checkmate::assert_integer(x), silent = TRUE)
+            warning(attr(err, "condition")$message)
+        }
+
+        if (!isTRUE(checkmate::check_int(x))) {
+            verif <- FALSE
+            output <- c(output, checkmate::check_int(x))
+        }
     }
 
-    # Check du type
-    # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
-    if (isTRUE(checkmate::check_numeric(x, any.missing = FALSE, finite = TRUE))) {
-        x_corr <- checkmate::assert_int(x,
-            coerce = TRUE, add = coll,
-            .var.name = .var.name
-        )
-        checkmate::assert_choice(x_corr,
-            choices = c(4L, 12L),
-            add = coll, .var.name = .var.name
-        )
-    } else {
-        checkmate::assert_numeric(x,
-            any.missing = FALSE, finite = TRUE,
-            add = coll, .var.name = .var.name
-        )
+    if (!isTRUE(checkmate::check_choice(x, choices = c(4L, 12L)))) {
+        verif <- FALSE
+        output <- c(output, checkmate::check_choice(x, choices = c(4L, 12L)))
     }
 
-    if (is.null(add)) {
-        checkmate::reportAssertions(coll)
-    }
+    output <- paste("\n*", output)
+    output <- paste(output, collapse = "")
 
-    if (warn && (!isTRUE(checkmate::check_integer(x)))) {
-        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
-        warning(attr(err, "condition")$message)
-    }
-    x <- x_corr
+    return(ifelse(verif, verif, output))
 
-    return(invisible(x))
 }
+
+#' @name check_frequency
+#' @export
+assert_frequency <- makeAssertionFunction(check_frequency)
 
 
 #' Vérifie la conformité d'un entier scalaire
