@@ -1,5 +1,14 @@
 # TractorTsbox
 
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/TractorTsbox)](https://CRAN.R-project.org/package=TractorTsbox)
+[![CRAN version](http://www.r-pkg.org/badges/version/TractorTsbox)](https://cran.r-project.org/package=TractorTsbox)
+[![GH Pages built](https://github.com/TractorTom/TractorTsbox/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/pkgdown.yaml)
+[![R-CMD-check](https://github.com/TractorTom/TractorTsbox/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/R-CMD-check.yaml)
+
+[![Codecov test coverage](https://codecov.io/gh/TractorTom/TractorTsbox/branch/master/graph/badge.svg)](https://app.codecov.io/gh/TractorTom/TractorTsbox?branch=main)
+[![Test coverage](https://github.com/TractorTom/TractorTsbox/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/test-coverage.yaml)
+<!-- badges: end -->
 
 
 ## Getting started
