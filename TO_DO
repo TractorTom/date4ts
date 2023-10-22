@@ -19,6 +19,7 @@ Développement à venir :
             - Fonctions de modification
         - Fonctions de tests : s'inspirent du package checkmate (extension de checkmate) et ont pour but de sortir des erreurs (ce sont des assert et non des test ou des checks)
     - Chercher comment faire des liens entre doc de fonction et vignettes
+
 - 2) Création et relecture des tests :
     - Créer des messages d'erreur + warning dans helper personnalisés avec noms de variable et pour tous les test
     - Ajouter des tests sur libelés et libelé_one_date avec plusieurs dates pour tester.
@@ -47,6 +48,7 @@ Développement à venir :
     - Faire le tour des fonctions pour lesquelles il manque des tests
     - Itérer sur TOUS les arguments valides (exemple tous les ts avec toutes les
     fréquences, start, len, typeA.. pour un type d'erreur)
+
 - 3) Documenation :
     - Relire les commentaire Roxygen2
     - Dans la partie @detail, détailler le calcul qui permet de sortir cette valeur.
@@ -55,7 +57,43 @@ Développement à venir :
     - Relire les docs existantes (pour ré-écrire / compléter)
     - Doc existante : ajouter le default des arguments
     - Faire le tour des fonctions non documentées (les répertorier)
+
 - 4) Ajouter un test de couverture globale avec le package covr (lien test et doc) + devtools::test_coverage() (ce qui revient au même)
+
+- 5) Re-créer les fonctions assert à partir de fonction de check. Par exemple pour une fonction random check_1, plutôt que de créer assert_1 à la main, il vaut mieux créer une assertion avec makeAssertion (du package checkmate) :
+
+    library("checkmate")
+
+    check_1 <- function(x) {
+        if (x == 1L) {
+            return(TRUE)
+        } else {
+            return("Error")
+        }
+    }
+
+    assert_1 <- function(x) {
+        if (x == 1L) {
+            return(invisible(x))
+        } else {
+            stop("Error")
+        }
+    }
+
+    # Create the respective assert function
+    assert_2 <- function(x, .var.name = vname(x), add = NULL) {
+        res <- check_1(x)
+        makeAssertion(x, res, .var.name, add)
+    }
+
+    assert_3 <- makeAssertionFunction(check_1)
+
+    x <- 2L
+    check_1(x)
+    assert_1(x)
+    assert_2(x)
+    assert_3(x)
+
 
 
 Idée pour plus tard :
