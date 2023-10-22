@@ -9,7 +9,8 @@
 [![Test coverage](https://github.com/TractorTom/TractorTsbox/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/test-coverage.yaml)
 
 [![CodeFactor](https://www.codefactor.io/repository/github/TractorTom/TractorTsbox/badge)](https://www.codefactor.io/repository/github/TractorTom/TractorTsbox)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/afab36ff8f064dc1b428efb06fa9f56c)](https://app.codacy.com/gh/TractorTom/TractorTsbox/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
+[![lint](https://github.com/TractorTom/TractorTsbox/actions/workflows/lint.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/lint.yaml)
 <!-- badges: end -->
 
 
