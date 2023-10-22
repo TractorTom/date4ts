@@ -1,6 +1,7 @@
 # TractorTsbox
 
 <!-- badges: start -->
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5f7e0b5a1afc404da03ed234c72fb44a)](https://app.codacy.com/gh/TractorTom/TractorTsbox?utm_source=github.com&utm_medium=referral&utm_content=TractorTom/TractorTsbox&utm_campaign=Badge_Grade)
 [![CRAN status](https://www.r-pkg.org/badges/version/TractorTsbox)](https://CRAN.R-project.org/package=TractorTsbox)
 [![CRAN version](http://www.r-pkg.org/badges/version/TractorTsbox)](https://cran.r-project.org/package=TractorTsbox)
 [![GH Pages built](https://github.com/TractorTom/TractorTsbox/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/pkgdown.yaml)
