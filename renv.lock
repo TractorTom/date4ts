@@ -3,6 +3,10 @@
     "Version": "4.3.0",
     "Repositories": [
       {
+        "Name": "CRAN",
+        "URL": "https://cloud.r-project.org"
+      },
+      {
         "Name": "nexuspublic",
         "URL": "https://nexus.insee.fr/repository/r-public"
       }
@@ -633,7 +637,12 @@
     "renv": {
       "Package": "renv",
       "Version": "1.0.3",
-      "Source": "Repository"
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "utils"
+      ],
+      "Hash": "41b847654f567341725473431dd0d5ab"
     },
     "rlang": {
       "Package": "rlang",
