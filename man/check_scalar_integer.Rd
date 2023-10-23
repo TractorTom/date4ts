@@ -72,5 +72,5 @@ check_scalar_integer(2.)
 
 }
 \seealso{
-\code{\link[=check_scalar_natural(), assert_scalar_natural]{check_scalar_natural(), assert_scalar_natural()}}
+\code{\link[=check_scalar_natural]{check_scalar_natural()}}, \code{\link[=assert_scalar_natural]{assert_scalar_natural()}}
 }

@@ -62,5 +62,5 @@ assert_scalar_natural(457)
 
 }
 \seealso{
-\code{\link[=check_scalar_integer(), assert_scalar_integer]{check_scalar_integer(), assert_scalar_integer()}}
+\code{\link[=check_scalar_integer]{check_scalar_integer()}}, \code{\link[=assert_scalar_integer]{assert_scalar_integer()}}
 }

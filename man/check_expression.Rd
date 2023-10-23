@@ -2,9 +2,12 @@
 % Please edit documentation in R/check.R
 \name{check_expression}
 \alias{check_expression}
+\alias{assert_expression}
 \title{Vérifie la conformité d'une expression}
 \usage{
 check_expression(expr)
+
+assert_expression(expr, .var.name = checkmate::vname(expr), add = NULL)
 }
 \arguments{
 \item{expr}{une expression à évaluer}

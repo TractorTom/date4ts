@@ -246,6 +246,7 @@ check_TimeUnits <- function(x, frequency_ts) {
 }
 
 #' @name check_frequency
+#' @importFrom stats setNames
 #' @export
 #'
 assert_TimeUnits <- checkmate::makeAssertionFunction(check_TimeUnits)
@@ -322,6 +323,7 @@ check_frequency <- function(x, warn = TRUE) {
 }
 
 #' @name check_frequency
+#' @importFrom stats setNames
 #' @export
 #'
 assert_frequency <- checkmate::makeAssertionFunction(check_frequency, coerce = TRUE)
@@ -355,7 +357,7 @@ assert_frequency <- checkmate::makeAssertionFunction(check_frequency, coerce = T
 #'
 #' @export
 #'
-#' @seealso [check_scalar_natural(), assert_scalar_natural()]
+#' @seealso [check_scalar_natural()], [assert_scalar_natural()]
 #'
 #' @examples
 #'
@@ -395,6 +397,7 @@ check_scalar_integer <- function(x, warn = TRUE) {
 }
 
 #' @name check_scalar_integer
+#' @importFrom stats setNames
 #' @export
 #'
 assert_scalar_integer <- checkmate::makeAssertionFunction(check_scalar_integer, coerce = TRUE)
@@ -429,7 +432,7 @@ assert_scalar_integer <- checkmate::makeAssertionFunction(check_scalar_integer, 
 #'
 #' @export
 #'
-#' @seealso [check_scalar_integer(), assert_scalar_integer()]
+#' @seealso [check_scalar_integer()], [assert_scalar_integer()]
 #'
 #' @examples
 #'
@@ -460,6 +463,7 @@ check_scalar_natural <- function(x, warn = TRUE) {
 }
 
 #' @name check_scalar_natural
+#' @importFrom stats setNames
 #' @export
 #'
 assert_scalar_natural <- checkmate::makeAssertionFunction(check_scalar_natural, coerce = TRUE)
@@ -525,6 +529,7 @@ check_scalar_date <- function(x) {
 }
 
 #' @name check_scalar_date
+#' @importFrom stats setNames
 #' @export
 #'
 assert_scalar_date <- checkmate::makeAssertionFunction(check_scalar_date)
@@ -573,4 +578,8 @@ check_expression <- function(expr) {
     return(TRUE)
 }
 
+#' @name check_expression
+#' @importFrom stats setNames
+#' @export
+#'
 assert_expression <- checkmate::makeAssertionFunction(check_expression)
