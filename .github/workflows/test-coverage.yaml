@@ -32,6 +32,10 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: renv status
+        run: renv::status()
+        shell: Rscript {0}
+
       - name: Install covr
         run: install.packages("covr", repos = "https://cloud.r-project.org")
         shell: Rscript {0}
