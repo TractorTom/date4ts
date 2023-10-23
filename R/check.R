@@ -245,7 +245,7 @@ check_TimeUnits <- function(x, frequency_ts) {
     return(ifelse(verif, verif, output))
 }
 
-#' @name check_frequency
+#' @name check_TimeUnits
 #' @importFrom stats setNames
 #' @export
 #'
@@ -538,6 +538,7 @@ assert_scalar_date <- checkmate::makeAssertionFunction(check_scalar_date)
 #'
 #' @param expr une expression à évaluer
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #'
 #' @return En sortie la fonction retourne l'objet `x` (le résultat de l'évaluation de l'expression `expr`) de manière invisible ou une erreur.
 #'

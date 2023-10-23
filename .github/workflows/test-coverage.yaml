@@ -33,7 +33,10 @@ jobs:
           needs: check
 
       - name: renv status
-        run: renv::status()
+        run: |
+          options(repos = CRAN = "https://cloud.r-project.org")
+          renv::snapshot()
+          renv::status()
         shell: Rscript {0}
 
       - name: Install covr
