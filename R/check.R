@@ -233,7 +233,7 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
 #'
 #'  - si le check échoue :
 #'      - la fonction `assert_frequency` retourne un message d'erreur;
-#'      - la fonction `check_frequency` retourne le booléen `FALSE`.
+#'      - la fonction `check_frequency` retourne une chaine de caractère signalant le problème.
 #'
 #' @export
 #'
@@ -313,7 +313,7 @@ assert_frequency <- checkmate::makeAssertionFunction(check_frequency, coerce = T
 #'
 #'  - si le check échoue :
 #'      - la fonction `assert_scalar_integer` retourne un message d'erreur;
-#'      - la fonction `check_scalar_integer` retourne le booléen `FALSE`.
+#'      - la fonction `check_scalar_integer` retourne une chaine de caractère signalant le problème.
 #'
 #' @export
 #'
@@ -387,8 +387,7 @@ assert_scalar_integer <- checkmate::makeAssertionFunction(check_scalar_integer, 
 #'
 #'  - si le check échoue :
 #'      - la fonction `assert_scalar_natural` retourne un message d'erreur;
-#'      - la fonction `check_scalar_natural` retourne le booléen `FALSE`.
-#'
+#'      - la fonction `check_scalar_natural` retourne une chaine de caractère signalant le problème.
 #'
 #' @export
 #'
@@ -469,7 +468,17 @@ assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 #'
 #' @return En sortie la fonction retourne l'objet `x` (le résultat de l'évaluation de l'expression `expr`) de manière invisible ou une erreur.
 #'
-#' @details La fonction évalue l'expression `expr`. Si elle génère une erreur ou un warning, alors on retourne une erreur. Si elle ne génère aucun message particulier, on retourne alors l'objet `x` (le résultat de l'évaluation de l'expression `expr`), sans erreur.
+#' @details La fonction évalue l'expression `expr`. Le check vérifie si la fonction génère une erreur ou un warning. Si elle ne génère aucun message particulier, on retourne alors l'objet `x` (le résultat de l'évaluation de l'expression `expr`), sans erreur.
+#'
+#' Selon le préfixe de la fonction :
+#'
+#'  - si le check réussi :
+#'      - la fonction `assert_expression` retourne l'objet `x` de manière invisible;
+#'      - la fonction `check_expression` retourne le booléen `TRUE`.
+#'
+#'  - si le check échoue :
+#'      - la fonction `assert_expression` retourne un message d'erreur;
+#'      - la fonction `check_expression` retourne la chaine de caractère "Invalid expression".
 #'
 #' @export
 #'
@@ -479,15 +488,21 @@ assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 #' assert_expression(expr = {is.integer(1L)})
 #' try(assert_expression(expr = {log("a")}), silent = TRUE)
 #'
-assert_expression <- function(expr, .var.name) {
-    x <- tryCatch(expr,
-        error = function(e) e,
-        warning = function(w) w
+#' check_expression(expr = {2 + 2})
+#' check_expression(expr = {is.integer(1L)})
+#' check_expression(expr = {log("a")})
+#'
+check_expression <- function(expr) {
+    out <- tryCatch(expr,
+                    error = function(e) e,
+                    warning = function(w) w
     )
 
-    if (inherits(x, "warning") || inherits(x, "error")) {
-        stop(paste("Invalid", .var.name))
+    if (inherits(out, "warning") || inherits(out, "error")) {
+        return("Invalid expression")
     }
 
-    return(invisible(x))
+    return(TRUE)
 }
+
+assert_expression <- checkmate::makeAssertionFunction(check_expression)
