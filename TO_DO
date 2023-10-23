@@ -56,14 +56,11 @@ Développement à venir :
     - Faire le tour des tags que l'on pourrait ajouter comme doc
     - Relire les docs existantes (pour ré-écrire / compléter)
     - Doc existante : ajouter le default des arguments
-    - Faire le tour des fonctions non documentées (les répertorier) :
-        - formattage.R
-        - libelles.R
-        - modify.R
+    - Toutes les fonctions sont documentées actuellemnt !
 
 - 4) Re-écrire les fonctions assert à partir de fonction de check. Par exemple pour une fonction random check_1, plutôt que de créer assert_1 à la main, il vaut mieux créer une assertion avec makeAssertion (du package checkmate)
 
-- 5) Ré-écrire les fonctions check avec une fonction de "merge" des checks (c'est à dire qui prend en argument plusieurs check et qui retourne un message qui combine ces différents checks)
+- 5) Ré-écrire une fonction de "merge" des checks (c'est à dire qui prend en argument plusieurs check et qui retourne un message qui combine ces différents checks)
 
 
 
