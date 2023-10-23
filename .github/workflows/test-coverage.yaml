@@ -33,7 +33,7 @@ jobs:
           needs: check
 
       - name: Install covr
-        run: install.packages("covr")
+        run: install.packages("covr", repos = "https://cloud.r-project.org")
         shell: Rscript {0}
 
       - name: Test coverage
