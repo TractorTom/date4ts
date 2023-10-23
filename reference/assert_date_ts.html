@@ -85,6 +85,7 @@
 On cherche donc à favoriser l'utilisation de vecteur <code>c(AAAA, MM)</code> pour désigner la date choisie.
 Lorsque l'objet <code>x</code> en entrée est au mauvais format, il est corrigé pendant la vérification et l'objet en sortie est au bon format.
 Si l'argument <code>warn</code> est <code>FALSE</code>, alors la fonction ne retournera pas de warning lors de l'évaluation.</p>
+<p>Ici, l'argument <code>frequency_ts</code> est nécessaire car une date sous la forme c(AAAA, PP), avec PP le nombre de période, ne désigne pas une date absolue. Par exemple, c(2020L 5L) désigne mai 2020 pour une fréquence mensuelle et le 1er trimestre 2021 pour une fréquence trimestrielle.</p>
     </div>
 
     <div class="section level2">
