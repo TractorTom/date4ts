@@ -108,53 +108,60 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 #' assert_ts(ts2)
 #'
 assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
-    if (is.null(add)) {
-        coll <- checkmate::makeAssertCollection()
-    } else {
-        coll <- add
-    }
-
-    # Check de la fréquence
-    frequency_ts <- assert_expression(
-        expr = {
-            stats::frequency(x)
-        },
-        .var.name = "frequency(x)"
-    )
-    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts", warn = FALSE)
-
-    # Check de la temporalité
-    start_ts <- assert_expression(
-        expr = {
-            stats::start(x)
-        },
-        .var.name = "start(x)"
-    )
-
-    if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
-        start_ts <- assert_date_ts(start_ts, frequency_ts = frequency_ts, add = coll, .var.name = "start", warn = FALSE)
-    }
-
-    end_ts <- assert_expression(
-        expr = {
-            stats::end(x)
-        },
-        .var.name = "end(x)"
-    )
-
-    if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
-        end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end", warn = FALSE)
-    }
 
     # Check de la classe de l'objet
     checkmate::assert_class(x, classes = "ts", add = coll, .var.name = .var.name)
-    checkmate::assert_false(stats::is.mts(x), add = coll, .var.name = paste0("is.mts(", .var.name, ")"))
 
-    # Check du type de données
-    checkmate::assert_atomic_vector(x, add = coll, .var.name = .var.name)
+    if (isTRUE(checkmate::check_class(x, classes = "ts", null.ok = FALSE))) {
 
-    if (is.null(add)) {
-        checkmate::reportAssertions(coll)
+        if (is.null(add)) {
+            coll <- checkmate::makeAssertCollection()
+        } else {
+            coll <- add
+        }
+
+        # Check de la fréquence
+        frequency_ts <- assert_expression(
+            expr = {
+                stats::frequency(x)
+            },
+            .var.name = "frequency(x)"
+        )
+        frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts", warn = FALSE)
+
+        # Check de la temporalité
+        start_ts <- assert_expression(
+            expr = {
+                stats::start(x)
+            },
+            .var.name = "start(x)"
+        )
+
+        if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
+            start_ts <- assert_date_ts(start_ts, frequency_ts = frequency_ts, add = coll, .var.name = "start", warn = FALSE)
+        }
+
+        end_ts <- assert_expression(
+            expr = {
+                stats::end(x)
+            },
+            .var.name = "end(x)"
+        )
+
+        if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
+            end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end", warn = FALSE)
+        }
+
+        # Check que l'objet ne soit pas un mts
+        checkmate::assert_false(stats::is.mts(x), add = coll, .var.name = paste0("is.mts(", .var.name, ")"))
+
+        # Check du type de données
+        checkmate::assert_atomic_vector(x, add = coll, .var.name = .var.name)
+
+        if (is.null(add)) {
+            checkmate::reportAssertions(coll)
+        }
+
     }
 
     return(invisible(x))
@@ -221,11 +228,11 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
 #' Selon le préfixe de la fonction :
 #'
 #'  - si le check réussi :
-#'      - la fonction `assert_frequency` retourne l'objet `x` de manière invisible,
+#'      - la fonction `assert_frequency` retourne l'objet `x` de manière invisible;
 #'      - la fonction `check_frequency` retourne le booléen `TRUE`.
 #'
 #'  - si le check échoue :
-#'      - la fonction `assert_frequency` retourne un message d'erreur
+#'      - la fonction `assert_frequency` retourne un message d'erreur;
 #'      - la fonction `check_frequency` retourne le booléen `FALSE`.
 #'
 #' @export
@@ -278,27 +285,39 @@ check_frequency <- function(x, warn = TRUE) {
 
 #' @name check_frequency
 #' @export
-assert_frequency <- checkmate::makeAssertionFunction(check_frequency)
+#'
+assert_frequency <- checkmate::makeAssertionFunction(check_frequency, coerce = TRUE)
 
 
 #' Vérifie la conformité d'un entier scalaire
 #'
-#' @param x un entier
+#' @param x un entier relatif (positif, négatif ou nul)
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #' @param warn un booleen
 #'
 #' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
 #'
-#' @details On vérifie que l'objet `x` en entrée est bien un entier.
+#' @details
+#' On vérifie que l'objet `x` en entrée est bien un entier.
 #' Cette fonction s'appuie essentiellement sur la fonction `checkmate::assert_int`.
-#' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer.
+#' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer. Si l'objet est de type double (et non integer), la fonction retournera aussi un warning.
 #' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
-#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
+#' Si l'argument `warn` vaut `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
+#'
+#' Selon le préfixe de la fonction :
+#'
+#'  - si le check réussi :
+#'      - la fonction `assert_scalar_integer` retourne l'objet `x` de manière invisible;
+#'      - la fonction `check_scalar_integer` retourne le booléen `TRUE`.
+#'
+#'  - si le check échoue :
+#'      - la fonction `assert_scalar_integer` retourne un message d'erreur;
+#'      - la fonction `check_scalar_integer` retourne le booléen `FALSE`.
 #'
 #' @export
 #'
-#' @seealso [assert_scalar_natural()]
+#' @seealso [check_scalar_natural(), assert_scalar_natural()]
 #'
 #' @examples
 #'
@@ -307,46 +326,73 @@ assert_frequency <- checkmate::makeAssertionFunction(check_frequency)
 #' assert_scalar_integer(-4L)
 #' assert_scalar_integer(0L)
 #'
-assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
-    if (is.null(add)) {
-        coll <- checkmate::makeAssertCollection()
-    } else {
-        coll <- add
+#' check_scalar_integer(1L)
+#' check_scalar_integer(100L)
+#' check_scalar_integer(-4L)
+#' check_scalar_integer(0L)
+#'
+#' # Avec des erreurs,
+#'
+#' check_scalar_integer(Inf)
+#' check_scalar_integer(1:10)
+#' check_scalar_integer(pi)
+#' check_scalar_integer(2.)
+#'
+check_scalar_integer <- function(x, warn = TRUE) {
+
+    verif <- checkmate::check_numeric(x, finite = TRUE, any.missing = FALSE)
+
+    if (isTRUE(verif)) {
+        verif <- checkmate::check_int(x)
     }
 
-    if (warn && !isTRUE(checkmate::check_integer(x))) {
-        err <- try(checkmate::assert_integer(x, .var.name = .var.name),
-            silent = TRUE
+    if (isTRUE(verif) && warn && !isTRUE(checkmate::check_integer(x))) {
+        err <- try(checkmate::assert_integer(x),
+                   silent = TRUE
         )
         warning(attr(err, "condition")$message)
     }
 
-    x <- checkmate::assert_int(x, coerce = TRUE, add = coll, .var.name = .var.name)
-
-    if (is.null(add)) {
-        checkmate::reportAssertions(coll)
-    }
-
-    return(invisible(x))
+    return(ifelse(isTRUE(verif), verif, paste("\n*", verif)))
 }
+
+#' @name check_scalar_integer
+#' @export
+#'
+assert_scalar_integer <- checkmate::makeAssertionFunction(check_scalar_integer, coerce = TRUE)
 
 #' Vérifie la conformité d'un entier naturel
 #'
-#' @param x un entier naturel (strictement positif)
+#' @description
+#' Le but de cett fonction est de tester si une variable x est un nombre naturel strictement positif.
+#'
+#' @param x un entier naturel strictement positif
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #' @param warn un booleen
 #'
 #' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
 #'
-#' @details Cette fonction s'appuie essentiellement sur la fonction `checkmate::assert_count`.
+#' @details
+#' Cette fonction s'appuie essentiellement sur la fonction `checkmate::assert_count`.
 #' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer.
 #' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
 #' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
 #'
+#' Selon le préfixe de la fonction :
+#'
+#'  - si le check réussi :
+#'      - la fonction `assert_scalar_natural` retourne l'objet `x` de manière invisible;
+#'      - la fonction `check_scalar_natural` retourne le booléen `TRUE`.
+#'
+#'  - si le check échoue :
+#'      - la fonction `assert_scalar_natural` retourne un message d'erreur;
+#'      - la fonction `check_scalar_natural` retourne le booléen `FALSE`.
+#'
+#'
 #' @export
 #'
-#' @seealso [assert_scalar_integer()]
+#' @seealso [check_scalar_integer(), assert_scalar_integer()]
 #'
 #' @examples
 #'
@@ -358,39 +404,28 @@ assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)
 #' assert_scalar_natural(2.)
 #' assert_scalar_natural(457)
 #'
-assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
-    if (is.null(add)) {
-        coll <- checkmate::makeAssertCollection()
-    } else {
-        coll <- add
+check_scalar_natural <- function(x, warn = TRUE) {
+
+    verif <- checkmate::check_numeric(x, finite = TRUE)
+
+    if (isTRUE(verif)) {
+        verif <- checkmate::check_count(x, positive = TRUE, na.ok = FALSE, null.ok = FALSE)
     }
 
-    # Check du type
-    # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
-    if (isTRUE(checkmate::check_numeric(x, finite = TRUE))) {
-        x_corr <- checkmate::assert_count(x,
-            coerce = TRUE, positive = TRUE,
-            add = coll, .var.name = .var.name
+    if (isTRUE(verif) && warn && !isTRUE(checkmate::check_integer(x))) {
+        err <- try(checkmate::assert_integer(x),
+                   silent = TRUE
         )
-    } else {
-        checkmate::assert_numeric(x,
-            finite = TRUE,
-            add = coll, .var.name = .var.name
-        )
-    }
-
-    if (is.null(add)) {
-        checkmate::reportAssertions(coll)
-    }
-
-    if (warn && !isTRUE(checkmate::check_integer(x))) {
-        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
         warning(attr(err, "condition")$message)
     }
-    x <- x_corr
 
-    return(invisible(x))
+    return(ifelse(isTRUE(verif), verif, paste("\n*", verif)))
 }
+
+#' @name check_scalar_natural
+#' @export
+#'
+assert_scalar_natural <- checkmate::makeAssertionFunction(check_scalar_natural, coerce = TRUE)
 
 #' Vérifie la conformité d'une date scalaire
 #'

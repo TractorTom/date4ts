@@ -57,8 +57,6 @@ Développement à venir :
     - Relire les docs existantes (pour ré-écrire / compléter)
     - Doc existante : ajouter le default des arguments
     - Faire le tour des fonctions non documentées (les répertorier) :
-        - date_manipulation.R
-        - getData.R
         - formattage.R
         - libelles.R
         - modify.R

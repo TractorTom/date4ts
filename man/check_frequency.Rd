@@ -7,7 +7,13 @@
 \usage{
 check_frequency(x, warn = TRUE)
 
-assert_frequency(x, warn = TRUE, .var.name = checkmate::vname(x), add = NULL)
+assert_frequency(
+  x,
+  warn = TRUE,
+  coerce = FALSE,
+  .var.name = checkmate::vname(x),
+  add = NULL
+)
 }
 \arguments{
 \item{x}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
@@ -32,12 +38,12 @@ Selon le préfixe de la fonction :
 \itemize{
 \item si le check réussi :
 \itemize{
-\item la fonction \code{assert_frequency} retourne l'objet \code{x} de manière invisible,
+\item la fonction \code{assert_frequency} retourne l'objet \code{x} de manière invisible;
 \item la fonction \code{check_frequency} retourne le booléen \code{TRUE}.
 }
 \item si le check échoue :
 \itemize{
-\item la fonction \code{assert_frequency} retourne un message d'erreur
+\item la fonction \code{assert_frequency} retourne un message d'erreur;
 \item la fonction \code{check_frequency} retourne le booléen \code{FALSE}.
 }
 }
