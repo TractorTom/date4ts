@@ -16,25 +16,28 @@
     <loc>/reference/as.YYYYTT.html</loc>
   </url>
   <url>
-    <loc>/reference/assert_TimeUnits.html</loc>
-  </url>
-  <url>
     <loc>/reference/assert_date_ts.html</loc>
   </url>
   <url>
-    <loc>/reference/assert_frequency.html</loc>
-  </url>
-  <url>
-    <loc>/reference/assert_scalar_date.html</loc>
-  </url>
-  <url>
-    <loc>/reference/assert_scalar_integer.html</loc>
-  </url>
-  <url>
-    <loc>/reference/assert_scalar_natural.html</loc>
-  </url>
-  <url>
     <loc>/reference/assert_ts.html</loc>
+  </url>
+  <url>
+    <loc>/reference/check_TimeUnits.html</loc>
+  </url>
+  <url>
+    <loc>/reference/check_expression.html</loc>
+  </url>
+  <url>
+    <loc>/reference/check_frequency.html</loc>
+  </url>
+  <url>
+    <loc>/reference/check_scalar_date.html</loc>
+  </url>
+  <url>
+    <loc>/reference/check_scalar_integer.html</loc>
+  </url>
+  <url>
+    <loc>/reference/check_scalar_natural.html</loc>
   </url>
   <url>
     <loc>/reference/combine2ts.html</loc>

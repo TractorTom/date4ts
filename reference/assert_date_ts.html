@@ -102,10 +102,10 @@ Si l'argument <code>warn</code> est <code>FALSE</code>, alors la fonction ne ret
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Fréquence au format double --&gt; génération d'un warning</span></span></span>
 <span class="r-in"><span><span class="fu">assert_date_ts</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2020L</span>, <span class="fl">6L</span><span class="op">)</span>, frequency_ts <span class="op">=</span> <span class="fl">4.</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Assertion on 'frequency_ts' failed: Must be of type 'integer', not 'double'.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Assertion on 'x' failed: Must be of type 'integer', not 'double'.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Assertion on 'period' failed: Element 1 is not &lt;= 4.</span>
 <span class="r-in"><span><span class="fu">assert_date_ts</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2020L</span>, <span class="fl">42L</span><span class="op">)</span>, frequency_ts <span class="op">=</span> <span class="fl">12.</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Assertion on 'frequency_ts' failed: Must be of type 'integer', not 'double'.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Assertion on 'x' failed: Must be of type 'integer', not 'double'.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Assertion on 'period' failed: Element 1 is not &lt;= 12.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Dépassement la fréquence --&gt; génération d'un warning</span></span></span>
