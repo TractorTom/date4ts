@@ -280,7 +280,6 @@ check_frequency <- function(x, warn = TRUE) {
     output <- paste(output, collapse = "")
 
     return(ifelse(verif, verif, output))
-
 }
 
 #' @name check_frequency
@@ -434,8 +433,19 @@ assert_scalar_natural <- checkmate::makeAssertionFunction(check_scalar_natural, 
 #'
 #' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
 #'
-#' @details On vérifie que l'objet `x` en entrée est bien au format `Date` et qu'il s'agit d'un scalaire (vecteur de taille 1).
+#' @details
+#' On vérifie que l'objet `x` en entrée est bien au format `Date` et qu'il s'agit d'un scalaire (vecteur de taille 1).
 #' Cette fonction s'appuie essentiellement sur les fonctions `checkmate::assert_date` et `checkmate::assert_scalar`.
+#'
+#' Selon le préfixe de la fonction :
+#'
+#'  - si le check réussi :
+#'      - la fonction `assert_scalar_date` retourne l'objet `x` de manière invisible;
+#'      - la fonction `check_scalar_date` retourne le booléen `TRUE`.
+#'
+#'  - si le check échoue :
+#'      - la fonction `assert_scalar_date` retourne un message d'erreur;
+#'      - la fonction `check_scalar_date` retourne la chaine de caractère correspondante à l'erreur du check.
 #'
 #' @export
 #'
@@ -445,21 +455,40 @@ assert_scalar_natural <- checkmate::makeAssertionFunction(check_scalar_natural, 
 #' assert_scalar_date(as.Date("2000-02-29"))
 #' assert_scalar_date(Sys.Date())
 #'
-assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
-    if (is.null(add)) {
-        coll <- checkmate::makeAssertCollection()
-    } else {
-        coll <- add
-    }
-    checkmate::assert_date(x, add = coll, .var.name = .var.name)
-    checkmate::assert_scalar(x, add = coll, .var.name = .var.name)
+#' check_scalar_date(as.Date("2018-01-24"))
+#' check_scalar_date(as.Date("2000-02-29"))
+#' check_scalar_date(Sys.Date())
+#'
+#' # Avec des erreurs
+#'
+#' check_scalar_date(2L)
+#' check_scalar_date(seq(from = as.Date("2000-01-01"), to = Sys.Date(), by = "year"))
+#'
+check_scalar_date <- function(x) {
 
-    if (is.null(add)) {
-        checkmate::reportAssertions(coll)
+    verif <- TRUE
+    output <- c()
+
+    if (!isTRUE(checkmate::check_date(x))) {
+        verif <- FALSE
+        output <- c(output, checkmate::check_date(x))
     }
 
-    return(invisible(x))
+    if (!isTRUE(checkmate::check_scalar(x))) {
+        verif <- FALSE
+        output <- c(output, checkmate::check_scalar(x))
+    }
+
+    output <- paste("\n*", output)
+    output <- paste(output, collapse = "")
+
+    return(ifelse(verif, verif, output))
 }
+
+#' @name check_scalar_date
+#' @export
+#'
+assert_scalar_date <- checkmate::makeAssertionFunction(check_scalar_date)
 
 #' Vérifie la conformité d'une expression
 #'
