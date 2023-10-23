@@ -178,8 +178,20 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 #'
 #' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
 #'
-#' @details Un objet de type TimeUnits est un numérique qui désigne l'année et la période en cours avec ses décimales.
+#' @details
+#' Un objet de type TimeUnits est un numérique qui désigne l'année et la période en cours avec ses décimales.
 #' Ainsi pour une série temporelle mensuelle, `2020.5` représente la moitié de l'année donc juillet 2020 et s'écrit `c(2020L, 7L)` au format date_ts.
+#'
+#' Selon le préfixe de la fonction :
+#'
+#'  - si le check réussi :
+#'      - la fonction `assert_TimeUnits` retourne l'objet `x` de manière invisible;
+#'      - la fonction `check_TimeUnits` retourne le booléen `TRUE`.
+#'
+#'  - si le check échoue :
+#'      - la fonction `assert_TimeUnits` retourne un message d'erreur;
+#'      - la fonction `check_TimeUnits` retourne une chaine de caractère signalant le problème.
+#'
 #' @export
 #'
 #' @examples
@@ -191,26 +203,51 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 #' assert_TimeUnits(2000 + 5 / 12, frequency_ts = 12L)
 #' assert_TimeUnits(2015 + 3 / 4, frequency_ts = 4L)
 #'
-assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x)) {
-    if (is.null(add)) {
-        coll <- checkmate::makeAssertCollection()
-    } else {
-        coll <- add
+#' check_TimeUnits(2020.5, frequency_ts = 12L)
+#' check_TimeUnits(2015 + 3 / 4, frequency_ts = 4L)
+#'
+#' # Avec erreur
+#'
+#' check_TimeUnits(list(1), frequency_ts = 12L)
+#' check_TimeUnits(2000, frequency_ts = 1L)
+#'
+check_TimeUnits <- function(x, frequency_ts) {
+
+    verif <- TRUE
+    output <- c()
+
+    cond1 <- check_frequency(frequency_ts)
+
+    if (!isTRUE(cond1)) {
+        verif <- FALSE
+        output <- c(output, cond1)
     }
 
-    # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
-    # Check de l'objet x (TimeUnits)
-    checkmate::assert_number(x, add = coll, .var.name = .var.name, finite = TRUE)
+    cond2 <- checkmate::check_number(x, finite = TRUE, na.ok = FALSE)
 
-    if (is.null(add)) {
-        checkmate::reportAssertions(coll)
+    if (!isTRUE(cond2)) {
+        verif <- FALSE
+        output <- c(output, cond2)
     }
 
-    checkmate::assert_int(x * frequency_ts, .var.name = .var.name)
+    if (isTRUE(cond1) && isTRUE(cond2)) {
+        if (!isTRUE(checkmate::check_int(x * frequency_ts))) {
+            verif <- FALSE
+            output <- c(output, checkmate::check_int(x * frequency_ts))
+        }
+    }
 
-    return(invisible(x))
+    output <- paste("\n*", output)
+    output <- paste(output, collapse = "")
+
+    return(ifelse(verif, verif, output))
 }
+
+#' @name check_frequency
+#' @export
+#'
+assert_TimeUnits <- checkmate::makeAssertionFunction(check_TimeUnits)
+
 
 #' Vérifie la conformité d'une fréquence
 #'

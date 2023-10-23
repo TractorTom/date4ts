@@ -50,17 +50,22 @@ Développement à venir :
     fréquences, start, len, typeA.. pour un type d'erreur)
 
 - 3) Documenation :
-    - Relire les commentaire Roxygen2
+    - Relire les commentaires Roxygen2
     - Dans la partie @detail, détailler le calcul qui permet de sortir cette valeur.
     - Ajouter une partie @description pour expliquer ce que fait la fonction
     - Faire le tour des tags que l'on pourrait ajouter comme doc
     - Relire les docs existantes (pour ré-écrire / compléter)
     - Doc existante : ajouter le default des arguments
     - Toutes les fonctions sont documentées actuellemnt !
+    - Ajouter un tag @usage pour montrer quelle fonctions s'écrit avec quels arguments
+    - Dans les exemples des fonctiosn de check et de assert, il faut ajouter des cas où ça échoue et des cas où il peut y avoir des warnings (mais avec des try et ... pour ne pas géner le check du pkg)
+    - DAns les checks, essayer de faire une page de doc générique (pour tous les checks et assert ???) afin de ne pas répéter un même bloc de code et de bénéficier d'une même page pour plusieurs checks ?
 
 - 4) Re-écrire les fonctions assert à partir de fonction de check. Par exemple pour une fonction random check_1, plutôt que de créer assert_1 à la main, il vaut mieux créer une assertion avec makeAssertion (du package checkmate)
 
 - 5) Ré-écrire une fonction de "merge" des checks (c'est à dire qui prend en argument plusieurs check et qui retourne un message qui combine ces différents checks)
+
+- 6) Faire aussi les tests des check_XXX
 
 
 
