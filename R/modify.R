@@ -4,34 +4,34 @@
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
 #' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param x un vecteur de même type que le ts `dataTS`
+#' @param replacement un vecteur de même type que le ts `dataTS`
 #'
-#' @return En sortie, la fonction retourne une copie de l'objet `dataTS` modifié avec les valeurs de `x` imputés à partir de la date `date_ts`.
+#' @return En sortie, la fonction retourne une copie de l'objet `dataTS` modifié avec les valeurs de `replacement` imputés à partir de la date `date_ts`.
 #' @export
 #'
 #' @examples
 #' setValue_ts(
 #'     dataTS = ev_pib,
 #'     date_ts = c(2021L, 2L),
-#'     x = c(1, 2, 3)
+#'     replacement = c(1, 2, 3)
 #' )
 #'
-setValue_ts <- function(dataTS, date_ts, x) {
+setValue_ts <- function(dataTS, date_ts, replacement) {
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
 
     # Check de l'objet dataTS
     assert_ts(dataTS, add = coll, .var.name = "dataTS")
-    # Check de l'objet x un vecteur atomic
-    checkmate::assert_atomic_vector(x, add = coll, .var.name = "x")
-    if (checkmate::anyMissing(x)) {
-        err <- try(checkmate::assert_atomic_vector(x, any.missing = FALSE, .var.name = "x"), silent = TRUE)
+    # Check de l'objet replacement un vecteur atomic
+    checkmate::assert_atomic_vector(replacement, add = coll, .var.name = "replacement")
+    if (checkmate::anyMissing(replacement)) {
+        err <- try(checkmate::assert_atomic_vector(replacement, any.missing = FALSE, .var.name = "replacement"), silent = TRUE)
         warning(attr(err, "condition")$message)
     }
     # Check des types des objets
-    if (!isTRUE(typeof(dataTS) == typeof(x))) {
-        # coll$push("Les objets `dataTS` et `x` doivent \u00eatre de m\u00eame type.")
-        stop("Les objets `dataTS` et `x` doivent \u00eatre de m\u00eame type.")
+    if (!isTRUE(typeof(dataTS) == typeof(replacement))) {
+        # coll$push("Les objets `dataTS` et `replacement` doivent \u00eatre de m\u00eame type.")
+        stop("Les objets `dataTS` et `replacement` doivent \u00eatre de m\u00eame type.")
     }
 
     # checkmate::reportAssertions(coll)
@@ -41,21 +41,21 @@ setValue_ts <- function(dataTS, date_ts, x) {
     # Check du format date_ts
     date_ts <- assert_date_ts(x = date_ts, frequency_ts, .var.name = "date_ts")
 
-    outputTS <- dataTS
+    ts_output <- dataTS
 
-    if (is.raw(outputTS)) {
-        outputTS <- setValue_ts(
+    if (is.raw(ts_output)) {
+        ts_output <- setValue_ts(
             dataTS = stats::ts(
-                data = as.integer(outputTS),
-                start = stats::start(outputTS),
-                frequency = stats::frequency(outputTS)
+                data = as.integer(ts_output),
+                start = stats::start(ts_output),
+                frequency = stats::frequency(ts_output)
             ),
-            date_ts = date_ts, x = as.integer(x)
+            date_ts = date_ts, replacement = as.integer(replacement)
         )
-        outputTS <- stats::ts(
-            data = as.raw(outputTS),
-            start = stats::start(outputTS),
-            frequency = stats::frequency(outputTS)
+        ts_output <- stats::ts(
+            data = as.raw(ts_output),
+            start = stats::start(ts_output),
+            frequency = stats::frequency(ts_output)
         )
     } else {
         start_ts <- format_date_ts(date_ts,
@@ -63,16 +63,16 @@ setValue_ts <- function(dataTS, date_ts, x) {
         )
         end_ts <- next_date_ts(date_ts,
             frequency_ts = as.integer(stats::frequency(dataTS)),
-            lag = length(x) - 1L
+            lag = length(replacement) - 1L
         )
         stats::window(
-            x = outputTS, start = start_ts,
+            x = ts_output, start = start_ts,
             end = end_ts,
             extend = TRUE
-        ) <- x
+        ) <- replacement
     }
 
-    return(outputTS)
+    return(ts_output)
 }
 
 #' Combiner 2 ts
@@ -123,7 +123,7 @@ combine2ts <- function(a, b) {
         stop("Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
     }
 
-    outputTS <- a
+    ts_output <- a
 
     if (is.raw(a)) {
         a <- stats::ts(
@@ -137,18 +137,18 @@ combine2ts <- function(a, b) {
             frequency = frequency_ts
         )
 
-        outputTS <- combine2ts(a, b)
+        ts_output <- combine2ts(a, b)
 
-        outputTS <- stats::ts(
-            data = as.raw(outputTS),
-            start = stats::start(outputTS),
+        ts_output <- stats::ts(
+            data = as.raw(ts_output),
+            start = stats::start(ts_output),
             frequency = frequency_ts
         )
 
         # Fréquence entière
     } else if (isTRUE(checkmate::check_int(frequency_ts))) {
         stats::window(
-            x = outputTS, start = stats::start(b),
+            x = ts_output, start = stats::start(b),
             end = stats::end(b), extend = TRUE
         ) <- b
 
@@ -161,7 +161,7 @@ combine2ts <- function(a, b) {
         outputDF$res <- outputDF$a
         outputDF$res[!is.na(outputDF$b)] <- outputDF$b[!is.na(outputDF$b)]
 
-        outputTS <- stats::ts(
+        ts_output <- stats::ts(
             data = outputDF$res,
             frequency = frequency_ts,
             start = min(
@@ -174,7 +174,7 @@ combine2ts <- function(a, b) {
             )
         )
     }
-    return(outputTS)
+    return(ts_output)
 }
 
 #' Ajoute de nouvelles valeurs à un ts
