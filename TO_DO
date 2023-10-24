@@ -67,6 +67,60 @@ Développement à venir :
 
 - 6) Faire aussi les tests des check_XXX
 
+- 7) Pour assert et check_date_ts essayer de trouver une fonction de composition (je crois que ça existe dans base ou qqch comme ça) pour le forlatage de fin :
+
+check_date_ts <- function(x, frequency_ts, warn = TRUE) {
+
+    verif <- TRUE
+    output <- c()
+
+    # Check de la fréquence
+    cond1 <- check_frequency(frequency_ts, warn = warn)
+    if (!isTRUE(cond1)) {
+        verif <- FALSE
+        output <- c(output, cond1)
+    }
+
+    # Check du type
+    cond2 <- checkmate::check_numeric(
+        x, any.missing = FALSE,
+        min.len = 1L, max.len = 2L, finite = TRUE
+    )
+
+    if (isTRUE(cond2)) {
+        cond3 <- checkmate::check_integerish(x, any.missing = FALSE)
+        if (!isTRUE(cond3)) {
+            verif <- FALSE
+            output <- c(output, cond3)
+        }
+    } else {
+        verif <- FALSE
+        output <- c(output, cond2)
+    }
+
+    if (warn && (!isTRUE(checkmate::check_integer(x)))) {
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+
+    if (warn && (length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency_ts))) {
+        err <- try(checkmate::assert_integerish(x[2L], lower = 1L, upper = frequency_ts, .var.name = "period"), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+
+    x <- format_date_ts(x_corr, frequency_ts, test = FALSE)
+
+
+    output <- paste("\n*", output)
+    output <- paste(output, collapse = "")
+
+    return(ifelse(verif, verif, output))
+}
+
+assert_date_ts <- checkmate::makeAssertionFunction(check_date_ts) |> format_date_ts()
+
+
+
 
 
 
