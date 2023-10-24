@@ -92,7 +92,7 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 
 #' Vérifie la conformité d'un objet ts
 #'
-#' @description La fonction `assert_ts` vérifie qu'un objet ts est bien conforme.
+#' @description Les fonctions `assert_ts` et `check_ts` vérifient qu'un objet ts est bien conforme.
 #'
 #' @param x un objet ts unidimensionnel
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
@@ -104,6 +104,16 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 #' On cherche donc à favoriser l'utilisation de séries temporelles classiques utilisants des types atomiques.
 #' Lorsque l'objet `x` en entrée est au mauvais format, une erreur est généré.
 #'
+#' Selon le préfixe de la fonction :
+#'
+#'  - si le check réussi :
+#'      - la fonction `assert_TimeUnits` retourne l'objet `x` de manière invisible;
+#'      - la fonction `check_TimeUnits` retourne le booléen `TRUE`.
+#'
+#'  - si le check échoue :
+#'      - la fonction `assert_TimeUnits` retourne un message d'erreur;
+#'      - la fonction `check_TimeUnits` retourne une chaine de caractère signalant le problème.
+#'
 #' @export
 #'
 #' @examples
@@ -113,65 +123,113 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 #' assert_ts(ts1)
 #' assert_ts(ts2)
 #'
-assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
+#' check_ts(ts1)
+#' check_ts(ts2)
+#'
+#' # Exemples avec des erreurs
+#'
+#' check_ts(1)
+#' check_ts(ts(1:10, start = 2010L, frequency = 2L))
+#' check_ts(1:10)
+#'
+check_ts <- function(x) {
+
+    verif <- TRUE
+    output <- c()
 
     # Check de la classe de l'objet
-    checkmate::assert_class(x, classes = "ts", add = coll, .var.name = .var.name)
+    cond1 <- checkmate::check_class(x, classes = "ts", null.ok = FALSE)
 
-    if (isTRUE(checkmate::check_class(x, classes = "ts", null.ok = FALSE))) {
-
-        if (is.null(add)) {
-            coll <- checkmate::makeAssertCollection()
-        } else {
-            coll <- add
-        }
+    if (isTRUE(cond1)) {
 
         # Check de la fréquence
-        frequency_ts <- assert_expression(
-            expr = {
-                stats::frequency(x)
-            },
-            .var.name = "frequency(x)"
-        )
-        frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts", warn = FALSE)
+        cond2 <- check_expression({
+            stats::frequency(x)
+        })
 
-        # Check de la temporalité
-        start_ts <- assert_expression(
-            expr = {
-                stats::start(x)
-            },
-            .var.name = "start(x)"
-        )
+        if (isTRUE(cond2)) {
+            frequency_ts <- stats::frequency(x)
+            cond3 <- check_frequency(frequency_ts, warn = FALSE)
 
-        if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
-            start_ts <- assert_date_ts(start_ts, frequency_ts = frequency_ts, add = coll, .var.name = "start", warn = FALSE)
+            if (!isTRUE(cond3)) {
+                verif <- FALSE
+                output <- c(output, cond3)
+            }
+
+        } else {
+            verif <- FALSE
+            output <- c(output, cond2)
         }
 
-        end_ts <- assert_expression(
-            expr = {
-                stats::end(x)
-            },
-            .var.name = "end(x)"
-        )
+        # Check de la temporalité - start
+        cond4 <- check_expression({
+            stats::start(x)
+        })
 
-        if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
-            end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end", warn = FALSE)
+        if (isTRUE(cond4)) {
+            start_ts <- stats::start(x)
+            cond5 <- check_date_ts(start_ts, frequency_ts = frequency_ts,  warn = FALSE)
+
+            if (!isTRUE(cond5)) {
+                verif <- FALSE
+                output <- c(output, cond5)
+            }
+
+        } else {
+            verif <- FALSE
+            output <- c(output, cond4)
         }
+
+        # Check de la temporalité - end
+        cond6 <- check_expression({
+            stats::end(x)
+        })
+
+        if (isTRUE(cond6)) {
+            end_ts <- stats::end(x)
+            cond7 <- check_date_ts(end_ts, frequency_ts = frequency_ts,  warn = FALSE)
+
+            if (!isTRUE(cond7)) {
+                verif <- FALSE
+                output <- c(output, cond7)
+            }
+
+        } else {
+            verif <- FALSE
+            output <- c(output, cond6)
+        }
+
 
         # Check que l'objet ne soit pas un mts
-        checkmate::assert_false(stats::is.mts(x), add = coll, .var.name = paste0("is.mts(", .var.name, ")"))
-
-        # Check du type de données
-        checkmate::assert_atomic_vector(x, add = coll, .var.name = .var.name)
-
-        if (is.null(add)) {
-            checkmate::reportAssertions(coll)
+        cond8 <- checkmate::check_false(stats::is.mts(x))
+        if (!isTRUE(cond8)) {
+            verif <- FALSE
+            output <- c(output, cond8)
         }
 
+        # Check du type de données
+        cond9 <- checkmate::check_atomic_vector(x)
+        if (!isTRUE(cond9)) {
+            verif <- FALSE
+            output <- c(output, cond9)
+        }
+
+    } else {
+        verif <- FALSE
+        output <- c(output, cond1)
     }
 
-    return(invisible(x))
+    output <- paste("\n*", output)
+    output <- paste(output, collapse = "")
+
+    return(ifelse(verif, verif, output))
 }
+
+#' @name check_ts
+#' @importFrom stats setNames
+#' @export
+#'
+assert_ts <- checkmate::makeAssertionFunction(check_ts)
 
 #' Vérifie la conformité d'un objet TimeUnits
 #'

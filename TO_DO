@@ -53,6 +53,7 @@ Développement à venir :
     - Relire les commentaires Roxygen2
     - Dans la partie @detail, détailler le calcul qui permet de sortir cette valeur.
     - Ajouter une partie @description pour expliquer ce que fait la fonction
+        S'assurer que les champs description concernent bien toutes les fonctions regroupés sous cette doc +
     - Faire le tour des tags que l'on pourrait ajouter comme doc
     - Relire les docs existantes (pour ré-écrire / compléter)
     - Doc existante : ajouter le default des arguments
@@ -64,6 +65,7 @@ Développement à venir :
 - 4) Re-écrire les fonctions assert à partir de fonction de check. Par exemple pour une fonction random check_1, plutôt que de créer assert_1 à la main, il vaut mieux créer une assertion avec makeAssertion (du package checkmate)
 
 - 5) Ré-écrire une fonction de "merge" des checks (c'est à dire qui prend en argument plusieurs check et qui retourne un message qui combine ces différents checks)
+    Il faut que la fonction puisse être modulable avec des if cond réussi...
 
 - 6) Faire aussi les tests des check_XXX
 
@@ -127,6 +129,12 @@ assert_date_ts <- checkmate::makeAssertionFunction(check_date_ts) |> format_date
     - aussi on ne veut pas de data_ts et de date_ts car ça peut porter à confusion
 
 9) remettre tous les commented code des collection of assert
+
+10) Ajouter covr, devtools, pkgbuild au renv.lock (en les installant)
+
+11) Dans check_expression ajouter la ligne de code qui pose pb à l'erreur
+    Par exemple :
+    check_expression(log("a")) devrait retourner : "Invalid expression : log("a")"
 
 
 
