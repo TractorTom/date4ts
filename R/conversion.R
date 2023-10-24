@@ -176,8 +176,8 @@ date2date_ts <- function(date, frequency_ts = 12L) {
 #' substr_year(as.Date("2022-11-01"), n = 3L)
 #'
 substr_year <- function(date, n = 1L) {
+
     coll <- checkmate::makeAssertCollection()
-    # coll <- NULL
 
     assert_scalar_date(date, add = coll, .var.name = "date")
     n <- assert_scalar_natural(n, add = coll, .var.name = "n")

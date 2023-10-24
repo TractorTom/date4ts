@@ -231,7 +231,7 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
 
 
     if (replace_na) {
-        start_replacement <- next_date_ts(lastDate(dataTS), frequency_ts = frequency_ts)
+        start_replacement <- next_date_ts(last_date(dataTS), frequency_ts = frequency_ts)
     } else {
         start_replacement <- next_date_ts(end_ts, frequency_ts = frequency_ts)
     }

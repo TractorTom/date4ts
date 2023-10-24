@@ -108,7 +108,7 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 #'
 #' @export
 #'
-#' @seealso `lastDate`
+#' @seealso `last_date`
 #'
 #' @examples
 #'
@@ -116,12 +116,12 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 #' ts2 <- ts(c(1:10, NA), start = 2020, frequency = 4)
 #'
 #' stats::start(ts1)
-#' firstDate(ts1)
+#' first_date(ts1)
 #'
 #' stats::start(ts1)
-#' firstDate(ts2)
+#' first_date(ts2)
 #'
-firstDate <- function(dataTS) {
+first_date <- function(dataTS) {
     # Check de l'objet dataTS
     assert_ts(dataTS, .var.name = "dataTS")
 
@@ -135,7 +135,7 @@ firstDate <- function(dataTS) {
 #'
 #' @description Cette fonction calcule la dernière date pour laquelle l'objet `dataTS` ne vaut pas NA.
 #'
-#' @inheritParams firstDate
+#' @inheritParams first_date
 #'
 #' @return En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`)
 #'
@@ -143,7 +143,7 @@ firstDate <- function(dataTS) {
 #'
 #' @export
 #'
-#' @seealso `firstDate`
+#' @seealso `first_date`
 #'
 #' @examples
 #'
@@ -151,12 +151,12 @@ firstDate <- function(dataTS) {
 #' ts2 <- ts(c(1:10), start = 2020, frequency = 4)
 #'
 #' stats::end(ts1)
-#' lastDate(ts1)
+#' last_date(ts1)
 #'
 #' stats::end(ts1)
-#' lastDate(ts2)
+#' last_date(ts2)
 #'
-lastDate <- function(dataTS) {
+last_date <- function(dataTS) {
     # Check de l'objet dataTS
     assert_ts(dataTS, .var.name = "dataTS")
 
@@ -191,20 +191,24 @@ lastDate <- function(dataTS) {
 #' is_before(a = c(2022L, -3L), b = c(2021L, 8L), frequency_ts = 4L)
 #'
 is_before <- function(a, b, frequency_ts, strict = FALSE) {
-    # coll <- checkmate::makeAssertCollection()
-    coll <- NULL
+
+    coll <- checkmate::makeAssertCollection()
 
     # Check de strict
     checkmate::assert_flag(strict, add = coll, .var.name = "replace_na")
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
-    # Check du format date_ts a
-    a <- assert_date_ts(x = a, frequency_ts, add = coll, .var.name = "a")
-    # Check du format date_ts b
-    b <- assert_date_ts(x = b, frequency_ts, add = coll, .var.name = "b")
 
-    # checkmate::reportAssertions(coll)
+    if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
+        # Check du format date_ts a
+        a <- assert_date_ts(x = a, frequency_ts, add = coll, .var.name = "a")
+
+        # Check du format date_ts b
+        b <- assert_date_ts(x = b, frequency_ts, add = coll, .var.name = "b")
+    }
+
+    checkmate::reportAssertions(coll)
 
     tu_a <- date_ts2TimeUnits(a, frequency_ts = frequency_ts)
     tu_b <- date_ts2TimeUnits(b, frequency_ts = frequency_ts)

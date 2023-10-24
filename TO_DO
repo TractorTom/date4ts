@@ -30,8 +30,8 @@ Développement à venir :
         - date_ts2date
         - previous_date_ts
         - next_date_ts
-        - firstDate
-        - lastDate
+        - first_date
+        - last_date
         - is_before
         - diff_periode
         - extend_ts
@@ -122,7 +122,10 @@ check_date_ts <- function(x, frequency_ts, warn = TRUE) {
 assert_date_ts <- checkmate::makeAssertionFunction(check_date_ts) |> format_date_ts()
 
 
+8) Renommer les variables dataTS et date_ts
+    - date_ts pour que ce soit plus explicite (surtout quand on utilise une date_ts et qu'on l'appelle autrement exemple date_from, date_to de la fonction getValueTS)
 
+9) remettre tous les commented code
 
 
 
