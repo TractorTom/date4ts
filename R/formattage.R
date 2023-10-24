@@ -24,16 +24,19 @@
 #' format_date_ts(c(2020L, 13L), frequency_ts = 4L) # janvier 2021
 #'
 format_date_ts <- function(date_ts, frequency_ts, test = TRUE) {
+
     if (test) {
-        # coll <- checkmate::makeAssertCollection()
-        coll <- NULL
+
+        coll <- checkmate::makeAssertCollection()
 
         # Check de la fréquence
         frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
         # Check du format date_ts
-        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+        if (isTRUE(check_frequency(frequency_ts))) {
+            date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+        }
 
-        # checkmate::reportAssertions(coll)
+        checkmate::reportAssertions(coll)
     }
 
     if (length(date_ts) == 2L) {

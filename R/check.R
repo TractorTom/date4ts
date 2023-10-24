@@ -45,23 +45,27 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
     }
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts,
+    frequency_ts <- assert_frequency(
+        frequency_ts,
         add = coll, .var.name = "frequency_ts", warn = warn
     )
 
     # Check du type
     # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
-    if (isTRUE(checkmate::check_numeric(x,
-        any.missing = FALSE,
+    if (isTRUE(checkmate::check_numeric(
+        x, any.missing = FALSE,
         min.len = 1L, max.len = 2L, finite = TRUE
-    ))) {
-        x_corr <- checkmate::assert_integerish(x,
+    )
+    )) {
+
+        x_corr <- checkmate::assert_integerish(
+            x,
             coerce = TRUE, any.missing = FALSE,
             add = coll, .var.name = .var.name
         )
     } else {
-        checkmate::assert_numeric(x,
-            any.missing = FALSE,
+        checkmate::assert_numeric(
+            x, any.missing = FALSE,
             add = coll, .var.name = .var.name,
             min.len = 1L, max.len = 2L, finite = TRUE
         )
@@ -387,8 +391,9 @@ check_scalar_integer <- function(x, warn = TRUE) {
     }
 
     if (isTRUE(verif) && warn && !isTRUE(checkmate::check_integer(x))) {
-        err <- try(checkmate::assert_integer(x),
-                   silent = TRUE
+        err <- try(
+            checkmate::assert_integer(x),
+            silent = TRUE
         )
         warning(attr(err, "condition")$message)
     }
@@ -453,8 +458,9 @@ check_scalar_natural <- function(x, warn = TRUE) {
     }
 
     if (isTRUE(verif) && warn && !isTRUE(checkmate::check_integer(x))) {
-        err <- try(checkmate::assert_integer(x),
-                   silent = TRUE
+        err <- try(
+            checkmate::assert_integer(x),
+            silent = TRUE
         )
         warning(attr(err, "condition")$message)
     }
@@ -567,9 +573,10 @@ assert_scalar_date <- checkmate::makeAssertionFunction(check_scalar_date)
 #' check_expression(expr = {log("a")})
 #'
 check_expression <- function(expr) {
-    out <- tryCatch(expr,
-                    error = function(e) e,
-                    warning = function(w) w
+    out <- tryCatch(
+        expr,
+        error = function(e) e,
+        warning = function(w) w
     )
 
     if (inherits(out, "warning") || inherits(out, "error")) {

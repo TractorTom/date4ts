@@ -22,17 +22,21 @@
 #' previous_date_ts(c(2020L, 4L), frequency_ts = 12L, lag = 2L)
 #' previous_date_ts(c(2022L, 6L), frequency_ts = 12L, lag = 12L)
 previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
-    # coll <- checkmate::makeAssertCollection()
-    coll <- NULL
+
+    coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+
     # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+    if (isTRUE(check_frequency(frequency_ts))) {
+        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+    }
+
     # Check l'argument lag
     lag <- assert_scalar_integer(lag, add = coll, .var.name = "lag")
 
-    # checkmate::reportAssertions(coll)
+    checkmate::reportAssertions(coll)
 
     year <- date_ts[1L]
     month <- date_ts[2L]
@@ -64,17 +68,21 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 #' next_date_ts(c(2020L, 4L), frequency_ts = 12L, lag = 2L)
 #' next_date_ts(c(2022L, 6L), frequency_ts = 12L, lag = 12L)
 next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
-    # coll <- checkmate::makeAssertCollection()
-    coll <- NULL
+
+    coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+
     # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+    if (isTRUE(check_frequency(frequency_ts))) {
+        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+    }
+
     # Check l'argument lag
     lag <- assert_scalar_integer(lag, add = coll, .var.name = "lag")
 
-    # checkmate::reportAssertions(coll)
+    checkmate::reportAssertions(coll)
 
     if (length(date_ts) == 2L) {
         year <- date_ts[1L]

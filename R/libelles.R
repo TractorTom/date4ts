@@ -12,15 +12,17 @@
 #' TractorTsbox:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 4L)
 #'
 libelles_one_date <- function(date_ts, frequency_ts) {
-    # coll <- checkmate::makeAssertCollection()
-    coll <- NULL
+
+    coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
     # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+    if (isTRUE(check_frequency(frequency_ts))) {
+        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+    }
 
-    # checkmate::reportAssertions(coll)
+    checkmate::reportAssertions(coll)
 
     date <- date_ts2date(date_ts, frequency_ts = frequency_ts)
 
@@ -51,17 +53,21 @@ libelles_one_date <- function(date_ts, frequency_ts) {
 #' libelles(date_ts = c(2019L, 4L), frequency_ts = 4L, n = 3L)
 #'
 libelles <- function(date_ts, frequency_ts, n = 1L) {
-    # coll <- checkmate::makeAssertCollection()
-    coll <- NULL
+
+    coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+
+    # Check du format date_ts
+    if (isTRUE(check_frequency(frequency_ts))) {
+        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+    }
+
     # Check de l'argument n
     n <- assert_scalar_natural(n, add = coll, .var.name = "n")
-    # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
 
-    # checkmate::reportAssertions(coll)
+    checkmate::reportAssertions(coll)
 
     decale_libele <- function(x) {
         date_temp <- next_date_ts(date_ts = date_ts, frequency_ts = frequency_ts, lag = x)
