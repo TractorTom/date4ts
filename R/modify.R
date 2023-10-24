@@ -36,7 +36,7 @@ setValue_ts <- function(dataTS, date_ts, replacement) {
         # stop("Les objets `dataTS` et `replacement` doivent \u00eatre de m\u00eame type.")
     }
 
-    # checkmate::reportAssertions(coll)
+    checkmate::reportAssertions(coll)
 
     frequency_ts <- as.integer(stats::frequency(dataTS))
 
@@ -103,28 +103,31 @@ setValue_ts <- function(dataTS, date_ts, replacement) {
 #' combine2ts(mens_1, mens_2)
 #'
 combine2ts <- function(a, b) {
-    # coll <- checkmate::makeAssertCollection()
-    coll <- NULL
+
+    coll <- checkmate::makeAssertCollection()
 
     # Check de l'objet a
     assert_ts(a, add = coll, .var.name = "a")
     # Check de l'objet b
     assert_ts(b, add = coll, .var.name = "b")
 
-    # checkmate::reportAssertions(coll)
+    if (isTRUE(check_ts(a)) && isTRUE(check_ts(b))) {
 
-    # Check same frequency_ts
-    if (!isTRUE(stats::frequency(a) == stats::frequency(b))) {
-        stop("Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
+        # Check same frequency_ts
+        if (!isTRUE(stats::frequency(a) == stats::frequency(b))) {
+            coll$push("Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
+        }
+
+        # Check des types des objets
+        if (!isTRUE(typeof(a) == typeof(b))) {
+            coll$push("Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
+        }
+
     }
+
+    checkmate::reportAssertions(coll)
 
     frequency_ts <- stats::frequency(a)
-
-    # Check des types des objets
-    if (!isTRUE(typeof(a) == typeof(b))) {
-        stop("Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
-    }
-
     ts_output <- a
 
     if (is.raw(a)) {
