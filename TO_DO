@@ -2,6 +2,63 @@ A Faire :
 
 Urgent pour faire fonctionner le package :
 
+1) Pour assert et check_date_ts essayer de trouver une fonction de composition (je crois que ça existe dans base ou qqch comme ça) pour le forlatage de fin :
+
+Autre piste : chercher fonction de coercition à la main (pour faire coerce nous même) !
+
+check_date_ts <- function(x, frequency_ts, warn = TRUE) {
+
+    verif <- TRUE
+    output <- c()
+
+    # Check de la fréquence
+    cond1 <- check_frequency(frequency_ts, warn = warn)
+    if (!isTRUE(cond1)) {
+        verif <- FALSE
+        output <- c(output, cond1)
+    }
+
+    # Check du type
+    cond2 <- checkmate::check_numeric(
+        x, any.missing = FALSE,
+        min.len = 1L, max.len = 2L, finite = TRUE
+    )
+
+    if (isTRUE(cond2)) {
+        cond3 <- checkmate::check_integerish(x, any.missing = FALSE)
+        if (!isTRUE(cond3)) {
+            verif <- FALSE
+            output <- c(output, cond3)
+        }
+    } else {
+        verif <- FALSE
+        output <- c(output, cond2)
+    }
+
+    if (warn && (!isTRUE(checkmate::check_integer(x)))) {
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+
+    if (warn && (length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency_ts))) {
+        err <- try(checkmate::assert_integerish(x[2L], lower = 1L, upper = frequency_ts, .var.name = "period"), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+
+    x <- format_date_ts(x_corr, frequency_ts, test = FALSE)
+
+
+    output <- paste("\n*", output)
+    output <- paste(output, collapse = "")
+
+    return(ifelse(verif, verif, output))
+}
+
+assert_date_ts <- checkmate::makeAssertionFunction(check_date_ts) |> format_date_ts()
+
+
+
+
 
 Développement à venir :
 
@@ -62,79 +119,18 @@ Développement à venir :
     - Dans les exemples des fonctiosn de check et de assert, il faut ajouter des cas où ça échoue et des cas où il peut y avoir des warnings (mais avec des try et ... pour ne pas géner le check du pkg)
     - DAns les checks, essayer de faire une page de doc générique (pour tous les checks et assert ???) afin de ne pas répéter un même bloc de code et de bénéficier d'une même page pour plusieurs checks ?
 
-- 4) Re-écrire les fonctions assert à partir de fonction de check. Par exemple pour une fonction random check_1, plutôt que de créer assert_1 à la main, il vaut mieux créer une assertion avec makeAssertion (du package checkmate)
-
-- 5) Ré-écrire une fonction de "merge" des checks (c'est à dire qui prend en argument plusieurs check et qui retourne un message qui combine ces différents checks)
+- 4) Ré-écrire une fonction de "merge" des checks (c'est à dire qui prend en argument plusieurs check et qui retourne un message qui combine ces différents checks)
     Il faut que la fonction puisse être modulable avec des if cond réussi...
 
-- 6) Faire aussi les tests des check_XXX
+- 5) Faire aussi les tests des check_XXX
 
-- 7) Pour assert et check_date_ts essayer de trouver une fonction de composition (je crois que ça existe dans base ou qqch comme ça) pour le forlatage de fin :
-
-Autre piste : chercher fonction de coercition à la main (pour faire coerce nous même) !
-
-check_date_ts <- function(x, frequency_ts, warn = TRUE) {
-
-    verif <- TRUE
-    output <- c()
-
-    # Check de la fréquence
-    cond1 <- check_frequency(frequency_ts, warn = warn)
-    if (!isTRUE(cond1)) {
-        verif <- FALSE
-        output <- c(output, cond1)
-    }
-
-    # Check du type
-    cond2 <- checkmate::check_numeric(
-        x, any.missing = FALSE,
-        min.len = 1L, max.len = 2L, finite = TRUE
-    )
-
-    if (isTRUE(cond2)) {
-        cond3 <- checkmate::check_integerish(x, any.missing = FALSE)
-        if (!isTRUE(cond3)) {
-            verif <- FALSE
-            output <- c(output, cond3)
-        }
-    } else {
-        verif <- FALSE
-        output <- c(output, cond2)
-    }
-
-    if (warn && (!isTRUE(checkmate::check_integer(x)))) {
-        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
-        warning(attr(err, "condition")$message)
-    }
-
-    if (warn && (length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency_ts))) {
-        err <- try(checkmate::assert_integerish(x[2L], lower = 1L, upper = frequency_ts, .var.name = "period"), silent = TRUE)
-        warning(attr(err, "condition")$message)
-    }
-
-    x <- format_date_ts(x_corr, frequency_ts, test = FALSE)
-
-
-    output <- paste("\n*", output)
-    output <- paste(output, collapse = "")
-
-    return(ifelse(verif, verif, output))
-}
-
-assert_date_ts <- checkmate::makeAssertionFunction(check_date_ts) |> format_date_ts()
-
-
-8) Renommer les variables dataTS et date_ts
+- 6) Renommer les variables dataTS et date_ts
     - date_ts pour que ce soit plus explicite (surtout quand on utilise une date_ts et qu'on l'appelle autrement exemple date_from, date_to de la fonction getValueTS)
     - aussi on ne veut pas de data_ts et de date_ts car ça peut porter à confusion
 
-9) remettre tous les commented code des collection of assert
+- 7) remettre tous les commented code des collection of assert
 
-10) Ajouter covr, devtools, pkgbuild au renv.lock (en les installant)
-
-11) Dans check_expression ajouter la ligne de code qui pose pb à l'erreur
-    Par exemple :
-    check_expression(log("a")) devrait retourner : "Invalid expression : log("a")"
+- 8) Ajouter covr, devtools, pkgbuild au renv.lock (en les installant)
 
 
 

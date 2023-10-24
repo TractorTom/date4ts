@@ -638,7 +638,7 @@ check_expression <- function(expr) {
     )
 
     if (inherits(out, "warning") || inherits(out, "error")) {
-        return("Invalid expression")
+        return(paste("Invalid expression :", deparse(substitute(expr))))
     }
 
     return(TRUE)
