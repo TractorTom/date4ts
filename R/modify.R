@@ -154,15 +154,15 @@ combine2ts <- function(a, b) {
 
         # Fréquence décimale
     } else if (isTRUE(checkmate::check_number(frequency_ts))) {
-        outputDF <- as.data.frame(cbind(a, b))
-        if (sum(is.na(outputDF$a) & (!is.na(outputDF$b))) > 0L) {
+        df_output <- as.data.frame(cbind(a, b))
+        if (sum(is.na(df_output$a) & (!is.na(df_output$b))) > 0L) {
             warning("extending time series when replacing values")
         }
-        outputDF$res <- outputDF$a
-        outputDF$res[!is.na(outputDF$b)] <- outputDF$b[!is.na(outputDF$b)]
+        df_output$res <- df_output$a
+        df_output$res[!is.na(df_output$b)] <- df_output$b[!is.na(df_output$b)]
 
         ts_output <- stats::ts(
-            data = outputDF$res,
+            data = df_output$res,
             frequency = frequency_ts,
             start = min(
                 date_ts2TimeUnits(as.integer(stats::start(a)),
