@@ -124,8 +124,9 @@ assert_date_ts <- checkmate::makeAssertionFunction(check_date_ts) |> format_date
 
 8) Renommer les variables dataTS et date_ts
     - date_ts pour que ce soit plus explicite (surtout quand on utilise une date_ts et qu'on l'appelle autrement exemple date_from, date_to de la fonction getValueTS)
+    - aussi on ne veut pas de data_ts et de date_ts car ça peut porter à confusion
 
-9) remettre tous les commented code
+9) remettre tous les commented code des collection of assert
 
 
 
