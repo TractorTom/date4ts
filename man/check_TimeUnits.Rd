@@ -2,18 +2,21 @@
 % Please edit documentation in R/check.R
 \name{check_TimeUnits}
 \alias{check_TimeUnits}
+\alias{assert_TimeUnits}
 \title{Vérifie la conformité d'un objet TimeUnits}
 \usage{
 check_TimeUnits(x, frequency_ts)
+
+assert_TimeUnits(x, frequency_ts, .var.name = checkmate::vname(x), add = NULL)
 }
 \arguments{
 \item{x}{un numérique qui représente le time units de}
 
 \item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 
-\item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
-
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
+
+\item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 }
 \value{
 En sortie la fonction retourne l'objet \code{x} de manière invisible ou une erreur.

@@ -2,12 +2,9 @@
 % Please edit documentation in R/check.R
 \name{check_frequency}
 \alias{check_frequency}
-\alias{assert_TimeUnits}
 \alias{assert_frequency}
 \title{Vérifie la conformité d'une fréquence}
 \usage{
-assert_TimeUnits(x, frequency_ts, .var.name = checkmate::vname(x), add = NULL)
-
 check_frequency(x, warn = TRUE)
 
 assert_frequency(
@@ -21,11 +18,11 @@ assert_frequency(
 \arguments{
 \item{x}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 
+\item{warn}{un booleen}
+
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
 
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
-
-\item{warn}{un booleen}
 }
 \description{
 Vérifie la conformité d'une fréquence

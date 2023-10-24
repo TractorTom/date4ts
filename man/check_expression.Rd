@@ -13,6 +13,8 @@ assert_expression(expr, .var.name = checkmate::vname(expr), add = NULL)
 \item{expr}{une expression à évaluer}
 
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
+
+\item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 }
 \value{
 En sortie la fonction retourne l'objet \code{x} (le résultat de l'évaluation de l'expression \code{expr}) de manière invisible ou une erreur.
