@@ -182,13 +182,13 @@ combine2ts <- function(a, b) {
 #' @description La fonction `extend_ts` ajoute de nouvelles valeurs à un ts
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
-#' @param x un vecteur de même type que le ts `dataTS`
+#' @param replacement un vecteur de même type que le ts `dataTS`
 #' @param date_ts un vecteur numérique, de préférence `integer` au format `date_ts` (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`) (default NULL)
 #' @param replace_na un booléen
 #'
-#' @return En sortie, la fonction retourne une copie de l'objet `dataTS` complété avec le vecteur `x`.
+#' @return En sortie, la fonction retourne une copie de l'objet `dataTS` complété avec le vecteur `replacement`.
 #' @details Si `replace_na` vaut `TRUE` alors le remplacement commence dès que l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu, qu'il contienne des NA ou non à la fin.
-#' Si le vecteur `x` est de taille un sous-multiple de la différence de période entre la date de fin de `dataTS` et `date_ts`, le vecteur `x` est répété.
+#' Si le vecteur `replacement` est de taille un sous-multiple de la différence de période entre la date de fin de `dataTS` et `date_ts`, le vecteur `replacement` est répété.
 #' @export
 #'
 #' @examples
@@ -200,14 +200,14 @@ combine2ts <- function(a, b) {
 #' extend_ts(ts1, x, replace_na = FALSE)
 #' extend_ts(ts1, x, replace_na = TRUE, date_ts = c(2021L, 7L))
 #'
-extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
+extend_ts <- function(dataTS, replacement, date_ts = NULL, replace_na = TRUE) {
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
 
     # Check de l'objet dataTS
     assert_ts(dataTS, add = coll, .var.name = "dataTS")
-    # Check de l'objet x un vecteur atomic
-    checkmate::assert_atomic_vector(x, add = coll, .var.name = "x")
+    # Check de l'objet replacement un vecteur atomic
+    checkmate::assert_atomic_vector(replacement, add = coll, .var.name = "replacement")
     # Check de replace_na
     checkmate::assert_flag(replace_na, add = coll, .var.name = "replace_na")
 
@@ -238,15 +238,15 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
             a = start_replacement,
             b = date_ts, frequency_ts = frequency_ts
         )
-        if (length_replacement %% length(x) != 0L) {
+        if (length_replacement %% length(replacement) != 0L) {
             stop("number of values supplied is not a sub-multiple of the number of values to be replaced")
         }
         end_replacement <- date_ts
     } else {
-        end_replacement <- next_date_ts(start_replacement, lag = length(x) - 1L, frequency_ts = frequency_ts)
+        end_replacement <- next_date_ts(start_replacement, lag = length(replacement) - 1L, frequency_ts = frequency_ts)
     }
 
-    stats::window(dataTS, start = start_replacement, end = end_replacement, extend = TRUE) <- x
+    stats::window(dataTS, start = start_replacement, end = end_replacement, extend = TRUE) <- replacement
     return(dataTS)
 }
 
