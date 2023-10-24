@@ -17,21 +17,23 @@
 #' )
 #'
 setValue_ts <- function(dataTS, date_ts, replacement) {
-    # coll <- checkmate::makeAssertCollection()
-    coll <- NULL
+
+    coll <- checkmate::makeAssertCollection()
 
     # Check de l'objet dataTS
     assert_ts(dataTS, add = coll, .var.name = "dataTS")
+
     # Check de l'objet replacement un vecteur atomic
     checkmate::assert_atomic_vector(replacement, add = coll, .var.name = "replacement")
-    if (checkmate::anyMissing(replacement)) {
-        err <- try(checkmate::assert_atomic_vector(replacement, any.missing = FALSE, .var.name = "replacement"), silent = TRUE)
-        warning(attr(err, "condition")$message)
+
+    if (isTRUE(checkmate::check_atomic_vector(replacement)) && checkmate::anyMissing(replacement)) {
+        warning(checkmate::check_atomic_vector(replacement, any.missing = FALSE, .var.name = "replacement"))
     }
+
     # Check des types des objets
     if (!isTRUE(typeof(dataTS) == typeof(replacement))) {
-        # coll$push("Les objets `dataTS` et `replacement` doivent \u00eatre de m\u00eame type.")
-        stop("Les objets `dataTS` et `replacement` doivent \u00eatre de m\u00eame type.")
+        coll$push("Les objets `dataTS` et `replacement` doivent \u00eatre de m\u00eame type.")
+        # stop("Les objets `dataTS` et `replacement` doivent \u00eatre de m\u00eame type.")
     }
 
     # checkmate::reportAssertions(coll)
