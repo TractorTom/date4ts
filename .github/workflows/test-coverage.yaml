@@ -35,8 +35,6 @@ jobs:
       - name: renv status
         run: |
           options(repos = c(CRAN = "https://cloud.r-project.org"))
-          renv::snapshot()
-          renv::status()
           renv::install("cpp11")
           renv::snapshot()
           renv::status()
