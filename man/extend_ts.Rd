@@ -4,26 +4,26 @@
 \alias{extend_ts}
 \title{Ajoute de nouvelles valeurs à un ts}
 \usage{
-extend_ts(dataTS, x, date_ts = NULL, replace_na = TRUE)
+extend_ts(dataTS, replacement, date_ts = NULL, replace_na = TRUE)
 }
 \arguments{
 \item{dataTS}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 
-\item{x}{un vecteur de même type que le ts \code{dataTS}}
+\item{replacement}{un vecteur de même type que le ts \code{dataTS}}
 
 \item{date_ts}{un vecteur numérique, de préférence \code{integer} au format \code{date_ts} (\code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}) (default NULL)}
 
 \item{replace_na}{un booléen}
 }
 \value{
-En sortie, la fonction retourne une copie de l'objet \code{dataTS} complété avec le vecteur \code{x}.
+En sortie, la fonction retourne une copie de l'objet \code{dataTS} complété avec le vecteur \code{replacement}.
 }
 \description{
 La fonction \code{extend_ts} ajoute de nouvelles valeurs à un ts
 }
 \details{
 Si \code{replace_na} vaut \code{TRUE} alors le remplacement commence dès que l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu, qu'il contienne des NA ou non à la fin.
-Si le vecteur \code{x} est de taille un sous-multiple de la différence de période entre la date de fin de \code{dataTS} et \code{date_ts}, le vecteur \code{x} est répété.
+Si le vecteur \code{replacement} est de taille un sous-multiple de la différence de période entre la date de fin de \code{dataTS} et \code{date_ts}, le vecteur \code{replacement} est répété.
 }
 \examples{
 

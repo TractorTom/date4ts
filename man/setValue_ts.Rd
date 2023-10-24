@@ -4,17 +4,17 @@
 \alias{setValue_ts}
 \title{Change certaines valeurs d'un ts}
 \usage{
-setValue_ts(dataTS, date_ts, x)
+setValue_ts(dataTS, date_ts, replacement)
 }
 \arguments{
 \item{dataTS}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 
 \item{date_ts}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{x}{un vecteur de même type que le ts \code{dataTS}}
+\item{replacement}{un vecteur de même type que le ts \code{dataTS}}
 }
 \value{
-En sortie, la fonction retourne une copie de l'objet \code{dataTS} modifié avec les valeurs de \code{x} imputés à partir de la date \code{date_ts}.
+En sortie, la fonction retourne une copie de l'objet \code{dataTS} modifié avec les valeurs de \code{replacement} imputés à partir de la date \code{date_ts}.
 }
 \description{
 La fonction \code{setValue_ts} modifie la ou les valeurs d'un objet ts à une date donnée.
@@ -23,7 +23,7 @@ La fonction \code{setValue_ts} modifie la ou les valeurs d'un objet ts à une da
 setValue_ts(
     dataTS = ev_pib,
     date_ts = c(2021L, 2L),
-    x = c(1, 2, 3)
+    replacement = c(1, 2, 3)
 )
 
 }
