@@ -125,10 +125,10 @@ first_date <- function(dataTS) {
     # Check de l'objet dataTS
     assert_ts(dataTS, .var.name = "dataTS")
 
-    timeTS <- stats::time(na_trim(dataTS))
-    firstTime <- timeTS[1L]
+    time_ts <- stats::time(na_trim(dataTS))
+    first_time <- time_ts[1L]
     frequency_ts <- as.integer(stats::frequency(dataTS))
-    return(c(firstTime %/% 1L, (firstTime %% 1L) * frequency_ts + 1L))
+    return(c(first_time %/% 1L, (first_time %% 1L) * frequency_ts + 1L))
 }
 
 #' Dernière date non NA
@@ -160,11 +160,11 @@ last_date <- function(dataTS) {
     # Check de l'objet dataTS
     assert_ts(dataTS, .var.name = "dataTS")
 
-    timeTS <- stats::time(na_trim(dataTS))
-    lastTime <- timeTS[length(timeTS)]
+    time_ts <- stats::time(na_trim(dataTS))
+    last_time <- time_ts[length(time_ts)]
     frequency_ts <- as.integer(stats::frequency(dataTS))
 
-    return(as.integer(c(lastTime %/% 1L, (lastTime %% 1L) * frequency_ts + 1L)))
+    return(as.integer(c(last_time %/% 1L, (last_time %% 1L) * frequency_ts + 1L)))
 }
 
 #' Comparaison de 2 date_ts
