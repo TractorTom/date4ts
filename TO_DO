@@ -69,6 +69,8 @@ Développement à venir :
 
 - 7) Pour assert et check_date_ts essayer de trouver une fonction de composition (je crois que ça existe dans base ou qqch comme ça) pour le forlatage de fin :
 
+Autre piste : chercher fonction de coercition à la main (pour faire coerce nous même) !
+
 check_date_ts <- function(x, frequency_ts, warn = TRUE) {
 
     verif <- TRUE
