@@ -123,12 +123,6 @@ combine2ts <- function(a, b) {
         stop("Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
     }
 
-    # temporalConsistence <- (stats::start(a) - stats::start(b)) * stats::frequency(a)
-    # if (!isTRUE(all.equal(temporalConsistence, round(temporalConsistence)))) {
-    #     stop("Les objets `a` et `b` doivent \u00eatre coh\u00e9rents temporellement.")
-    # }
-
-
     outputTS <- a
 
     if (is.raw(a)) {
