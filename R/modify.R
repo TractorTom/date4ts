@@ -226,7 +226,7 @@ extend_ts <- function(dataTS, x, date_ts = NULL, replace_na = TRUE) {
         date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
     }
 
-    start_ts <- as.integer(stats::start(dataTS))
+    # start_ts <- as.integer(stats::start(dataTS))
     end_ts <- as.integer(stats::end(dataTS))
 
 
