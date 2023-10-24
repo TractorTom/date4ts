@@ -77,68 +77,11 @@ Si il existe une période sur laquelle ni <code>a</code> ni <code>b</code> ne pr
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># La série de PIB est écrasé par trim_1 sur la période temporelle de trim_1</span></span></span>
 <span class="r-in"><span><span class="fu">combine2ts</span><span class="op">(</span><span class="va">ev_pib</span>, <span class="va">trim_1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Qtr1          Qtr2          Qtr3          Qtr4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1970            NA            NA            NA            NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1971            NA            NA            NA            NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1972            NA            NA            NA            NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1973            NA            NA            NA            NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1974            NA            NA            NA            NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1975            NA            NA            NA            NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1976            NA            NA            NA            NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1977            NA            NA            NA            NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1978            NA            NA            NA            NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1979            NA            NA            NA            NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1980            NA  -0.552712174  -0.086754850  -0.130764175</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1981   0.436797694   0.663555818   0.655755678   0.465977515</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1982   0.892058545   0.662204954   0.047370440   0.507157219</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1983   0.581233329  -0.042548981   0.077874681   0.583935348</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1984   0.619554314   0.363253711   0.462243113   0.288218891</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1985   0.123719710   0.631349292   0.756575266   0.327524429</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1986   0.357772133   1.122129272   0.326669036   0.370966439</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1987   0.251659155   1.144598588   0.680758053   1.694026185</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1988   1.231391234   0.593185145   1.302640709   1.065361026</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1989   1.260037978   0.825806743   1.075064005   1.523944130</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1990   0.517826385   0.377746880   0.459923112   0.366254003</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1991  -0.156699858   0.309591699   0.289346425   0.496079715</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1992   0.967856839  -0.057920191   0.028450027  -0.223321860</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1993  -0.556650909   0.039547303   0.133452547   0.269728893</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1994   0.725093411   1.095551160   0.539244435   0.886607198</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1995   0.569503181   0.478767111   0.081524147   0.164939274</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1996   0.631394447   0.165893251   0.621382576   0.125750143</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1997   0.302664793   1.148738446   0.785645124   1.092788520</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1998   0.838700519   0.933602781   0.685747514   0.764421531</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1999   0.504428016   0.825984551   1.222733930   1.401265205</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2000   0.909693692   0.987402187   0.624501289   0.812645817</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2001   0.547797973   0.184046964   0.272336544   0.026816438</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2002   0.372541324   0.461330701   0.418587141  -0.054011578</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2003   0.203235664  -0.218262571   0.676991816   0.717703853</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2004   0.939180093   0.645697044   0.258638250   0.744155119</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2005   0.269714193   0.198490900   0.500009124   0.776948575</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2006   0.754542470   1.015941519   0.013572258   0.786297420</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2007   0.740940215   0.773456477   0.351755993   0.225637214</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2008   0.395791727  -0.412315400  -0.280602493  -1.467532567</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2009  -1.632375943  -0.101454578   0.160750061   0.695136221</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2010   0.368232308   0.507493101   0.645610703   0.704301595</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2011   0.997901680   0.027941934   0.367134262   0.173618343</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2012   0.093557392  -0.157293866   0.191962538  -0.077204189</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2013  -0.001133455   0.655711072   0.012011561   0.475525630</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2014   0.084980333   0.118498226   0.504372721   0.081229345</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2015   0.489945372   0.007744848   0.332080732   0.139118865</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2016   0.636268205  -0.161024723   0.198728721   0.544690904</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2017   0.816780164   0.820053915   0.622880698   0.828202860</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2018   0.048700300   0.382559370   0.366396552   0.701164421</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2019   0.665798334   0.604099134   0.011971808  -0.400152537</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2020  -5.647477753 -13.443145590  18.555378962  -1.118046566</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021   1.000000000   1.000000000   1.000000000   1.000000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2022  -0.047254400            NA            NA              </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in check_date_ts(start_ts, frequency_ts = frequency_ts, warn = FALSE):</span> could not find function "check_date_ts"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># La période entre les séries temporelles mens_1 et mens_2 est complétée par des NA</span></span></span>
 <span class="r-in"><span><span class="fu">combine2ts</span><span class="op">(</span><span class="va">mens_1</span>, <span class="va">mens_2</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>extending time series when replacing values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2020   1   1   1   1  NA  NA  NA  NA  NA  NA  NA  NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021  NA  NA  NA  NA  NA  NA  NA  NA  NA  NA  NA  NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2022   2   2   2   2                                </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in check_date_ts(start_ts, frequency_ts = frequency_ts, warn = FALSE):</span> could not find function "check_date_ts"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -42,7 +42,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extend_ts</span><span class="op">(</span><span class="va">dataTS</span>, <span class="va">x</span>, date_ts <span class="op">=</span> <span class="cn">NULL</span>, replace_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extend_ts</span><span class="op">(</span><span class="va">dataTS</span>, <span class="va">replacement</span>, date_ts <span class="op">=</span> <span class="cn">NULL</span>, replace_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -51,7 +51,7 @@
 <dd><p>un objet ts unidimensionnel conforme aux règles de assert_ts</p></dd>
 
 
-<dt>x</dt>
+<dt>replacement</dt>
 <dd><p>un vecteur de même type que le ts <code>dataTS</code></p></dd>
 
 
@@ -67,12 +67,12 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>En sortie, la fonction retourne une copie de l'objet <code>dataTS</code> complété avec le vecteur <code>x</code>.</p>
+<p>En sortie, la fonction retourne une copie de l'objet <code>dataTS</code> complété avec le vecteur <code>replacement</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Si <code>replace_na</code> vaut <code>TRUE</code> alors le remplacement commence dès que l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu, qu'il contienne des NA ou non à la fin.
-Si le vecteur <code>x</code> est de taille un sous-multiple de la différence de période entre la date de fin de <code>dataTS</code> et <code>date_ts</code>, le vecteur <code>x</code> est répété.</p>
+Si le vecteur <code>replacement</code> est de taille un sous-multiple de la différence de période entre la date de fin de <code>dataTS</code> et <code>date_ts</code>, le vecteur <code>replacement</code> est répété.</p>
     </div>
 
     <div class="section level2">
@@ -82,19 +82,11 @@ Si le vecteur <code>x</code> est de taille un sous-multiple de la différence de
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">extend_ts</span><span class="op">(</span><span class="va">ts1</span>, <span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2020  NA  NA  NA   1   2   3   4   5   6   7   8   9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021  10   3   3  NA                                </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in check_date_ts(start_ts, frequency_ts = frequency_ts, warn = FALSE):</span> could not find function "check_date_ts"</span>
 <span class="r-in"><span><span class="fu">extend_ts</span><span class="op">(</span><span class="va">ts1</span>, <span class="va">x</span>, replace_na <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>extending time series when replacing values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2020  NA  NA  NA   1   2   3   4   5   6   7   8   9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021  10  NA  NA  NA   3   3                        </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in check_date_ts(start_ts, frequency_ts = frequency_ts, warn = FALSE):</span> could not find function "check_date_ts"</span>
 <span class="r-in"><span><span class="fu">extend_ts</span><span class="op">(</span><span class="va">ts1</span>, <span class="va">x</span>, replace_na <span class="op">=</span> <span class="cn">TRUE</span>, date_ts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2021L</span>, <span class="fl">7L</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>extending time series when replacing values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2020  NA  NA  NA   1   2   3   4   5   6   7   8   9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021  10   3   3   3   3   3   3                    </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in check_date_ts(start_ts, frequency_ts = frequency_ts, warn = FALSE):</span> could not find function "check_date_ts"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

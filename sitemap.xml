@@ -22,9 +22,6 @@
     <loc>/reference/assert_date_ts.html</loc>
   </url>
   <url>
-    <loc>/reference/assert_ts.html</loc>
-  </url>
-  <url>
     <loc>/reference/check_TimeUnits.html</loc>
   </url>
   <url>
@@ -41,6 +38,9 @@
   </url>
   <url>
     <loc>/reference/check_scalar_natural.html</loc>
+  </url>
+  <url>
+    <loc>/reference/check_ts.html</loc>
   </url>
   <url>
     <loc>/reference/combine2ts.html</loc>
