@@ -132,7 +132,7 @@ Développement à venir :
 
 - 8) Ajouter covr, devtools, pkgbuild au renv.lock (en les installant)
 
-- 9) Tous les warnings doiventêtre généré à partir de check et non à partirb de assert (sinon messaage contradictoire)
+- 9) Tous les warnings doivent être généré à partir de check et non à partirb de assert (sinon messaage contradictoire)
 
 
 
