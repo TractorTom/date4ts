@@ -1,0 +1,6 @@
+
+source("./tests/testthat/helper.R")
+
+testthat::test_that("good result for integer date", {
+    testthat::expect_identical(object = libelles_one_date(date = c(2020L, 2L), frequency_ts = 12L), expected = "Feb 2020")
+})
