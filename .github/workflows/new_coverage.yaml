@@ -12,8 +12,3 @@ jobs:
     steps:
 
       - uses: actions/checkout@v3
-
-      - name: Trigger Workflow 1
-        uses: actions/workflow_run@v1
-        with:
-          workflow: coverage/cover_simple.yaml
