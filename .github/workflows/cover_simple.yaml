@@ -37,9 +37,7 @@ jobs:
     - name: Generate coverage report
       run: |
         cov_report <- covr::file_coverage(source_files = list.files("./R", full.names = TRUE), test_files = "./tests/testthat/test-simple.R")
-        covr::codecov(report = cov_report, token = Sys.getenv('CODECOV_TOKEN'))
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        #covr::codecov(report = cov_report, token = Sys.getenv('CODECOV_TOKEN'))
       shell: Rscript {0}
 
     - name: Upload coverage reports to Codecov
