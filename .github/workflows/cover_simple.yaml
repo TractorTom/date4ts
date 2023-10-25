@@ -1,12 +1,11 @@
 name: Coverage simple
 
 on:
-  workflow_dispatch:
-    inputs:
-      Full coverage:
-        description: 'Full coverage2 which will be triggered'
-        required: true
-        default: 'Full coverage'
+  workflow_run:
+    workflows: ["Full coverage"]
+    types: [requested]
+    branches:
+      - main
 
 jobs:
   coverage:
