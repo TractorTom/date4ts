@@ -21,19 +21,19 @@ jobs:
       with:
         r-version: 4.x  # Choisir la version R appropriée
 
-      - name: Install dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::rcmdcheck
-          needs: check
+    - name: Install dependencies
+      uses: r-lib/actions/setup-r-dependencies@v2
+      with:
+        extra-packages: any::rcmdcheck
+        needs: check
 
-      - name: renv status
-        run: |
-          options(repos = c(CRAN = "https://cloud.r-project.org"))
-          renv::install("cpp11")
-          renv::snapshot()
-          renv::status()
-        shell: Rscript {0}
+    - name: renv status
+      run: |
+        options(repos = c(CRAN = "https://cloud.r-project.org"))
+        renv::install("cpp11")
+        renv::snapshot()
+        renv::status()
+      shell: Rscript {0}
 
     - name: Generate coverage report
       run: |
@@ -43,7 +43,7 @@ jobs:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       shell: Rscript {0}
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
