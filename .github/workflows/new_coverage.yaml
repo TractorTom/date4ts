@@ -13,4 +13,7 @@ jobs:
 
       - uses: actions/checkout@v3
 
-      - uses: .github/workflows/coverage/coverage_workflow.yml
+      - name: Trigger Workflow 1
+        uses: actions/workflow_run@v1
+        with:
+          workflow: coverage/cover_simple.yaml
