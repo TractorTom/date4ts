@@ -43,7 +43,7 @@ for (typeA in list_type) {
                                             {
                                                 testthat::expect_warning(
                                                     {
-                                                        resAB <- setValue_ts(ts_A, date = startB, x = valueB)
+                                                        resAB <- set_value_ts(ts_A, date = startB, x = valueB)
                                                     },
                                                     regexp = "extending time series when replacing values"
                                                 )
@@ -66,7 +66,7 @@ for (typeA in list_type) {
 
                                         testthat::expect_warning(
                                             {
-                                                resAB <- setValue_ts(ts_A, date = startB, x = valueB)
+                                                resAB <- set_value_ts(ts_A, date = startB, x = valueB)
                                             },
                                             regexp = "extending time series when replacing values"
                                         )
@@ -80,11 +80,11 @@ for (typeA in list_type) {
                                 } else if (lagB + lenB < lenA) { # Cas 6
                                     ts_ResAB1 <- ts(c(A_content[1L:lagB], valueB, A_content[(lagB + lenB + 1):lenA]), start = startA, frequency = frequenceA)
                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
-                                    resAB <- setValue_ts(ts_A, date = startB, x = valueB)
+                                    resAB <- set_value_ts(ts_A, date = startB, x = valueB)
                                 } else if (lagB + lenB == lenA) { # Autres cas
                                     ts_ResAB1 <- ts(c(A_content[1L:lagB], valueB), start = startA, frequency = frequenceA)
                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
-                                    resAB <- setValue_ts(ts_A, date = startB, x = valueB)
+                                    resAB <- set_value_ts(ts_A, date = startB, x = valueB)
                                 } else { # Cas1
 
                                     ts_ResAB1 <- ts(c(A_content[1L:lagB], valueB), start = startA, frequency = frequenceA)
@@ -96,7 +96,7 @@ for (typeA in list_type) {
                                     )
                                     testthat::expect_warning(
                                         {
-                                            resAB <- setValue_ts(ts_A, date = startB, x = valueB)
+                                            resAB <- set_value_ts(ts_A, date = startB, x = valueB)
                                         },
                                         regexp = "extending time series when replacing values"
                                     )
@@ -112,7 +112,7 @@ for (typeA in list_type) {
                                             {
                                                 testthat::expect_warning(
                                                     {
-                                                        resAB <- setValue_ts(ts_A, date = startB, x = valueB)
+                                                        resAB <- set_value_ts(ts_A, date = startB, x = valueB)
                                                     },
                                                     regexp = "extending time series when replacing values"
                                                 )
@@ -140,7 +140,7 @@ for (typeA in list_type) {
                                         )
                                         testthat::expect_warning(
                                             {
-                                                resAB <- setValue_ts(ts_A, date = startB, x = valueB)
+                                                resAB <- set_value_ts(ts_A, date = startB, x = valueB)
                                             },
                                             regexp = "extending time series when replacing values"
                                         )
@@ -155,7 +155,7 @@ for (typeA in list_type) {
                                     )
                                     testthat::expect_warning(
                                         {
-                                            resAB <- setValue_ts(ts_A, date = startB, x = valueB)
+                                            resAB <- set_value_ts(ts_A, date = startB, x = valueB)
                                         },
                                         regexp = "extending time series when replacing values"
                                     )
@@ -169,7 +169,7 @@ for (typeA in list_type) {
                                     )
                                     testthat::expect_warning(
                                         {
-                                            resAB <- setValue_ts(ts_A, date = startB, x = valueB)
+                                            resAB <- set_value_ts(ts_A, date = startB, x = valueB)
                                         },
                                         regexp = "extending time series when replacing values"
                                     )
@@ -178,11 +178,11 @@ for (typeA in list_type) {
                                 if (lenB < lenA) {
                                     ts_ResAB1 <- ts(c(valueB, A_content[(lenB + 1):lenA]), start = startA, frequency = frequenceA)
                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
-                                    resAB <- setValue_ts(ts_A, date = startB, x = valueB)
+                                    resAB <- set_value_ts(ts_A, date = startB, x = valueB)
                                 } else if (lenB == lenA) {
                                     ts_ResAB1 <- ts(valueB, start = startA, frequency = frequenceA)
                                     ts_ResAB2 <- combine2ts(ts_A, ts_B)
-                                    resAB <- setValue_ts(ts_A, date = startB, x = valueB)
+                                    resAB <- set_value_ts(ts_A, date = startB, x = valueB)
                                 } else {
                                     ts_ResAB1 <- ts(valueB, start = startA, frequency = frequenceA)
                                     testthat::expect_warning(
@@ -193,7 +193,7 @@ for (typeA in list_type) {
                                     )
                                     testthat::expect_warning(
                                         {
-                                            resAB <- setValue_ts(ts_A, date = startB, x = valueB)
+                                            resAB <- set_value_ts(ts_A, date = startB, x = valueB)
                                         },
                                         regexp = "extending time series when replacing values"
                                     )
@@ -242,7 +242,7 @@ testthat::test_that("Several dimensions are not allowed", {
                     }
 
                     testthat::expect_error(
-                        setValue_ts(
+                        set_value_ts(
                             dataTS = mts_B,
                             date = create_random_date(),
                             x = create_random_type(type = typeA)
@@ -262,7 +262,7 @@ testthat::test_that("Several dimensions are not allowed", {
 testthat::test_that("miscellaneous dataTS are not allowed", {
     for (typeA in list_type) {
         for (obj in object_bank_R) {
-            testthat::expect_error(setValue_ts(
+            testthat::expect_error(set_value_ts(
                 dataTS = obj,
                 date = create_random_date(),
                 x = create_random_type(type = typeA)
@@ -276,7 +276,7 @@ testthat::test_that("miscellaneous dataTS are not allowed", {
 testthat::test_that("miscellaneous date are not allowed", {
     for (typeA in list_type) {
         for (wrong_date in wrong_dates) {
-            testthat::expect_error(setValue_ts(
+            testthat::expect_error(set_value_ts(
                 dataTS = create_random_ts(type = typeA),
                 date = wrong_date,
                 x = create_random_type(type = typeA)
@@ -291,7 +291,7 @@ testthat::test_that("miscellaneous value input are not allowed", {
     list_wrong_value <- c(fuzzr::test_df()[-4L], NULL, character(0L), numeric(0L), logical(0L), integer(0L), complex(0L))
     for (typeA in list_type) {
         for (value in list_wrong_value) {
-            testthat::expect_error(setValue_ts(
+            testthat::expect_error(set_value_ts(
                 dataTS = create_random_ts(type = typeA),
                 date = create_random_date(),
                 x = value
@@ -305,7 +305,7 @@ testthat::test_that("value should have same type as dataTS", {
         for (typeB in list_type[-7L]) {
             if (typeA != typeB) {
                 testthat::expect_error(
-                    setValue_ts(
+                    set_value_ts(
                         dataTS = create_random_ts(type = typeA),
                         date = create_random_date(),
                         x = create_random_type(typeB)
@@ -323,10 +323,10 @@ testthat::test_that("NA values generate warning", {
         v1 <- sample(c(create_random_type(typeA, len = 10L), get(paste0("as.", typeA))(rep(NA, 5L))), replace = TRUE)
         v2 <- get(paste0("as.", typeA))(rep(NA, 5L))
 
-        testthat::expect_warning(setValue_ts(dataTS = ts_A, date = 2010L, x = v1),
+        testthat::expect_warning(set_value_ts(dataTS = ts_A, date = 2010L, x = v1),
             regexp = "Assertion on 'x' failed: Contains missing values"
         )
-        testthat::expect_warning(setValue_ts(dataTS = ts_A, date = 2010L, x = v2),
+        testthat::expect_warning(set_value_ts(dataTS = ts_A, date = 2010L, x = v2),
             regexp = "Assertion on 'x' failed: Contains missing values"
         )
     }
@@ -336,7 +336,7 @@ testthat::test_that("NA values generate warning", {
 
 testthat::test_that("dataTS and date are temporally consistent", {
     for (typeA in list_type) {
-        testthat::expect_error(setValue_ts(
+        testthat::expect_error(set_value_ts(
             dataTS = create_random_ts(type = typeA, start = 2010 + 1 / 7, frequency = 12L),
             date = create_random_date(),
             x = create_random_type(type = typeA)
@@ -344,7 +344,7 @@ testthat::test_that("dataTS and date are temporally consistent", {
     }
 
     for (typeA in list_type) {
-        testthat::expect_error(setValue_ts(
+        testthat::expect_error(set_value_ts(
             dataTS = create_random_ts(type = typeA, start = 2022 + 1 / 5, frequency = 4L),
             date = create_random_date(),
             x = create_random_type(type = typeA)
