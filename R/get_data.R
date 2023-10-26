@@ -1,6 +1,6 @@
 #' Récupère des valeurs d'un ts
 #'
-#' @description La fonction `getValue_ts` permet de récupérer des valeurs.
+#' @description La fonction `get_value_ts` permet de récupérer des valeurs.
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
 #' @param date_from un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
@@ -16,11 +16,11 @@
 #' ts2 <- ts(letters, start = 2014, frequency = 4)
 #' ts3 <- ts(exp(-(1:50)), start = 2015, frequency = 12)
 #'
-#' getValue_ts(ts1, date_from = c(2015L, 7L), date_to = c(2018L, 6L))
-#' getValue_ts(ts2, date_from = c(2018L, 4L), n = 4L)
-#' getValue_ts(ts3, date_to = c(2018L, 4L), n = 14L)
+#' get_value_ts(ts1, date_from = c(2015L, 7L), date_to = c(2018L, 6L))
+#' get_value_ts(ts2, date_from = c(2018L, 4L), n = 4L)
+#' get_value_ts(ts3, date_to = c(2018L, 4L), n = 14L)
 #'
-getValue_ts <- function(dataTS, date_from, date_to, n) {
+get_value_ts <- function(dataTS, date_from, date_to, n) {
     # coll <- checkmate::makeAssertCollection()
     coll <- NULL
 

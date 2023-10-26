@@ -1,6 +1,6 @@
 #' Change certaines valeurs d'un ts
 #'
-#' @description La fonction `setValue_ts` modifie la ou les valeurs d'un objet ts à une date donnée.
+#' @description La fonction `set_value_ts` modifie la ou les valeurs d'un objet ts à une date donnée.
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
 #' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
@@ -10,13 +10,13 @@
 #' @export
 #'
 #' @examples
-#' setValue_ts(
+#' set_value_ts(
 #'     dataTS = ev_pib,
 #'     date_ts = c(2021L, 2L),
 #'     replacement = c(1, 2, 3)
 #' )
 #'
-setValue_ts <- function(dataTS, date_ts, replacement) {
+set_value_ts <- function(dataTS, date_ts, replacement) {
 
     coll <- checkmate::makeAssertCollection()
 
@@ -46,7 +46,7 @@ setValue_ts <- function(dataTS, date_ts, replacement) {
     ts_output <- dataTS
 
     if (is.raw(ts_output)) {
-        ts_output <- setValue_ts(
+        ts_output <- set_value_ts(
             dataTS = stats::ts(
                 data = as.integer(ts_output),
                 start = stats::start(ts_output),
