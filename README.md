@@ -6,7 +6,6 @@
 [![R-CMD-check](https://github.com/TractorTom/TractorTsbox/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/R-CMD-check.yaml)
 
 [![Codecov test coverage](https://codecov.io/gh/TractorTom/TractorTsbox/branch/main/graph/badge.svg)](https://app.codecov.io/gh/TractorTom/TractorTsbox?branch=main)
-[![Test coverage](https://github.com/TractorTom/TractorTsbox/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/test-coverage.yaml)
 
 [![CodeFactor](https://www.codefactor.io/repository/github/TractorTom/TractorTsbox/badge)](https://www.codefactor.io/repository/github/TractorTom/TractorTsbox)
 [![lint](https://github.com/TractorTom/TractorTsbox/actions/workflows/lint.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/lint.yaml)
