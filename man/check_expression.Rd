@@ -35,7 +35,7 @@ Selon le préfixe de la fonction :
 \item si le check échoue :
 \itemize{
 \item la fonction \code{assert_expression} retourne un message d'erreur;
-\item la fonction \code{check_expression} retourne la chaine de caractère "Invalid expression".
+\item la fonction \code{check_expression} retourne la chaîne de caractère "Invalid expression".
 }
 }
 }

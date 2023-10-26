@@ -16,17 +16,28 @@
 #'
 #' Ici, l'argument `frequency_ts` est nécessaire car une date sous la forme c(AAAA, PP), avec PP le nombre de période, ne désigne pas une date absolue. Par exemple, c(2020L 5L) désigne mai 2020 pour une fréquence mensuelle et le 1er trimestre 2021 pour une fréquence trimestrielle.
 #'
+#' Selon le préfixe de la fonction :
+#'
+#'  - si le check réussi :
+#'      - la fonction `assert_date_ts` retourne l'objet `x` de manière invisible;
+#'      - la fonction `check_date_ts` retourne le booléen `TRUE`.
+#'
+#'  - si le check échoue :
+#'      - la fonction `assert_date_ts` retourne un message d'erreur;
+#'      - la fonction `check_date_ts` retourne une chaîne de caractère signalant le problème.
+#'
 #' @export
 #'
 #' @examples
 #' # De bons formats de date
 #' assert_date_ts(c(2020L, 8L), frequency_ts = 12L)
 #' assert_date_ts(c(2020L, 2L), frequency_ts = 4L)
-#' assert_date_ts(2022L, frequency_ts = 12L)
+#' check_date_ts(2022L, frequency_ts = 12L)
 #'
 #' # Format double --> génération d'un warning
 #' assert_date_ts(c(2020., 4.), frequency_ts = 4L)
 #' assert_date_ts(2022., frequency_ts = 12L)
+#' check_date_ts(2022., frequency_ts = 12L)
 #'
 #' # Fréquence au format double --> génération d'un warning
 #' assert_date_ts(c(2020L, 6L), frequency_ts = 4.)
@@ -36,6 +47,60 @@
 #' assert_date_ts(c(2020L, 6L), frequency_ts = 4L)
 #' assert_date_ts(c(2020L, 42L), frequency_ts = 12L)
 #' assert_date_ts(c(2020L, -4L), frequency_ts = 12L)
+#'
+#' # Avec des erreurs
+#' check_date_ts(1:10, frequency_ts = 12L)
+#'
+check_date_ts <- function(x, frequency_ts, warn = TRUE) {
+
+    verif <- TRUE
+    output <- c()
+
+    # Check de la fréquence
+    cond1 <- check_frequency(frequency_ts, warn = warn)
+    if (!isTRUE(cond1)) {
+        verif <- FALSE
+        output <- c(output, cond1)
+    }
+
+    # Check du type
+    cond2 <- checkmate::check_numeric(
+        x, any.missing = FALSE,
+        min.len = 1L, max.len = 2L, finite = TRUE
+    )
+
+    if (isTRUE(cond2)) {
+        cond3 <- checkmate::check_integerish(x, any.missing = FALSE)
+        if (!isTRUE(cond3)) {
+            verif <- FALSE
+            output <- c(output, cond3)
+        }
+    } else {
+        verif <- FALSE
+        output <- c(output, cond2)
+    }
+
+    if (warn && (!isTRUE(checkmate::check_integer(x)))) {
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+
+    if (warn && (length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency_ts))) {
+        err <- try(checkmate::assert_integerish(x[2L], lower = 1L, upper = frequency_ts, .var.name = "period"), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+
+    x <- format_date_ts(x_corr, frequency_ts, test = FALSE)
+
+
+    output <- paste("\n*", output)
+    output <- paste(output, collapse = "")
+
+    return(ifelse(verif, verif, output))
+}
+
+#' @name check_date_ts
+#' @export
 #'
 assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
     if (is.null(add)) {
@@ -107,12 +172,12 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 #' Selon le préfixe de la fonction :
 #'
 #'  - si le check réussi :
-#'      - la fonction `assert_TimeUnits` retourne l'objet `x` de manière invisible;
-#'      - la fonction `check_TimeUnits` retourne le booléen `TRUE`.
+#'      - la fonction `assert_ts` retourne l'objet `x` de manière invisible;
+#'      - la fonction `check_ts` retourne le booléen `TRUE`.
 #'
 #'  - si le check échoue :
-#'      - la fonction `assert_TimeUnits` retourne un message d'erreur;
-#'      - la fonction `check_TimeUnits` retourne une chaine de caractère signalant le problème.
+#'      - la fonction `assert_ts` retourne un message d'erreur;
+#'      - la fonction `check_ts` retourne une chaîne de caractère signalant le problème.
 #'
 #' @export
 #'
@@ -254,7 +319,7 @@ assert_ts <- checkmate::makeAssertionFunction(check_ts)
 #'
 #'  - si le check échoue :
 #'      - la fonction `assert_TimeUnits` retourne un message d'erreur;
-#'      - la fonction `check_TimeUnits` retourne une chaine de caractère signalant le problème.
+#'      - la fonction `check_TimeUnits` retourne une chaîne de caractère signalant le problème.
 #'
 #' @export
 #'
@@ -335,7 +400,7 @@ assert_TimeUnits <- checkmate::makeAssertionFunction(check_TimeUnits)
 #'
 #'  - si le check échoue :
 #'      - la fonction `assert_frequency` retourne un message d'erreur;
-#'      - la fonction `check_frequency` retourne une chaine de caractère signalant le problème.
+#'      - la fonction `check_frequency` retourne une chaîne de caractère signalant le problème.
 #'
 #' @export
 #'
@@ -415,7 +480,7 @@ assert_frequency <- checkmate::makeAssertionFunction(check_frequency, coerce = T
 #'
 #'  - si le check échoue :
 #'      - la fonction `assert_scalar_integer` retourne un message d'erreur;
-#'      - la fonction `check_scalar_integer` retourne une chaine de caractère signalant le problème.
+#'      - la fonction `check_scalar_integer` retourne une chaîne de caractère signalant le problème.
 #'
 #' @export
 #'
@@ -491,7 +556,7 @@ assert_scalar_integer <- checkmate::makeAssertionFunction(check_scalar_integer, 
 #'
 #'  - si le check échoue :
 #'      - la fonction `assert_scalar_natural` retourne un message d'erreur;
-#'      - la fonction `check_scalar_natural` retourne une chaine de caractère signalant le problème.
+#'      - la fonction `check_scalar_natural` retourne une chaîne de caractère signalant le problème.
 #'
 #' @export
 #'
@@ -552,7 +617,7 @@ assert_scalar_natural <- checkmate::makeAssertionFunction(check_scalar_natural, 
 #'
 #'  - si le check échoue :
 #'      - la fonction `assert_scalar_date` retourne un message d'erreur;
-#'      - la fonction `check_scalar_date` retourne la chaine de caractère correspondante à l'erreur du check.
+#'      - la fonction `check_scalar_date` retourne la chaîne de caractère correspondante à l'erreur du check.
 #'
 #' @export
 #'
@@ -616,7 +681,7 @@ assert_scalar_date <- checkmate::makeAssertionFunction(check_scalar_date)
 #'
 #'  - si le check échoue :
 #'      - la fonction `assert_expression` retourne un message d'erreur;
-#'      - la fonction `check_expression` retourne la chaine de caractère "Invalid expression".
+#'      - la fonction `check_expression` retourne la chaîne de caractère "Invalid expression".
 #'
 #' @export
 #'

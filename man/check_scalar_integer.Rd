@@ -47,7 +47,7 @@ Selon le préfixe de la fonction :
 \item si le check échoue :
 \itemize{
 \item la fonction \code{assert_scalar_integer} retourne un message d'erreur;
-\item la fonction \code{check_scalar_integer} retourne une chaine de caractère signalant le problème.
+\item la fonction \code{check_scalar_integer} retourne une chaîne de caractère signalant le problème.
 }
 }
 }

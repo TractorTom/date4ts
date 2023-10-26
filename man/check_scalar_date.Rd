@@ -36,7 +36,7 @@ Selon le préfixe de la fonction :
 \item si le check échoue :
 \itemize{
 \item la fonction \code{assert_scalar_date} retourne un message d'erreur;
-\item la fonction \code{check_scalar_date} retourne la chaine de caractère correspondante à l'erreur du check.
+\item la fonction \code{check_scalar_date} retourne la chaîne de caractère correspondante à l'erreur du check.
 }
 }
 }

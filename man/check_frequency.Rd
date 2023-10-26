@@ -44,7 +44,7 @@ Selon le préfixe de la fonction :
 \item si le check échoue :
 \itemize{
 \item la fonction \code{assert_frequency} retourne un message d'erreur;
-\item la fonction \code{check_frequency} retourne une chaine de caractère signalant le problème.
+\item la fonction \code{check_frequency} retourne une chaîne de caractère signalant le problème.
 }
 }
 }

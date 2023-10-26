@@ -32,13 +32,13 @@ Selon le préfixe de la fonction :
 \itemize{
 \item si le check réussi :
 \itemize{
-\item la fonction \code{assert_TimeUnits} retourne l'objet \code{x} de manière invisible;
-\item la fonction \code{check_TimeUnits} retourne le booléen \code{TRUE}.
+\item la fonction \code{assert_ts} retourne l'objet \code{x} de manière invisible;
+\item la fonction \code{check_ts} retourne le booléen \code{TRUE}.
 }
 \item si le check échoue :
 \itemize{
-\item la fonction \code{assert_TimeUnits} retourne un message d'erreur;
-\item la fonction \code{check_TimeUnits} retourne une chaine de caractère signalant le problème.
+\item la fonction \code{assert_ts} retourne un message d'erreur;
+\item la fonction \code{check_ts} retourne une chaîne de caractère signalant le problème.
 }
 }
 }
