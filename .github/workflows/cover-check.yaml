@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  cover check:
+  cover_check:
     runs-on: ubuntu-latest
 
     steps:
