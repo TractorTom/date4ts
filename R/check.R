@@ -298,6 +298,8 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
         coll <- add
     }
 
+    checkmate::assert_class(x, classes = "ts", add = coll, .var.name = .var.name)
+
     # Check de la fréquence
     frequency_ts <- assert_expression(
         expr = {
@@ -322,7 +324,6 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
     end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end", warn = FALSE)
 
     # Check de la classe de l'objet
-    checkmate::assert_class(x, classes = "ts", add = coll, .var.name = .var.name)
     checkmate::assert_false(stats::is.mts(x), add = coll, .var.name = paste0("is.mts(", .var.name, ")"))
 
     # Check du type de données
@@ -867,5 +868,5 @@ assert_expression <- function(expr) {
         stop(paste("Invalid expression :", deparse(substitute(expr))))
     }
 
-    return(invisible(x))
+    return(invisible(expr))
 }
