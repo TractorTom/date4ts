@@ -302,8 +302,7 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
     frequency_ts <- assert_expression(
         expr = {
             stats::frequency(x)
-        },
-        .var.name = "frequency(x)"
+        }
     )
     frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts", warn = FALSE)
 
@@ -311,16 +310,14 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
     start_ts <- assert_expression(
         expr = {
             stats::start(x)
-        },
-        .var.name = "start(x)"
+        }
     )
     start_ts <- assert_date_ts(start_ts, frequency_ts = frequency_ts, add = coll, .var.name = "start", warn = FALSE)
 
     end_ts <- assert_expression(
         expr = {
             stats::end(x)
-        },
-        .var.name = "end(x)"
+        }
     )
     end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end", warn = FALSE)
 
