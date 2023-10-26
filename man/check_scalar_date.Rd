@@ -7,14 +7,14 @@
 \usage{
 check_scalar_date(x)
 
-assert_scalar_date(x, .var.name = checkmate::vname(x), add = NULL)
+assert_scalar_date(x, add = NULL, .var.name = checkmate::vname(x))
 }
 \arguments{
 \item{x}{un objet de type \code{Date}.}
 
-\item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
-
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
+
+\item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
 }
 \value{
 En sortie la fonction retourne l'objet \code{x} de manière invisible ou une erreur.

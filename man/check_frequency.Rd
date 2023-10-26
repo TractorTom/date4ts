@@ -5,22 +5,16 @@
 \alias{assert_frequency}
 \title{Vérifie la conformité d'une fréquence}
 \usage{
-check_frequency(x, warn = TRUE)
+check_frequency(x, .var.name = checkmate::vname(x), warn = TRUE)
 
-assert_frequency(
-  x,
-  warn = TRUE,
-  coerce = FALSE,
-  .var.name = checkmate::vname(x),
-  add = NULL
-)
+assert_frequency(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE)
 }
 \arguments{
 \item{x}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 
-\item{warn}{un booleen}
-
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
+
+\item{warn}{un booleen}
 
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 }

@@ -7,7 +7,7 @@
 \usage{
 check_expression(expr)
 
-assert_expression(expr, .var.name = checkmate::vname(expr), add = NULL)
+assert_expression(expr, .var.name)
 }
 \arguments{
 \item{expr}{une expression à évaluer}

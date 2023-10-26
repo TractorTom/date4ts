@@ -5,9 +5,9 @@
 \alias{assert_ts}
 \title{Vérifie la conformité d'un objet ts}
 \usage{
-check_ts(x)
+check_ts(x, .var.name = checkmate::vname(x))
 
-assert_ts(x, .var.name = checkmate::vname(x), add = NULL)
+assert_ts(x, add = NULL, .var.name = checkmate::vname(x))
 }
 \arguments{
 \item{x}{un objet ts unidimensionnel}

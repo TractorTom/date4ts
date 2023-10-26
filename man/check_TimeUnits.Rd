@@ -5,9 +5,9 @@
 \alias{assert_TimeUnits}
 \title{Vérifie la conformité d'un objet TimeUnits}
 \usage{
-check_TimeUnits(x, frequency_ts)
+check_TimeUnits(x, frequency_ts, .var.name = checkmate::vname(x))
 
-assert_TimeUnits(x, frequency_ts, .var.name = checkmate::vname(x), add = NULL)
+assert_TimeUnits(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x))
 }
 \arguments{
 \item{x}{un numérique qui représente le time units de}

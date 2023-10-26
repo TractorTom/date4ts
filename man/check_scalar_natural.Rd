@@ -9,10 +9,9 @@ check_scalar_natural(x, warn = TRUE)
 
 assert_scalar_natural(
   x,
-  warn = TRUE,
-  coerce = FALSE,
+  add = NULL,
   .var.name = checkmate::vname(x),
-  add = NULL
+  warn = TRUE
 )
 }
 \arguments{
@@ -20,9 +19,9 @@ assert_scalar_natural(
 
 \item{warn}{un booleen}
 
-\item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
-
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
+
+\item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
 }
 \value{
 En sortie la fonction retourne l'objet \code{x} de manière invisible ou une erreur.

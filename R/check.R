@@ -51,16 +51,16 @@
 #' # Avec des erreurs
 #' check_date_ts(1:10, frequency_ts = 12L)
 #'
-check_date_ts <- function(x, frequency_ts, warn = TRUE) {
+check_date_ts <- function(x, frequency_ts, .var.name = checkmate::vname(x), warn = TRUE) {
 
     verif <- TRUE
     output <- c()
 
     # Check de la fréquence
-    cond1 <- check_frequency(frequency_ts, warn = warn)
+    cond1 <- check_frequency(frequency_ts, warn = warn, .var.name = "frequency_ts")
     if (!isTRUE(cond1)) {
         verif <- FALSE
-        output <- c(output, cond1)
+        output <- output <- c(output, cond1)
     }
 
     # Check du type
@@ -73,11 +73,11 @@ check_date_ts <- function(x, frequency_ts, warn = TRUE) {
         cond3 <- checkmate::check_integerish(x, any.missing = FALSE)
         if (!isTRUE(cond3)) {
             verif <- FALSE
-            output <- c(output, cond3)
+            output <- output <- c(output, paste("*", .var.name, cond3))
         }
     } else {
         verif <- FALSE
-        output <- c(output, cond2)
+        output <- output <- c(output, paste("*", .var.name, cond2))
     }
 
     if (warn && (!isTRUE(checkmate::check_integer(x)))) {
@@ -85,16 +85,12 @@ check_date_ts <- function(x, frequency_ts, warn = TRUE) {
         warning(attr(err, "condition")$message)
     }
 
-    if (warn && (length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency_ts))) {
+    if (isTRUE(cond1) && isTRUE(cond2) && isTRUE(cond3) && warn && (length(x) == 2L) && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L, upper = frequency_ts))) {
         err <- try(checkmate::assert_integerish(x[2L], lower = 1L, upper = frequency_ts, .var.name = "period"), silent = TRUE)
         warning(attr(err, "condition")$message)
     }
 
-    x <- format_date_ts(x_corr, frequency_ts, test = FALSE)
-
-
-    output <- paste("\n*", output)
-    output <- paste(output, collapse = "")
+    output <- paste(output, collapse = "\n")
 
     return(ifelse(verif, verif, output))
 }
@@ -103,6 +99,7 @@ check_date_ts <- function(x, frequency_ts, warn = TRUE) {
 #' @export
 #'
 assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
+
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
     } else {
@@ -197,7 +194,7 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 #' check_ts(ts(1:10, start = 2010L, frequency = 2L))
 #' check_ts(1:10)
 #'
-check_ts <- function(x) {
+check_ts <- function(x, .var.name = checkmate::vname(x)) {
 
     verif <- TRUE
     output <- c()
@@ -214,11 +211,51 @@ check_ts <- function(x) {
 
         if (isTRUE(cond2)) {
             frequency_ts <- stats::frequency(x)
-            cond3 <- check_frequency(frequency_ts, warn = FALSE)
+            cond3 <- check_frequency(frequency_ts, warn = FALSE, .var.name = "frequency_ts")
 
             if (!isTRUE(cond3)) {
                 verif <- FALSE
                 output <- c(output, cond3)
+
+            } else {
+
+                # Check de la temporalité - start
+                cond4 <- check_expression(expr = {
+                    stats::start(x)
+                })
+
+                if (isTRUE(cond4)) {
+                    start_ts <- stats::start(x)
+                    cond5 <- check_date_ts(start_ts, frequency_ts = frequency_ts,  warn = FALSE, .var.name = paste0("stats::start(", .var.name, ")"))
+
+                    if (!isTRUE(cond5)) {
+                        verif <- FALSE
+                        output <- c(output, cond5)
+                    }
+
+                } else {
+                    verif <- FALSE
+                    output <- c(output, cond4)
+                }
+
+                # Check de la temporalité - end
+                cond6 <- check_expression(expr = {
+                    stats::end(x)
+                })
+
+                if (isTRUE(cond6)) {
+                    end_ts <- stats::end(x)
+                    cond7 <- check_date_ts(end_ts, frequency_ts = frequency_ts,  warn = FALSE, .var.name = paste0("stats::end(", .var.name, ")"))
+
+                    if (!isTRUE(cond7)) {
+                        verif <- FALSE
+                        output <- c(output, cond7)
+                    }
+
+                } else {
+                    verif <- FALSE
+                    output <- c(output, cond6)
+                }
             }
 
         } else {
@@ -226,75 +263,81 @@ check_ts <- function(x) {
             output <- c(output, cond2)
         }
 
-        # Check de la temporalité - start
-        cond4 <- check_expression({
-            stats::start(x)
-        })
-
-        if (isTRUE(cond4)) {
-            start_ts <- stats::start(x)
-            cond5 <- check_date_ts(start_ts, frequency_ts = frequency_ts,  warn = FALSE)
-
-            if (!isTRUE(cond5)) {
-                verif <- FALSE
-                output <- c(output, cond5)
-            }
-
-        } else {
-            verif <- FALSE
-            output <- c(output, cond4)
-        }
-
-        # Check de la temporalité - end
-        cond6 <- check_expression({
-            stats::end(x)
-        })
-
-        if (isTRUE(cond6)) {
-            end_ts <- stats::end(x)
-            cond7 <- check_date_ts(end_ts, frequency_ts = frequency_ts,  warn = FALSE)
-
-            if (!isTRUE(cond7)) {
-                verif <- FALSE
-                output <- c(output, cond7)
-            }
-
-        } else {
-            verif <- FALSE
-            output <- c(output, cond6)
-        }
-
-
         # Check que l'objet ne soit pas un mts
         cond8 <- checkmate::check_false(stats::is.mts(x))
         if (!isTRUE(cond8)) {
             verif <- FALSE
-            output <- c(output, cond8)
+            output <- c(output, paste0("* stats::is.mts(", .var.name, ") ", cond8))
         }
 
         # Check du type de données
         cond9 <- checkmate::check_atomic_vector(x)
         if (!isTRUE(cond9)) {
             verif <- FALSE
-            output <- c(output, cond9)
+            output <- c(output, paste("*", .var.name, cond9))
         }
 
     } else {
         verif <- FALSE
-        output <- c(output, cond1)
+        output <- c(output, paste("*", .var.name, cond1))
     }
 
-    output <- paste("\n*", output)
-    output <- paste(output, collapse = "")
+    output <- paste(output, collapse = "\n")
 
     return(ifelse(verif, verif, output))
 }
 
 #' @name check_ts
-#' @importFrom stats setNames
 #' @export
 #'
-assert_ts <- checkmate::makeAssertionFunction(check_ts)
+assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
+
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
+
+    # Check de la fréquence
+    frequency_ts <- assert_expression(
+        expr = {
+            stats::frequency(x)
+        },
+        .var.name = "frequency(x)"
+    )
+    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts", warn = FALSE)
+
+    # Check de la temporalité
+    start_ts <- assert_expression(
+        expr = {
+            stats::start(x)
+        },
+        .var.name = "start(x)"
+    )
+    start_ts <- assert_date_ts(start_ts, frequency_ts = frequency_ts, add = coll, .var.name = "start", warn = FALSE)
+
+    end_ts <- assert_expression(
+        expr = {
+            stats::end(x)
+        },
+        .var.name = "end(x)"
+    )
+    end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll, .var.name = "end", warn = FALSE)
+
+    # Check de la classe de l'objet
+    checkmate::assert_class(x, classes = "ts", add = coll, .var.name = .var.name)
+    checkmate::assert_false(stats::is.mts(x), add = coll, .var.name = paste0("is.mts(", .var.name, ")"))
+
+    # Check du type de données
+    checkmate::assert_atomic_vector(x, add = coll, .var.name = .var.name)
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    return(invisible(x))
+}
+
 
 #' Vérifie la conformité d'un objet TimeUnits
 #'
@@ -340,12 +383,12 @@ assert_ts <- checkmate::makeAssertionFunction(check_ts)
 #' check_TimeUnits(list(1), frequency_ts = 12L)
 #' check_TimeUnits(2000, frequency_ts = 1L)
 #'
-check_TimeUnits <- function(x, frequency_ts) {
+check_TimeUnits <- function(x, frequency_ts, .var.name = checkmate::vname(x)) {
 
     verif <- TRUE
     output <- c()
 
-    cond1 <- check_frequency(frequency_ts)
+    cond1 <- check_frequency(frequency_ts, .var.name = "frequency_ts")
 
     if (!isTRUE(cond1)) {
         verif <- FALSE
@@ -356,28 +399,45 @@ check_TimeUnits <- function(x, frequency_ts) {
 
     if (!isTRUE(cond2)) {
         verif <- FALSE
-        output <- c(output, cond2)
+        output <- c(output, paste("*", .var.name, cond2))
     }
 
     if (isTRUE(cond1) && isTRUE(cond2)) {
         if (!isTRUE(checkmate::check_int(x * frequency_ts))) {
             verif <- FALSE
-            output <- c(output, checkmate::check_int(x * frequency_ts))
+            output <- c(output, paste(.var.name, "* frequency_ts", checkmate::check_int(x * frequency_ts)))
         }
     }
 
-    output <- paste("\n*", output)
-    output <- paste(output, collapse = "")
+    output <- paste(output, collapse = "\n")
 
     return(ifelse(verif, verif, output))
 }
 
 #' @name check_TimeUnits
-#' @importFrom stats setNames
 #' @export
 #'
-assert_TimeUnits <- checkmate::makeAssertionFunction(check_TimeUnits)
+assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x)) {
 
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
+
+    # Check de la fréquence
+    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+    # Check de l'objet x (TimeUnits)
+    checkmate::assert_number(x, add = coll, .var.name = .var.name, finite = TRUE)
+
+    checkmate::assert_int(x * frequency_ts, .var.name = paste0(.var.name, " * frequency_ts"))
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    return(invisible(x))
+}
 
 #' Vérifie la conformité d'une fréquence
 #'
@@ -418,7 +478,7 @@ assert_TimeUnits <- checkmate::makeAssertionFunction(check_TimeUnits)
 #' check_frequency(1:10)
 #' check_frequency(1L)
 #'
-check_frequency <- function(x, warn = TRUE) {
+check_frequency <- function(x, .var.name = checkmate::vname(x), warn = TRUE) {
 
     verif <- TRUE
     output <- c()
@@ -426,34 +486,64 @@ check_frequency <- function(x, warn = TRUE) {
     if (!isTRUE(checkmate::check_numeric(x, any.missing = FALSE, finite = TRUE))) {
         verif <- FALSE
         output <- c(output, checkmate::check_numeric(x, any.missing = FALSE, finite = TRUE))
+
     } else {
         if (warn && (!isTRUE(checkmate::check_integer(x)))) {
-            err <- try(checkmate::assert_integer(x), silent = TRUE)
+            err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
             warning(attr(err, "condition")$message)
         }
 
         if (!isTRUE(checkmate::check_int(x))) {
             verif <- FALSE
             output <- c(output, checkmate::check_int(x))
+
+        } else if (!isTRUE(checkmate::check_choice(x, choices = c(4L, 12L)))) {
+            verif <- FALSE
+            output <- c(output, checkmate::check_choice(x, choices = c(4L, 12L)))
         }
     }
 
-    if (!isTRUE(checkmate::check_choice(x, choices = c(4L, 12L)))) {
-        verif <- FALSE
-        output <- c(output, checkmate::check_choice(x, choices = c(4L, 12L)))
-    }
-
-    output <- paste("\n*", output)
-    output <- paste(output, collapse = "")
+    output <- paste("*", .var.name, ":", output)
+    output <- paste(output, collapse = "\n")
 
     return(ifelse(verif, verif, output))
 }
 
 #' @name check_frequency
-#' @importFrom stats setNames
 #' @export
 #'
-assert_frequency <- checkmate::makeAssertionFunction(check_frequency, coerce = TRUE)
+assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
+
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
+
+    # Check du type
+    # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
+    if (isTRUE(checkmate::check_numeric(x, any.missing = FALSE, finite = TRUE))) {
+        x_corr <- checkmate::assert_int(x, coerce = TRUE, add = coll,
+                                        .var.name = .var.name)
+        checkmate::assert_choice(x_corr, choices = c(4L, 12L),
+                                 add = coll, .var.name = .var.name)
+    } else {
+        checkmate::assert_numeric(x, any.missing = FALSE, finite = TRUE,
+                                  add = coll, .var.name = .var.name)
+    }
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    if (warn && (!isTRUE(checkmate::check_integer(x)))) {
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+    x <- x_corr
+
+    return(invisible(x))
+}
 
 
 #' Vérifie la conformité d'un entier scalaire
@@ -525,10 +615,30 @@ check_scalar_integer <- function(x, warn = TRUE) {
 }
 
 #' @name check_scalar_integer
-#' @importFrom stats setNames
 #' @export
 #'
-assert_scalar_integer <- checkmate::makeAssertionFunction(check_scalar_integer, coerce = TRUE)
+assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
+
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
+
+    if (warn && !isTRUE(checkmate::check_integer(x))) {
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name),
+                   silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+
+    x <- checkmate::assert_int(x, coerce = TRUE, add = coll, .var.name = .var.name)
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    return(invisible(x))
+}
 
 #' Vérifie la conformité d'un entier naturel
 #'
@@ -592,11 +702,38 @@ check_scalar_natural <- function(x, warn = TRUE) {
 }
 
 #' @name check_scalar_natural
-#' @importFrom stats setNames
 #' @export
 #'
-assert_scalar_natural <- checkmate::makeAssertionFunction(check_scalar_natural, coerce = TRUE)
+assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE) {
 
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
+
+    # Check du type
+    # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
+    if (isTRUE(checkmate::check_numeric(x, finite = TRUE))) {
+        x_corr <- checkmate::assert_count(x, coerce = TRUE, positive = TRUE,
+                                          add = coll, .var.name = .var.name)
+    } else {
+        checkmate::assert_numeric(x, finite = TRUE,
+                                  add = coll, .var.name = .var.name)
+    }
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    if (warn && !isTRUE(checkmate::check_integer(x))) {
+        err <- try(checkmate::assert_integer(x, .var.name = .var.name), silent = TRUE)
+        warning(attr(err, "condition")$message)
+    }
+    x <- x_corr
+
+    return(invisible(x))
+}
 #' Vérifie la conformité d'une date scalaire
 #'
 #' @param x un objet de type `Date`.
@@ -651,18 +788,30 @@ check_scalar_date <- function(x) {
         output <- c(output, checkmate::check_scalar(x))
     }
 
-    output <- paste("\n*", output)
-    output <- paste(output, collapse = "")
+    output <- paste(output, collapse = "\n")
 
     return(ifelse(verif, verif, output))
 }
 
 #' @name check_scalar_date
-#' @importFrom stats setNames
 #' @export
 #'
-assert_scalar_date <- checkmate::makeAssertionFunction(check_scalar_date)
+assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
+    if (is.null(add)) {
+        coll <- checkmate::makeAssertCollection()
+    } else {
+        coll <- add
+    }
+    checkmate::assert_date(x, add = coll, .var.name = .var.name)
+    checkmate::assert_scalar(x, add = coll, .var.name = .var.name)
+
+    if (is.null(add)) {
+        checkmate::reportAssertions(coll)
+    }
+
+    return(invisible(x))
+}
 #' Vérifie la conformité d'une expression
 #'
 #' @param expr une expression à évaluer
@@ -710,7 +859,16 @@ check_expression <- function(expr) {
 }
 
 #' @name check_expression
-#' @importFrom stats setNames
 #' @export
 #'
-assert_expression <- checkmate::makeAssertionFunction(check_expression)
+assert_expression <- function(expr, .var.name) {
+    x <- tryCatch(expr,
+                  error = function(e) e,
+                  warning = function(w) w)
+
+    if (inherits(x, "warning") || inherits(x, "error")) {
+        stop(paste("* Invalid", .var.name))
+    }
+
+    return(invisible(x))
+}

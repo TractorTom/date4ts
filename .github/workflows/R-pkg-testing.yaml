@@ -54,12 +54,3 @@ jobs:
       - name: Run tests
         run: devtools::test(stop_on_failure = TRUE)
         shell: Rscript {0}
-
-      - name: Check test results
-        run: |
-          # Check if any test files have failed
-          if [ -n "$(find results/testthat -type f -name '*-failed.Rout')" ]; then
-            echo "Tests have failed"
-            exit 1
-          fi
-        shell: bash

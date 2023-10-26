@@ -5,7 +5,7 @@
 \alias{assert_date_ts}
 \title{Vérifie le format de date}
 \usage{
-check_date_ts(x, frequency_ts, warn = TRUE)
+check_date_ts(x, frequency_ts, .var.name = checkmate::vname(x), warn = TRUE)
 
 assert_date_ts(
   x,
@@ -20,11 +20,11 @@ assert_date_ts(
 
 \item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 
+\item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
+
 \item{warn}{un booleen}
 
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
-
-\item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
 }
 \value{
 En sortie la fonction retourne l'objet \code{x} de manière invisible ou une erreur.
