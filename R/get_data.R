@@ -12,9 +12,9 @@
 #'
 #' @examples
 #'
-#' ts1 <- ts(1:100, start = 2012, frequency = 12)
-#' ts2 <- ts(letters, start = 2014, frequency = 4)
-#' ts3 <- ts(exp(-(1:50)), start = 2015, frequency = 12)
+#' ts1 <- ts(1:100, start = 2012L, frequency = 12L)
+#' ts2 <- ts(letters, start = 2014L, frequency = 4L)
+#' ts3 <- ts(exp(-(1:50)), start = 2015L, frequency = 12L)
 #'
 #' get_value_ts(ts1, date_from = c(2015L, 7L), date_to = c(2018L, 6L))
 #' get_value_ts(ts2, date_from = c(2018L, 4L), n = 4L)

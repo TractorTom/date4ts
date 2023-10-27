@@ -46,17 +46,17 @@ Selon le préfixe de la fonction :
 
 assert_TimeUnits(2020.5, frequency_ts = 12L)
 assert_TimeUnits(2020.5, frequency_ts = 4L)
-assert_TimeUnits(2023, frequency_ts = 12L)
+assert_TimeUnits(2023., frequency_ts = 12L)
 
-assert_TimeUnits(2000 + 5 / 12, frequency_ts = 12L)
-assert_TimeUnits(2015 + 3 / 4, frequency_ts = 4L)
+assert_TimeUnits(2000. + 5. / 12., frequency_ts = 12L)
+assert_TimeUnits(2015. + 3. / 4., frequency_ts = 4L)
 
 check_TimeUnits(2020.5, frequency_ts = 12L)
-check_TimeUnits(2015 + 3 / 4, frequency_ts = 4L)
+check_TimeUnits(2015. + 3. / 4., frequency_ts = 4L)
 
 # Avec erreur
 
-check_TimeUnits(list(1), frequency_ts = 12L)
-check_TimeUnits(2000, frequency_ts = 1L)
+check_TimeUnits(list(1.), frequency_ts = 12L)
+check_TimeUnits(2000., frequency_ts = 1L)
 
 }
