@@ -10,7 +10,7 @@ testthat::test_that("good result for integer date", {
         for (year in good_years) {
             real_year <- year + (month - 1L) %/% 12L
             testthat::expect_identical(
-                libelles_one_date(date = c(year, month), frequency_ts = 12L),
+                libelles_one_date(date_ts = c(year, month), frequency_ts = 12L),
                 paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
             )
         }
@@ -22,7 +22,7 @@ testthat::test_that("good result for integer date", {
         for (year in good_years) {
             real_year <- year + (quarter - 1L) %/% 4L
             testthat::expect_identical(
-                libelles_one_date(date = c(year, quarter), frequency_ts = 4L),
+                libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L),
                 paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
             )
         }
@@ -38,12 +38,31 @@ testthat::test_that("warning for integer date out of range", {
             real_year <- year + (month - 1L) %/% 12L
             testthat::expect_warning(
                 {
-                    libel <- libelles_one_date(date = c(year, month), frequency_ts = 12L)
+                    libel1 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L, warn = TRUE)
                 },
                 regexp = "Assertion on 'period' failed: Element 1 is not <= 12.|Assertion on 'period' failed: Element 1 is not >= 1."
             )
+            testthat::expect_warning(
+                {
+                    libel2 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L)
+                },
+                regexp = "Assertion on 'period' failed: Element 1 is not <= 12.|Assertion on 'period' failed: Element 1 is not >= 1."
+            )
+            testthat::expect_no_warning(
+                {
+                    libel3 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L, warn = FALSE)
+                }
+            )
             testthat::expect_identical(
-                libel,
+                libel1,
+                paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
+            )
+            testthat::expect_identical(
+                libel2,
+                paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
+            )
+            testthat::expect_identical(
+                libel3,
                 paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
             )
         }
@@ -56,12 +75,31 @@ testthat::test_that("warning for integer date out of range", {
             real_year <- year + (quarter - 1L) %/% 4L
             testthat::expect_warning(
                 {
-                    libel <- libelles_one_date(date = c(year, quarter), frequency_ts = 4L)
+                    libel1 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L, warn = TRUE)
                 },
                 regexp = "Assertion on 'period' failed: Element 1 is not <= 4.|Assertion on 'period' failed: Element 1 is not >= 1."
             )
+            testthat::expect_warning(
+                {
+                    libel2 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L)
+                },
+                regexp = "Assertion on 'period' failed: Element 1 is not <= 4.|Assertion on 'period' failed: Element 1 is not >= 1."
+            )
+            testthat::expect_no_warning(
+                {
+                    libel3 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L, warn = FALSE)
+                }
+            )
             testthat::expect_identical(
-                libel,
+                libel1,
+                paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
+            )
+            testthat::expect_identical(
+                libel2,
+                paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
+            )
+            testthat::expect_identical(
+                libel3,
                 paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
             )
         }
@@ -74,12 +112,31 @@ testthat::test_that("warning for double date", {
             real_year <- year + (month - 1L) %/% 12L
             testthat::expect_warning(
                 {
-                    libel <- libelles_one_date(date = c(year, month), frequency_ts = 12L)
+                    libel1 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L, warn = TRUE)
                 },
                 regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
             )
+            testthat::expect_warning(
+                {
+                    libel2 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L)
+                },
+                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+            )
+            testthat::expect_no_warning(
+                {
+                    libel3 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L, warn = FALSE)
+                }
+            )
             testthat::expect_identical(
-                libel,
+                libel1,
+                paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
+            )
+            testthat::expect_identical(
+                libel2,
+                paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
+            )
+            testthat::expect_identical(
+                libel3,
                 paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
             )
         }
@@ -90,12 +147,31 @@ testthat::test_that("warning for double date", {
             real_year <- year + (month - 1L) %/% 12L
             testthat::expect_warning(
                 {
-                    libel <- libelles_one_date(date = c(year, month), frequency_ts = 12L)
+                    libel1 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L, warn = TRUE)
                 },
                 regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
             )
+            testthat::expect_warning(
+                {
+                    libel2 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L)
+                },
+                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+            )
+            testthat::expect_no_warning(
+                {
+                    libel3 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L, warn = FALSE)
+                }
+            )
             testthat::expect_identical(
-                libel,
+                libel1,
+                paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
+            )
+            testthat::expect_identical(
+                libel2,
+                paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
+            )
+            testthat::expect_identical(
+                libel3,
                 paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
             )
         }
@@ -106,12 +182,31 @@ testthat::test_that("warning for double date", {
             real_year <- year + (quarter - 1L) %/% 4L
             testthat::expect_warning(
                 {
-                    libel <- libelles_one_date(date = c(year, quarter), frequency_ts = 4L)
+                    libel1 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L, warn = TRUE)
                 },
                 regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
             )
+            testthat::expect_warning(
+                {
+                    libel2 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L)
+                },
+                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+            )
+            testthat::expect_no_warning(
+                {
+                    libel3 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L, warn = FALSE)
+                }
+            )
             testthat::expect_identical(
-                libel,
+                libel1,
+                paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
+            )
+            testthat::expect_identical(
+                libel2,
+                paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
+            )
+            testthat::expect_identical(
+                libel3,
                 paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
             )
         }
@@ -122,12 +217,31 @@ testthat::test_that("warning for double date", {
             real_year <- year + (quarter - 1L) %/% 4L
             testthat::expect_warning(
                 {
-                    libel <- libelles_one_date(date = c(year, quarter), frequency_ts = 4L)
+                    libel1 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L, warn = TRUE)
                 },
                 regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
             )
+            testthat::expect_warning(
+                {
+                    libel2 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L)
+                },
+                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+            )
+            testthat::expect_no_warning(
+                {
+                    libel3 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L, warn = FALSE)
+                }
+            )
             testthat::expect_identical(
-                libel,
+                libel1,
+                paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
+            )
+            testthat::expect_identical(
+                libel2,
+                paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
+            )
+            testthat::expect_identical(
+                libel3,
                 paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
             )
         }
@@ -141,14 +255,36 @@ testthat::test_that("warning for double date and out of range", {
             testthat::expect_warning(
                 testthat::expect_warning(
                     object = {
-                        libel <- libelles_one_date(date = c(year, month), frequency_ts = 12L)
+                        libel1 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L, warn = TRUE)
                     },
                     regexp = "Assertion on 'period' failed: Element 1 is not <= 12.|Assertion on 'period' failed: Element 1 is not >= 1."
                 ),
                 regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
             )
+            testthat::expect_warning(
+                testthat::expect_warning(
+                    object = {
+                        libel2 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L)
+                    },
+                    regexp = "Assertion on 'period' failed: Element 1 is not <= 12.|Assertion on 'period' failed: Element 1 is not >= 1."
+                ),
+                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+            )
+            testthat::expect_no_warning(
+                object = {
+                    libel3 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L, warn = FALSE)
+                }
+            )
             testthat::expect_identical(
-                libel,
+                libel1,
+                paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
+            )
+            testthat::expect_identical(
+                libel2,
+                paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
+            )
+            testthat::expect_identical(
+                libel3,
                 paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
             )
         }
@@ -160,14 +296,36 @@ testthat::test_that("warning for double date and out of range", {
             testthat::expect_warning(
                 testthat::expect_warning(
                     object = {
-                        libel <- libelles_one_date(date = c(year, quarter), frequency_ts = 4L)
+                        libel1 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L, warn = TRUE)
                     },
                     regexp = "Assertion on 'period' failed: Element 1 is not <= 4.|Assertion on 'period' failed: Element 1 is not >= 1."
                 ),
                 regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
             )
+            testthat::expect_warning(
+                testthat::expect_warning(
+                    object = {
+                        libel2 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L)
+                    },
+                    regexp = "Assertion on 'period' failed: Element 1 is not <= 4.|Assertion on 'period' failed: Element 1 is not >= 1."
+                ),
+                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+            )
+            testthat::expect_no_warning(
+                object = {
+                    libel3 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L, warn = FALSE)
+                }
+            )
             testthat::expect_identical(
-                libel,
+                libel1,
+                paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
+            )
+            testthat::expect_identical(
+                libel2,
+                paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
+            )
+            testthat::expect_identical(
+                libel3,
                 paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
             )
         }
@@ -180,12 +338,31 @@ testthat::test_that("warning for double monthly frequency", {
             real_year <- year + (month - 1L) %/% 12L
             testthat::expect_warning(
                 {
-                    libel <- libelles_one_date(date = c(year, month), frequency_ts = 12)
+                    libel1 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12., warn = TRUE)
                 },
                 regexp = warning_frequency_double
             )
+            testthat::expect_warning(
+                {
+                    libel2 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12.)
+                },
+                regexp = warning_frequency_double
+            )
+            testthat::expect_no_warning(
+                {
+                    libel3 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12., warn = FALSE)
+                }
+            )
             testthat::expect_identical(
-                libel,
+                libel1,
+                paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
+            )
+            testthat::expect_identical(
+                libel2,
+                paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
+            )
+            testthat::expect_identical(
+                libel3,
                 paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
             )
         }
@@ -198,12 +375,31 @@ testthat::test_that("warning for double quaterly frequency", {
             real_year <- year + (quarter - 1L) %/% 4L
             testthat::expect_warning(
                 {
-                    libel <- libelles_one_date(date = c(year, quarter), frequency_ts = 4)
+                    libel1 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4., warn = TRUE)
                 },
                 regexp = warning_frequency_double
             )
+            testthat::expect_warning(
+                {
+                    libel2 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4.)
+                },
+                regexp = warning_frequency_double
+            )
+            testthat::expect_no_warning(
+                {
+                    libel3 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4., warn = FALSE)
+                }
+            )
             testthat::expect_identical(
-                libel,
+                libel1,
+                paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
+            )
+            testthat::expect_identical(
+                libel2,
+                paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
+            )
+            testthat::expect_identical(
+                libel3,
                 paste0("Q", (quarter - 1L) %% 4L + 1L, " ", real_year)
             )
         }
@@ -215,13 +411,13 @@ testthat::test_that("warning for double quaterly frequency", {
 
 testthat::test_that("miscellaneous date are not allowed", {
     for (wrong_date in wrong_dates) {
-        testthat::expect_error(libelles_one_date(date = wrong_date, frequency_ts = 12L))
-        testthat::expect_error(libelles_one_date(date = wrong_date, frequency_ts = 4L))
+        testthat::expect_error(libelles_one_date(date_ts = wrong_date, frequency_ts = 12L, warn = FALSE))
+        testthat::expect_error(libelles_one_date(date_ts = wrong_date, frequency_ts = 4L, warn = FALSE))
     }
 })
 
 testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
-        testthat::expect_error(libelles_one_date(date = create_random_date(), frequency_ts = wrong_frequency))
+        testthat::expect_error(libelles_one_date(date_ts = create_random_date(), frequency_ts = wrong_frequency, warn = FALSE))
     }
 })
