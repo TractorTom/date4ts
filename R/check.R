@@ -54,7 +54,7 @@
 check_date_ts <- function(x, frequency_ts, .var.name = checkmate::vname(x), warn = TRUE) {
 
     verif <- TRUE
-    output <- c()
+    output <- NULL
 
     # Check de la fréquence
     cond1 <- check_frequency(frequency_ts, warn = warn, .var.name = "frequency_ts")
@@ -197,7 +197,7 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 check_ts <- function(x, .var.name = checkmate::vname(x)) {
 
     verif <- TRUE
-    output <- c()
+    output <- NULL
 
     # Check de la classe de l'objet
     cond1 <- checkmate::check_class(x, classes = "ts", null.ok = FALSE)
@@ -368,23 +368,23 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 #'
 #' assert_TimeUnits(2020.5, frequency_ts = 12L)
 #' assert_TimeUnits(2020.5, frequency_ts = 4L)
-#' assert_TimeUnits(2023, frequency_ts = 12L)
+#' assert_TimeUnits(2023., frequency_ts = 12L)
 #'
-#' assert_TimeUnits(2000 + 5 / 12, frequency_ts = 12L)
-#' assert_TimeUnits(2015 + 3 / 4, frequency_ts = 4L)
+#' assert_TimeUnits(2000. + 5. / 12., frequency_ts = 12L)
+#' assert_TimeUnits(2015. + 3. / 4., frequency_ts = 4L)
 #'
 #' check_TimeUnits(2020.5, frequency_ts = 12L)
-#' check_TimeUnits(2015 + 3 / 4, frequency_ts = 4L)
+#' check_TimeUnits(2015. + 3. / 4., frequency_ts = 4L)
 #'
 #' # Avec erreur
 #'
-#' check_TimeUnits(list(1), frequency_ts = 12L)
-#' check_TimeUnits(2000, frequency_ts = 1L)
+#' check_TimeUnits(list(1.), frequency_ts = 12L)
+#' check_TimeUnits(2000., frequency_ts = 1L)
 #'
 check_TimeUnits <- function(x, frequency_ts, .var.name = checkmate::vname(x)) {
 
     verif <- TRUE
-    output <- c()
+    output <- NULL
 
     cond1 <- check_frequency(frequency_ts, .var.name = "frequency_ts")
 
@@ -479,7 +479,7 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
 check_frequency <- function(x, .var.name = checkmate::vname(x), warn = TRUE) {
 
     verif <- TRUE
-    output <- c()
+    output <- NULL
 
     if (!isTRUE(checkmate::check_numeric(x, any.missing = FALSE, finite = TRUE))) {
         verif <- FALSE
@@ -774,7 +774,7 @@ assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x)
 check_scalar_date <- function(x) {
 
     verif <- TRUE
-    output <- c()
+    output <- NULL
 
     if (!isTRUE(checkmate::check_date(x))) {
         verif <- FALSE

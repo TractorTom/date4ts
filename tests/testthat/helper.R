@@ -1,6 +1,6 @@
 # Options -----------------------------------------------------------------
 
-Sys.setlocale("LC_TIME", "C")
+withr::local_locale(.new = c("LC_TIME" = "en_US"))
 
 # Création de fonctions ---------------------------------------------------
 
@@ -109,9 +109,9 @@ wrong_dates <- c(
     list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
     lapply(list_type[-c(1L, 3L)], create_random_type, len = 2),
     lapply(list_type, create_random_type, len = 3),
-    list(2019.5, 2020 + 1 / 12, pi / 4, c(2020, 2.5), c(2010.25, 3), c(2002, 3, 1), c("2002", "3")),
-    list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5), c(NA_real_, NA_real_)),
-    list(2L:4L, c(2020.0, 7, 1), c(2020L, 0L, NA_integer_), numeric(0), integer(0), Inf, c(2000L, Inf), c(Inf, 4))
+    list(2019.5, 2020. + 1. / 12., pi / 4., c(2020., 2.5), c(2010.25, 3.), c(2002., 3., 1.), c("2002", "3")),
+    list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5.), c(NA_real_, NA_real_)),
+    list(2L:4L, c(2020.0, 7., 1.), c(2020L, 0L, NA_integer_), numeric(0), integer(0), Inf, c(2000L, Inf), c(Inf, 4.))
 )
 
 
