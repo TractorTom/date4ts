@@ -12,6 +12,8 @@ libelles(date_ts, frequency_ts, n = 1L)
 \item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 
 \item{n}{un entier}
+
+\item{warn}{un booleen}
 }
 \value{
 En sortie, la fonction retourne un vecteur de chaine de caractère de longueur \code{n} avec les libellés de la période (de la date \code{date_ts} à la date \verb{date_ts + n périodes}.
@@ -21,6 +23,8 @@ La fonction \code{libelles} créé un vecteur de chaines de caractère contenant
 }
 \details{
 Pour choisir la période, il faut spécifier une date de début \code{date_ts}, une fréquence \code{frequency_ts} pour le pas entre 2 dates (trimestrielle ou mensuelle) et un nombre de valeur \code{n} (nombre de période).
+
+Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de warning lors de l'évaluation.
 }
 \examples{
 libelles(date_ts = c(2019L, 10L), frequency_ts = 12L, n = 9L)
