@@ -48,8 +48,8 @@ jobs:
           mv tests/testthat/tests-date_manipulation/* tests/testthat
           mv tests/testthat/tests-libelles/* tests/testthat
           # mv tests/testthat/tests-modify/* tests/testthat
-          # mv tests/testthat/tests-conversion/* tests/testthat
-          # mv tests/testthat/tests-formatting/* tests/testthat
+          mv tests/testthat/tests-conversion/* tests/testthat
+          mv tests/testthat/tests-formatting/* tests/testthat
 
       - name: Run tests
         run: devtools::test(stop_on_failure = TRUE)
