@@ -4,7 +4,7 @@
 \alias{libelles}
 \title{Libelés pour une période}
 \usage{
-libelles(date_ts, frequency_ts, n = 1L)
+libelles(date_ts, frequency_ts, n = 1L, warn = TRUE)
 }
 \arguments{
 \item{date_ts}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}

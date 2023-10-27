@@ -42,10 +42,8 @@ libelles_one_date <- function(date_ts, frequency_ts, warn = TRUE) {
 #'
 #' @description La fonction `libelles` créé un vecteur de chaines de caractère contenant les libelés de toutes les dates sur une période
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @inheritParams libelles_one_date
 #' @param n un entier
-#' @param warn un booleen
 #'
 #' @return En sortie, la fonction retourne un vecteur de chaine de caractère de longueur `n` avec les libellés de la période (de la date `date_ts` à la date `date_ts + n périodes`.
 #'
@@ -59,7 +57,7 @@ libelles_one_date <- function(date_ts, frequency_ts, warn = TRUE) {
 #' libelles(date_ts = c(2019L, 10L), frequency_ts = 12L, n = 9L)
 #' libelles(date_ts = c(2019L, 4L), frequency_ts = 4L, n = 3L)
 #'
-libelles <- function(date_ts, frequency_ts, n = 1L) {
+libelles <- function(date_ts, frequency_ts, n = 1L, warn = TRUE) {
 
     coll <- checkmate::makeAssertCollection()
 
