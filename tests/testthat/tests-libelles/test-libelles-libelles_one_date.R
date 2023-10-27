@@ -39,31 +39,31 @@ testthat::test_that("warning for integer date out of range", {
             testthat::expect_warning(
                 {
                     libel1 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L, warn = TRUE)
+                    testthat::expect_identical(
+                        libel1,
+                        paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
+                    )
                 },
                 regexp = "Assertion on 'period' failed: Element 1 is not <= 12.|Assertion on 'period' failed: Element 1 is not >= 1."
             )
             testthat::expect_warning(
                 {
                     libel2 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L)
+                    testthat::expect_identical(
+                        libel2,
+                        paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
+                    )
                 },
                 regexp = "Assertion on 'period' failed: Element 1 is not <= 12.|Assertion on 'period' failed: Element 1 is not >= 1."
             )
             testthat::expect_no_warning(
                 {
                     libel3 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L, warn = FALSE)
+                    testthat::expect_identical(
+                        libel3,
+                        paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
+                    )
                 }
-            )
-            testthat::expect_identical(
-                libel1,
-                paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
-            )
-            testthat::expect_identical(
-                libel2,
-                paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
-            )
-            testthat::expect_identical(
-                libel3,
-                paste(list_months_name[(month - 1L) %% 12L + 1L], real_year)
             )
         }
     }
