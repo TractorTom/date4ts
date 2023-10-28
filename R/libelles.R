@@ -60,13 +60,13 @@ libelles_one_date <- function(date_ts, frequency_ts, warn = TRUE) {
 libelles <- function(date_ts, frequency_ts, n = 1L, warn = TRUE) {
 
     # Check de warn
-    checkmate::assert_flag(warn, add = coll, .var.name = "warn", na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_flag(warn, add = NULL, .var.name = "warn", na.ok = FALSE, null.ok = FALSE)
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts", warn = warn)
+    frequency_ts <- assert_frequency(frequency_ts, add = NULL, .var.name = "frequency_ts", warn = warn)
 
     # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts", warn = warn)
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = NULL, .var.name = "date_ts", warn = warn)
 
     # Check de l'argument n
     n <- assert_scalar_natural(n, add = coll, .var.name = "n")
