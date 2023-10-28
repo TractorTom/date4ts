@@ -17,16 +17,14 @@
 #'
 libelles_one_date <- function(date_ts, frequency_ts, warn = TRUE) {
 
-    coll <- checkmate::makeAssertCollection()
+    # Check de warn
+    checkmate::assert_flag(warn, add = NULL, .var.name = "warn", na.ok = FALSE, null.ok = FALSE)
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts", warn = warn)
-    # Check du format date_ts
-    if (isTRUE(check_frequency(frequency_ts))) {
-        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts", warn = warn)
-    }
+    frequency_ts <- assert_frequency(frequency_ts, .var.name = "frequency_ts", warn = warn)
 
-    checkmate::reportAssertions(coll)
+    # Check du format date_ts
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts, .var.name = "date_ts", warn = warn)
 
     date <- date_ts2date(date_ts, frequency_ts = frequency_ts)
 
