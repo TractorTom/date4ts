@@ -36,7 +36,6 @@ set_value_ts <- function(dataTS, date_ts, replacement) {
     # Check des types des objets
     if (!isTRUE(typeof(dataTS) == typeof(replacement))) {
         coll$push("Les objets `dataTS` et `replacement` doivent \u00eatre de m\u00eame type.")
-        # stop("Les objets `dataTS` et `replacement` doivent \u00eatre de m\u00eame type.")
     }
 
     checkmate::reportAssertions(coll)
@@ -108,7 +107,7 @@ set_value_ts <- function(dataTS, date_ts, replacement) {
 #' combine2ts(ev_pib, trim_1)
 #'
 #' # La période entre les séries temporelles mens_1 et mens_2 est complétée par
-#' des NA
+#' # des NA
 #' combine2ts(mens_1, mens_2)
 #'
 combine2ts <- function(a, b) {
@@ -179,10 +178,10 @@ combine2ts <- function(a, b) {
             data = df_output$res,
             frequency = frequency_ts,
             start = min(
-                date_ts2TimeUnits(as.integer(stats::start(a)),
+                date_ts2timeunits(as.integer(stats::start(a)),
                     frequency_ts = frequency_ts
                 ),
-                date_ts2TimeUnits(as.integer(stats::start(b)),
+                date_ts2timeunits(as.integer(stats::start(b)),
                     frequency_ts = frequency_ts
                 )
             )
@@ -221,8 +220,8 @@ combine2ts <- function(a, b) {
 #' extend_ts(ts1, x, replace_na = TRUE, date_ts = c(2021L, 7L))
 #'
 extend_ts <- function(dataTS, replacement, date_ts = NULL, replace_na = TRUE) {
-    # coll <- checkmate::makeAssertCollection()
-    coll <- NULL
+
+    coll <- checkmate::makeAssertCollection()
 
     # Check de l'objet dataTS
     assert_ts(dataTS, add = coll, .var.name = "dataTS")
@@ -231,7 +230,7 @@ extend_ts <- function(dataTS, replacement, date_ts = NULL, replace_na = TRUE) {
     # Check de replace_na
     checkmate::assert_flag(replace_na, add = coll, .var.name = "replace_na")
 
-    # checkmate::reportAssertions(coll)
+    checkmate::reportAssertions(coll)
 
     frequency_ts <- as.integer(stats::frequency(dataTS))
 
@@ -240,9 +239,7 @@ extend_ts <- function(dataTS, replacement, date_ts = NULL, replace_na = TRUE) {
         date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
     }
 
-    # start_ts <- as.integer(stats::start(dataTS))
     end_ts <- as.integer(stats::end(dataTS))
-
 
     if (replace_na) {
         start_replacement <- next_date_ts(last_date(dataTS), frequency_ts = frequency_ts)
@@ -293,7 +290,7 @@ extend_ts <- function(dataTS, replacement, date_ts = NULL, replace_na = TRUE) {
 #' na_trim(ts3)
 #'
 na_trim <- function(dataTS) {
-    # coll <- checkmate::makeAssertCollection()
+
     coll <- NULL
 
     # Check de l'objet dataTS
@@ -303,8 +300,6 @@ na_trim <- function(dataTS) {
         all.missing = FALSE,
         add = coll, .var.name = "dataTS"
     )
-
-    # checkmate::reportAssertions(coll)
 
     non_na <- seq_along(dataTS)[!is.na(dataTS)]
     content <- dataTS[min(non_na):max(non_na)]

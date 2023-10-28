@@ -7,20 +7,26 @@
 libelles_one_date(date_ts, frequency_ts, warn = TRUE)
 }
 \arguments{
-\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format
+\code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries
+trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 
 \item{warn}{un booleen}
 }
 \value{
-En sortie, la fonction retourne une chaîne de caractère de longueur 1 qui correspond au libellé de la date \code{date_ts}.
+En sortie, la fonction retourne une chaîne de caractère de longueur 1
+qui correspond au libellé de la date \code{date_ts}.
 }
 \description{
-La fonction \code{libelles_one_date} créé le libellé pour une date à une fréquence donnée.modifie la ou les valeurs d'un objet ts à une date donnée.
+La fonction \code{libelles_one_date} créé le libellé pour une date
+à une fréquence donnée.modifie la ou les valeurs d'un objet ts à une date
+donnée.
 }
 \details{
-Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de warning lors de l'évaluation.
+Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de
+warning lors de l'évaluation.
 }
 \examples{
 TractorTsbox:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 12L)

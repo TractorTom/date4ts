@@ -10,10 +10,12 @@ na_trim(dataTS)
 \item{dataTS}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 }
 \value{
-En sortie, la fonction retourne une copie de l'objet \code{dataTS} corrigé des NA et début et fin de série.
+En sortie, la fonction retourne une copie de l'objet \code{dataTS} corrigé
+des NA et début et fin de série.
 }
 \description{
-La fonction \code{na_trim} supprime les NA en début et en fin de période.
+La fonction \code{na_trim} supprime les NA en début et en fin de
+période.
 }
 \details{
 L'objet retourné commence et finis par des valeurs non manquantes.

@@ -1,46 +1,46 @@
 #' Conversion au format date_ts
 #'
-#' @description Les fonctions `as.YYYYTT` et `as.YYYYMM` convertissent une date
+#' @description Les fonctions `as.yyyytt` et `as.yyyymm` convertissent une date
 #' du format TimeUnits au format `date_ts`.
 #'
-#' @param TimeUnits une date en année (Par exemple 2015.25 pour le 2ème
+#' @param timeunits une date en année (Par exemple 2015.25 pour le 2ème
 #' trimestre 2015 ou `2021.83333333333` pour novembre 2021)
 #'
 #' @return En sortie, ces fonctions retournent la date au format `date_ts`
 #' (c'est-à-dire un vecteur d'entiers de la forme `AAAA`, `c(AAAA, MM)` ou
 #' `c(AAAA, TT)`)
 #' @details
-#' La fonction `as.YYYYTT` retourne la date par trimestre et la fonction
-#' `as.YYYYMM` retourne la date par mois.
+#' La fonction `as.yyyytt` retourne la date par trimestre et la fonction
+#' `as.yyyymm` retourne la date par mois.
 #'
 #' @export
 #'
 #' @examples
-#' as.YYYYTT(2019.75) # 4ème trimestre 2019
-#' as.YYYYTT(2020) # 1er trimestre 2020
-#' as.YYYYTT(2022 + 1 / 4) # 2ème trimestre 2022
+#' as.yyyytt(2019.75) # 4ème trimestre 2019
+#' as.yyyytt(2020) # 1er trimestre 2020
+#' as.yyyytt(2022 + 1 / 4) # 2ème trimestre 2022
 #'
-#' as.YYYYMM(2019.75) # Octobre 2019
-#' as.YYYYMM(2020) # Janvier 2020
-#' as.YYYYMM(2020 + 1 / 12) # Février 2020
-#' as.YYYYMM(2020 + 12 / 12) # Janvier 2021
+#' as.yyyymm(2019.75) # Octobre 2019
+#' as.yyyymm(2020) # Janvier 2020
+#' as.yyyymm(2020 + 1 / 12) # Février 2020
+#' as.yyyymm(2020 + 12 / 12) # Janvier 2021
 #'
-as.YYYYTT <- function(TimeUnits) {
+as.yyyytt <- function(timeunits) {
     # Check de l'objet TimeUnits
-    assert_TimeUnits(TimeUnits, frequency_ts = 4L, .var.name = "TimeUnits")
+    assert_timeunits(timeunits, frequency_ts = 4L, .var.name = "timeunits")
 
-    return(as.integer(round(c(TimeUnits %/% 1L, (TimeUnits %% 1L) * 4L + 1L))))
+    return(as.integer(round(c(timeunits %/% 1L, (timeunits %% 1L) * 4L + 1L))))
 }
 
-#' @name as.YYYYTT
+#' @name as.yyyytt
 #'
 #' @export
 #'
-as.YYYYMM <- function(TimeUnits) {
+as.yyyymm <- function(timeunits) {
     # Check de l'objet TimeUnits
-    assert_TimeUnits(TimeUnits, frequency_ts = 12L, .var.name = "TimeUnits")
+    assert_timeunits(timeunits, frequency_ts = 12L, .var.name = "timeunits")
 
-    return(as.integer(round(c(TimeUnits %/% 1L, (TimeUnits %% 1L) * 12L + 1L))))
+    return(as.integer(round(c(timeunits %/% 1L, (timeunits %% 1L) * 12L + 1L))))
 }
 
 #' Conversion entre date mensuelle et trimestrielle
@@ -105,16 +105,17 @@ mens2trim <- function(date_ts) {
 #'
 #' @examples
 #'
-#' date_ts2TimeUnits(date_ts = c(2020L, 4L), frequency_ts = 12L) # Avril 2020
-#' date_ts2TimeUnits(date_ts = c(2022L, 11L), frequency_ts = 12L) # Novembre
-#' 2020
+#' # Avril 2020
+#' date_ts2timeunits(date_ts = c(2020L, 4L), frequency_ts = 12L)
+#' # Novembre 2020
+#' date_ts2timeunits(date_ts = c(2022L, 11L), frequency_ts = 12L)
 #'
-#' date_ts2TimeUnits(date_ts = c(2022, 4L), frequency_ts = 4L) # 4ème trimestre
-#' de 2022
-#' date_ts2TimeUnits(date_ts = c(1995L, 2L), frequency_ts = 4L) # 2ème trimestre
-#' de 1995
+#' # 4ème trimestre de 2022
+#' date_ts2timeunits(date_ts = c(2022, 4L), frequency_ts = 4L)
+#' # 2ème trimestre de 1995
+#' date_ts2timeunits(date_ts = c(1995L, 2L), frequency_ts = 4L)
 #'
-date_ts2TimeUnits <- function(date_ts, frequency_ts) {
+date_ts2timeunits <- function(date_ts, frequency_ts) {
 
     # Check de la fréquence
     frequency_ts <- assert_frequency(frequency_ts, add = NULL, .var.name = "frequency_ts")

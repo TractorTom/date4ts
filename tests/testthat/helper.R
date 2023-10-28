@@ -80,7 +80,7 @@ weird_frequency <- list(1L, 2, 7, .1, 1 / 3, 3.5, 365, 365.25, pi)
 ## Dates -----------------------------------------------------------------------
 
 # Time Units
-wrong_TimeUnits <- list(2020 + 1 / 7, pi, 2020 - 1 / 13, Inf)
+wrong_timeunits <- list(2020 + 1 / 7, pi, 2020 - 1 / 13, Inf)
 
 # Années
 good_years <- c(-200L, -1L, 0L, 1L, 2L, 1950L, 1999L, 2000L, 2001L, 2022L, 3000L)

@@ -24,28 +24,37 @@ assert_scalar_natural(
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
 }
 \value{
-En sortie la fonction retourne l'objet \code{x} de manière invisible ou une erreur.
+En sortie la fonction retourne l'objet \code{x} de manière invisible ou
+une erreur.
 }
 \description{
-Le but de cett fonction est de tester si une variable x est un nombre naturel strictement positif.
+Le but de cett fonction est de tester si une variable x est un nombre naturel
+strictement positif.
 }
 \details{
-Cette fonction s'appuie essentiellement sur la fonction \code{checkmate::assert_count}.
-Il y a néanmoins une petite subtilité : on vérifie si l'objet \code{x} est de type double ou integer.
-Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, \code{x} est retourné de manière invisible.
-Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de warning lors de l'évaluation.
+Cette fonction s'appuie essentiellement sur la fonction
+\code{checkmate::assert_count}.
+Il y a néanmoins une petite subtilité : on vérifie si l'objet \code{x} est de type
+double ou integer.
+Dans le premier cas, on affichera un warning et on corrigera l'objet au
+format integer pour les traitements ultérieurs. En sortie, \code{x} est retourné
+de manière invisible.
+Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de
+warning lors de l'évaluation.
 
 Selon le préfixe de la fonction :
 \itemize{
 \item si le check réussi :
 \itemize{
-\item la fonction \code{assert_scalar_natural} retourne l'objet \code{x} de manière invisible;
+\item la fonction \code{assert_scalar_natural} retourne l'objet \code{x} de manière
+invisible;
 \item la fonction \code{check_scalar_natural} retourne le booléen \code{TRUE}.
 }
 \item si le check échoue :
 \itemize{
 \item la fonction \code{assert_scalar_natural} retourne un message d'erreur;
-\item la fonction \code{check_scalar_natural} retourne une chaîne de caractère signalant le problème.
+\item la fonction \code{check_scalar_natural} retourne une chaîne de caractère
+signalant le problème.
 }
 }
 }

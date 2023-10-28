@@ -210,8 +210,8 @@ last_date <- function(dataTS) {
 #' is_before(a = c(2022L, 3L), b = c(2010L, 1L), frequency_ts = 4L)
 #'
 #' is_before(a = c(2022L, 4L), b = c(2022L, 4L), frequency_ts = 12L)
-#' is_before(a = c(2022L, 4L), b = c(2022L, 4L), frequency_ts = 12L, strict =
-#' TRUE)
+#' is_before(a = c(2022L, 4L), b = c(2022L, 4L),
+#'     frequency_ts = 12L, strict = TRUE)
 #'
 #' # Importance de la fréquence
 #' is_before(a = c(2022L, -3L), b = c(2021L, 8L), frequency_ts = 12L)
@@ -237,8 +237,8 @@ is_before <- function(a, b, frequency_ts, strict = FALSE) {
 
     checkmate::reportAssertions(coll)
 
-    tu_a <- date_ts2TimeUnits(a, frequency_ts = frequency_ts)
-    tu_b <- date_ts2TimeUnits(b, frequency_ts = frequency_ts)
+    tu_a <- date_ts2timeunits(a, frequency_ts = frequency_ts)
+    tu_b <- date_ts2timeunits(b, frequency_ts = frequency_ts)
 
     if (strict) {
         return(tu_a < tu_b)
@@ -280,7 +280,7 @@ is_before <- function(a, b, frequency_ts, strict = FALSE) {
 #' diff_periode(a = c(2023L, 8L), b = c(2021L, 5L), frequency_ts = 12L)
 #'
 diff_periode <- function(a, b, frequency_ts) {
-    # coll <- checkmate::makeAssertCollection()
+
     coll <- NULL
 
     # Check de la fréquence
@@ -289,8 +289,6 @@ diff_periode <- function(a, b, frequency_ts) {
     a <- assert_date_ts(x = a, frequency_ts, add = coll, .var.name = "a")
     # Check du format date_ts b
     b <- assert_date_ts(x = b, frequency_ts, add = coll, .var.name = "b")
-
-    # checkmate::reportAssertions(coll)
 
     if (!is_before(a, b, frequency_ts)) {
         return(diff_periode(b, a, frequency_ts))

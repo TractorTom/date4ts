@@ -7,12 +7,15 @@
 date_ts2date(date_ts, frequency_ts)
 }
 \arguments{
-\item{date_ts}{un vecteur numérique, de préférence \code{integer}, au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer}, au format
+\code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries
+trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 }
 \value{
-En sortie, la fonction retourne un objet de type Date (atomic) de longueur 1 qui correspond à l'objet \code{date_ts}.
+En sortie, la fonction retourne un objet de type Date (atomic) de
+longueur 1 qui correspond à l'objet \code{date_ts}.
 }
 \description{
 Conversion d'une date du format TS au format date

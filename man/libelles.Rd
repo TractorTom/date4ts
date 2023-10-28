@@ -7,24 +7,32 @@
 libelles(date_ts, frequency_ts, n = 1L, warn = TRUE)
 }
 \arguments{
-\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format
+\code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries
+trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 
 \item{n}{un entier}
 
 \item{warn}{un booleen}
 }
 \value{
-En sortie, la fonction retourne un vecteur de chaine de caractère de longueur \code{n} avec les libellés de la période (de la date \code{date_ts} à la date \verb{date_ts + n périodes}.
+En sortie, la fonction retourne un vecteur de chaine de caractère de
+longueur \code{n} avec les libellés de la période (de la date \code{date_ts} à la date
+\verb{date_ts + n périodes}.
 }
 \description{
-La fonction \code{libelles} créé un vecteur de chaines de caractère contenant les libelés de toutes les dates sur une période
+La fonction \code{libelles} créé un vecteur de chaines de caractère
+contenant les libelés de toutes les dates sur une période
 }
 \details{
-Pour choisir la période, il faut spécifier une date de début \code{date_ts}, une fréquence \code{frequency_ts} pour le pas entre 2 dates (trimestrielle ou mensuelle) et un nombre de valeur \code{n} (nombre de période).
+Pour choisir la période, il faut spécifier une date de début
+\code{date_ts}, une fréquence \code{frequency_ts} pour le pas entre 2 dates
+(trimestrielle ou mensuelle) et un nombre de valeur \code{n} (nombre de période).
 
-Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de warning lors de l'évaluation.
+Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de
+warning lors de l'évaluation.
 }
 \examples{
 libelles(date_ts = c(2019L, 10L), frequency_ts = 12L, n = 9L)

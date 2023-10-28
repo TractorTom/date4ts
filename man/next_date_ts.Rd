@@ -7,23 +7,31 @@
 next_date_ts(date_ts, frequency_ts, lag = 1L)
 }
 \arguments{
-\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format
+\code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries
+trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 
 \item{lag}{un entier}
 }
 \value{
-En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période future au format \code{date_ts}.
+En sortie, la fonction retourne un vecteur d'entier qui représente la
+date à la période future au format \code{date_ts}.
 }
 \description{
 Obtenir la date suivante
 }
 \details{
 Lorsqu'on parle de date suivante, on parle de date future.
-L'argument \code{lag} est entier et désigne le nombre de décalage que l'on affecte à notre date.
-Par exemple pour des lag positif (1L, 2L, 10L) on désigne le décalage de la période suivante, celle d'après et celle dans 10 périodes.
-Cependant, lorsque l'argument \code{lag} vaut zéro, la fonction retourne la \code{date} inchangée. Aussi lorsque l'argument \code{lag} est négatif, la fonction se comporte comme la fonction \code{previous_date_ts} et retourne les périodes passées et non futures.
+L'argument \code{lag} est entier et désigne le nombre de décalage que l'on affecte
+à notre date.
+Par exemple pour des lag positif (1L, 2L, 10L) on désigne le décalage de la
+période suivante, celle d'après et celle dans 10 périodes.
+Cependant, lorsque l'argument \code{lag} vaut zéro, la fonction retourne la
+\code{date} inchangée. Aussi lorsque l'argument \code{lag} est négatif, la fonction
+se comporte comme la fonction \code{previous_date_ts} et retourne les périodes
+passées et non futures.
 }
 \examples{
 

@@ -13,25 +13,31 @@ assert_expression(expr)
 \item{expr}{une expression à évaluer}
 }
 \value{
-En sortie la fonction retourne l'objet \code{x} (le résultat de l'évaluation de l'expression \code{expr}) de manière invisible ou une erreur.
+En sortie la fonction retourne l'objet \code{x} (le résultat de
+l'évaluation de l'expression \code{expr}) de manière invisible ou une erreur.
 }
 \description{
 Vérifie la conformité d'une expression
 }
 \details{
-La fonction évalue l'expression \code{expr}. Le check vérifie si la fonction génère une erreur ou un warning. Si elle ne génère aucun message particulier, on retourne alors l'objet \code{x} (le résultat de l'évaluation de l'expression \code{expr}), sans erreur.
+La fonction évalue l'expression \code{expr}. Le check vérifie si la
+fonction génère une erreur ou un warning. Si elle ne génère aucun message
+particulier, on retourne alors l'objet \code{x} (le résultat de l'évaluation de
+l'expression \code{expr}), sans erreur.
 
 Selon le préfixe de la fonction :
 \itemize{
 \item si le check réussi :
 \itemize{
-\item la fonction \code{assert_expression} retourne l'objet \code{x} de manière invisible;
+\item la fonction \code{assert_expression} retourne l'objet \code{x} de manière
+invisible;
 \item la fonction \code{check_expression} retourne le booléen \code{TRUE}.
 }
 \item si le check échoue :
 \itemize{
 \item la fonction \code{assert_expression} retourne un message d'erreur;
-\item la fonction \code{check_expression} retourne la chaîne de caractère "Invalid expression".
+\item la fonction \code{check_expression} retourne la chaîne de caractère
+"Invalid expression".
 }
 }
 }

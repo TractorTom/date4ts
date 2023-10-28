@@ -16,9 +16,11 @@ assert_date_ts(
 )
 }
 \arguments{
-\item{x}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
+\item{x}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA},
+\code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries
+trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
 
@@ -27,18 +29,28 @@ assert_date_ts(
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 }
 \value{
-En sortie la fonction retourne l'objet \code{x} de manière invisible ou une erreur.
+En sortie la fonction retourne l'objet \code{x} de manière invisible ou
+une erreur.
 }
 \description{
-La fonction \code{assert_date_ts} vérifie qu'un objet est de type \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}
+La fonction \code{assert_date_ts} vérifie qu'un objet est de type
+\code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}
 }
 \details{
-Les fonctions du package TractorTsbox sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
-On cherche donc à favoriser l'utilisation de vecteur \code{c(AAAA, MM)} pour désigner la date choisie.
-Lorsque l'objet \code{x} en entrée est au mauvais format, il est corrigé pendant la vérification et l'objet en sortie est au bon format.
-Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de warning lors de l'évaluation.
+Les fonctions du package TractorTsbox sont faites pour fonctionner
+avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le
+système des mois, trimestres et années classiques.
+On cherche donc à favoriser l'utilisation de vecteur \code{c(AAAA, MM)} pour
+désigner la date choisie.
+Lorsque l'objet \code{x} en entrée est au mauvais format, il est corrigé pendant
+la vérification et l'objet en sortie est au bon format.
+Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de
+warning lors de l'évaluation.
 
-Ici, l'argument \code{frequency_ts} est nécessaire car une date sous la forme c(AAAA, PP), avec PP le nombre de période, ne désigne pas une date absolue. Par exemple, c(2020L 5L) désigne mai 2020 pour une fréquence mensuelle et le 1er trimestre 2021 pour une fréquence trimestrielle.
+Ici, l'argument \code{frequency_ts} est nécessaire car une date sous la forme
+c(AAAA, PP), avec PP le nombre de période, ne désigne pas une date absolue.
+Par exemple, c(2020L 5L) désigne mai 2020 pour une fréquence mensuelle et le
+1er trimestre 2021 pour une fréquence trimestrielle.
 
 Selon le préfixe de la fonction :
 \itemize{
@@ -50,7 +62,8 @@ Selon le préfixe de la fonction :
 \item si le check échoue :
 \itemize{
 \item la fonction \code{assert_date_ts} retourne un message d'erreur;
-\item la fonction \code{check_date_ts} retourne une chaîne de caractère signalant le problème.
+\item la fonction \code{check_date_ts} retourne une chaîne de caractère signalant
+le problème.
 }
 }
 }

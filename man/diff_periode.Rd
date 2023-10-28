@@ -7,20 +7,27 @@
 diff_periode(a, b, frequency_ts)
 }
 \arguments{
-\item{a}{un objet date_ts, c'est-à-dire un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
+\item{a}{un objet date_ts, c'est-à-dire un vecteur numérique, de préférence
+\code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{b}{un objet date_ts, c'est-à-dire un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
+\item{b}{un objet date_ts, c'est-à-dire un vecteur numérique, de préférence
+\code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries
+trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
 }
 \value{
-En sortie, la fonction retourne un entier qui désigne le nombre de période (mois ou trimestres) qui sépare les 2 dates \code{a} et \code{b}.
+En sortie, la fonction retourne un entier qui désigne le nombre de
+période (mois ou trimestres) qui sépare les 2 dates \code{a} et \code{b}.
 }
 \description{
 Intervalle entre 2 dates
 }
 \details{
-On travaille ici avec des dates au format date_ts, c'est-à-dire qui passe le test de la fonction \code{assert_date_ts}. Lorsqu'on parle d'intervalle et de nombre de période entre \code{a} et \code{b}, les bornes sont incluses. Ainsi \code{diff_periode(2020L, 2020L, 12L)} retourne bien 1L et non 2L ou 0L.
+On travaille ici avec des dates au format date_ts, c'est-à-dire qui
+passe le test de la fonction \code{assert_date_ts}. Lorsqu'on parle d'intervalle
+et de nombre de période entre \code{a} et \code{b}, les bornes sont incluses. Ainsi
+\code{diff_periode(2020L, 2020L, 12L)} retourne bien 1L et non 2L ou 0L.
 }
 \examples{
 # Une seule période

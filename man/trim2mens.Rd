@@ -10,13 +10,15 @@ trim2mens(date_ts)
 mens2trim(date_ts)
 }
 \arguments{
-\item{date_ts}{un vecteur numérique, de préférence \code{integer}, au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer}, au format
+\code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 }
 \value{
 En sortie, la fonction retourne la date toujours au format \code{date_ts}.
 }
 \description{
-Les fonctions \code{trim2mens} et \code{mens2trim} convertissent une \code{date_ts} du format mensuelle \code{c(AAAA, MM)} au format trimestrielle \code{c(AAAA, TT)}.
+Les fonctions \code{trim2mens} et \code{mens2trim} convertissent une
+\code{date_ts} du format mensuelle \code{c(AAAA, MM)} au format trimestrielle \code{c(AAAA, TT)}.
 }
 \examples{
 trim2mens(c(2019L, 4L)) # 4ème trimestre 2019 --> Octobre 2019

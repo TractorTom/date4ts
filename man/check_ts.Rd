@@ -17,15 +17,21 @@ assert_ts(x, add = NULL, .var.name = checkmate::vname(x))
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 }
 \value{
-En sortie la fonction retourne l'objet \code{x} de manière invisible ou une erreur.
+En sortie la fonction retourne l'objet \code{x} de manière invisible ou
+une erreur.
 }
 \description{
-Les fonctions \code{assert_ts} et \code{check_ts} vérifient qu'un objet ts est bien conforme.
+Les fonctions \code{assert_ts} et \code{check_ts} vérifient qu'un objet ts
+est bien conforme.
 }
 \details{
-Les fonctions du package TractorTsbox sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basées sur le système des mois, trimestres et années classiques.
-On travaille avec des données numériques (integer, double ou logical) mais les autres types atomic sont acceptés également.
-On cherche donc à favoriser l'utilisation de séries temporelles classiques utilisants des types atomiques.
+Les fonctions du package TractorTsbox sont faites pour fonctionner
+avec des times-series de fréquence mensuelle ou trimestrielle et basées sur
+le système des mois, trimestres et années classiques.
+On travaille avec des données numériques (integer, double ou logical) mais
+les autres types atomic sont acceptés également.
+On cherche donc à favoriser l'utilisation de séries temporelles classiques
+utilisants des types atomiques.
 Lorsque l'objet \code{x} en entrée est au mauvais format, une erreur est généré.
 
 Selon le préfixe de la fonction :
@@ -38,7 +44,8 @@ Selon le préfixe de la fonction :
 \item si le check échoue :
 \itemize{
 \item la fonction \code{assert_ts} retourne un message d'erreur;
-\item la fonction \code{check_ts} retourne une chaîne de caractère signalant le problème.
+\item la fonction \code{check_ts} retourne une chaîne de caractère signalant le
+problème.
 }
 }
 }

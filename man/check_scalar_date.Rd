@@ -17,26 +17,31 @@ assert_scalar_date(x, add = NULL, .var.name = checkmate::vname(x))
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
 }
 \value{
-En sortie la fonction retourne l'objet \code{x} de manière invisible ou une erreur.
+En sortie la fonction retourne l'objet \code{x} de manière invisible ou
+une erreur.
 }
 \description{
 Vérifie la conformité d'une date scalaire
 }
 \details{
-On vérifie que l'objet \code{x} en entrée est bien au format \code{Date} et qu'il s'agit d'un scalaire (vecteur de taille 1).
-Cette fonction s'appuie essentiellement sur les fonctions \code{checkmate::assert_date} et \code{checkmate::assert_scalar}.
+On vérifie que l'objet \code{x} en entrée est bien au format \code{Date} et qu'il
+s'agit d'un scalaire (vecteur de taille 1).
+Cette fonction s'appuie essentiellement sur les fonctions
+\code{checkmate::assert_date} et \code{checkmate::assert_scalar}.
 
 Selon le préfixe de la fonction :
 \itemize{
 \item si le check réussi :
 \itemize{
-\item la fonction \code{assert_scalar_date} retourne l'objet \code{x} de manière invisible;
+\item la fonction \code{assert_scalar_date} retourne l'objet \code{x} de manière
+invisible;
 \item la fonction \code{check_scalar_date} retourne le booléen \code{TRUE}.
 }
 \item si le check échoue :
 \itemize{
 \item la fonction \code{assert_scalar_date} retourne un message d'erreur;
-\item la fonction \code{check_scalar_date} retourne la chaîne de caractère correspondante à l'erreur du check.
+\item la fonction \code{check_scalar_date} retourne la chaîne de caractère
+correspondante à l'erreur du check.
 }
 }
 }
@@ -53,6 +58,7 @@ check_scalar_date(Sys.Date())
 # Avec des erreurs
 
 check_scalar_date(2L)
-check_scalar_date(seq(from = as.Date("2000-01-01"), to = Sys.Date(), by = "year"))
+check_scalar_date(seq(from = as.Date("2000-01-01"), to = Sys.Date(), by =
+"year"))
 
 }

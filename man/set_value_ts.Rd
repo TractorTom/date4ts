@@ -9,21 +9,24 @@ set_value_ts(dataTS, date_ts, replacement)
 \arguments{
 \item{dataTS}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 
-\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
+\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format
+\code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
 \item{replacement}{un vecteur de même type que le ts \code{dataTS}}
 }
 \value{
-En sortie, la fonction retourne une copie de l'objet \code{dataTS} modifié avec les valeurs de \code{replacement} imputés à partir de la date \code{date_ts}.
+En sortie, la fonction retourne une copie de l'objet \code{dataTS} modifié
+avec les valeurs de \code{replacement} imputés à partir de la date \code{date_ts}.
 }
 \description{
-La fonction \code{set_value_ts} modifie la ou les valeurs d'un objet ts à une date donnée.
+La fonction \code{set_value_ts} modifie la ou les valeurs d'un objet
+ts à une date donnée.
 }
 \examples{
 set_value_ts(
-    dataTS = ev_pib,
-    date_ts = c(2021L, 2L),
-    replacement = c(1, 2, 3)
+dataTS = ev_pib,
+date_ts = c(2021L, 2L),
+replacement = c(1, 2, 3)
 )
 
 }

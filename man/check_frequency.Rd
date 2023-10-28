@@ -10,7 +10,8 @@ check_frequency(x, .var.name = checkmate::vname(x), warn = TRUE)
 assert_frequency(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE)
 }
 \arguments{
-\item{x}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
+\item{x}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et
+\code{12L} (ou \code{12.}) pour les séries mensuelles.}
 
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
 
@@ -22,23 +23,33 @@ assert_frequency(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE)
 Vérifie la conformité d'une fréquence
 }
 \details{
-La fréquence d'une série temporelle est soit mensuelle (\code{12L} ou \code{12.}) soit trimestrielle (\code{4L} ou \code{4.}). Les autres fréquences ne sont pas acceptées.
-Cette fonction s'appuie essentiellement sur les fonctions \code{checkmate::check_numeric}, \code{checkmate::check_int} et \code{checkmate::check_choice}.
-Il y a néanmoins une petite subtilité : on vérifie si l'objet \code{x} est de type double ou integer.
-Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, \code{x} est retourné de manière invisible.
-Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de warning lors de l'évaluation.
+La fréquence d'une série temporelle est soit mensuelle (\code{12L} ou
+\code{12.}) soit trimestrielle (\code{4L} ou \code{4.}). Les autres fréquences ne sont pas
+acceptées.
+Cette fonction s'appuie essentiellement sur les fonctions
+\code{checkmate::check_numeric}, \code{checkmate::check_int} et
+\code{checkmate::check_choice}.
+Il y a néanmoins une petite subtilité : on vérifie si l'objet \code{x} est de type
+double ou integer.
+Dans le premier cas, on affichera un warning et on corrigera l'objet au
+format integer pour les traitements ultérieurs. En sortie, \code{x} est retourné
+de manière invisible.
+Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de
+warning lors de l'évaluation.
 
 Selon le préfixe de la fonction :
 \itemize{
 \item si le check réussi :
 \itemize{
-\item la fonction \code{assert_frequency} retourne l'objet \code{x} de manière invisible;
+\item la fonction \code{assert_frequency} retourne l'objet \code{x} de manière
+invisible;
 \item la fonction \code{check_frequency} retourne le booléen \code{TRUE}.
 }
 \item si le check échoue :
 \itemize{
 \item la fonction \code{assert_frequency} retourne un message d'erreur;
-\item la fonction \code{check_frequency} retourne une chaîne de caractère signalant le problème.
+\item la fonction \code{check_frequency} retourne une chaîne de caractère signalant
+le problème.
 }
 }
 }

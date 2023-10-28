@@ -10,13 +10,16 @@ first_date(dataTS)
 \item{dataTS}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 }
 \value{
-En sortie, la fonction retourne un objet au format \code{date_ts} (\code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)})
+En sortie, la fonction retourne un objet au format \code{date_ts} (\code{AAAA},
+\code{c(AAAA, MM)} ou \code{c(AAAA, TT)})
 }
 \description{
-Cette fonction calcule la première date pour laquelle l'objet \code{dataTS} ne vaut pas NA.
+Cette fonction calcule la première date pour laquelle l'objet
+\code{dataTS} ne vaut pas NA.
 }
 \details{
-La date retournée en output est au format \code{date_ts}. Si l'objet \code{dataTS} ne contient que des NAs, la fonction retourne une erreur.
+La date retournée en output est au format \code{date_ts}. Si l'objet
+\code{dataTS} ne contient que des NAs, la fonction retourne une erreur.
 }
 \examples{
 

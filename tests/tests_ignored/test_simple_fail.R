@@ -1,18 +1,18 @@
 
 testthat::test_that("good result for integer date", {
     testthat::expect_identical(
-        object = as.YYYYMM(2020L),
+        object = as.yyyymm(2020L),
         expected = c(2020L, 1L)
     )
     testthat::expect_identical(
-        object = as.YYYYMM(2020L),
+        object = as.yyyymm(2020L),
         expected = c(2020L, 2L)
     )
 })
 
 testthat::test_that("good result for integer freq", {
     testthat::expect_identical(
-        object = as.YYYYMM(2020L),
+        object = as.yyyymm(2020L),
         expected = c(2020L, 1L)
     )
     testthat::expect_identical(

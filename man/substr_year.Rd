@@ -12,7 +12,8 @@ substr_year(date, n = 1L)
 \item{n}{un entier}
 }
 \value{
-En sortie, la fonction retourne un objet de type Date (atomic) de longueur 1.
+En sortie, la fonction retourne un objet de type Date (atomic) de
+longueur 1.
 }
 \description{
 La fonction \code{substr_year} retire \code{n} annnée(s) à une date.
