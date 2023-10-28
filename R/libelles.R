@@ -69,7 +69,7 @@ libelles <- function(date_ts, frequency_ts, n = 1L, warn = TRUE) {
     date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = NULL, .var.name = "date_ts", warn = warn)
 
     # Check de l'argument n
-    n <- assert_scalar_natural(n, add = coll, .var.name = "n")
+    n <- assert_scalar_natural(n, add = NULL, .var.name = "n")
 
     decale_libele <- function(x) {
         date_temp <- next_date_ts(date_ts = date_ts, frequency_ts = frequency_ts, lag = x)
