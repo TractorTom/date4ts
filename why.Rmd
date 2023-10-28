@@ -136,3 +136,34 @@ assert_objet(c(4, 1, 2))
 
 Mais cette solution n'est pas viable à long terme car on aimerait quand même pouvoir transformer en `assert` nos `check` (pour `check_inf_2`) et peut être que `check_objet` sera aussi appelé par une autre fonction et ne fournira alors à son tour aucune info sur les objets scannés.
 
+
+
+## Pourquoi faire une faible utilisation de `checkmate::makeAssertCollection()` ?
+
+La fonction `checkmate::makeAssertCollection()` permet de regrouper des assert ensemble et de mettre un message d'erreur commun plutôt que d'en envoyer un dès qu'une erreur est levée.
+
+Par exemple :
+
+```{r, echo = TRUE, eval = TRUE, error = TRUE}
+library("checkmate")
+
+f <- function(x) {
+    coll <- checkmate::makeAssertCollection()
+    
+    checkmate::assert_integer(x, add = coll)
+    checkmate::assert_count(x, positive = TRUE, add = coll)
+    
+    checkmate::reportAssertions(coll)
+    
+    return(x + 1)
+}
+```
+
+```{r, echo = TRUE, eval = TRUE, error = TRUE}
+f(1L)
+f(1.)
+f(-1L)
+```
+
+Mais lorsque les checks concernent plusieurs variables, il peut y a voir des erreurs dans les erreurs !
+... (à compléter au besoin...)

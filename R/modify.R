@@ -1,19 +1,22 @@
 #' Change certaines valeurs d'un ts
 #'
-#' @description La fonction `set_value_ts` modifie la ou les valeurs d'un objet ts à une date donnée.
+#' @description La fonction `set_value_ts` modifie la ou les valeurs d'un objet
+#' ts à une date donnée.
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
-#' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param date_ts un vecteur numérique, de préférence `integer` au format
+#' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #' @param replacement un vecteur de même type que le ts `dataTS`
 #'
-#' @return En sortie, la fonction retourne une copie de l'objet `dataTS` modifié avec les valeurs de `replacement` imputés à partir de la date `date_ts`.
+#' @return En sortie, la fonction retourne une copie de l'objet `dataTS` modifié
+#' avec les valeurs de `replacement` imputés à partir de la date `date_ts`.
 #' @export
 #'
 #' @examples
 #' set_value_ts(
-#'     dataTS = ev_pib,
-#'     date_ts = c(2021L, 2L),
-#'     replacement = c(1, 2, 3)
+#' dataTS = ev_pib,
+#' date_ts = c(2021L, 2L),
+#' replacement = c(1, 2, 3)
 #' )
 #'
 set_value_ts <- function(dataTS, date_ts, replacement) {
@@ -79,14 +82,19 @@ set_value_ts <- function(dataTS, date_ts, replacement) {
 
 #' Combiner 2 ts
 #'
-#' @description La fonction `combine2ts` combine (comme c()) 2 time series de même fréquence (mensuelle ou trimestrielle).
+#' @description La fonction `combine2ts` combine (comme c()) 2 time series de
+#' même fréquence (mensuelle ou trimestrielle).
 #'
 #' @param a un objet ts unidimensionnel conforme aux règles de assert_ts
 #' @param b un objet ts unidimensionnel conforme aux règles de assert_ts
 #'
-#' @return En sortie, la fonction retourne un ts qui contient les valeurs de `a` aux temps de `a` et les valeurs de `b` aux temps de `b`.
-#' @details Si `a` et `b` ont une période en commun, les valeurs de `b` écrasent celles de a sur la période concernée.
-#' Si il existe une période sur laquelle ni `a` ni `b` ne prennent de valeur (mais qu'il existe des valeurs à des dates ultérieures et antérieures) alors le ts en sortie prendra NA sur cette période.
+#' @return En sortie, la fonction retourne un ts qui contient les valeurs de `a`
+#' aux temps de `a` et les valeurs de `b` aux temps de `b`.
+#' @details Si `a` et `b` ont une période en commun, les valeurs de `b` écrasent
+#' celles de a sur la période concernée.
+#' Si il existe une période sur laquelle ni `a` ni `b` ne prennent de valeur
+#' (mais qu'il existe des valeurs à des dates ultérieures et antérieures) alors
+#' le ts en sortie prendra NA sur cette période.
 #' @export
 #'
 #' @examples
@@ -99,7 +107,8 @@ set_value_ts <- function(dataTS, date_ts, replacement) {
 #' # La série de PIB est écrasé par trim_1 sur la période temporelle de trim_1
 #' combine2ts(ev_pib, trim_1)
 #'
-#' # La période entre les séries temporelles mens_1 et mens_2 est complétée par des NA
+#' # La période entre les séries temporelles mens_1 et mens_2 est complétée par
+#' des NA
 #' combine2ts(mens_1, mens_2)
 #'
 combine2ts <- function(a, b) {
@@ -188,12 +197,18 @@ combine2ts <- function(a, b) {
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
 #' @param replacement un vecteur de même type que le ts `dataTS`
-#' @param date_ts un vecteur numérique, de préférence `integer` au format `date_ts` (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`) (default NULL)
+#' @param date_ts un vecteur numérique, de préférence `integer` au format
+#' `date_ts` (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`) (default NULL)
 #' @param replace_na un booléen
 #'
-#' @return En sortie, la fonction retourne une copie de l'objet `dataTS` complété avec le vecteur `replacement`.
-#' @details Si `replace_na` vaut `TRUE` alors le remplacement commence dès que l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu, qu'il contienne des NA ou non à la fin.
-#' Si le vecteur `replacement` est de taille un sous-multiple de la différence de période entre la date de fin de `dataTS` et `date_ts`, le vecteur `replacement` est répété.
+#' @return En sortie, la fonction retourne une copie de l'objet `dataTS`
+#' complété avec le vecteur `replacement`.
+#' @details Si `replace_na` vaut `TRUE` alors le remplacement commence dès que
+#' l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu,
+#' qu'il contienne des NA ou non à la fin.
+#' Si le vecteur `replacement` est de taille un sous-multiple de la différence
+#' de période entre la date de fin de `dataTS` et `date_ts`, le vecteur
+#' `replacement` est répété.
 #' @export
 #'
 #' @examples
@@ -257,11 +272,13 @@ extend_ts <- function(dataTS, replacement, date_ts = NULL, replace_na = TRUE) {
 
 #' Supprime les NA aux bords
 #'
-#' @description La fonction `na_trim` supprime les NA en début et en fin de période.
+#' @description La fonction `na_trim` supprime les NA en début et en fin de
+#' période.
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
 #'
-#' @return En sortie, la fonction retourne une copie de l'objet `dataTS` corrigé des NA et début et fin de série.
+#' @return En sortie, la fonction retourne une copie de l'objet `dataTS` corrigé
+#' des NA et début et fin de série.
 #' @details L'objet retourné commence et finis par des valeurs non manquantes.
 #' @export
 #'

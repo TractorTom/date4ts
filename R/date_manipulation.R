@@ -1,15 +1,23 @@
 #' Obtenir la date précédente
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param date_ts un vecteur numérique, de préférence `integer` au format
+#' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries
+#' trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #' @param lag un entier
 #'
-#' @return En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période passée au format `date_ts`.
+#' @return En sortie, la fonction retourne un vecteur d'entier qui représente la
+#' date à la période passée au format `date_ts`.
 #'
 #' @details Lorsqu'on parle de date précédente, on parle de date passée.
-#' L'argument `lag` est entier et désigne le nombre de décalage que l'on affecte à notre date.
-#' Par exemple pour des lag positif (1L, 2L, 10L) on désigne le décalage de la période précédente, celle d'avant et celle d'il y a 10 périodes.
-#' Cependant, lorsque l'argument `lag` vaut zéro, la fonction retourne la `date` inchangée. Aussi lorsque l'argument `lag` est négatif, la fonction se comporte comme la fonction `next_date_ts` et retourne les périodes futures et non passées.
+#' L'argument `lag` est entier et désigne le nombre de décalage que l'on affecte
+#' à notre date.
+#' Par exemple pour des lag positif (1L, 2L, 10L) on désigne le décalage de la
+#' période précédente, celle d'avant et celle d'il y a 10 périodes.
+#' Cependant, lorsque l'argument `lag` vaut zéro, la fonction retourne la
+#' `date` inchangée. Aussi lorsque l'argument `lag` est négatif, la fonction se
+#' comporte comme la fonction `next_date_ts` et retourne les périodes futures et
+#' non passées.
 #' @export
 #'
 #' @seealso `next_date_ts`
@@ -50,12 +58,18 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 #'
 #' @inheritParams previous_date_ts
 #'
-#' @return En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période future au format `date_ts`.
+#' @return En sortie, la fonction retourne un vecteur d'entier qui représente la
+#' date à la période future au format `date_ts`.
 #'
 #' @details Lorsqu'on parle de date suivante, on parle de date future.
-#' L'argument `lag` est entier et désigne le nombre de décalage que l'on affecte à notre date.
-#' Par exemple pour des lag positif (1L, 2L, 10L) on désigne le décalage de la période suivante, celle d'après et celle dans 10 périodes.
-#' Cependant, lorsque l'argument `lag` vaut zéro, la fonction retourne la `date` inchangée. Aussi lorsque l'argument `lag` est négatif, la fonction se comporte comme la fonction `previous_date_ts` et retourne les périodes passées et non futures.
+#' L'argument `lag` est entier et désigne le nombre de décalage que l'on affecte
+#' à notre date.
+#' Par exemple pour des lag positif (1L, 2L, 10L) on désigne le décalage de la
+#' période suivante, celle d'après et celle dans 10 périodes.
+#' Cependant, lorsque l'argument `lag` vaut zéro, la fonction retourne la
+#' `date` inchangée. Aussi lorsque l'argument `lag` est négatif, la fonction
+#' se comporte comme la fonction `previous_date_ts` et retourne les périodes
+#' passées et non futures.
 #' @export
 #'
 #' @seealso `previous_date_ts`
@@ -98,13 +112,16 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 
 #' Première date non NA
 #'
-#' @description Cette fonction calcule la première date pour laquelle l'objet `dataTS` ne vaut pas NA.
+#' @description Cette fonction calcule la première date pour laquelle l'objet
+#' `dataTS` ne vaut pas NA.
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
 #'
-#' @return En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`)
+#' @return En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`,
+#' `c(AAAA, MM)` ou `c(AAAA, TT)`)
 #'
-#' @details La date retournée en output est au format `date_ts`. Si l'objet `dataTS` ne contient que des NAs, la fonction retourne une erreur.
+#' @details La date retournée en output est au format `date_ts`. Si l'objet
+#' `dataTS` ne contient que des NAs, la fonction retourne une erreur.
 #'
 #' @export
 #'
@@ -133,13 +150,16 @@ first_date <- function(dataTS) {
 
 #' Dernière date non NA
 #'
-#' @description Cette fonction calcule la dernière date pour laquelle l'objet `dataTS` ne vaut pas NA.
+#' @description Cette fonction calcule la dernière date pour laquelle l'objet
+#' `dataTS` ne vaut pas NA.
 #'
 #' @inheritParams first_date
 #'
-#' @return En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`)
+#' @return En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`,
+#' `c(AAAA, MM)` ou `c(AAAA, TT)`)
 #'
-#' @details La date retournée en output est au format `date_ts`. Si l'objet `dataTS` ne contient que des NAs, la fonction retourne une erreur.
+#' @details La date retournée en output est au format `date_ts`. Si l'objet
+#' `dataTS` ne contient que des NAs, la fonction retourne une erreur.
 #'
 #' @export
 #'
@@ -172,10 +192,16 @@ last_date <- function(dataTS) {
 #' @inheritParams diff_periode
 #' @param strict un booleen (default `FALSE`)
 #'
-#' @return En sortie, la fonction retourne un booleen (de longueur 1) qui indique si la date `a` est antérieure à la date `b`.
+#' @return En sortie, la fonction retourne un booleen (de longueur 1) qui
+#' indique si la date `a` est antérieure à la date `b`.
 #'
-#' @details Les dates `a` et `b` sont au  format date_ts. L'argument frequency_ts est nécessaire pour interpréter les dates.
-#' Ainsi, si je souhaite comparer la date `a = c(2023L, 4L)` et la date `b = c(2023L, -2L)`. Dans le cas d'une fréquence mensuelle, la date `a` est antérieure à la date `b`. Dans le cas d'une fréquence mensuelle, c'est l'inverse. Si `strict` vaut `TRUE`, la fonction compare strictement les dates `a` et `b` (`<`).
+#' @details Les dates `a` et `b` sont au format date_ts. L'argument frequency_ts
+#' est nécessaire pour interpréter les dates.
+#' Ainsi, si je souhaite comparer la date `a = c(2023L, 4L)` et la date `b
+#' = c(2023L, -2L)`. Dans le cas d'une fréquence mensuelle, la date `a` est
+#' antérieure à la date `b`. Dans le cas d'une fréquence mensuelle, c'est
+#' l'inverse. Si `strict` vaut `TRUE`, la fonction compare strictement les dates
+#' `a` et `b` (`<`).
 #' @export
 #'
 #' @examples
@@ -184,7 +210,8 @@ last_date <- function(dataTS) {
 #' is_before(a = c(2022L, 3L), b = c(2010L, 1L), frequency_ts = 4L)
 #'
 #' is_before(a = c(2022L, 4L), b = c(2022L, 4L), frequency_ts = 12L)
-#' is_before(a = c(2022L, 4L), b = c(2022L, 4L), frequency_ts = 12L, strict = TRUE)
+#' is_before(a = c(2022L, 4L), b = c(2022L, 4L), frequency_ts = 12L, strict =
+#' TRUE)
 #'
 #' # Importance de la fréquence
 #' is_before(a = c(2022L, -3L), b = c(2021L, 8L), frequency_ts = 12L)
@@ -223,13 +250,20 @@ is_before <- function(a, b, frequency_ts, strict = FALSE) {
 
 #' Intervalle entre 2 dates
 #'
-#' @param a un objet date_ts, c'est-à-dire un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param b un objet date_ts, c'est-à-dire un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param a un objet date_ts, c'est-à-dire un vecteur numérique, de préférence
+#' `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param b un objet date_ts, c'est-à-dire un vecteur numérique, de préférence
+#' `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries
+#' trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #'
-#' @return En sortie, la fonction retourne un entier qui désigne le nombre de période (mois ou trimestres) qui sépare les 2 dates `a` et `b`.
+#' @return En sortie, la fonction retourne un entier qui désigne le nombre de
+#' période (mois ou trimestres) qui sépare les 2 dates `a` et `b`.
 #'
-#' @details On travaille ici avec des dates au format date_ts, c'est-à-dire qui passe le test de la fonction `assert_date_ts`. Lorsqu'on parle d'intervalle et de nombre de période entre `a` et `b`, les bornes sont incluses. Ainsi `diff_periode(2020L, 2020L, 12L)` retourne bien 1L et non 2L ou 0L.
+#' @details On travaille ici avec des dates au format date_ts, c'est-à-dire qui
+#' passe le test de la fonction `assert_date_ts`. Lorsqu'on parle d'intervalle
+#' et de nombre de période entre `a` et `b`, les bornes sont incluses. Ainsi
+#' `diff_periode(2020L, 2020L, 12L)` retourne bien 1L et non 2L ou 0L.
 #'
 #' @export
 #'

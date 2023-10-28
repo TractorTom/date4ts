@@ -1,12 +1,19 @@
 #' Formatter un objet date_ts
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param date_ts un vecteur numérique, de préférence `integer` au format
+#' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries
+#' trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #' @param test un booléen (Default is TRUE)
 #'
-#' @return En sortie, la fonction retourne une date au même format que l'objet `date_ts` avec la période inclus entre 1 et la fréquence.
-#' @details Ici le formattage correspond à une réécriture de la date sans en changer la valeur. Alors que l'objet c(2020L, 12L) désigne le mois de décembre 2020 et c(2021L, 1L) le mois de janvier 2021, on peut imaginer que la date_ts c(2021L, 0L) peut aussi représenter le mois de décembre 2020.
-#' Si l'argument `test` est mis à FALSE, alors aucun test ne sera effectué sur les données en entrée.
+#' @return En sortie, la fonction retourne une date au même format que l'objet
+#' `date_ts` avec la période inclus entre 1 et la fréquence.
+#' @details Ici le formattage correspond à une réécriture de la date sans
+#' en changer la valeur. Alors que l'objet c(2020L, 12L) désigne le mois de
+#' décembre 2020 et c(2021L, 1L) le mois de janvier 2021, on peut imaginer que
+#' la date_ts c(2021L, 0L) peut aussi représenter le mois de décembre 2020.
+#' Si l'argument `test` est mis à FALSE, alors aucun test ne sera effectué sur
+#' les données en entrée.
 #' @export
 #'
 #' @examples

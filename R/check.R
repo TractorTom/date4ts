@@ -1,30 +1,43 @@
 #' Vérifie le format de date
 #'
-#' @description La fonction `assert_date_ts` vérifie qu'un objet est de type `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @description La fonction `assert_date_ts` vérifie qu'un objet est de type
+#' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #'
-#' @param x un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param x un vecteur numérique, de préférence `integer` au format `AAAA`,
+#' `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries
+#' trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #' @param warn un booleen
 #'
-#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
-#' @details Les fonctions du package TractorTsbox sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le système des mois, trimestres et années classiques.
-#' On cherche donc à favoriser l'utilisation de vecteur `c(AAAA, MM)` pour désigner la date choisie.
-#' Lorsque l'objet `x` en entrée est au mauvais format, il est corrigé pendant la vérification et l'objet en sortie est au bon format.
-#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou
+#' une erreur.
+#' @details Les fonctions du package TractorTsbox sont faites pour fonctionner
+#' avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le
+#' système des mois, trimestres et années classiques.
+#' On cherche donc à favoriser l'utilisation de vecteur `c(AAAA, MM)` pour
+#' désigner la date choisie.
+#' Lorsque l'objet `x` en entrée est au mauvais format, il est corrigé pendant
+#' la vérification et l'objet en sortie est au bon format.
+#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de
+#' warning lors de l'évaluation.
 #'
-#' Ici, l'argument `frequency_ts` est nécessaire car une date sous la forme c(AAAA, PP), avec PP le nombre de période, ne désigne pas une date absolue. Par exemple, c(2020L 5L) désigne mai 2020 pour une fréquence mensuelle et le 1er trimestre 2021 pour une fréquence trimestrielle.
+#' Ici, l'argument `frequency_ts` est nécessaire car une date sous la forme
+#' c(AAAA, PP), avec PP le nombre de période, ne désigne pas une date absolue.
+#' Par exemple, c(2020L 5L) désigne mai 2020 pour une fréquence mensuelle et le
+#' 1er trimestre 2021 pour une fréquence trimestrielle.
 #'
 #' Selon le préfixe de la fonction :
 #'
-#'  - si le check réussi :
-#'      - la fonction `assert_date_ts` retourne l'objet `x` de manière invisible;
-#'      - la fonction `check_date_ts` retourne le booléen `TRUE`.
+#' - si le check réussi :
+#'     - la fonction `assert_date_ts` retourne l'objet `x` de manière invisible;
+#'     - la fonction `check_date_ts` retourne le booléen `TRUE`.
 #'
-#'  - si le check échoue :
-#'      - la fonction `assert_date_ts` retourne un message d'erreur;
-#'      - la fonction `check_date_ts` retourne une chaîne de caractère signalant le problème.
+#' - si le check échoue :
+#'     - la fonction `assert_date_ts` retourne un message d'erreur;
+#'     - la fonction `check_date_ts` retourne une chaîne de caractère signalant
+#'     le problème.
 #'
 #' @export
 #'
@@ -171,27 +184,34 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
 
 #' Vérifie la conformité d'un objet ts
 #'
-#' @description Les fonctions `assert_ts` et `check_ts` vérifient qu'un objet ts est bien conforme.
+#' @description Les fonctions `assert_ts` et `check_ts` vérifient qu'un objet ts
+#' est bien conforme.
 #'
 #' @param x un objet ts unidimensionnel
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #'
-#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
-#' @details Les fonctions du package TractorTsbox sont faites pour fonctionner avec des times-series de fréquence mensuelle ou trimestrielle et basées sur le système des mois, trimestres et années classiques.
-#' On travaille avec des données numériques (integer, double ou logical) mais les autres types atomic sont acceptés également.
-#' On cherche donc à favoriser l'utilisation de séries temporelles classiques utilisants des types atomiques.
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou
+#' une erreur.
+#' @details Les fonctions du package TractorTsbox sont faites pour fonctionner
+#' avec des times-series de fréquence mensuelle ou trimestrielle et basées sur
+#' le système des mois, trimestres et années classiques.
+#' On travaille avec des données numériques (integer, double ou logical) mais
+#' les autres types atomic sont acceptés également.
+#' On cherche donc à favoriser l'utilisation de séries temporelles classiques
+#' utilisants des types atomiques.
 #' Lorsque l'objet `x` en entrée est au mauvais format, une erreur est généré.
 #'
 #' Selon le préfixe de la fonction :
 #'
-#'  - si le check réussi :
-#'      - la fonction `assert_ts` retourne l'objet `x` de manière invisible;
-#'      - la fonction `check_ts` retourne le booléen `TRUE`.
+#' - si le check réussi :
+#'     - la fonction `assert_ts` retourne l'objet `x` de manière invisible;
+#'     - la fonction `check_ts` retourne le booléen `TRUE`.
 #'
-#'  - si le check échoue :
-#'      - la fonction `assert_ts` retourne un message d'erreur;
-#'      - la fonction `check_ts` retourne une chaîne de caractère signalant le problème.
+#' - si le check échoue :
+#'     - la fonction `assert_ts` retourne un message d'erreur;
+#'     - la fonction `check_ts` retourne une chaîne de caractère signalant le
+#'     problème.
 #'
 #' @export
 #'
@@ -356,28 +376,35 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
 #' Vérifie la conformité d'un objet TimeUnits
 #'
-#' @description La fonction `assert_TimeUnits` vérifie qu'un objet est un TimeUnits.
+#' @description La fonction `assert_TimeUnits` vérifie qu'un objet est un
+#' TimeUnits.
 #'
 #' @param x un numérique qui représente le time units de
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries
+#' trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #'
-#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou
+#' une erreur.
 #'
 #' @details
-#' Un objet de type TimeUnits est un numérique qui désigne l'année et la période en cours avec ses décimales.
-#' Ainsi pour une série temporelle mensuelle, `2020.5` représente la moitié de l'année donc juillet 2020 et s'écrit `c(2020L, 7L)` au format date_ts.
+#' Un objet de type TimeUnits est un numérique qui désigne l'année et la période
+#' en cours avec ses décimales.
+#' Ainsi pour une série temporelle mensuelle, `2020.5` représente la moitié de
+#' l'année donc juillet 2020 et s'écrit `c(2020L, 7L)` au format date_ts.
 #'
 #' Selon le préfixe de la fonction :
 #'
-#'  - si le check réussi :
-#'      - la fonction `assert_TimeUnits` retourne l'objet `x` de manière invisible;
-#'      - la fonction `check_TimeUnits` retourne le booléen `TRUE`.
+#' - si le check réussi :
+#'     - la fonction `assert_TimeUnits` retourne l'objet `x` de manière
+#'     invisible;
+#'     - la fonction `check_TimeUnits` retourne le booléen `TRUE`.
 #'
-#'  - si le check échoue :
-#'      - la fonction `assert_TimeUnits` retourne un message d'erreur;
-#'      - la fonction `check_TimeUnits` retourne une chaîne de caractère signalant le problème.
+#' - si le check échoue :
+#'     - la fonction `assert_TimeUnits` retourne un message d'erreur;
+#'     - la fonction `check_TimeUnits` retourne une chaîne de caractère
+#'     signalant le problème.
 #'
 #' @export
 #'
@@ -459,26 +486,37 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
 
 #' Vérifie la conformité d'une fréquence
 #'
-#' @param x un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param x un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et
+#' `12L` (ou `12.`) pour les séries mensuelles.
 #' @param warn un booleen
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #'
-#' @details La fréquence d'une série temporelle est soit mensuelle (`12L` ou `12.`) soit trimestrielle (`4L` ou `4.`). Les autres fréquences ne sont pas acceptées.
-#' Cette fonction s'appuie essentiellement sur les fonctions `checkmate::check_numeric`, `checkmate::check_int` et `checkmate::check_choice`.
-#' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer.
-#' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
-#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
+#' @details La fréquence d'une série temporelle est soit mensuelle (`12L` ou
+#' `12.`) soit trimestrielle (`4L` ou `4.`). Les autres fréquences ne sont pas
+#' acceptées.
+#' Cette fonction s'appuie essentiellement sur les fonctions
+#' `checkmate::check_numeric`, `checkmate::check_int` et
+#' `checkmate::check_choice`.
+#' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type
+#' double ou integer.
+#' Dans le premier cas, on affichera un warning et on corrigera l'objet au
+#' format integer pour les traitements ultérieurs. En sortie, `x` est retourné
+#' de manière invisible.
+#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de
+#' warning lors de l'évaluation.
 #'
 #' Selon le préfixe de la fonction :
 #'
-#'  - si le check réussi :
-#'      - la fonction `assert_frequency` retourne l'objet `x` de manière invisible;
-#'      - la fonction `check_frequency` retourne le booléen `TRUE`.
+#' - si le check réussi :
+#'     - la fonction `assert_frequency` retourne l'objet `x` de manière
+#'     invisible;
+#'     - la fonction `check_frequency` retourne le booléen `TRUE`.
 #'
-#'  - si le check échoue :
-#'      - la fonction `assert_frequency` retourne un message d'erreur;
-#'      - la fonction `check_frequency` retourne une chaîne de caractère signalant le problème.
+#' - si le check échoue :
+#'     - la fonction `assert_frequency` retourne un message d'erreur;
+#'     - la fonction `check_frequency` retourne une chaîne de caractère signalant
+#'     le problème.
 #'
 #' @export
 #'
@@ -583,24 +621,33 @@ assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x), war
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #' @param warn un booleen
 #'
-#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou
+#' une erreur.
 #'
 #' @details
 #' On vérifie que l'objet `x` en entrée est bien un entier.
-#' Cette fonction s'appuie essentiellement sur la fonction `checkmate::assert_int`.
-#' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer. Si l'objet est de type double (et non integer), la fonction retournera aussi un warning.
-#' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
-#' Si l'argument `warn` vaut `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
+#' Cette fonction s'appuie essentiellement sur la fonction
+#' `checkmate::assert_int`.
+#' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de
+#' type double ou integer. Si l'objet est de type double (et non integer), la
+#' fonction retournera aussi un warning.
+#' Dans le premier cas, on affichera un warning et on corrigera l'objet au
+#' format integer pour les traitements ultérieurs. En sortie, `x` est retourné
+#' de manière invisible.
+#' Si l'argument `warn` vaut `FALSE`, alors la fonction ne retournera pas de
+#' warning lors de l'évaluation.
 #'
 #' Selon le préfixe de la fonction :
 #'
-#'  - si le check réussi :
-#'      - la fonction `assert_scalar_integer` retourne l'objet `x` de manière invisible;
-#'      - la fonction `check_scalar_integer` retourne le booléen `TRUE`.
+#' - si le check réussi :
+#'     - la fonction `assert_scalar_integer` retourne l'objet `x` de manière
+#' invisible;
+#'     - la fonction `check_scalar_integer` retourne le booléen `TRUE`.
 #'
-#'  - si le check échoue :
-#'      - la fonction `assert_scalar_integer` retourne un message d'erreur;
-#'      - la fonction `check_scalar_integer` retourne une chaîne de caractère signalant le problème.
+#' - si le check échoue :
+#'     - la fonction `assert_scalar_integer` retourne un message d'erreur;
+#'     - la fonction `check_scalar_integer` retourne une chaîne de caractère
+#' signalant le problème.
 #'
 #' @export
 #'
@@ -696,30 +743,39 @@ assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)
 #' Vérifie la conformité d'un entier naturel
 #'
 #' @description
-#' Le but de cett fonction est de tester si une variable x est un nombre naturel strictement positif.
+#' Le but de cett fonction est de tester si une variable x est un nombre naturel
+#' strictement positif.
 #'
 #' @param x un entier naturel strictement positif
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #' @param warn un booleen
 #'
-#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou
+#' une erreur.
 #'
 #' @details
-#' Cette fonction s'appuie essentiellement sur la fonction `checkmate::assert_count`.
-#' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type double ou integer.
-#' Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, `x` est retourné de manière invisible.
-#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de warning lors de l'évaluation.
+#' Cette fonction s'appuie essentiellement sur la fonction
+#' `checkmate::assert_count`.
+#' Il y a néanmoins une petite subtilité : on vérifie si l'objet `x` est de type
+#' double ou integer.
+#' Dans le premier cas, on affichera un warning et on corrigera l'objet au
+#' format integer pour les traitements ultérieurs. En sortie, `x` est retourné
+#' de manière invisible.
+#' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de
+#' warning lors de l'évaluation.
 #'
 #' Selon le préfixe de la fonction :
 #'
-#'  - si le check réussi :
-#'      - la fonction `assert_scalar_natural` retourne l'objet `x` de manière invisible;
-#'      - la fonction `check_scalar_natural` retourne le booléen `TRUE`.
+#' - si le check réussi :
+#'     - la fonction `assert_scalar_natural` retourne l'objet `x` de manière
+#' invisible;
+#'     - la fonction `check_scalar_natural` retourne le booléen `TRUE`.
 #'
-#'  - si le check échoue :
-#'      - la fonction `assert_scalar_natural` retourne un message d'erreur;
-#'      - la fonction `check_scalar_natural` retourne une chaîne de caractère signalant le problème.
+#' - si le check échoue :
+#'     - la fonction `assert_scalar_natural` retourne un message d'erreur;
+#'     - la fonction `check_scalar_natural` retourne une chaîne de caractère
+#' signalant le problème.
 #'
 #' @export
 #'
@@ -816,21 +872,26 @@ assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x)
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #'
-#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou une erreur.
+#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou
+#' une erreur.
 #'
 #' @details
-#' On vérifie que l'objet `x` en entrée est bien au format `Date` et qu'il s'agit d'un scalaire (vecteur de taille 1).
-#' Cette fonction s'appuie essentiellement sur les fonctions `checkmate::assert_date` et `checkmate::assert_scalar`.
+#' On vérifie que l'objet `x` en entrée est bien au format `Date` et qu'il
+#' s'agit d'un scalaire (vecteur de taille 1).
+#' Cette fonction s'appuie essentiellement sur les fonctions
+#' `checkmate::assert_date` et `checkmate::assert_scalar`.
 #'
 #' Selon le préfixe de la fonction :
 #'
-#'  - si le check réussi :
-#'      - la fonction `assert_scalar_date` retourne l'objet `x` de manière invisible;
-#'      - la fonction `check_scalar_date` retourne le booléen `TRUE`.
+#' - si le check réussi :
+#'     - la fonction `assert_scalar_date` retourne l'objet `x` de manière
+#'     invisible;
+#'     - la fonction `check_scalar_date` retourne le booléen `TRUE`.
 #'
-#'  - si le check échoue :
-#'      - la fonction `assert_scalar_date` retourne un message d'erreur;
-#'      - la fonction `check_scalar_date` retourne la chaîne de caractère correspondante à l'erreur du check.
+#' - si le check échoue :
+#'     - la fonction `assert_scalar_date` retourne un message d'erreur;
+#'     - la fonction `check_scalar_date` retourne la chaîne de caractère
+#'     correspondante à l'erreur du check.
 #'
 #' @export
 #'
@@ -847,7 +908,8 @@ assert_scalar_natural <- function(x, add = NULL, .var.name = checkmate::vname(x)
 #' # Avec des erreurs
 #'
 #' check_scalar_date(2L)
-#' check_scalar_date(seq(from = as.Date("2000-01-01"), to = Sys.Date(), by = "year"))
+#' check_scalar_date(seq(from = as.Date("2000-01-01"), to = Sys.Date(), by =
+#' "year"))
 #'
 check_scalar_date <- function(x) {
 
@@ -892,19 +954,25 @@ assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 #'
 #' @param expr une expression à évaluer
 #'
-#' @return En sortie la fonction retourne l'objet `x` (le résultat de l'évaluation de l'expression `expr`) de manière invisible ou une erreur.
+#' @return En sortie la fonction retourne l'objet `x` (le résultat de
+#' l'évaluation de l'expression `expr`) de manière invisible ou une erreur.
 #'
-#' @details La fonction évalue l'expression `expr`. Le check vérifie si la fonction génère une erreur ou un warning. Si elle ne génère aucun message particulier, on retourne alors l'objet `x` (le résultat de l'évaluation de l'expression `expr`), sans erreur.
+#' @details La fonction évalue l'expression `expr`. Le check vérifie si la
+#' fonction génère une erreur ou un warning. Si elle ne génère aucun message
+#' particulier, on retourne alors l'objet `x` (le résultat de l'évaluation de
+#' l'expression `expr`), sans erreur.
 #'
 #' Selon le préfixe de la fonction :
 #'
-#'  - si le check réussi :
-#'      - la fonction `assert_expression` retourne l'objet `x` de manière invisible;
-#'      - la fonction `check_expression` retourne le booléen `TRUE`.
+#' - si le check réussi :
+#'     - la fonction `assert_expression` retourne l'objet `x` de manière
+#'     invisible;
+#'     - la fonction `check_expression` retourne le booléen `TRUE`.
 #'
-#'  - si le check échoue :
-#'      - la fonction `assert_expression` retourne un message d'erreur;
-#'      - la fonction `check_expression` retourne la chaîne de caractère "Invalid expression".
+#' - si le check échoue :
+#'     - la fonction `assert_expression` retourne un message d'erreur;
+#'     - la fonction `check_expression` retourne la chaîne de caractère
+#'     "Invalid expression".
 #'
 #' @export
 #'

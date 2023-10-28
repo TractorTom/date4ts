@@ -3,11 +3,14 @@
 #' @description La fonction `get_value_ts` permet de récupérer des valeurs.
 #'
 #' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
-#' @param date_from un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param date_to un vecteur numérique, de préférence `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param date_from un vecteur numérique, de préférence `integer` au format
+#' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @param date_to un vecteur numérique, de préférence `integer` au format
+#' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #' @param n un entier
 #'
-#' @return En sortie, la fonction retourne un vecteur (atomic) de même type que `dataTS` avec les valeurs extraites.
+#' @return En sortie, la fonction retourne un vecteur (atomic) de même type que
+#' `dataTS` avec les valeurs extraites.
 #' @export
 #'
 #' @examples
