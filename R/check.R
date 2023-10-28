@@ -428,7 +428,10 @@ assert_TimeUnits <- function(x, frequency_ts, add = NULL, .var.name = checkmate:
     # Check de l'objet x (TimeUnits)
     checkmate::assert_number(x, add = coll, .var.name = .var.name, finite = TRUE)
 
-    checkmate::assert_int(x * frequency_ts, .var.name = paste0(.var.name, " * frequency_ts"))
+    if (isTRUE(check_frequency(frequency_ts, warn = FALSE)) &&
+        isTRUE(checkmate::check_number(x, finite = TRUE))) {
+        checkmate::assert_int(x * frequency_ts, .var.name = paste0(.var.name, " * frequency_ts"))
+    }
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
