@@ -106,6 +106,9 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
         coll <- add
     }
 
+    # Check de warn
+    checkmate::assert_flag(warn, add = coll, .var.name = "warn", na.ok = FALSE, null.ok = FALSE)
+
     # Check de la fréquence
     frequency_ts <- assert_frequency(
         frequency_ts,
@@ -117,8 +120,7 @@ assert_date_ts <- function(x, frequency_ts, add = NULL, .var.name = checkmate::v
     if (isTRUE(checkmate::check_numeric(
         x, any.missing = FALSE,
         min.len = 1L, max.len = 2L, finite = TRUE
-    )
-    )) {
+    ))) {
 
         x_corr <- checkmate::assert_integerish(
             x,
@@ -521,6 +523,9 @@ assert_frequency <- function(x, add = NULL, .var.name = checkmate::vname(x), war
         coll <- add
     }
 
+    # Check de warn
+    checkmate::assert_flag(warn, add = coll, .var.name = "warn", na.ok = FALSE, null.ok = FALSE)
+
     # Check du type
     # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
     if (isTRUE(checkmate::check_numeric(x, any.missing = FALSE, finite = TRUE))) {
@@ -625,6 +630,9 @@ assert_scalar_integer <- function(x, add = NULL, .var.name = checkmate::vname(x)
     } else {
         coll <- add
     }
+
+    # Check de warn
+    checkmate::assert_flag(warn, add = coll, .var.name = "warn", na.ok = FALSE, null.ok = FALSE)
 
     if (warn && !isTRUE(checkmate::check_integer(x))) {
         err <- try(checkmate::assert_integer(x, .var.name = .var.name),

@@ -273,3 +273,10 @@ testthat::test_that("miscellaneous n are not allowed", {
         testthat::expect_error(libelles(date = create_random_date(), frequency_ts = 4L, n = wrong_n, warn = FALSE))
     }
 })
+
+testthat::test_that("miscellaneous warn are not allowed", {
+    for (wrong_warn in c(list(0., 0L), object_bank_R[-29])) {
+        testthat::expect_error(libelles(date = create_random_date(), frequency_ts = 12L, n = 5L, warn = wrong_warn))
+        testthat::expect_error(libelles(date = create_random_date(), frequency_ts = 4L, n = 5L, warn = wrong_warn))
+    }
+})
