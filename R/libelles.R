@@ -24,13 +24,16 @@
 libelles_one_date <- function(date_ts, frequency_ts, warn = TRUE) {
 
     # Check de warn
-    checkmate::assert_flag(warn, add = NULL, .var.name = "warn", na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_flag(warn, add = NULL, .var.name = "warn",
+                           na.ok = FALSE, null.ok = FALSE)
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, .var.name = "frequency_ts", warn = warn)
+    frequency_ts <- assert_frequency(frequency_ts, .var.name = "frequency_ts",
+                                     warn = warn)
 
     # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency_ts, .var.name = "date_ts", warn = warn)
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts, .var.name = "date_ts",
+                              warn = warn)
 
     date <- date_ts2date(date_ts, frequency_ts = frequency_ts)
 
@@ -70,21 +73,28 @@ libelles_one_date <- function(date_ts, frequency_ts, warn = TRUE) {
 libelles <- function(date_ts, frequency_ts, n = 1L, warn = TRUE) {
 
     # Check de warn
-    checkmate::assert_flag(warn, add = NULL, .var.name = "warn", na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_flag(warn, add = NULL, .var.name = "warn",
+                           na.ok = FALSE, null.ok = FALSE)
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = NULL, .var.name = "frequency_ts", warn = warn)
+    frequency_ts <- assert_frequency(frequency_ts, add = NULL,
+                                     .var.name = "frequency_ts", warn = warn)
 
     # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = NULL, .var.name = "date_ts", warn = warn)
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = NULL,
+                              .var.name = "date_ts", warn = warn)
 
     # Check de l'argument n
     n <- assert_scalar_natural(n, add = NULL, .var.name = "n")
 
     decale_libele <- function(x) {
-        date_temp <- next_date_ts(date_ts = date_ts, frequency_ts = frequency_ts, lag = x)
-        return(libelles_one_date(date_ts = date_temp, frequency_ts = frequency_ts, warn = FALSE))
+        date_temp <- next_date_ts(date_ts = date_ts,
+                                  frequency_ts = frequency_ts, lag = x)
+        return(libelles_one_date(date_ts = date_temp,
+                                 frequency_ts = frequency_ts, warn = FALSE))
     }
 
-    return(vapply(X = seq_len(n) - 1L, FUN = decale_libele, FUN.VALUE = character(1)))
+    return(vapply(X = seq_len(n) - 1L,
+                  FUN = decale_libele,
+                  FUN.VALUE = character(1)))
 }

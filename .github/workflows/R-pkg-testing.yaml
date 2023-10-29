@@ -11,12 +11,14 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
 
-    name: ${{ matrix.os }} (r ${{ matrix.r }})
+    name: Testing ${{ matrix.domain }} on ${{ matrix.os }} (with r ${{ matrix.r }})
 
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
         r: [ 'release', '4.2.1' ]
+        domain: [ 'check', 'formatting', 'date_manipulation', 'conversion', 'libelles', 'modify' ]
 
     steps:
 
@@ -42,17 +44,9 @@ jobs:
         run: install.packages("devtools", repos = "https://cloud.r-project.org")
         shell: Rscript {0}
 
-      - name: Move all testsk
-        run: |
-          mv tests/testthat/tests-check/* tests/testthat
-          mv tests/testthat/tests-date_manipulation/* tests/testthat
-          mv tests/testthat/tests-libelles/* tests/testthat
-          # mv tests/testthat/tests-modify/* tests/testthat
-          mv tests/testthat/tests-conversion/* tests/testthat
-          mv tests/testthat/tests-formatting/* tests/testthat
+      - name: Move tests-formatting
+        run: mv tests/testthat/tests-${{ matrix.domain }}/* tests/testthat
 
       - name: Run tests
-        run: |
-          # testthat::test_package("TractorTsbox")
-          devtools::test(stop_on_failure = TRUE)
+        run: devtools::test(stop_on_failure = TRUE)
         shell: Rscript {0}

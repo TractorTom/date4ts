@@ -37,10 +37,12 @@ format_date_ts <- function(date_ts, frequency_ts, test = TRUE) {
         coll <- checkmate::makeAssertCollection()
 
         # Check de la fréquence
-        frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+        frequency_ts <- assert_frequency(frequency_ts, add = coll,
+                                         .var.name = "frequency_ts")
         # Check du format date_ts
         if (isTRUE(check_frequency(frequency_ts))) {
-            date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+            date_ts <- assert_date_ts(x = date_ts, frequency_ts,
+                                      add = coll, .var.name = "date_ts")
         }
 
         checkmate::reportAssertions(coll)
