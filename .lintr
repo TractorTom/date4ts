@@ -1,5 +1,7 @@
 linters: linters_with_defaults(
         indentation_linter(indent = 4L),
-        line_length_linter = NULL
+        # line_length_linter = NULL,
+        # object_name_linter = NULL,
+        cyclocomp_linter(complexity_limit = 10L)
     )
 encoding: "UTF-8"
