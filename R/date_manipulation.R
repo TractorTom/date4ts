@@ -34,11 +34,13 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
     coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+    frequency_ts <- assert_frequency(frequency_ts, add = coll,
+                                     .var.name = "frequency_ts")
 
     # Check du format date_ts
     if (isTRUE(check_frequency(frequency_ts))) {
-        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll,
+                                  .var.name = "date_ts")
     }
 
     # Check l'argument lag
@@ -86,11 +88,13 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
     coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+    frequency_ts <- assert_frequency(frequency_ts, add = coll,
+                                     .var.name = "frequency_ts")
 
     # Check du format date_ts
     if (isTRUE(check_frequency(frequency_ts))) {
-        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll,
+                                  .var.name = "date_ts")
     }
 
     # Check l'argument lag
@@ -184,7 +188,8 @@ last_date <- function(dataTS) {
     last_time <- time_ts[length(time_ts)]
     frequency_ts <- as.integer(stats::frequency(dataTS))
 
-    return(as.integer(c(last_time %/% 1L, (last_time %% 1L) * frequency_ts + 1L)))
+    return(as.integer(c(last_time %/% 1L,
+                        (last_time %% 1L) * frequency_ts + 1L)))
 }
 
 #' Comparaison de 2 date_ts
@@ -225,7 +230,8 @@ is_before <- function(a, b, frequency_ts, strict = FALSE) {
     checkmate::assert_flag(strict, add = coll, .var.name = "replace_na")
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+    frequency_ts <- assert_frequency(frequency_ts, add = coll,
+                                     .var.name = "frequency_ts")
 
     if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
         # Check du format date_ts a
@@ -284,7 +290,8 @@ diff_periode <- function(a, b, frequency_ts) {
     coll <- NULL
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+    frequency_ts <- assert_frequency(frequency_ts, add = coll,
+                                     .var.name = "frequency_ts")
     # Check du format date_ts a
     a <- assert_date_ts(x = a, frequency_ts, add = coll, .var.name = "a")
     # Check du format date_ts b

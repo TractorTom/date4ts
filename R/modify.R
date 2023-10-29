@@ -27,15 +27,21 @@ set_value_ts <- function(dataTS, date_ts, replacement) {
     assert_ts(dataTS, add = coll, .var.name = "dataTS")
 
     # Check de l'objet replacement un vecteur atomic
-    checkmate::assert_atomic_vector(replacement, add = coll, .var.name = "replacement")
+    checkmate::assert_atomic_vector(replacement, add = coll,
+                                    .var.name = "replacement")
 
-    if (isTRUE(checkmate::check_atomic_vector(replacement)) && checkmate::anyMissing(replacement)) {
-        warning(checkmate::check_atomic_vector(replacement, any.missing = FALSE, .var.name = "replacement"))
+    check_1 <- checkmate::check_atomic_vector(replacement)
+    check_2 <- checkmate::anyMissing(replacement)
+    if (isTRUE(check_1) && isTRUE(check_2)) {
+        warning(checkmate::check_atomic_vector(
+            x = replacement, any.missing = FALSE, .var.name = "replacement"
+        ))
     }
 
     # Check des types des objets
     if (!isTRUE(typeof(dataTS) == typeof(replacement))) {
-        coll$push("Les objets `dataTS` et `replacement` doivent \u00eatre de m\u00eame type.")
+        coll$push(c("Les objets `dataTS` et `replacement` ",
+                    "doivent \u00eatre de m\u00eame type."))
     }
 
     checkmate::reportAssertions(coll)
@@ -62,10 +68,12 @@ set_value_ts <- function(dataTS, date_ts, replacement) {
             frequency = stats::frequency(ts_output)
         )
     } else {
-        start_ts <- format_date_ts(date_ts,
+        start_ts <- format_date_ts(
+            date_ts = date_ts,
             frequency_ts = as.integer(stats::frequency(dataTS))
         )
-        end_ts <- next_date_ts(date_ts,
+        end_ts <- next_date_ts(
+            date_ts,
             frequency_ts = as.integer(stats::frequency(dataTS)),
             lag = length(replacement) - 1L
         )
@@ -123,12 +131,14 @@ combine2ts <- function(a, b) {
 
         # Check same frequency_ts
         if (!isTRUE(stats::frequency(a) == stats::frequency(b))) {
-            coll$push("Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
+            coll$push(c("Les objets `a` et `b` doivent avoir ",
+                        "la m\u00eame fr\u00e9quence."))
         }
 
         # Check des types des objets
         if (!isTRUE(typeof(a) == typeof(b))) {
-            coll$push("Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
+            coll$push(c("Les objets `a` et `b`",
+                        " doivent \u00eatre de m\u00eame type."))
         }
 
     }
@@ -179,11 +189,9 @@ combine2ts <- function(a, b) {
             frequency = frequency_ts,
             start = min(
                 date_ts2timeunits(as.integer(stats::start(a)),
-                    frequency_ts = frequency_ts
-                ),
+                                  frequency_ts = frequency_ts),
                 date_ts2timeunits(as.integer(stats::start(b)),
-                    frequency_ts = frequency_ts
-                )
+                                  frequency_ts = frequency_ts)
             )
         )
     }
@@ -226,7 +234,8 @@ extend_ts <- function(dataTS, replacement, date_ts = NULL, replace_na = TRUE) {
     # Check de l'objet dataTS
     assert_ts(dataTS, add = coll, .var.name = "dataTS")
     # Check de l'objet replacement un vecteur atomic
-    checkmate::assert_atomic_vector(replacement, add = coll, .var.name = "replacement")
+    checkmate::assert_atomic_vector(replacement, add = coll,
+                                    .var.name = "replacement")
     # Check de replace_na
     checkmate::assert_flag(replace_na, add = coll, .var.name = "replace_na")
 
@@ -236,34 +245,45 @@ extend_ts <- function(dataTS, replacement, date_ts = NULL, replace_na = TRUE) {
 
     # Check du format date_ts
     if (!is.null(date_ts)) {
-        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll,
+                                  .var.name = "date_ts")
     }
 
     end_ts <- as.integer(stats::end(dataTS))
 
     if (replace_na) {
-        start_replacement <- next_date_ts(last_date(dataTS), frequency_ts = frequency_ts)
+        start_replacement <- next_date_ts(last_date(dataTS),
+                                          frequency_ts = frequency_ts)
     } else {
         start_replacement <- next_date_ts(end_ts, frequency_ts = frequency_ts)
     }
 
     if (!is.null(date_ts)) {
-        if (!is_before(start_replacement, date_ts, frequency_ts = frequency_ts)) {
-            stop("La date de fin de remplacement est ant\u00e9rieur \u00e0 la date de fin des donn\u00e9es.")
+        if (!is_before(start_replacement, date_ts,
+                       frequency_ts = frequency_ts)) {
+
+            stop(c("La date de fin de remplacement est",
+                   " ant\u00e9rieur \u00e0 la date de fin des donn\u00e9es."))
         }
         length_replacement <- diff_periode(
             a = start_replacement,
             b = date_ts, frequency_ts = frequency_ts
         )
         if (length_replacement %% length(replacement) != 0L) {
-            stop("number of values supplied is not a sub-multiple of the number of values to be replaced")
+            stop(c("number of values supplied is not a",
+                   " sub-multiple of the number of values to be replaced"))
         }
         end_replacement <- date_ts
     } else {
-        end_replacement <- next_date_ts(start_replacement, lag = length(replacement) - 1L, frequency_ts = frequency_ts)
+        end_replacement <- next_date_ts(
+            date_ts = start_replacement,
+            lag = length(replacement) - 1L,
+            frequency_ts = frequency_ts
+        )
     }
 
-    stats::window(dataTS, start = start_replacement, end = end_replacement, extend = TRUE) <- replacement
+    stats::window(dataTS, start = start_replacement,
+                  end = end_replacement, extend = TRUE) <- replacement
     return(dataTS)
 }
 
@@ -297,9 +317,8 @@ na_trim <- function(dataTS) {
     assert_ts(dataTS, add = coll, .var.name = "dataTS")
     # Check du contenu (pas que des NA)
     checkmate::assert_atomic_vector(dataTS,
-        all.missing = FALSE,
-        add = coll, .var.name = "dataTS"
-    )
+                                    all.missing = FALSE,
+                                    add = coll, .var.name = "dataTS")
 
     non_na <- seq_along(dataTS)[!is.na(dataTS)]
     content <- dataTS[min(non_na):max(non_na)]

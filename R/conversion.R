@@ -1,6 +1,6 @@
 #' Conversion au format date_ts
 #'
-#' @description Les fonctions `as.yyyytt` et `as.yyyymm` convertissent une date
+#' @description Les fonctions `as_yyyytt` et `as_yyyymm` convertissent une date
 #' du format TimeUnits au format `date_ts`.
 #'
 #' @param timeunits une date en année (Par exemple 2015.25 pour le 2ème
@@ -10,33 +10,33 @@
 #' (c'est-à-dire un vecteur d'entiers de la forme `AAAA`, `c(AAAA, MM)` ou
 #' `c(AAAA, TT)`)
 #' @details
-#' La fonction `as.yyyytt` retourne la date par trimestre et la fonction
-#' `as.yyyymm` retourne la date par mois.
+#' La fonction `as_yyyytt` retourne la date par trimestre et la fonction
+#' `as_yyyymm` retourne la date par mois.
 #'
 #' @export
 #'
 #' @examples
-#' as.yyyytt(2019.75) # 4ème trimestre 2019
-#' as.yyyytt(2020) # 1er trimestre 2020
-#' as.yyyytt(2022 + 1 / 4) # 2ème trimestre 2022
+#' as_yyyytt(2019.75) # 4ème trimestre 2019
+#' as_yyyytt(2020) # 1er trimestre 2020
+#' as_yyyytt(2022 + 1 / 4) # 2ème trimestre 2022
 #'
-#' as.yyyymm(2019.75) # Octobre 2019
-#' as.yyyymm(2020) # Janvier 2020
-#' as.yyyymm(2020 + 1 / 12) # Février 2020
-#' as.yyyymm(2020 + 12 / 12) # Janvier 2021
+#' as_yyyymm(2019.75) # Octobre 2019
+#' as_yyyymm(2020) # Janvier 2020
+#' as_yyyymm(2020 + 1 / 12) # Février 2020
+#' as_yyyymm(2020 + 12 / 12) # Janvier 2021
 #'
-as.yyyytt <- function(timeunits) {
+as_yyyytt <- function(timeunits) {
     # Check de l'objet TimeUnits
     assert_timeunits(timeunits, frequency_ts = 4L, .var.name = "timeunits")
 
     return(as.integer(round(c(timeunits %/% 1L, (timeunits %% 1L) * 4L + 1L))))
 }
 
-#' @name as.yyyytt
+#' @name as_yyyytt
 #'
 #' @export
 #'
-as.yyyymm <- function(timeunits) {
+as_yyyymm <- function(timeunits) {
     # Check de l'objet TimeUnits
     assert_timeunits(timeunits, frequency_ts = 12L, .var.name = "timeunits")
 
@@ -64,7 +64,8 @@ as.yyyymm <- function(timeunits) {
 #'
 trim2mens <- function(date_ts) {
     # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency_ts = 4L, .var.name = "date_ts")
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts = 4L,
+                              .var.name = "date_ts")
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 4L
     trim <- (date_ts[2L] - 1L) %% 4L + 1L
@@ -77,7 +78,8 @@ trim2mens <- function(date_ts) {
 #'
 mens2trim <- function(date_ts) {
     # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency_ts = 12L, .var.name = "date_ts")
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts = 12L,
+                              .var.name = "date_ts")
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 12L
     month <- (date_ts[2L] - 1L) %% 12L + 1L
@@ -118,9 +120,11 @@ mens2trim <- function(date_ts) {
 date_ts2timeunits <- function(date_ts, frequency_ts) {
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = NULL, .var.name = "frequency_ts")
+    frequency_ts <- assert_frequency(frequency_ts, add = NULL,
+                                     .var.name = "frequency_ts")
     # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency_ts  = frequency_ts, add = NULL, .var.name = "date_ts")
+    date_ts <- assert_date_ts(x = date_ts, frequency_ts  = frequency_ts,
+                              add = NULL, .var.name = "date_ts")
 
     if (length(date_ts) == 2L) {
         return(date_ts[1L] + (date_ts[2L] - 1) / frequency_ts)
@@ -159,7 +163,8 @@ date2date_ts <- function(date, frequency_ts = 12L) {
     # Check de l'objet date
     assert_scalar_date(date, add = coll, .var.name = "date")
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+    frequency_ts <- assert_frequency(frequency_ts, add = coll,
+                                     .var.name = "frequency_ts")
 
     checkmate::reportAssertions(coll)
 
@@ -208,7 +213,10 @@ substr_year <- function(date, n = 1L) {
 
     year <- as.integer(format(date, format = "%Y")) - before_leap
     years <- year:(year - n + 1L)
-    leap_year <- sum(as.logical((years %% 4 == 0L) - (years %% 100 == 0L) + (years %% 400 == 0L)))
+    leap_year <- sum(as.logical((years %% 4 == 0L) -
+                                    (years %% 100 == 0L) +
+                                    (years %% 400 == 0L))
+    )
 
     return(date - 365 * n - leap_year)
 }
@@ -234,10 +242,12 @@ date_ts2date <- function(date_ts, frequency_ts) {
     coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts")
+    frequency_ts <- assert_frequency(frequency_ts, add = coll,
+                                     .var.name = "frequency_ts")
     # Check du format date_ts
     if (isTRUE(check_frequency(frequency_ts))) {
-        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts")
+        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll,
+                                  .var.name = "date_ts")
     }
 
     checkmate::reportAssertions(coll)
@@ -253,7 +263,10 @@ date_ts2date <- function(date_ts, frequency_ts) {
     }
 
     if (year < 0) {
-        return(substr_year(as.Date(paste("0000", month, "01", sep = "-")), -year))
+        return(substr_year(
+            date = as.Date(paste("0000", month, "01", sep = "-")),
+            n = -year
+        ))
     } else {
         return(as.Date(paste(year, month, "01", sep = "-")))
     }
