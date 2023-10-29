@@ -109,8 +109,6 @@ check_date_ts <- function(x, frequency_ts,
         warning(attr(err, "condition")$message)
     }
 
-    output <- paste(output, collapse = "\n")
-
     return(output)
 }
 
@@ -320,8 +318,6 @@ check_ts <- function(x, .var.name = checkmate::vname(x)) {
                                        .var.name = .var.name)
     }
 
-    output <- paste(output, collapse = "\n")
-
     return(output)
 }
 
@@ -452,8 +448,6 @@ check_timeunits <- function(x, frequency_ts, .var.name = checkmate::vname(x)) {
 
     }
 
-    output <- paste(output, collapse = "\n")
-
     return(output)
 }
 
@@ -566,8 +560,6 @@ check_frequency <- function(x, .var.name = checkmate::vname(x), warn = TRUE) {
                    silent = TRUE)
         warning(attr(err, "condition")$message)
     }
-
-    output <- paste(output, collapse = "\n")
 
     return(output)
 }
@@ -700,8 +692,6 @@ check_scalar_integer <- function(x, warn = TRUE) {
         warning(attr(err, "condition")$message)
     }
 
-    output <- paste(output, collapse = "\n")
-
     return(output)
 }
 
@@ -816,8 +806,6 @@ check_scalar_natural <- function(x, warn = TRUE) {
         warning(attr(err, "condition")$message)
     }
 
-    output <- paste(output, collapse = "\n")
-
     return(output)
 }
 
@@ -916,7 +904,7 @@ check_scalar_date <- function(x) {
 
     output <- paste(output, collapse = "\n")
 
-    return(output)
+   return(output)
 }
 
 #' @name check_scalar_date
@@ -1020,6 +1008,6 @@ add_check_collection <- function(coll, check_output, .var.name = NULL) {
     if (isTRUE(coll))  {
         return(check_output)
     } else {
-        return(c(coll, check_output))
+        return(paste(coll, "\n", check_output))
     }
 }
