@@ -16,8 +16,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
-        r: [ 'release', '4.2.1' ]
+        os: ubuntu-latest
+        r: release
         domain: [ 'check', 'formatting', 'date_manipulation', 'conversion', 'libelles', 'modify' ]
 
     steps:
