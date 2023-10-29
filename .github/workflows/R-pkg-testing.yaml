@@ -16,8 +16,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ubuntu-latest
-        r: release
+        os: [ 'ubuntu-latest' ]
+        r: [ 'release' ]
         domain: [ 'check', 'formatting', 'date_manipulation', 'conversion', 'libelles', 'modify' ]
 
     steps:
