@@ -18,7 +18,8 @@ jobs:
       matrix:
         os: [ 'ubuntu-latest' ]
         r: [ 'release' ]
-        domain: [ 'check', 'formatting', 'date_manipulation', 'conversion', 'libelles', 'modify' ]
+        domain: [ 'check/*', 'formatting/*', 'date_manipulation/*', 'conversion/*', 'libelles/*', 'modify/test-modify-combine2ts.R', 'modify/test-modify-combine2ts-2.R', 'modify/test-modify-set_value_ts.R' ]
+
 
     steps:
 
@@ -45,7 +46,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Move tests-formatting
-        run: mv tests/testthat/tests-${{ matrix.domain }}/* tests/testthat
+        run: mv tests/testthat/tests-${{ matrix.domain }} tests/testthat
 
       - name: Run tests
         run: devtools::test(stop_on_failure = TRUE)
