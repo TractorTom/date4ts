@@ -117,15 +117,15 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 #' Première date non NA
 #'
 #' @description Cette fonction calcule la première date pour laquelle l'objet
-#' `dataTS` ne vaut pas NA.
+#' `series` ne vaut pas NA.
 #'
-#' @param dataTS un objet ts unidimensionnel conforme aux règles de assert_ts
+#' @param series un objet ts unidimensionnel conforme aux règles de assert_ts
 #'
 #' @return En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`,
 #' `c(AAAA, MM)` ou `c(AAAA, TT)`)
 #'
 #' @details La date retournée en output est au format `date_ts`. Si l'objet
-#' `dataTS` ne contient que des NAs, la fonction retourne une erreur.
+#' `series` ne contient que des NAs, la fonction retourne une erreur.
 #'
 #' @export
 #'
@@ -142,20 +142,20 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 #' stats::start(ts1)
 #' first_date(ts2)
 #'
-first_date <- function(dataTS) {
-    # Check de l'objet dataTS
-    assert_ts(dataTS, .var.name = "dataTS")
+first_date <- function(series) {
+    # Check de l'objet series
+    assert_ts(series, .var.name = "series")
 
-    time_ts <- stats::time(na_trim(dataTS))
+    time_ts <- stats::time(na_trim(series))
     first_time <- time_ts[1L]
-    frequency_ts <- as.integer(stats::frequency(dataTS))
+    frequency_ts <- as.integer(stats::frequency(series))
     return(c(first_time %/% 1L, (first_time %% 1L) * frequency_ts + 1L))
 }
 
 #' Dernière date non NA
 #'
 #' @description Cette fonction calcule la dernière date pour laquelle l'objet
-#' `dataTS` ne vaut pas NA.
+#' `series` ne vaut pas NA.
 #'
 #' @inheritParams first_date
 #'
@@ -163,7 +163,7 @@ first_date <- function(dataTS) {
 #' `c(AAAA, MM)` ou `c(AAAA, TT)`)
 #'
 #' @details La date retournée en output est au format `date_ts`. Si l'objet
-#' `dataTS` ne contient que des NAs, la fonction retourne une erreur.
+#' `series` ne contient que des NAs, la fonction retourne une erreur.
 #'
 #' @export
 #'
@@ -180,13 +180,13 @@ first_date <- function(dataTS) {
 #' stats::end(ts1)
 #' last_date(ts2)
 #'
-last_date <- function(dataTS) {
-    # Check de l'objet dataTS
-    assert_ts(dataTS, .var.name = "dataTS")
+last_date <- function(series) {
+    # Check de l'objet series
+    assert_ts(series, .var.name = "series")
 
-    time_ts <- stats::time(na_trim(dataTS))
+    time_ts <- stats::time(na_trim(series))
     last_time <- time_ts[length(time_ts)]
-    frequency_ts <- as.integer(stats::frequency(dataTS))
+    frequency_ts <- as.integer(stats::frequency(series))
 
     return(as.integer(c(last_time %/% 1L,
                         (last_time %% 1L) * frequency_ts + 1L)))

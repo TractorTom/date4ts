@@ -243,11 +243,11 @@ testthat::test_that("Several dimensions are not allowed", {
 
                     testthat::expect_error(
                         set_value_ts(
-                            dataTS = mts_B,
+                            series = mts_B,
                             date = create_random_date(),
                             replacement = create_random_type(type = typeA)
                         ),
-                        regexp = "Variable 'dataTS': Must be of type 'atomic vector'"
+                        regexp = "Variable 'series': Must be of type 'atomic vector'"
                     )
                 }
             }
@@ -259,11 +259,11 @@ testthat::test_that("Several dimensions are not allowed", {
 
 ## Test sur le ts --------------------------------------------------------------
 
-testthat::test_that("miscellaneous dataTS are not allowed", {
+testthat::test_that("miscellaneous series are not allowed", {
     for (typeA in list_type) {
         for (obj in object_bank_R) {
             testthat::expect_error(set_value_ts(
-                dataTS = obj,
+                series = obj,
                 date = create_random_date(),
                 replacement = create_random_type(type = typeA)
             ))
@@ -277,7 +277,7 @@ testthat::test_that("miscellaneous date are not allowed", {
     for (typeA in list_type) {
         for (wrong_date in wrong_dates) {
             testthat::expect_error(set_value_ts(
-                dataTS = create_random_ts(type = typeA),
+                series = create_random_ts(type = typeA),
                 date = wrong_date,
                 replacement = create_random_type(type = typeA)
             ))
@@ -292,7 +292,7 @@ testthat::test_that("miscellaneous value input are not allowed", {
     for (typeA in list_type) {
         for (value in list_wrong_value) {
             testthat::expect_error(set_value_ts(
-                dataTS = create_random_ts(type = typeA),
+                series = create_random_ts(type = typeA),
                 date = create_random_date(),
                 replacement = value
             ))
@@ -300,17 +300,17 @@ testthat::test_that("miscellaneous value input are not allowed", {
     }
 })
 
-testthat::test_that("value should have same type as dataTS", {
+testthat::test_that("value should have same type as series", {
     for (typeA in list_type[-7L]) {
         for (typeB in list_type[-7L]) {
             if (typeA != typeB) {
                 testthat::expect_error(
                     set_value_ts(
-                        dataTS = create_random_ts(type = typeA),
+                        series = create_random_ts(type = typeA),
                         date = create_random_date(),
                         replacement = create_random_type(typeB)
                     ),
-                    regexp = "Les objets `dataTS` et `replacement` doivent \u00eatre de m\u00eame type."
+                    regexp = "Les objets `series` et `replacement` doivent \u00eatre de m\u00eame type."
                 )
             }
         }
@@ -323,10 +323,10 @@ testthat::test_that("NA values generate warning", {
         v1 <- sample(c(create_random_type(typeA, len = 10L), get(paste0("as.", typeA))(rep(NA, 5L))), replace = TRUE)
         v2 <- get(paste0("as.", typeA))(rep(NA, 5L))
 
-        testthat::expect_warning(set_value_ts(dataTS = ts_A, date = 2010L, replacement = v1),
+        testthat::expect_warning(set_value_ts(series = ts_A, date = 2010L, replacement = v1),
             regexp = "Contains missing values"
         )
-        testthat::expect_warning(set_value_ts(dataTS = ts_A, date = 2010L, replacement = v2),
+        testthat::expect_warning(set_value_ts(series = ts_A, date = 2010L, replacement = v2),
             regexp = "Contains missing values"
         )
     }
@@ -334,10 +334,10 @@ testthat::test_that("NA values generate warning", {
 
 # Tests sur les erreurs de temporalité --------------------------------------------
 
-testthat::test_that("dataTS and date are temporally consistent", {
+testthat::test_that("series and date are temporally consistent", {
     for (typeA in list_type) {
         testthat::expect_error(set_value_ts(
-            dataTS = create_random_ts(type = typeA, start = 2010 + 1 / 7, frequency = 12L),
+            series = create_random_ts(type = typeA, start = 2010 + 1 / 7, frequency = 12L),
             date = create_random_date(),
             replacement = create_random_type(type = typeA)
         ))
@@ -345,7 +345,7 @@ testthat::test_that("dataTS and date are temporally consistent", {
 
     for (typeA in list_type) {
         testthat::expect_error(set_value_ts(
-            dataTS = create_random_ts(type = typeA, start = 2022 + 1 / 5, frequency = 4L),
+            series = create_random_ts(type = typeA, start = 2022 + 1 / 5, frequency = 4L),
             date = create_random_date(),
             replacement = create_random_type(type = typeA)
         ))

@@ -4,13 +4,13 @@
 \alias{na_trim}
 \title{Supprime les NA aux bords}
 \usage{
-na_trim(dataTS)
+na_trim(series)
 }
 \arguments{
-\item{dataTS}{un objet ts unidimensionnel conforme aux règles de assert_ts}
+\item{series}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 }
 \value{
-En sortie, la fonction retourne une copie de l'objet \code{dataTS} corrigé
+En sortie, la fonction retourne une copie de l'objet \code{series} corrigé
 des NA et début et fin de série.
 }
 \description{

@@ -4,10 +4,10 @@
 \alias{get_value_ts}
 \title{Récupère des valeurs d'un ts}
 \usage{
-get_value_ts(dataTS, date_from, date_to, n)
+get_value_ts(series, date_from, date_to, n)
 }
 \arguments{
-\item{dataTS}{un objet ts unidimensionnel conforme aux règles de assert_ts}
+\item{series}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 
 \item{date_from}{un vecteur numérique, de préférence \code{integer} au format
 \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
@@ -19,7 +19,7 @@ get_value_ts(dataTS, date_from, date_to, n)
 }
 \value{
 En sortie, la fonction retourne un vecteur (atomic) de même type que
-\code{dataTS} avec les valeurs extraites.
+\code{series} avec les valeurs extraites.
 }
 \description{
 La fonction \code{get_value_ts} permet de récupérer des valeurs.

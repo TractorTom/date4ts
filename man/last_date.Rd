@@ -4,10 +4,10 @@
 \alias{last_date}
 \title{Dernière date non NA}
 \usage{
-last_date(dataTS)
+last_date(series)
 }
 \arguments{
-\item{dataTS}{un objet ts unidimensionnel conforme aux règles de assert_ts}
+\item{series}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 }
 \value{
 En sortie, la fonction retourne un objet au format \code{date_ts} (\code{AAAA},
@@ -15,11 +15,11 @@ En sortie, la fonction retourne un objet au format \code{date_ts} (\code{AAAA},
 }
 \description{
 Cette fonction calcule la dernière date pour laquelle l'objet
-\code{dataTS} ne vaut pas NA.
+\code{series} ne vaut pas NA.
 }
 \details{
 La date retournée en output est au format \code{date_ts}. Si l'objet
-\code{dataTS} ne contient que des NAs, la fonction retourne une erreur.
+\code{series} ne contient que des NAs, la fonction retourne une erreur.
 }
 \examples{
 
