@@ -14,9 +14,9 @@
 #'
 #' @examples
 #' set_value_ts(
-#' dataTS = ev_pib,
-#' date_ts = c(2021L, 2L),
-#' replacement = c(1, 2, 3)
+#'     dataTS = ev_pib,
+#'     date_ts = c(2021L, 2L),
+#'     replacement = c(1, 2, 3)
 #' )
 #'
 set_value_ts <- function(dataTS, date_ts, replacement) {
@@ -33,9 +33,9 @@ set_value_ts <- function(dataTS, date_ts, replacement) {
     check_1 <- checkmate::check_atomic_vector(replacement)
     check_2 <- checkmate::anyMissing(replacement)
     if (isTRUE(check_1) && isTRUE(check_2)) {
-        warning(checkmate::check_atomic_vector(
-            x = replacement, any.missing = FALSE, .var.name = "replacement"
-        ))
+        warning(paste("the argument replacement", checkmate::check_atomic_vector(
+            x = replacement, any.missing = FALSE
+        )))
     }
 
     # Check des types des objets
@@ -232,9 +232,9 @@ combine2ts <- function(a, b) {
 #' ts1 <- ts(c(rep(NA, 3L), 1:10, rep(NA, 3L)), start = 2020, frequency = 12)
 #' x <- rep(3, 2)
 #'
-#' extend_ts(ts1, x)
-#' extend_ts(ts1, x, replace_na = FALSE)
-#' extend_ts(ts1, x, replace_na = TRUE, date_ts = c(2021L, 7L))
+#' extend_ts(dataTS = ts1, replacement = x)
+#' extend_ts(dataTS = ts1, replacement = x, replace_na = FALSE)
+#' extend_ts(dataTS = ts1, replacement = x, date_ts = c(2021L, 7L), replace_na = TRUE)
 #'
 extend_ts <- function(dataTS, replacement, date_ts = NULL, replace_na = TRUE) {
 

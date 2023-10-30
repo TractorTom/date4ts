@@ -24,9 +24,9 @@ ts à une date donnée.
 }
 \examples{
 set_value_ts(
-dataTS = ev_pib,
-date_ts = c(2021L, 2L),
-replacement = c(1, 2, 3)
+    dataTS = ev_pib,
+    date_ts = c(2021L, 2L),
+    replacement = c(1, 2, 3)
 )
 
 }

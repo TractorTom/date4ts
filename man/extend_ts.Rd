@@ -36,8 +36,8 @@ de période entre la date de fin de \code{dataTS} et \code{date_ts}, le vecteur
 ts1 <- ts(c(rep(NA, 3L), 1:10, rep(NA, 3L)), start = 2020, frequency = 12)
 x <- rep(3, 2)
 
-extend_ts(ts1, x)
-extend_ts(ts1, x, replace_na = FALSE)
-extend_ts(ts1, x, replace_na = TRUE, date_ts = c(2021L, 7L))
+extend_ts(dataTS = ts1, replacement = x)
+extend_ts(dataTS = ts1, replacement = x, replace_na = FALSE)
+extend_ts(dataTS = ts1, replacement = x, date_ts = c(2021L, 7L), replace_na = TRUE)
 
 }
