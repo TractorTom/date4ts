@@ -231,7 +231,7 @@ testthat::test_that("Several dimensions are not allowed", {
                         mts_B <- do.call(
                             what = cbind,
                             args = lapply(
-                                replacement = B_content,
+                                X = B_content,
                                 FUN = ts,
                                 start = startA,
                                 frequency = frequenceA
