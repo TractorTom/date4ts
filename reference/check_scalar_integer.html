@@ -24,7 +24,13 @@
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/TractorTom/TractorTsbox/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -32,7 +38,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Vérifie la conformité d'un entier scalaire</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/TractorTom/TractorTsbox/blob/HEAD/R/check.R" class="external-link"><code>R/check.R</code></a></small>
       <div class="d-none name"><code>check_scalar_integer.Rd</code></div>
     </div>
 
@@ -46,10 +52,9 @@
 <span></span>
 <span><span class="fu">assert_scalar_integer</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
-<span>  warn <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  coerce <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  add <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .var.name <span class="op">=</span> <span class="fu">checkmate</span><span class="fu">::</span><span class="fu"><a href="https://mllg.github.io/checkmate/reference/vname.html" class="external-link">vname</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span>
-<span>  add <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  warn <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -63,32 +68,41 @@
 <dd><p>un booleen</p></dd>
 
 
-<dt>.var.name</dt>
-<dd><p>Nom de l'objet à vérifier pour afficher dans les messages</p></dd>
-
-
 <dt>add</dt>
 <dd><p>Collection pour stocker les messages d'erreurs (Default is NULL)</p></dd>
+
+
+<dt>.var.name</dt>
+<dd><p>Nom de l'objet à vérifier pour afficher dans les messages</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>En sortie la fonction retourne l'objet <code>x</code> de manière invisible ou une erreur.</p>
+<p>En sortie la fonction retourne l'objet <code>x</code> de manière invisible ou
+une erreur.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>On vérifie que l'objet <code>x</code> en entrée est bien un entier.
-Cette fonction s'appuie essentiellement sur la fonction <code><a href="https://mllg.github.io/checkmate/reference/checkInt.html" class="external-link">checkmate::assert_int</a></code>.
-Il y a néanmoins une petite subtilité : on vérifie si l'objet <code>x</code> est de type double ou integer. Si l'objet est de type double (et non integer), la fonction retournera aussi un warning.
-Dans le premier cas, on affichera un warning et on corrigera l'objet au format integer pour les traitements ultérieurs. En sortie, <code>x</code> est retourné de manière invisible.
-Si l'argument <code>warn</code> vaut <code>FALSE</code>, alors la fonction ne retournera pas de warning lors de l'évaluation.</p>
-<p>Selon le préfixe de la fonction :</p><ul><li><p>si le check réussi :</p><ul><li><p>la fonction <code>assert_scalar_integer</code> retourne l'objet <code>x</code> de manière invisible;</p></li>
+Cette fonction s'appuie essentiellement sur la fonction
+<code><a href="https://mllg.github.io/checkmate/reference/checkInt.html" class="external-link">checkmate::assert_int</a></code>.
+Il y a néanmoins une petite subtilité : on vérifie si l'objet <code>x</code> est de
+type double ou integer. Si l'objet est de type double (et non integer), la
+fonction retournera aussi un warning.
+Dans le premier cas, on affichera un warning et on corrigera l'objet au
+format integer pour les traitements ultérieurs. En sortie, <code>x</code> est retourné
+de manière invisible.
+Si l'argument <code>warn</code> vaut <code>FALSE</code>, alors la fonction ne retournera pas de
+warning lors de l'évaluation.</p>
+<p>Selon le préfixe de la fonction :</p><ul><li><p>si le check réussi :</p><ul><li><p>la fonction <code>assert_scalar_integer</code> retourne l'objet <code>x</code> de manière
+invisible;</p></li>
 <li><p>la fonction <code>check_scalar_integer</code> retourne le booléen <code>TRUE</code>.</p></li>
 </ul></li>
 <li><p>si le check échoue :</p><ul><li><p>la fonction <code>assert_scalar_integer</code> retourne un message d'erreur;</p></li>
-<li><p>la fonction <code>check_scalar_integer</code> retourne une chaine de caractère signalant le problème.</p></li>
+<li><p>la fonction <code>check_scalar_integer</code> retourne une chaîne de caractère
+signalant le problème.</p></li>
 </ul></li>
 </ul></div>
     <div class="section level2">
@@ -116,11 +130,11 @@ Si l'argument <code>warn</code> vaut <code>FALSE</code>, alors la fonction ne re
 <span class="r-in"><span><span class="co"># Avec des erreurs,</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">check_scalar_integer</span><span class="op">(</span><span class="cn">Inf</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "\n* Must be finite"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "* x Must be finite \n * x Must be of type 'single integerish value', not 'double'"</span>
 <span class="r-in"><span><span class="fu">check_scalar_integer</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "\n* Must have length 1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "* x Must have length 1"</span>
 <span class="r-in"><span><span class="fu">check_scalar_integer</span><span class="op">(</span><span class="va">pi</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "\n* Must be of type 'single integerish value', not 'double'"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "* x Must be of type 'single integerish value', not 'double'"</span>
 <span class="r-in"><span><span class="fu">check_scalar_integer</span><span class="op">(</span><span class="fl">2.</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Assertion on 'x' failed: Must be of type 'integer', not 'double'.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>

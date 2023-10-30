@@ -24,7 +24,13 @@
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/TractorTom/TractorTsbox/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -32,7 +38,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Intervalle entre 2 dates</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/TractorTom/TractorTsbox/blob/HEAD/R/date_manipulation.R" class="external-link"><code>R/date_manipulation.R</code></a></small>
       <div class="d-none name"><code>diff_periode.Rd</code></div>
     </div>
 
@@ -48,26 +54,33 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>a</dt>
-<dd><p>un objet date_ts, c'est-à-dire un vecteur numérique, de préférence <code>integer</code> au format <code>AAAA</code>, <code>c(AAAA, MM)</code> ou <code>c(AAAA, TT)</code></p></dd>
+<dd><p>un objet date_ts, c'est-à-dire un vecteur numérique, de préférence
+<code>integer</code> au format <code>AAAA</code>, <code>c(AAAA, MM)</code> ou <code>c(AAAA, TT)</code></p></dd>
 
 
 <dt>b</dt>
-<dd><p>un objet date_ts, c'est-à-dire un vecteur numérique, de préférence <code>integer</code> au format <code>AAAA</code>, <code>c(AAAA, MM)</code> ou <code>c(AAAA, TT)</code></p></dd>
+<dd><p>un objet date_ts, c'est-à-dire un vecteur numérique, de préférence
+<code>integer</code> au format <code>AAAA</code>, <code>c(AAAA, MM)</code> ou <code>c(AAAA, TT)</code></p></dd>
 
 
 <dt>frequency_ts</dt>
-<dd><p>un entier qui vaut <code>4L</code> (ou <code>4.</code>) pour les séries trimestrielles et <code>12L</code> (ou <code>12.</code>) pour les séries mensuelles.</p></dd>
+<dd><p>un entier qui vaut <code>4L</code> (ou <code>4.</code>) pour les séries
+trimestrielles et <code>12L</code> (ou <code>12.</code>) pour les séries mensuelles.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>En sortie, la fonction retourne un entier qui désigne le nombre de période (mois ou trimestres) qui sépare les 2 dates <code>a</code> et <code>b</code>.</p>
+<p>En sortie, la fonction retourne un entier qui désigne le nombre de
+période (mois ou trimestres) qui sépare les 2 dates <code>a</code> et <code>b</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>On travaille ici avec des dates au format date_ts, c'est-à-dire qui passe le test de la fonction <code>assert_date_ts</code>. Lorsqu'on parle d'intervalle et de nombre de période entre <code>a</code> et <code>b</code>, les bornes sont incluses. Ainsi <code>diff_periode(2020L, 2020L, 12L)</code> retourne bien 1L et non 2L ou 0L.</p>
+    <p>On travaille ici avec des dates au format date_ts, c'est-à-dire qui
+passe le test de la fonction <code>assert_date_ts</code>. Lorsqu'on parle d'intervalle
+et de nombre de période entre <code>a</code> et <code>b</code>, les bornes sont incluses. Ainsi
+<code>diff_periode(2020L, 2020L, 12L)</code> retourne bien 1L et non 2L ou 0L.</p>
     </div>
 
     <div class="section level2">

@@ -24,7 +24,13 @@
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/TractorTom/TractorTsbox/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -32,7 +38,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Obtenir la date précédente</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/TractorTom/TractorTsbox/blob/HEAD/R/date_manipulation.R" class="external-link"><code>R/date_manipulation.R</code></a></small>
       <div class="d-none name"><code>previous_date_ts.Rd</code></div>
     </div>
 
@@ -48,11 +54,13 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>date_ts</dt>
-<dd><p>un vecteur numérique, de préférence <code>integer</code> au format <code>AAAA</code>, <code>c(AAAA, MM)</code> ou <code>c(AAAA, TT)</code></p></dd>
+<dd><p>un vecteur numérique, de préférence <code>integer</code> au format
+<code>AAAA</code>, <code>c(AAAA, MM)</code> ou <code>c(AAAA, TT)</code></p></dd>
 
 
 <dt>frequency_ts</dt>
-<dd><p>un entier qui vaut <code>4L</code> (ou <code>4.</code>) pour les séries trimestrielles et <code>12L</code> (ou <code>12.</code>) pour les séries mensuelles.</p></dd>
+<dd><p>un entier qui vaut <code>4L</code> (ou <code>4.</code>) pour les séries
+trimestrielles et <code>12L</code> (ou <code>12.</code>) pour les séries mensuelles.</p></dd>
 
 
 <dt>lag</dt>
@@ -63,14 +71,20 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>En sortie, la fonction retourne un vecteur d'entier qui représente la date à la période passée au format <code>date_ts</code>.</p>
+<p>En sortie, la fonction retourne un vecteur d'entier qui représente la
+date à la période passée au format <code>date_ts</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Lorsqu'on parle de date précédente, on parle de date passée.
-L'argument <code>lag</code> est entier et désigne le nombre de décalage que l'on affecte à notre date.
-Par exemple pour des lag positif (1L, 2L, 10L) on désigne le décalage de la période précédente, celle d'avant et celle d'il y a 10 périodes.
-Cependant, lorsque l'argument <code>lag</code> vaut zéro, la fonction retourne la <code>date</code> inchangée. Aussi lorsque l'argument <code>lag</code> est négatif, la fonction se comporte comme la fonction <code>next_date_ts</code> et retourne les périodes futures et non passées.</p>
+L'argument <code>lag</code> est entier et désigne le nombre de décalage que l'on affecte
+à notre date.
+Par exemple pour des lag positif (1L, 2L, 10L) on désigne le décalage de la
+période précédente, celle d'avant et celle d'il y a 10 périodes.
+Cependant, lorsque l'argument <code>lag</code> vaut zéro, la fonction retourne la
+<code>date</code> inchangée. Aussi lorsque l'argument <code>lag</code> est négatif, la fonction se
+comporte comme la fonction <code>next_date_ts</code> et retourne les périodes futures et
+non passées.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
