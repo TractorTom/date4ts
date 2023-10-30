@@ -8,6 +8,8 @@ Description: Ce package propose des outils pour gérer les dates des objets ts.
     L'idée générale est de se passer des dates 2021-07-01 ou 2021.5833333 qui sont soit trop contraignantes, soit trop imprécises selon les arrondies.
     On cherche à trouver un compromis entre simplicité, précision et utilisation des fonctions stats de base de création et de gestion des ts (ts, window).
 License: GPL (>= 3)
+URL: https://github.com/TractorTom/TractorTsbox, https://tractortom.github.io/TractorTsbox/
+BugReports: https://github.com/TractorTom/TractorTsbox/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
