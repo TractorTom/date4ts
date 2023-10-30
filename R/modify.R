@@ -40,8 +40,7 @@ set_value_ts <- function(dataTS, date_ts, replacement) {
 
     # Check des types des objets
     if (!isTRUE(typeof(dataTS) == typeof(replacement))) {
-        coll$push(c("Les objets `dataTS` et `replacement` ",
-                    "doivent \u00eatre de m\u00eame type."))
+        coll$push("Les objets `dataTS` et `replacement` doivent \u00eatre de m\u00eame type.")
     }
 
     checkmate::reportAssertions(coll)
@@ -131,14 +130,12 @@ combine2ts <- function(a, b) {
 
         # Check same frequency_ts
         if (!isTRUE(stats::frequency(a) == stats::frequency(b))) {
-            coll$push(c("Les objets `a` et `b` doivent avoir ",
-                        "la m\u00eame fr\u00e9quence."))
+            coll$push("Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
         }
 
         # Check des types des objets
         if (!isTRUE(typeof(a) == typeof(b))) {
-            coll$push(c("Les objets `a` et `b`",
-                        " doivent \u00eatre de m\u00eame type."))
+            coll$push("Les objets `a` et `b` doivent \u00eatre de m\u00eame type.")
         }
 
     }
