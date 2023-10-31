@@ -223,7 +223,7 @@ testthat::test_that("Several dimensions are not allowed", {
             for (startA in list_start) {
                 for (lenA in list_len[-1L]) {
                     B_content <- as.data.frame(lapply(
-                        replacement = 1L:5L,
+                        X = 1L:5L,
                         FUN = function(i) create_random_type(type = typeA, len = lenA)
                     ))
 
