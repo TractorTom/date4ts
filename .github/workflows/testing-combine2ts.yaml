@@ -1,4 +1,4 @@
-name: Testing function
+name: Testing function combine2ts
 
 on:
   workflow_dispatch:

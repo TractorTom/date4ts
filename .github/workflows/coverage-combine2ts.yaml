@@ -1,4 +1,4 @@
-name: Coverage
+name: Coverage combine2ts
 
 on:
   workflow_dispatch:
