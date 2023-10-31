@@ -46,7 +46,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Move tests-combine2ts
-        run: mv tests/testthat/tests-combine2ts/test-modify-combine2ts-${{ matrix.domain }} tests/testthat
+        run: mv tests/testthat/tests-combine2ts/test-modify-combine2ts-${{ matrix.domain }}.R tests/testthat
 
       - name: Run tests
         run: devtools::test(stop_on_failure = TRUE)
