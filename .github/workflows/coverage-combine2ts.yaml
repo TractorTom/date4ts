@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        domain: [ 'check', 'formatting', 'date_manipulation', 'conversion', 'libelles', 'modify' ]
+        domain: [ 'integer', 'character', 'double', 'logical', 'complex', 'raw', 'Date' ]
 
     steps:
 
@@ -48,8 +48,8 @@ jobs:
         run: install.packages("covr", repos = "https://cloud.r-project.org")
         shell: Rscript {0}
 
-      - name: Move tests
-        run: mv tests/testthat/tests-${{ matrix.domain }}/* tests/testthat
+      - name: Move tests-combine2ts
+        run: mv tests/testthat/tests-combine2ts/test-modify-combine2ts-${{ matrix.domain }} tests/testthat
 
       - name: Test coverage
         run: covr::codecov()
