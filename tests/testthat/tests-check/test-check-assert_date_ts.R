@@ -316,7 +316,7 @@ testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
         testthat::expect_error(
             assert_date_ts(
-                date_ts = create_random_date(),
+                date_ts = 2020L,
                 frequency_ts = wrong_frequency
             )
         )
