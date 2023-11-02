@@ -23,7 +23,7 @@ testthat::test_that("miscellaneous input are not allowed", {
     for (wrong_time in object_bank_R[-c(10L, 16L)]) {
         testthat::expect_error(as_yyyymm(wrong_time))
     }
-    for (wrong_time in wrong_timeunits) {
+    for (wrong_time in list_wrong_timeunits) {
         testthat::expect_error(as_yyyymm(wrong_time))
     }
 })
