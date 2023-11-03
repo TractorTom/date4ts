@@ -127,9 +127,7 @@ le problème.</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Format double --&gt; génération d'un warning</span></span></span>
 <span class="r-in"><span><span class="fu">assert_date_ts</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2020.</span>, <span class="fl">4.</span><span class="op">)</span>, frequency_ts <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Assertion on 'c(2020, 4)' failed: Must be of type 'integer', not 'double'.</span>
 <span class="r-in"><span><span class="fu">assert_date_ts</span><span class="op">(</span><span class="fl">2022.</span>, frequency_ts <span class="op">=</span> <span class="fl">12L</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Assertion on '2022' failed: Must be of type 'integer', not 'double'.</span>
 <span class="r-in"><span><span class="fu">check_date_ts</span><span class="op">(</span><span class="fl">2022.</span>, frequency_ts <span class="op">=</span> <span class="fl">12L</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Assertion on '2022' failed: Must be of type 'integer', not 'double'.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
