@@ -255,7 +255,7 @@ testthat::test_that("warning result for quarter date double", {
 # Tests de résultats négatifs --------------------------------------------------
 
 testthat::test_that("miscellaneous date are not allowed", {
-    for (wrong_date in wrong_dates) {
+    for (wrong_date in list_wrong_date_ts) {
         testthat::expect_error(libelles(date = wrong_date, frequency_ts = 12L, warn = FALSE))
         testthat::expect_error(libelles(date = wrong_date, frequency_ts = 4L, warn = FALSE))
     }
@@ -263,20 +263,20 @@ testthat::test_that("miscellaneous date are not allowed", {
 
 testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
-        testthat::expect_error(libelles(date = create_random_date(), frequency_ts = wrong_frequency, warn = FALSE))
+        testthat::expect_error(libelles(date = create_random_date_ts(), frequency_ts = wrong_frequency, warn = FALSE))
     }
 })
 
 testthat::test_that("miscellaneous n are not allowed", {
     for (wrong_n in c(list(0., 0L), object_bank_R[-10])) {
-        testthat::expect_error(libelles(date = create_random_date(), frequency_ts = 12L, n = wrong_n, warn = FALSE))
-        testthat::expect_error(libelles(date = create_random_date(), frequency_ts = 4L, n = wrong_n, warn = FALSE))
+        testthat::expect_error(libelles(date = create_random_date_ts(), frequency_ts = 12L, n = wrong_n, warn = FALSE))
+        testthat::expect_error(libelles(date = create_random_date_ts(), frequency_ts = 4L, n = wrong_n, warn = FALSE))
     }
 })
 
 testthat::test_that("miscellaneous warn are not allowed", {
     for (wrong_warn in c(list(0., 0L), object_bank_R[-29])) {
-        testthat::expect_error(libelles(date = create_random_date(), frequency_ts = 12L, n = 5L, warn = wrong_warn))
-        testthat::expect_error(libelles(date = create_random_date(), frequency_ts = 4L, n = 5L, warn = wrong_warn))
+        testthat::expect_error(libelles(date = create_random_date_ts(), frequency_ts = 12L, n = 5L, warn = wrong_warn))
+        testthat::expect_error(libelles(date = create_random_date_ts(), frequency_ts = 4L, n = 5L, warn = wrong_warn))
     }
 })

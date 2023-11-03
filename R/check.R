@@ -862,8 +862,8 @@ assert_scalar_natural <- function(x, add = NULL,
 #' @details
 #' On vérifie que l'objet `x` en entrée est bien au format `Date` et qu'il
 #' s'agit d'un scalaire (vecteur de taille 1).
-#' Cette fonction s'appuie essentiellement sur les fonctions
-#' `checkmate::assert_date` et `checkmate::assert_scalar`.
+#' Cette fonction s'appuie essentiellement sur la fonction
+#' `checkmate::assert_date`.
 #'
 #' Selon le préfixe de la fonction :
 #'
@@ -917,8 +917,7 @@ assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
     } else {
         coll <- add
     }
-    checkmate::assert_date(x, add = coll, .var.name = .var.name)
-    checkmate::assert_scalar(x, add = coll, .var.name = .var.name)
+    checkmate::assert_date(x, add = coll, .var.name = .var.name, any.missing = FALSE, len = 1L)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)

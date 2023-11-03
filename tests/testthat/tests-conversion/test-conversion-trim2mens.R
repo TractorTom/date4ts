@@ -23,7 +23,7 @@ testthat::test_that("good result for integer date", {
 # Tests de résultats négatifs --------------------------------------------------
 
 testthat::test_that("detection of wrong dates", {
-    for (wrong_date in wrong_dates) testthat::expect_error(trim2mens(wrong_date))
+    for (wrong_date in list_wrong_date_ts) testthat::expect_error(trim2mens(wrong_date))
 })
 
 

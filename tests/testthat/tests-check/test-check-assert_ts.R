@@ -40,7 +40,7 @@ testthat::test_that("Result FALSE expected with mts", {
             for (frequenceA in list_frequence) {
                 for (len2 in list_len[-c(1L, 2L, 9L)]) {
                     A_content <- as.data.frame(lapply(seq_len(len2), function(i) create_random_type(type = typeA, len = lenA)))
-                    startA <- create_random_date()
+                    startA <- create_random_date_ts()
                     if (typeA == "complex") {
                         mts_A <- do.call(
                             what = cbind,

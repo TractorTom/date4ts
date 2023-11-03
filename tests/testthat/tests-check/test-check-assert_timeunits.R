@@ -82,7 +82,7 @@ testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
         testthat::expect_error(
             assert_timeunits(
-                x = create_random_date(),
+                x = create_random_date_ts(),
                 frequency_ts = wrong_frequency
             )
         )

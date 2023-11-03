@@ -71,16 +71,16 @@ testthat::test_that("good result for integer date", {
 # Tests de résultats négatifs --------------------------------------------------
 
 testthat::test_that("miscellaneous date are not allowed", {
-    for (wrong_date in wrong_dates) {
+    for (wrong_date in list_wrong_date_ts) {
         testthat::expect_error(date_ts2timeunits(date_ts = wrong_date, frequency_ts = 12L))
     }
-    for (wrong_date in wrong_dates) {
+    for (wrong_date in list_wrong_date_ts) {
         testthat::expect_error(date_ts2timeunits(date_ts = wrong_date, frequency_ts = 4L))
     }
 })
 
 testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
-        testthat::expect_error(date_ts2timeunits(date_ts = create_random_date(), frequency_ts = wrong_frequency))
+        testthat::expect_error(date_ts2timeunits(date_ts = create_random_date_ts(), frequency_ts = wrong_frequency))
     }
 })

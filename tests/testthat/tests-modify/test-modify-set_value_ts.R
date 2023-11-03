@@ -244,7 +244,7 @@ testthat::test_that("Several dimensions are not allowed", {
                     testthat::expect_error(
                         set_value_ts(
                             series = mts_B,
-                            date = create_random_date(),
+                            date = create_random_date_ts(),
                             replacement = create_random_type(type = typeA)
                         ),
                         regexp = "Variable 'series': Must be of type 'atomic vector'"
@@ -264,7 +264,7 @@ testthat::test_that("miscellaneous series are not allowed", {
         for (obj in object_bank_R) {
             testthat::expect_error(set_value_ts(
                 series = obj,
-                date = create_random_date(),
+                date = create_random_date_ts(),
                 replacement = create_random_type(type = typeA)
             ))
         }
@@ -275,7 +275,7 @@ testthat::test_that("miscellaneous series are not allowed", {
 
 testthat::test_that("miscellaneous date are not allowed", {
     for (typeA in list_type) {
-        for (wrong_date in wrong_dates) {
+        for (wrong_date in list_wrong_date_ts) {
             testthat::expect_error(set_value_ts(
                 series = create_random_ts(type = typeA),
                 date = wrong_date,
@@ -293,7 +293,7 @@ testthat::test_that("miscellaneous value input are not allowed", {
         for (value in list_wrong_value) {
             testthat::expect_error(set_value_ts(
                 series = create_random_ts(type = typeA),
-                date = create_random_date(),
+                date = create_random_date_ts(),
                 replacement = value
             ))
         }
@@ -307,7 +307,7 @@ testthat::test_that("value should have same type as series", {
                 testthat::expect_error(
                     set_value_ts(
                         series = create_random_ts(type = typeA),
-                        date = create_random_date(),
+                        date = create_random_date_ts(),
                         replacement = create_random_type(typeB)
                     ),
                     regexp = "Les objets `series` et `replacement` doivent \u00eatre de m\u00eame type."
@@ -338,7 +338,7 @@ testthat::test_that("series and date are temporally consistent", {
     for (typeA in list_type) {
         testthat::expect_error(set_value_ts(
             series = create_random_ts(type = typeA, start = 2010 + 1 / 7, frequency = 12L),
-            date = create_random_date(),
+            date = create_random_date_ts(),
             replacement = create_random_type(type = typeA)
         ))
     }
@@ -346,7 +346,7 @@ testthat::test_that("series and date are temporally consistent", {
     for (typeA in list_type) {
         testthat::expect_error(set_value_ts(
             series = create_random_ts(type = typeA, start = 2022 + 1 / 5, frequency = 4L),
-            date = create_random_date(),
+            date = create_random_date_ts(),
             replacement = create_random_type(type = typeA)
         ))
     }

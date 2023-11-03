@@ -28,12 +28,12 @@ create_random_type <- function(type, len = NULL) {
         return(sample(x = as.raw(0L:255L), size = len, replace = TRUE))
     }
     if (type == "Date") {
-        return(sample(x = seq(as.Date("1950-01-01"), as.Date("2022-01-01"), by = "day"), size = len, replace = TRUE))
+        return(sample(x = seq(as.Date("1950-01-01"), as.Date("2024-01-01"), by = "day"), size = len, replace = TRUE))
     }
     stop("Le type n'est pas reconnu.")
 }
 
-create_random_date <- function() {
+create_random_date_ts <- function() {
     if (runif(n = 1L, min = 0L, max = 1L) > .5) {
         return(sample(1950L:2022L, size = 1L))
     }
@@ -46,7 +46,7 @@ create_random_date <- function() {
 create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL) {
     if (is.null(len)) len <- sample(1L:1000L, size = 1L)
     if (is.null(frequency)) frequency <- sample(c(4L, 12L), size = 1L)
-    if (is.null(start)) start <- create_random_date()
+    if (is.null(start)) start <- create_random_date_ts()
 
     content <- create_random_type(type, len)
 
@@ -104,7 +104,7 @@ good_quarters <- 1L:4L
 
 list_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2020L, 12L), c(2020L, 13L), 2019L)
 
-wrong_dates <- c(
+list_wrong_date_ts <- c(
     fuzzr::test_all()[-10],
     list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
     lapply(list_type[-c(1L, 3L)], create_random_type, len = 2),
@@ -136,5 +136,6 @@ list_lag <- c(-1000L, -5L, -2L:2L, 5L, 1000L)
 
 invalid_monthly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 12."
 invalid_quaterly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 4."
-double_instead_of_integer <- "Assertion on 'warning_date' failed: Must be of type 'integer', not 'double'."
+warning_date_double <- "Assertion on 'warning_date' failed: Must be of type 'integer', not 'double'."
 warning_frequency_double <- "Assertion on 'frequency_ts' failed: Must be of type 'integer', not 'double'."
+double_instead_of_integer <- "Must be of type 'integer', not 'double'."

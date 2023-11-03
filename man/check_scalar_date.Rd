@@ -26,8 +26,8 @@ Vérifie la conformité d'une date scalaire
 \details{
 On vérifie que l'objet \code{x} en entrée est bien au format \code{Date} et qu'il
 s'agit d'un scalaire (vecteur de taille 1).
-Cette fonction s'appuie essentiellement sur les fonctions
-\code{checkmate::assert_date} et \code{checkmate::assert_scalar}.
+Cette fonction s'appuie essentiellement sur la fonction
+\code{checkmate::assert_date}.
 
 Selon le préfixe de la fonction :
 \itemize{

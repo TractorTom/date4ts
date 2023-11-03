@@ -317,13 +317,13 @@ testthat::test_that("warning frequency", {
 # Tests de résultats négatifs (erreur) -----------------------------------------
 
 testthat::test_that("miscellaneous date are not allowed", {
-    for (wrong_date in wrong_dates) {
-        date_a <- create_random_date() |> format_date_ts(frequency_ts = 12L, test = FALSE)
+    for (wrong_date in list_wrong_date_ts) {
+        date_a <- create_random_date_ts() |> format_date_ts(frequency_ts = 12L, test = FALSE)
         testthat::expect_error(diff_periode(a = wrong_date, b = date_a, frequency_ts = 12L))
         testthat::expect_error(diff_periode(b = wrong_date, a = date_a, frequency_ts = 12L))
 
-        date_a <- create_random_date() |> format_date_ts(frequency_ts = 4L, test = FALSE)
-        date_b <- create_random_date() |> format_date_ts(frequency_ts = 4L, test = FALSE)
+        date_a <- create_random_date_ts() |> format_date_ts(frequency_ts = 4L, test = FALSE)
+        date_b <- create_random_date_ts() |> format_date_ts(frequency_ts = 4L, test = FALSE)
         testthat::expect_error(diff_periode(a = wrong_date, b = date_a, frequency_ts = 4L))
         testthat::expect_error(diff_periode(b = wrong_date, a = date_a, frequency_ts = 4L))
     }
@@ -331,8 +331,8 @@ testthat::test_that("miscellaneous date are not allowed", {
 
 testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
-        date_a <- create_random_date() |> format_date_ts(frequency_ts = 12L, test = FALSE)
-        date_b <- create_random_date() |> format_date_ts(frequency_ts = 12L, test = FALSE)
+        date_a <- create_random_date_ts() |> format_date_ts(frequency_ts = 12L, test = FALSE)
+        date_b <- create_random_date_ts() |> format_date_ts(frequency_ts = 12L, test = FALSE)
 
         testthat::expect_error(diff_periode(a = date_a, b = date_b, frequency_ts = wrong_frequency))
     }
