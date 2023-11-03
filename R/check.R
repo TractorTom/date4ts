@@ -142,6 +142,7 @@ assert_date_ts <- function(x, frequency_ts, add = NULL,
         add = coll, .var.name = .var.name,
         min.len = 1L, max.len = 2L, finite = TRUE
     )
+    x_corr <- x
 
     # Check du type
     # Ici on passe d'abord par un check car il y a une génération de warning
@@ -151,7 +152,7 @@ assert_date_ts <- function(x, frequency_ts, add = NULL,
         min.len = 1L, max.len = 2L, finite = TRUE
     ))) {
 
-        x <- checkmate::assert_integerish(
+        x_corr <- checkmate::assert_integerish(
             x,
             coerce = TRUE, any.missing = FALSE,
             add = coll, .var.name = .var.name
@@ -165,10 +166,11 @@ assert_date_ts <- function(x, frequency_ts, add = NULL,
     if (isTRUE(check_warn) && warn) {
 
         if (!isTRUE(checkmate::check_integer(x))) {
+
             err <- try(
                 expr = checkmate::assert_integer(x, .var.name = .var.name),
                 silent = TRUE
-                )
+            )
             warning(attr(err, "condition")$message)
         }
 
@@ -188,7 +190,7 @@ assert_date_ts <- function(x, frequency_ts, add = NULL,
     }
 
     if (isTRUE(check_date_ts(x, frequency_ts, warn = FALSE))) {
-        x <- format_date_ts(x, frequency_ts, test = FALSE)
+        x <- format_date_ts(x_corr, frequency_ts, test = FALSE)
     }
 
     return(invisible(x))
