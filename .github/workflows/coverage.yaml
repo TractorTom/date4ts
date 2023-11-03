@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        domain: [ 'check', 'formatting', 'date_manipulation', 'conversion', 'libelles', 'modify' ]
+        domain: [ 'check', 'formatting', 'date_manipulation', 'conversion', 'libelles', 'modify', 'get_data' ]
 
     steps:
 
