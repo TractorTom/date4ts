@@ -53,6 +53,28 @@ create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL) {
     return(ts(content, start = start, frequency = frequency))
 }
 
+create_NA_type <- function(type, len = 1L) {
+    if (type == "character") {
+        return(rep(x = NA_character_, times = len))
+    }
+    if (type == "integer") {
+        return(rep(x = NA_integer_, times = len))
+    }
+    if (type == "double") {
+        return(rep(x = NA_real_, times = len))
+    }
+    if (type == "logical") {
+        return(rep(x = NA, times = len))
+    }
+    if (type == "complex") {
+        return(rep(x = NA_complex_, times = len))
+    }
+    if (type == "Date") {
+        return(rep(structure(NA_integer_, class = "Date"), times = len))
+    }
+    stop("Le type n'est pas reconnu.")
+}
+
 
 # Variables globales de test ---------------------------------------------------
 

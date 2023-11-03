@@ -24,14 +24,20 @@ En sortie, la fonction retourne un vecteur (atomic) de même type que
 \description{
 La fonction \code{get_value_ts} permet de récupérer des valeurs.
 }
+\details{
+Il faut qu'exactement 2 arguments parmi \code{date_to}, \code{date_to} et \code{n} soient
+renseignés. L'argument \code{n} combiné avec \code{date_to} ou \code{date_from} permet de
+déterminer combien de période seront retourné à partir de ou jusqu'à la date
+renseignée.
+}
 \examples{
 
 ts1 <- ts(1:100, start = 2012L, frequency = 12L)
 ts2 <- ts(letters, start = 2014L, frequency = 4L)
 ts3 <- ts(exp(-(1:50)), start = 2015L, frequency = 12L)
 
-get_value_ts(ts1, date_from = c(2015L, 7L), date_to = c(2018L, 6L))
-get_value_ts(ts2, date_from = c(2018L, 4L), n = 4L)
-get_value_ts(ts3, date_to = c(2018L, 4L), n = 14L)
+get_value_ts(series = ts1, date_from = c(2015L, 7L), date_to = c(2018L, 6L))
+get_value_ts(series = ts2, date_from = c(2018L, 4L), n = 4L)
+get_value_ts(series = ts3, date_to = c(2018L, 4L), n = 14L)
 
 }

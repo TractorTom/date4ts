@@ -11,6 +11,13 @@
 #'
 #' @return En sortie, la fonction retourne un vecteur (atomic) de même type que
 #' `series` avec les valeurs extraites.
+#'
+#' @details
+#' Il faut qu'exactement 2 arguments parmi `date_to`, `date_to` et `n` soient
+#' renseignés. L'argument `n` combiné avec `date_to` ou `date_from` permet de
+#' déterminer combien de période seront retourné à partir de ou jusqu'à la date
+#' renseignée.
+#'
 #' @export
 #'
 #' @examples
@@ -19,9 +26,9 @@
 #' ts2 <- ts(letters, start = 2014L, frequency = 4L)
 #' ts3 <- ts(exp(-(1:50)), start = 2015L, frequency = 12L)
 #'
-#' get_value_ts(ts1, date_from = c(2015L, 7L), date_to = c(2018L, 6L))
-#' get_value_ts(ts2, date_from = c(2018L, 4L), n = 4L)
-#' get_value_ts(ts3, date_to = c(2018L, 4L), n = 14L)
+#' get_value_ts(series = ts1, date_from = c(2015L, 7L), date_to = c(2018L, 6L))
+#' get_value_ts(series = ts2, date_from = c(2018L, 4L), n = 4L)
+#' get_value_ts(series = ts3, date_to = c(2018L, 4L), n = 14L)
 #'
 get_value_ts <- function(series, date_from, date_to, n) {
 

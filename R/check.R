@@ -72,35 +72,30 @@ check_date_ts <- function(x, frequency_ts,
     check_1 <- checkmate::check_flag(warn, na.ok = FALSE, null.ok = FALSE)
     check_2 <- check_frequency(frequency_ts, warn = warn,
                                .var.name = "frequency_ts")
-    check_3 <- checkmate::check_numeric(
+    check_3 <- checkmate::check_integerish(
         x, any.missing = FALSE,
-        min.len = 1L, max.len = 2L, finite = TRUE
+        min.len = 1L, max.len = 2L, null.ok = FALSE
     )
-    check_4 <- checkmate::check_integerish(x, any.missing = FALSE)
-    check_5 <- checkmate::check_integer(x)
+    check_4 <- checkmate::check_integer(x)
 
     output <- add_check_collection(coll = output, check_output = check_1,
                                    .var.name = "warn")
-    output <- add_check_collection(coll = output, check_output = check_2,
-                                   .var.name = "frequency_ts")
     output <- add_check_collection(coll = output, check_output = check_3,
                                    .var.name = .var.name)
 
-    if (isTRUE(check_3)) {
-        output <- add_check_collection(coll = output, check_output = check_4,
-                                       .var.name = .var.name)
-    }
-
-    if (isTRUE(check_1) && isTRUE(check_2) && warn && !isTRUE(check_5)) {
+    if (isTRUE(output) && warn && !isTRUE(check_4)) {
         err <- try(expr = checkmate::assert_integer(x, .var.name = .var.name),
                    silent = TRUE)
         warning(attr(err, "condition")$message)
     }
 
-    if (isTRUE(check_2) && isTRUE(check_3) && isTRUE(check_4) && warn
-        && (length(x) == 2L)
-        && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L,
-                                               upper = frequency_ts))) {
+    output <- add_check_collection(coll = output, check_output = check_2,
+                                   .var.name = "frequency_ts")
+
+    if (isTRUE(output) && warn && (length(x) == 2L) &&
+        !isTRUE(checkmate::check_integerish(
+            x = x[2L], lower = 1L, upper = frequency_ts
+        ))) {
 
         err <- try(expr = checkmate::assert_integerish(x[2L], lower = 1L,
                                                        upper = frequency_ts,
@@ -142,23 +137,24 @@ assert_date_ts <- function(x, frequency_ts, add = NULL,
         )
     }
 
+    checkmate::assert_numeric(
+        x, any.missing = FALSE,
+        add = coll, .var.name = .var.name,
+        min.len = 1L, max.len = 2L, finite = TRUE
+    )
+
     # Check du type
-    # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
+    # Ici on passe d'abord par un check car il y a une génération de warning
+    # non voulue sinon... (voir issue #242)
     if (isTRUE(checkmate::check_numeric(
         x, any.missing = FALSE,
         min.len = 1L, max.len = 2L, finite = TRUE
     ))) {
 
-        x_corr <- checkmate::assert_integerish(
+        x <- checkmate::assert_integerish(
             x,
             coerce = TRUE, any.missing = FALSE,
             add = coll, .var.name = .var.name
-        )
-    } else {
-        checkmate::assert_numeric(
-            x, any.missing = FALSE,
-            add = coll, .var.name = .var.name,
-            min.len = 1L, max.len = 2L, finite = TRUE
         )
     }
 
@@ -166,23 +162,34 @@ assert_date_ts <- function(x, frequency_ts, add = NULL,
         checkmate::reportAssertions(coll)
     }
 
-    if (isTRUE(check_warn) && warn && (!isTRUE(checkmate::check_integer(x)))) {
-        err <- try(expr = checkmate::assert_integer(x, .var.name = .var.name),
-                   silent = TRUE)
-        warning(attr(err, "condition")$message)
+    if (isTRUE(check_warn) && warn) {
+
+        if (!isTRUE(checkmate::check_integer(x))) {
+            err <- try(
+                expr = checkmate::assert_integer(x, .var.name = .var.name),
+                silent = TRUE
+                )
+            warning(attr(err, "condition")$message)
+        }
+
+        if ((length(x) == 2L) &&
+            !isTRUE(checkmate::check_integerish(
+                x = x[2L], lower = 1L, upper = frequency_ts
+            ))) {
+            err <- try(
+                expr = checkmate::assert_integerish(
+                    x = x[2L], lower = 1L, upper = frequency_ts,
+                    .var.name = "period"
+                ),
+                silent = TRUE
+            )
+            warning(attr(err, "condition")$message)
+        }
     }
 
-    if (isTRUE(check_warn) && warn && (length(x) == 2L)
-        && !isTRUE(checkmate::check_integerish(x[2L], lower = 1L,
-                                               upper = frequency_ts))) {
-        err <- try(expr = checkmate::assert_integerish(x[2L], lower = 1L,
-                                                       upper = frequency_ts,
-                                                       .var.name = "period"),
-                   silent = TRUE)
-        warning(attr(err, "condition")$message)
+    if (isTRUE(check_date_ts(x, frequency_ts, warn = FALSE))) {
+        x <- format_date_ts(x, frequency_ts, test = FALSE)
     }
-
-    x <- format_date_ts(x_corr, frequency_ts, test = FALSE)
 
     return(invisible(x))
 }
@@ -553,12 +560,14 @@ check_frequency <- function(x, .var.name = checkmate::vname(x), warn = TRUE) {
                                        .var.name = .var.name)
         output <- add_check_collection(coll = output, check_output = check_5,
                                        .var.name = .var.name)
-    }
 
-    if (isTRUE(check_1) && isTRUE(check_2) && warn && !isTRUE(check_3)) {
-        err <- try(expr = checkmate::assert_integer(x, .var.name = .var.name),
-                   silent = TRUE)
-        warning(attr(err, "condition")$message)
+        if (isTRUE(check_2) && warn && !isTRUE(check_3)) {
+            err <- try(expr = checkmate::assert_integer(
+                x = x, .var.name = .var.name
+            ),
+            silent = TRUE)
+            warning(attr(err, "condition")$message)
+        }
     }
 
     return(output)
@@ -582,7 +591,8 @@ assert_frequency <- function(x, add = NULL,
     check_warn <- checkmate::check_flag(warn, na.ok = FALSE, null.ok = FALSE)
 
     # Check du type
-    # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
+    # Ici on passe d'abord par un check car il y a une génération de warning
+    # non voulue sinon... (voir issue #242)
     check_1 <- checkmate::check_numeric(x, any.missing = FALSE, finite = TRUE)
     if (isTRUE(check_1)) {
         x_corr <- checkmate::assert_int(x, coerce = TRUE, add = coll,
@@ -671,20 +681,17 @@ check_scalar_integer <- function(x, warn = TRUE) {
 
     output <- make_check_collection()
 
-    check_1 <- checkmate::check_numeric(x, finite = TRUE, any.missing = FALSE)
-    check_2 <- checkmate::check_int(x)
-    check_3 <- checkmate::check_flag(warn, na.ok = FALSE, null.ok = FALSE)
-    check_4 <- checkmate::check_integer(x)
+    check_1 <- checkmate::check_int(x)
+    check_2 <- checkmate::check_flag(warn, na.ok = FALSE, null.ok = FALSE)
+    check_3 <- checkmate::check_integer(x)
 
     output <- add_check_collection(coll = output, check_output = check_1,
                                    .var.name = "x")
     output <- add_check_collection(coll = output, check_output = check_2,
-                                   .var.name = "x")
-    output <- add_check_collection(coll = output, check_output = check_3,
                                    .var.name = "warn")
 
 
-    if (isTRUE(check_2) && isTRUE(check_3) && warn && !isTRUE(check_4)) {
+    if (isTRUE(output) && warn && !isTRUE(check_3)) {
         err <- try(
             checkmate::assert_integer(x),
             silent = TRUE
@@ -784,21 +791,18 @@ check_scalar_natural <- function(x, warn = TRUE) {
 
     output <- make_check_collection()
 
-    check_1 <- checkmate::check_numeric(x, finite = TRUE, any.missing = FALSE)
-    check_2 <- checkmate::check_count(x, positive = TRUE,
+    check_1 <- checkmate::check_count(x, positive = TRUE,
                                       na.ok = FALSE, null.ok = FALSE)
-    check_3 <- checkmate::check_flag(warn, na.ok = FALSE, null.ok = FALSE)
-    check_4 <- checkmate::check_integer(x)
+    check_2 <- checkmate::check_flag(warn, na.ok = FALSE, null.ok = FALSE)
+    check_3 <- checkmate::check_integer(x)
 
     output <- add_check_collection(coll = output, check_output = check_1,
                                    .var.name = "x")
     output <- add_check_collection(coll = output, check_output = check_2,
-                                   .var.name = "x")
-    output <- add_check_collection(coll = output, check_output = check_3,
                                    .var.name = "warn")
 
 
-    if (isTRUE(check_2) && isTRUE(check_3) && warn && !isTRUE(check_4)) {
+    if (isTRUE(output) && warn && !isTRUE(check_3)) {
         err <- try(
             checkmate::assert_integer(x),
             silent = TRUE
@@ -828,7 +832,8 @@ assert_scalar_natural <- function(x, add = NULL,
     check_warn <- checkmate::check_flag(warn, na.ok = FALSE, null.ok = FALSE)
 
     # Check du type
-    # Ici on passe d'abord par un check car il y a une génération de warning non voulue sinon...
+    # Ici on passe d'abord par un check car il y a une génération de warning
+    # non voulue sinon... (voir issue #242)
     if (isTRUE(checkmate::check_numeric(x, finite = TRUE))) {
         x_corr <- checkmate::assert_count(x, coerce = TRUE, positive = TRUE,
                                           add = coll, .var.name = .var.name)
@@ -904,7 +909,7 @@ check_scalar_date <- function(x) {
 
     output <- paste(output, collapse = "\n")
 
-   return(output)
+    return(output)
 }
 
 #' @name check_scalar_date
@@ -917,7 +922,8 @@ assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
     } else {
         coll <- add
     }
-    checkmate::assert_date(x, add = coll, .var.name = .var.name, any.missing = FALSE, len = 1L)
+    checkmate::assert_date(x, add = coll, .var.name = .var.name,
+                           any.missing = FALSE, len = 1L)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
