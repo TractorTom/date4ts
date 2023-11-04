@@ -28,7 +28,7 @@ for (frequenceA in list_frequence) {
                     testthat::test_that(desc = test_name, {
 
                         # Cas 1
-                        if (param1 <= lenA & param1 + param2 > 0L) {
+                        if (param1 <= lenA & param1 > 0L) {
 
                             date_from_1 <- end(ts_A) |> as.integer()
                             if (length(date_from_1) == 1L) date_from_1 <- c(date_from_1, 1L)
@@ -56,7 +56,7 @@ for (frequenceA in list_frequence) {
 
 
                         # Cas 2
-                        if (param2 <= lenA & param1 + param2 > 0L) {
+                        if (param2 <= lenA & param2 > 0L) {
 
                             date_from_2 <- start(ts_A) |> as.integer()
                             if (length(date_from_2) == 1L) date_from_2 <- c(date_from_2, 1L)
