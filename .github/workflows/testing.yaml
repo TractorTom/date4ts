@@ -47,9 +47,11 @@ jobs:
           # renv::install("cpp11")
           # renv::snapshot()
           state <- renv::status()
+          print(state$synchronized)
           if (state$synchronized) {
               stop("renv n'est pas synchronisé.")
           }
+          renv::restore()
         shell: Rscript {0}
 
       - name: Install devtools
@@ -68,7 +70,7 @@ jobs:
           all_test <- devtools::test()
           state <- TRUE
 
-          for (tests in a) {
+          for (tests in all_test) {
               result <- tests$results
               for (expectation in result) {
                   if (any(attr(expectation, "class") %in% c("expectation_failure", "expectation_warning"))) {
