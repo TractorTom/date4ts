@@ -481,7 +481,7 @@ assert_timeunits <- function(x, frequency_ts, add = NULL,
 
     if (isTRUE(check_frequency(frequency_ts, warn = FALSE))
         && isTRUE(checkmate::check_number(x, finite = TRUE))) {
-        checkmate::assert_int(x * frequency_ts,
+        checkmate::assert_int(x * frequency_ts, add = coll,
                               .var.name = paste0(.var.name, " * frequency_ts"))
     }
 
@@ -610,12 +610,14 @@ assert_frequency <- function(x, add = NULL,
         checkmate::reportAssertions(coll)
     }
 
-    if (isTRUE(check_warn) && warn && (!isTRUE(checkmate::check_integer(x)))) {
-        err <- try(expr = checkmate::assert_integer(x, .var.name = .var.name),
-                   silent = TRUE)
-        warning(attr(err, "condition")$message)
+    if (isTRUE(check_frequency(x, warn = FALSE))) {
+        if (isTRUE(check_warn) && warn && (!isTRUE(checkmate::check_integer(x)))) {
+            err <- try(expr = checkmate::assert_integer(x, .var.name = .var.name),
+                       silent = TRUE)
+            warning(attr(err, "condition")$message)
+        }
+        x <- x_corr
     }
-    x <- x_corr
 
     return(invisible(x))
 }

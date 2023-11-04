@@ -12,7 +12,7 @@ options(download.file.extra = "--noproxy \"*\"")
 #     options(repos = c(nexuspublic = "https://nexus.insee.fr/repository/r-public"))
 # } else {
 #     # Autres cas
-#     options(repos = c(CRAN = "https://cloud.r-project.org"))
+    # options(repos = c(CRAN = "https://cloud.r-project.org"))
 # }
 # renv::snapshot()
 
@@ -21,3 +21,5 @@ options(download.file.extra = "--noproxy \"*\"")
 #     CRAN = "https://cloud.r-project.org",
 #     nexuspublic = "https://nexus.insee.fr/repository/r-public"
 # ))
+
+# options(renv.config.repos.override = "https://mirror.ibcp.fr/pub/CRAN")

@@ -41,6 +41,17 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: renv status
+        run: |
+          # options(repos = c(CRAN = "https://cloud.r-project.org"))
+          # renv::install("cpp11")
+          # renv::snapshot()
+          state <- renv::status()
+          if (state$synchronized) {
+              stop("renv n'est pas synchronisé.")
+          }
+        shell: Rscript {0}
+
       - name: Install devtools
         run: install.packages("devtools", repos = "https://cloud.r-project.org")
         shell: Rscript {0}
@@ -48,6 +59,25 @@ jobs:
       - name: Move tests
         run: mv tests/testthat/tests-${{ matrix.domain }}/* tests/testthat
 
-      - name: Run tests
-        run: devtools::test(stop_on_failure = TRUE)
+      # - name: Run tests
+      #   run: devtools::test(stop_on_failure = TRUE)
+      #   shell: Rscript {0}
+
+      - name: Run tests and error checking
+        run: |
+          all_test <- devtools::test()
+          state <- TRUE
+
+          for (tests in a) {
+              result <- tests$results
+              for (expectation in result) {
+                  if (any(attr(expectation, "class") %in% c("expectation_failure", "expectation_warning"))) {
+                      state <- FALSE
+                  }
+              }
+          }
+
+          if (isFALSE(state)) {
+              stop("Des erreurs ou avertissements ont été détectés.")
+          }
         shell: Rscript {0}
