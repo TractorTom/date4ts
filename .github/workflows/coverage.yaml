@@ -39,9 +39,8 @@ jobs:
       - name: renv status
         run: |
           options(repos = c(CRAN = "https://cloud.r-project.org"))
-          renv::install("cpp11")
-          renv::snapshot()
           renv::status()
+          renv::restore()
         shell: Rscript {0}
 
       - name: Install covr

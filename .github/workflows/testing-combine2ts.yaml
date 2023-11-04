@@ -41,6 +41,13 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: renv status
+        run: |
+          options(repos = c(CRAN = "https://cloud.r-project.org"))
+          renv::status()
+          renv::restore()
+
+        shell: Rscript {0}
       - name: Install devtools
         run: install.packages("devtools", repos = "https://cloud.r-project.org")
         shell: Rscript {0}
@@ -48,6 +55,25 @@ jobs:
       - name: Move tests-combine2ts
         run: mv tests/testthat/tests-combine2ts/test-modify-combine2ts-${{ matrix.domain }}.R tests/testthat
 
-      - name: Run tests
-        run: devtools::test(stop_on_failure = TRUE)
+      # - name: Run tests
+      #   run: devtools::test(stop_on_failure = TRUE)
+      #   shell: Rscript {0}
+
+      - name: Run tests and error checking
+        run: |
+          all_test <- devtools::test()
+          state <- TRUE
+
+          for (tests in all_test) {
+              result <- tests$results
+              for (expectation in result) {
+                  if (any(attr(expectation, "class") %in% c("expectation_failure", "expectation_warning"))) {
+                      state <- FALSE
+                  }
+              }
+          }
+
+          if (isFALSE(state)) {
+              stop("Des erreurs ou avertissements ont été détectés.")
+          }
         shell: Rscript {0}
