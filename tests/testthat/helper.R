@@ -72,6 +72,9 @@ create_NA_type <- function(type, len = 1L) {
     if (type == "Date") {
         return(rep(structure(NA_integer_, class = "Date"), times = len))
     }
+    if (type == "raw") {
+        return(rep(x = as.raw(0x00), times = len))
+    }
     stop("Le type n'est pas reconnu.")
 }
 

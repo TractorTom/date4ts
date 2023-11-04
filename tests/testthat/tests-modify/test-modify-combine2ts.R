@@ -3,7 +3,7 @@
 set.seed(2022L)
 
 
-# Tests sur les erreurs de mts --------------------------------------------
+# Tests sur les erreurs de mts -------------------------------------------------
 
 testthat::test_that("Several dimensions are not allowed", {
     for (typeA in list_type) {
@@ -42,7 +42,7 @@ testthat::test_that("Several dimensions are not allowed", {
     }
 })
 
-# Tests sur les erreurs d'input --------------------------------------------
+# Tests sur les erreurs d'input ------------------------------------------------
 
 testthat::test_that("miscellaneous input are not allowed", {
     for (typeA in list_type) {
@@ -64,7 +64,7 @@ testthat::test_that("miscellaneous input are not allowed", {
     }
 })
 
-# Tests sur les erreurs de type d'objets --------------------------------------------
+# Tests sur les erreurs de type d'objets ---------------------------------------
 
 testthat::test_that("different input type are not allowed", {
     for (typeA in list_type[-7L]) {
@@ -76,7 +76,7 @@ testthat::test_that("different input type are not allowed", {
     }
 })
 
-# Tests sur les erreurs de temporalité --------------------------------------------
+# Tests sur les erreurs de temporalité -----------------------------------------
 
 testthat::test_that("arguments have same frequency", {
     for (typeA in list_type) {
