@@ -5,7 +5,7 @@ set.seed(2040L)
 
 # Tests de résultat ------------------------------------------------------------
 
-for (typeA in list_type[-6]){
+for (typeA in list_type[-7]){
     for (frequenceA in list_frequence) {
         for (startA in list_start) {
             for (lenA in list_len[-1L]) {

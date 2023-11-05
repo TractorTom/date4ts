@@ -48,6 +48,8 @@ format_date_ts <- function(date_ts, frequency_ts, test = TRUE) {
         checkmate::reportAssertions(coll)
     }
 
+    date_ts <- as.integer(date_ts)
+
     if (length(date_ts) == 2L) {
         year <- date_ts[1L]
         period <- date_ts[2L]

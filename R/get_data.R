@@ -85,12 +85,44 @@ get_value_ts <- function(series, date_from, date_to, n) {
         ))
     }
 
-    output_value <- stats::window(
-        x = series,
-        start = date_from,
-        end = date_to, extend = TRUE
-    )
-    attributes(output_value) <- NULL
+    output_value <- series
+
+    if (is.raw(output_value)) {
+
+        if (is_before(date_to, format_date_ts(date_ts = end(output_value), frequency_ts = frequency_ts, test = FALSE), strict = FALSE, frequency_ts = frequency_ts)) {
+            output_value <- stats::window(
+                x = series,
+                end = date_to
+            )
+            after <- 0L
+        } else {
+            after <- diff_periode(date_to, format_date_ts(date_ts = end(output_value), frequency_ts = frequency_ts, test = FALSE), frequency_ts = frequency_ts) - 1L
+        }
+
+        if (is_before(format_date_ts(date_ts = start(output_value), frequency_ts = frequency_ts, test = FALSE), date_from, strict = FALSE, frequency_ts = frequency_ts)) {
+            output_value <- stats::window(
+                x = series,
+                start = date_from
+            )
+            before <- 0L
+        } else {
+            before <- diff_periode(format_date_ts(date_ts = start(output_value), frequency_ts = frequency_ts, test = FALSE), date_from, frequency_ts = frequency_ts) - 1L
+        }
+
+        attributes(output_value) <- NULL
+        output_value <- c(rep(x = as.raw(0x00), times = before),
+                          output_value,
+                          rep(x = as.raw(0x00), times = after))
+
+    } else {
+        output_value <- stats::window(
+            x = series,
+            start = date_from,
+            end = date_to, extend = TRUE
+        )
+        attributes(output_value) <- NULL
+    }
+
 
     return(output_value)
 }
