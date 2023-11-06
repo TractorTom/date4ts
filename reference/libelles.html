@@ -94,10 +94,9 @@ warning lors de l'évaluation.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">libelles</span><span class="op">(</span>date_ts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2019L</span>, <span class="fl">10L</span><span class="op">)</span>, frequency_ts <span class="op">=</span> <span class="fl">12L</span>, n <span class="op">=</span> <span class="fl">9L</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Oct 2019" "Nov 2019" "Dec 2019" "Jan 2020" "Feb 2020" "Mar 2020" "Apr 2020"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [8] "May 2020" "Jun 2020"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in assert_scalar_integer(lag, add = coll, .var.name = "lag"):</span> object 'check_int' not found</span>
 <span class="r-in"><span><span class="fu">libelles</span><span class="op">(</span>date_ts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2019L</span>, <span class="fl">4L</span><span class="op">)</span>, frequency_ts <span class="op">=</span> <span class="fl">4L</span>, n <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Q4 2019" "Q1 2020" "Q2 2020"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in assert_scalar_integer(lag, add = coll, .var.name = "lag"):</span> object 'check_int' not found</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
