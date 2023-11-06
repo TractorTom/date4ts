@@ -114,13 +114,9 @@ signalant le problème.</p></li>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">assert_scalar_integer</span><span class="op">(</span><span class="fl">1L</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in assert_scalar_integer(1L):</span> object 'check_int' not found</span>
 <span class="r-in"><span><span class="fu">assert_scalar_integer</span><span class="op">(</span><span class="fl">100L</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in assert_scalar_integer(100L):</span> object 'check_int' not found</span>
 <span class="r-in"><span><span class="fu">assert_scalar_integer</span><span class="op">(</span><span class="op">-</span><span class="fl">4L</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in assert_scalar_integer(-4L):</span> object 'check_int' not found</span>
 <span class="r-in"><span><span class="fu">assert_scalar_integer</span><span class="op">(</span><span class="fl">0L</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in assert_scalar_integer(0L):</span> object 'check_int' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">check_scalar_integer</span><span class="op">(</span><span class="fl">1L</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
