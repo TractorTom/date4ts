@@ -89,24 +89,24 @@ get_value_ts <- function(series, date_from, date_to, n) {
 
     if (is.raw(output_value)) {
 
-        if (is_before(date_to, format_date_ts(date_ts = end(output_value), frequency_ts = frequency_ts, test = FALSE), strict = FALSE, frequency_ts = frequency_ts)) {
+        if (is_before(date_to, format_date_ts(date_ts = stats::end(output_value), frequency_ts = frequency_ts, test = FALSE), strict = FALSE, frequency_ts = frequency_ts)) {
             output_value <- stats::window(
                 x = series,
                 end = date_to
             )
             after <- 0L
         } else {
-            after <- diff_periode(date_to, format_date_ts(date_ts = end(output_value), frequency_ts = frequency_ts, test = FALSE), frequency_ts = frequency_ts) - 1L
+            after <- diff_periode(date_to, format_date_ts(date_ts = stats::end(output_value), frequency_ts = frequency_ts, test = FALSE), frequency_ts = frequency_ts) - 1L
         }
 
-        if (is_before(format_date_ts(date_ts = start(output_value), frequency_ts = frequency_ts, test = FALSE), date_from, strict = FALSE, frequency_ts = frequency_ts)) {
+        if (is_before(format_date_ts(date_ts = stats::start(output_value), frequency_ts = frequency_ts, test = FALSE), date_from, strict = FALSE, frequency_ts = frequency_ts)) {
             output_value <- stats::window(
                 x = series,
                 start = date_from
             )
             before <- 0L
         } else {
-            before <- diff_periode(format_date_ts(date_ts = start(output_value), frequency_ts = frequency_ts, test = FALSE), date_from, frequency_ts = frequency_ts) - 1L
+            before <- diff_periode(format_date_ts(date_ts = stats::start(output_value), frequency_ts = frequency_ts, test = FALSE), date_from, frequency_ts = frequency_ts) - 1L
         }
 
         attributes(output_value) <- NULL
