@@ -47,13 +47,14 @@ testthat::test_that("warning for integer date", {
 
 # Tests de résultats négatifs --------------------------------------------------
 
-testthat::test_that("miscellaneous frequency are not allowed", {
+testthat::test_that("miscellaneous integer x are not allowed", {
 
-    wrong_integers <- c(object_bank_R[-10L],
+    wrong_integers <- c(list(0., 0L),
+                        list_wrong_date_ts,
+                        object_bank_R[-10L],
                         rnorm(10L),
                         as.double(-abs(c(list_lag, list_len, create_random_type("integer", len = 10L)))),
-                        -abs(c(list_len, list_lag, create_random_type("integer", len = 10L)))
-                        )
+                        -abs(c(list_len, list_lag, create_random_type("integer", len = 10L))))
 
     for (wrong_integer in wrong_integers) {
         testthat::expect_error(

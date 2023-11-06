@@ -268,14 +268,22 @@ testthat::test_that("miscellaneous frequency are not allowed", {
 })
 
 testthat::test_that("miscellaneous n are not allowed", {
-    for (wrong_n in c(list(0., 0L), object_bank_R[-10])) {
+
+    list_wrong_n <- c(list(0., 0L),
+                      list_wrong_date_ts,
+                      object_bank_R[-10L],
+                      rnorm(10L),
+                      as.double(-abs(c(list_lag, list_len, create_random_type("integer", len = 10L)))),
+                      -abs(c(list_len, list_lag, create_random_type("integer", len = 10L))))
+
+    for (wrong_n in list_wrong_n) {
         testthat::expect_error(libelles(date = create_random_date_ts(), frequency_ts = 12L, n = wrong_n, warn = FALSE))
         testthat::expect_error(libelles(date = create_random_date_ts(), frequency_ts = 4L, n = wrong_n, warn = FALSE))
     }
 })
 
 testthat::test_that("miscellaneous warn are not allowed", {
-    for (wrong_warn in c(list(0., 0L), object_bank_R[-29])) {
+    for (wrong_warn in c(list(0., 0L), object_bank_R[-29L])) {
         testthat::expect_error(libelles(date = create_random_date_ts(), frequency_ts = 12L, n = 5L, warn = wrong_warn))
         testthat::expect_error(libelles(date = create_random_date_ts(), frequency_ts = 4L, n = 5L, warn = wrong_warn))
     }

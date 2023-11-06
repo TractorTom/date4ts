@@ -47,8 +47,10 @@ testthat::test_that("warning for integer date", {
 
 # Tests de résultats négatifs --------------------------------------------------
 
-testthat::test_that("miscellaneous frequency are not allowed", {
-    for (wrong_integer in c(object_bank_R[-10L], rnorm(10L))) {
+testthat::test_that("miscellaneous integer x are not allowed", {
+    for (wrong_integer in c(list_wrong_date_ts,
+                            object_bank_R[-10L],
+                            rnorm(10L))) {
         testthat::expect_error(
             assert_scalar_integer(x = wrong_integer, warn = FALSE)
         )

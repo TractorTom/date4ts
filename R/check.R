@@ -719,19 +719,26 @@ assert_scalar_integer <- function(x, add = NULL,
         coll <- add
     }
 
+    # Qqs variables de check
+    check_warn <- checkmate::check_flag(warn, na.ok = FALSE, null.ok = FALSE)
+    check_integerish <- checkmate::check_int(x)
+
     # Check de warn
     checkmate::assert_flag(warn, add = coll, .var.name = "warn",
                            na.ok = FALSE, null.ok = FALSE)
-    check_warn <- checkmate::check_flag(warn, na.ok = FALSE, null.ok = FALSE)
+    checkmate::assert_int(x, add = coll, .var.name = .var.name)
 
-    if (isTRUE(check_warn) && warn && !isTRUE(checkmate::check_integer(x))) {
-        err <- try(checkmate::assert_integer(x, .var.name = .var.name),
-                   silent = TRUE)
-        warning(attr(err, "condition")$message)
+    if (isTRUE(check_int) && !isTRUE(checkmate::check_integer(x))) {
+
+        if (isTRUE(check_warn) && warn) {
+            err <- try(checkmate::assert_integer(x, .var.name = .var.name),
+                       silent = TRUE)
+            warning(attr(err, "condition")$message)
+        }
+
+        x <- checkmate::assert_int(x, coerce = TRUE, add = coll,
+                                   .var.name = .var.name)
     }
-
-    x <- checkmate::assert_int(x, coerce = TRUE, add = coll,
-                               .var.name = .var.name)
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)

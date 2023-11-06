@@ -33,17 +33,26 @@ create_random_type <- function(type, len = NULL) {
     stop("Le type n'est pas reconnu.")
 }
 
-create_random_date_ts <- function() {
+create_random_date_ts <- function(frequency_ts = NULL) {
     if (runif(n = 1L, min = 0L, max = 1L) > .5) {
         return(sample(1950L:2022L, size = 1L))
     }
+
+    if (!is.null(frequency_ts)) {
+        return(c(
+            sample(1950L:2022L, size = 1L),
+            sample(seq_len(frequency_ts), size = 1L)
+        ))
+    }
+
     return(c(
         sample(1950L:2022L, size = 1L),
         sample(-20L:20L, size = 1L)
     ))
 }
 
-create_random_ts <- function(type, len = NULL, start = NULL, frequency = NULL) {
+create_random_ts <- function(type = NULL, len = NULL, start = NULL, frequency = NULL) {
+    if (is.null(type)) type <- sample(list_type, size = 1L)
     if (is.null(len)) len <- sample(1L:1000L, size = 1L)
     if (is.null(frequency)) frequency <- sample(c(4L, 12L), size = 1L)
     if (is.null(start)) start <- create_random_date_ts()
@@ -130,9 +139,9 @@ good_quarters <- 1L:4L
 list_start <- list(c(2020L, -1L), c(2020L, 0L), c(2020L, 4L), c(2020L, 5L), c(2020L, 12L), c(2020L, 13L), 2019L)
 
 list_wrong_date_ts <- c(
-    fuzzr::test_all()[-10],
+    fuzzr::test_all()[-10L],
     list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
-    lapply(list_type[-c(1L, 3L)], create_random_type, len = 2),
+    lapply(list_type[-c(1L, 3L)], create_random_type, len = 2L),
     lapply(list_type, create_random_type, len = 3),
     list(2019.5, 2020. + 1. / 12., pi / 4., c(2020., 2.5), c(2010.25, 3.), c(2002., 3., 1.), c("2002", "3")),
     list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5.), c(NA_real_, NA_real_)),

@@ -261,41 +261,125 @@ testthat::test_that("miscellaneous input are not allowed", {
     }
 })
 
+testthat::test_that("3 argyuments input are not allowed", {
+    for (typeA in list_type[-7]){
+        for (frequenceA in list_frequence) {
+            ts_A <- create_random_ts(type = typeA, frequency = frequenceA)
+            testthat::expect_error(
+                object = get_value_ts(
+                    series = ts_A,
+                    date_from = create_random_date_ts(),
+                    date_to = create_random_date_ts(),
+                    n = create_random_type(type = "integer", len = 1L)
+                )
+            )
+        }
+    }
+})
+
 # Tests sur les erreurs de temporalité -----------------------------------------
 
-# testthat::test_that("adte_from is after date_to", {
-#     for (typeA in list_type) {
-#         objA <- create_random_ts(type = typeA, frequency = 12L)
-#         objB <- create_random_ts(type = typeA, frequency = 4L)
-#         testthat::expect_error(get_value_ts(objA, objB), regexp = "Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
-#         testthat::expect_error(get_value_ts(objB, objA), regexp = "Les objets `a` et `b` doivent avoir la m\u00eame fr\u00e9quence.")
-#     }
-# })
-#
-# testthat::test_that("n is non positive", {
-#     for (typeA in list_type) {
-#         for (freq_A in c(weird_frequency)) {
-#             for (freq_B in c(weird_frequency, list_frequence)) {
-#                 objA <- create_random_ts(type = typeA, frequency = freq_A)
-#                 objB <- create_random_ts(type = typeA, frequency = freq_B)
-#                 testthat::expect_error(get_value_ts(objA, objB))
-#                 testthat::expect_error(get_value_ts(objB, objA))
-#             }
-#         }
-#     }
-# })
-#
-# testthat::test_that("arguments are temporally consistent", {
-#     for (typeA in list_type) {
-#         ts_A <- create_random_ts(type = typeA, start = 2015L, frequency = 12L)
-#         ts_B <- create_random_ts(type = typeA, start = 2004 + 1 / 7, frequency = 12L)
-#         testthat::expect_error(get_value_ts(ts_A, ts_B))
-#         testthat::expect_error(get_value_ts(ts_B, ts_A))
-#
-#         ts_A <- create_random_ts(type = typeA, start = 2015L, frequency = 4L)
-#         ts_B <- create_random_ts(type = typeA, start = 2016 + 1 / 12, frequency = 4L)
-#         testthat::expect_error(get_value_ts(ts_A, ts_B))
-#         testthat::expect_error(get_value_ts(ts_B, ts_A))
-#     }
-# })
+testthat::test_that("date_from must be before date_to", {
+    for (date_1 in list_start) {
+        for (len in list_len[-1L]){
 
+            ts_A <- create_random_ts()
+
+            date_2 <- date_1
+            date_2[1L] <- date_2[1L] + len
+            testthat::expect_error(get_value_ts(ts_A, date_from = date_2, date_to = date_1))
+
+            date_2 <- date_1
+            if (length(date_2) == 2) {
+                date_2[2L] <- date_2[2L] + len
+            } else {
+                date_2[2L] <- len
+            }
+            testthat::expect_error(get_value_ts(ts_A, date_from = date_2, date_to = date_1))
+
+        }
+    }
+})
+
+testthat::test_that("n is non positive", {
+    for (len in list_len){
+        ts_A <- create_random_ts()
+        testthat::expect_error(
+            object = get_value_ts(
+                series = ts_A,
+                date_from = create_random_date_ts(),
+                n = -abs(len)
+            )
+        )
+        testthat::expect_error(
+            object = get_value_ts(
+                series = ts_A,
+                date_to = create_random_date_ts(),
+                n = -abs(len)
+            )
+        )
+    }
+})
+
+testthat::test_that("miscelanous date are not accepted", {
+    for (wrong_date_ts in list_wrong_date_ts) {
+
+        ts_A <- create_random_ts()
+
+        testthat::expect_error(
+            object = get_value_ts(
+                series = ts_A, date_to = wrong_date_ts,
+                n = 10L
+            )
+        )
+
+        testthat::expect_error(
+            object = get_value_ts(
+                series = ts_A, date_from = wrong_date_ts,
+                n = 10L
+            )
+        )
+
+        testthat::expect_error(
+            object = get_value_ts(
+                series = ts_A, date_from = wrong_date_ts,
+                date_to = create_random_date_ts(frequency_ts = frequency(ts_A))
+            )
+        )
+
+        testthat::expect_error(
+            object = get_value_ts(
+                series = ts_A, date_from = create_random_date_ts(frequency_ts = frequency(ts_A)),
+                date_to = wrong_date_ts
+            )
+        )
+    }
+})
+
+testthat::test_that("miscelanous n are not accepted", {
+    for (wrong_n in c(list(0., 0L),
+                      list_wrong_date_ts,
+                      object_bank_R[-10L],
+                      rnorm(10L),
+                      as.double(-abs(c(list_lag, list_len, create_random_type("integer", len = 10L)))),
+                      -abs(c(list_len, list_lag, create_random_type("integer", len = 10L))))
+         ) {
+
+        ts_A <- create_random_ts()
+
+        testthat::expect_error(
+            object = get_value_ts(
+                series = ts_A, date_to = create_random_date_ts(frequency_ts = frequency(ts_A)),
+                n = wrong_n
+            )
+        )
+
+        testthat::expect_error(
+            object = get_value_ts(
+                series = ts_A, date_from = create_random_date_ts(frequency_ts = frequency(ts_A)),
+                n = wrong_n
+            )
+        )
+
+    }
+})

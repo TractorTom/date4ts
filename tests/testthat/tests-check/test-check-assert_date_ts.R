@@ -306,7 +306,9 @@ testthat::test_that("warning for integer date", {
 # Tests de résultats négatifs --------------------------------------------------
 
 testthat::test_that("detection of wrong dates", {
-    for (wrong_date in c(object_bank_R[-10L], list_wrong_date_ts)) {
+    for (wrong_date in c(list_wrong_date_ts,
+                         object_bank_R[-10L],
+                         rnorm(10L))) {
         testthat::expect_error(assert_date_ts(wrong_date, frequency_ts = 12L))
         testthat::expect_error(assert_date_ts(wrong_date, frequency_ts = 4L))
     }

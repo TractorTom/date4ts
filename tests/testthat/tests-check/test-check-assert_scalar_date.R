@@ -26,7 +26,7 @@ testthat::test_that("Several Date are not allowed", {
         assert_scalar_date(x = seq(from = as.Date("2023-08-04"), to = Sys.Date(), by = "months"))
     )
 
-    for (len in list_len[-2]) {
+    for (len in list_len[-2L]) {
         testthat::expect_error(
             assert_scalar_date(x = create_random_type("Date", len = len))
         )
@@ -35,7 +35,7 @@ testthat::test_that("Several Date are not allowed", {
 })
 
 testthat::test_that("miscellaneous Object are not allowed", {
-    for (wrong_date in object_bank_R[-34]) {
+    for (wrong_date in object_bank_R[-34L]) {
         testthat::expect_error(
             assert_scalar_date(x = wrong_date)
         )
