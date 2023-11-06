@@ -721,14 +721,14 @@ assert_scalar_integer <- function(x, add = NULL,
 
     # Qqs variables de check
     check_warn <- checkmate::check_flag(warn, na.ok = FALSE, null.ok = FALSE)
-    check_integerish <- checkmate::check_int(x)
+    check_int_var <- checkmate::check_int(x)
 
     # Check de warn
     checkmate::assert_flag(warn, add = coll, .var.name = "warn",
                            na.ok = FALSE, null.ok = FALSE)
     checkmate::assert_int(x, add = coll, .var.name = .var.name)
 
-    if (isTRUE(check_int) && !isTRUE(checkmate::check_integer(x))) {
+    if (isTRUE(check_int_var) && !isTRUE(checkmate::check_integer(x))) {
 
         if (isTRUE(check_warn) && warn) {
             err <- try(checkmate::assert_integer(x, .var.name = .var.name),
