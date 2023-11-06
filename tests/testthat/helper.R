@@ -1,8 +1,8 @@
-# Options -----------------------------------------------------------------
+# Options ----------------------------------------------------------------------
 
 withr::local_locale(.new = c("LC_TIME" = "en_US"))
 
-# Création de fonctions ---------------------------------------------------
+# Création de fonctions --------------------------------------------------------
 
 create_random_type <- function(type, len = NULL) {
     if (is.null(len)) len <- sample(1L:1000L, size = 1L)
@@ -149,7 +149,7 @@ list_wrong_date_ts <- c(
 )
 
 
-## Conversions et labels ---------------------------------------------------
+## Conversions et labels -------------------------------------------------------
 
 # Conversion
 conversion_quarter_month <- data.frame(quarter = 1L:4L, month = c(1L, 4L, 7L, 10L))
@@ -166,7 +166,7 @@ list_len <- c(0L:5L, 10L, 100L, 10000L)
 list_lag <- c(-1000L, -5L, -2L:2L, 5L, 1000L)
 
 
-# Error / warning messages ------------------------------------------------
+# Error / warning messages -----------------------------------------------------
 
 invalid_monthly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 12."
 invalid_quaterly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 4."

@@ -280,25 +280,42 @@ testthat::test_that("3 argyuments input are not allowed", {
 # Tests sur les erreurs de temporalité -----------------------------------------
 
 testthat::test_that("date_from must be before date_to", {
-    for (date_1 in list_start) {
+
+    for (year in good_years) {
         for (len in list_len[-1L]){
 
-            ts_A <- create_random_ts()
+            ts_A <- create_random_ts(frequency = 12L)
 
-            date_2 <- date_1
-            date_2[1L] <- date_2[1L] + len
+            date_1 <- year
+            date_2 <- year + len
             testthat::expect_error(get_value_ts(ts_A, date_from = date_2, date_to = date_1))
 
-            date_2 <- date_1
-            if (length(date_2) == 2) {
-                date_2[2L] <- date_2[2L] + len
-            } else {
-                date_2[2L] <- len
+            for (month in good_months) {
+
+                date_1 <- c(year, month)
+                date_2 <- date_1
+                date_2[1L] <- date_2[1L] + len
+                date_2 <- c(date_2[1L] + (date_2[2L] - 1L) %/% 12L,
+                            (date_2[2L] - 1L) %% 12L + 1L)
+                testthat::expect_error(get_value_ts(ts_A, date_from = date_2, date_to = date_1))
+
             }
-            testthat::expect_error(get_value_ts(ts_A, date_from = date_2, date_to = date_1))
 
+            ts_A <- create_random_ts(frequency = 4L)
+
+            for (quarter in good_quarters) {
+
+                date_1 <- c(year, quarter)
+                date_2 <- date_1
+                date_2[1L] <- date_2[1L] + len
+                date_2 <- c(date_2[1L] + (date_2[2L] - 1L) %/% 4L,
+                            (date_2[2L] - 1L) %% 4L + 1L)
+                testthat::expect_error(get_value_ts(ts_A, date_from = date_2, date_to = date_1))
+
+            }
         }
     }
+
 })
 
 testthat::test_that("n is non positive", {
