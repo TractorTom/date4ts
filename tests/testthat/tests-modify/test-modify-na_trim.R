@@ -5,12 +5,23 @@ set.seed(2041L)
 
 # Tests de résultat avec start vecteur d'entiers -------------------------------
 
-testthat::test_that("expect good results", {
-    for (typeA in list_type) {
-        for (frequenceA in list_frequence) {
-            for (startA in list_start) {
-                for (lenA in list_len[-1L]) {
-                    for (param1 in list_len) {
+for (typeA in list_type) {
+    for (frequenceA in list_frequence) {
+        for (startA in list_start) {
+            for (lenA in list_len[-1L]) {
+                for (param1 in list_len) {
+
+                    test_name <- paste0(
+                        "expected result with ",
+                        "\ntypeA = '", typeA,
+                        "'\nfrequenceA = ", frequenceA,
+                        "\nstartA = ", deparse(startA),
+                        "\nlenA = ", lenA,
+                        "\nparam1 = ", param1
+                    )
+
+                    testthat::test_that(desc = test_name, {
+
                         A_content <- create_random_type(type = typeA, len = lenA)
                         ts_without_na <- ts(A_content, start = startA, frequency = frequenceA)
 
@@ -50,12 +61,12 @@ testthat::test_that("expect good results", {
                                 expected = ts_without_na
                             )
                         }
-                    }
+                    })
                 }
             }
         }
     }
-})
+}
 
 
 # Tests sur les erreurs de mts --------------------------------------------
@@ -101,8 +112,8 @@ testthat::test_that("Several dimensions are not allowed", {
 
 testthat::test_that("miscellaneous series are not allowed", {
     for (obj in object_bank_R) {
-            testthat::expect_error(na_trim(series = obj))
-        }
+        testthat::expect_error(na_trim(series = obj))
+    }
 })
 
 
