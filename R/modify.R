@@ -336,8 +336,16 @@ na_trim <- function(series) {
     non_na <- seq_along(series)[!is.na(series)]
     content <- series[min(non_na):max(non_na)]
 
-    start_ts <- as.integer(stats::start(series))
-    frequency_ts <- as.integer(stats::frequency(series))
+    frequency_ts <- assert_frequency(
+        x = stats::frequency(series),
+        add = coll,
+        warn = FALSE
+    )
+    start_ts <- format_date_ts(
+        date_ts = stats::start(series),
+        frequency_ts = frequency_ts,
+        test = FALSE
+    )
 
     return(stats::ts(
         data = content,

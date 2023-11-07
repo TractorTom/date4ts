@@ -98,7 +98,7 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
     }
 
     # Check l'argument lag
-    lag <- assert_scalar_integer(lag, add = coll, .var.name = "lag")
+    lag <- assert_scalar_integer(x = lag, add = coll, .var.name = "lag")
 
     checkmate::reportAssertions(coll)
 
