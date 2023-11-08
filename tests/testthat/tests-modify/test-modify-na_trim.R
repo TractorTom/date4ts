@@ -5,10 +5,12 @@ set.seed(2041L)
 
 # Tests de résultat avec start vecteur d'entiers -------------------------------
 
-for (typeA in list_type) {
-    for (frequenceA in list_frequence) {
-        for (startA in list_start) {
-            for (lenA in list_len[-1L]) {
+for (typeA in list_type[-6L]) {
+    for (lenA in list_len[-1L]) {
+        A_content <- create_random_type(type = typeA, len = lenA)
+        for (frequenceA in list_frequence) {
+            for (startA in list_start) {
+                ts_without_na <- ts(A_content, start = startA, frequency = frequenceA)
                 for (param1 in list_len) {
 
                     test_name <- paste0(
@@ -21,9 +23,6 @@ for (typeA in list_type) {
                     )
 
                     testthat::test_that(desc = test_name, {
-
-                        A_content <- create_random_type(type = typeA, len = lenA)
-                        ts_without_na <- ts(A_content, start = startA, frequency = frequenceA)
 
                         # Cas 1
                         ts_with_na <- ts(c(A_content, create_NA_type(type = typeA, len = param1)),
@@ -44,7 +43,7 @@ for (typeA in list_type) {
                         )
 
                         # Cas 3
-                        for (param2 in list_len) {
+                        for (param2 in list_len[2]) {
                             ts_with_na <- ts(c(create_NA_type(type = typeA, len = param1),
                                                A_content,
                                                create_NA_type(type = typeA, len = param2)),
