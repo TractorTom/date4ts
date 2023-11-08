@@ -163,33 +163,34 @@ assert_date_ts <- function(x, frequency_ts, add = NULL,
         checkmate::reportAssertions(coll)
     }
 
-    if (isTRUE(check_warn) && warn) {
-
-        if (!isTRUE(checkmate::check_integer(x))) {
-
-            err <- try(
-                expr = checkmate::assert_integer(x, .var.name = .var.name),
-                silent = TRUE
-            )
-            warning(attr(err, "condition")$message)
-        }
-
-        if ((length(x) == 2L) &&
-            !isTRUE(checkmate::check_integerish(
-                x = x[2L], lower = 1L, upper = frequency_ts
-            ))) {
-            err <- try(
-                expr = checkmate::assert_integerish(
-                    x = x[2L], lower = 1L, upper = frequency_ts,
-                    .var.name = "period"
-                ),
-                silent = TRUE
-            )
-            warning(attr(err, "condition")$message)
-        }
-    }
-
     if (isTRUE(check_date_ts(x, frequency_ts, warn = FALSE))) {
+
+        if (isTRUE(check_warn) && warn) {
+
+            if (!isTRUE(checkmate::check_integer(x))) {
+
+                err <- try(
+                    expr = checkmate::assert_integer(x, .var.name = .var.name),
+                    silent = TRUE
+                )
+                warning(attr(err, "condition")$message)
+            }
+
+            if ((length(x) == 2L) &&
+                !isTRUE(checkmate::check_integerish(
+                    x = x[2L], lower = 1L, upper = frequency_ts
+                ))) {
+                err <- try(
+                    expr = checkmate::assert_integerish(
+                        x = x[2L], lower = 1L, upper = frequency_ts,
+                        .var.name = "period"
+                    ),
+                    silent = TRUE
+                )
+                warning(attr(err, "condition")$message)
+            }
+        }
+
         x <- format_date_ts(x_corr, frequency_ts, test = FALSE)
     }
 

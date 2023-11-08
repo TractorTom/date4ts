@@ -12,8 +12,8 @@ testthat::test_that(desc = "Expect good result with monthly frequency", {
 
             date_a <- year
 
-            minus_year <+ lag %/% 12L
-            minus_months <+ lag %% 12L + 1L
+            minus_year <- lag %/% 12L
+            minus_months <- lag %% 12L + 1L
 
             date_b <- c(year + minus_year, minus_months)
 
@@ -47,8 +47,8 @@ testthat::test_that(desc = "Expect good result with quaterly frequency", {
 
             date_a <- year
 
-            minus_year <+ lag %/% 4L
-            minus_months <+ lag %% 4L + 1L
+            minus_year <- lag %/% 4L
+            minus_months <- lag %% 4L + 1L
 
             date_b <- c(year + minus_year, minus_months)
 
@@ -85,8 +85,8 @@ testthat::test_that(desc = "Warning with double years and monthly frequency", {
 
             date_a <- year
 
-            minus_year <+ lag %/% 12L
-            minus_months <+ lag %% 12L + 1L
+            minus_year <- lag %/% 12L
+            minus_months <- lag %% 12L + 1L
 
             date_b <- c(year + minus_year, minus_months) |> as.integer()
 
@@ -130,8 +130,8 @@ testthat::test_that(desc = "Warning with double years and quaterly frequency", {
 
             date_a <- year
 
-            minus_year <+ lag %/% 4L
-            minus_months <+ lag %% 4L + 1L
+            minus_year <- lag %/% 4L
+            minus_months <- lag %% 4L + 1L
 
             date_b <- c(year + minus_year, minus_months) |> as.integer()
 
@@ -175,8 +175,8 @@ testthat::test_that(desc = "Warning with frequency and monthly frequency", {
 
             date_a <- year
 
-            minus_year <+ lag %/% 12L
-            minus_months <+ lag %% 12L + 1L
+            minus_year <- lag %/% 12L
+            minus_months <- lag %% 12L + 1L
 
             date_b <- c(year + minus_year, minus_months) |> as.integer()
 
