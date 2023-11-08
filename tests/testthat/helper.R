@@ -145,7 +145,8 @@ list_wrong_date_ts <- c(
     lapply(list_type, create_random_type, len = 3),
     list(2019.5, 2020. + 1. / 12., pi / 4., c(2020., 2.5), c(2010.25, 3.), c(2002., 3., 1.), c("2002", "3")),
     list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5.), c(NA_real_, NA_real_)),
-    list(2L:4L, c(2020.0, 7., 1.), c(2020L, 0L, NA_integer_), numeric(0), integer(0), Inf, c(2000L, Inf), c(Inf, 4.))
+    list(2L:4L, c(2020.0, 7., 1.), c(2020L, 0L, NA_integer_), numeric(0), integer(0), Inf, c(2000L, Inf), c(Inf, 4.)),
+    list(rnorm(10L))
 )
 
 
@@ -168,8 +169,11 @@ list_lag <- c(-1000L, -5L, -2L:2L, 5L, 1000L)
 
 # Error / warning messages -----------------------------------------------------
 
+message_double <- function(var) {
+    return(paste0("Assertion on '", var, "' failed: Must be of type 'integer', not 'double'."))
+}
+
 invalid_monthly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 12."
 invalid_quaterly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 4."
-warning_date_double <- "Assertion on 'warning_date' failed: Must be of type 'integer', not 'double'."
-warning_frequency_double <- "Assertion on 'frequency_ts' failed: Must be of type 'integer', not 'double'."
+
 double_instead_of_integer <- "Must be of type 'integer', not 'double'."

@@ -38,7 +38,7 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
                                      .var.name = "frequency_ts")
 
     # Check du format date_ts
-    if (isTRUE(check_frequency(frequency_ts))) {
+    if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
         date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll,
                                   .var.name = "date_ts")
     }
@@ -49,10 +49,12 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
     checkmate::reportAssertions(coll)
 
     year <- date_ts[1L]
-    month <- date_ts[2L]
-    return(c(
-        year + ((month - 1L - lag) %/% frequency_ts),
-        1L + ((month - 1L - lag) %% frequency_ts)
+    period <- date_ts[2L] - lag
+
+    return(format_date_ts(
+        date_ts = c(year, period),
+        frequency_ts = frequency_ts,
+        test = FALSE
     ))
 }
 
@@ -92,7 +94,7 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
                                      .var.name = "frequency_ts")
 
     # Check du format date_ts
-    if (isTRUE(check_frequency(frequency_ts))) {
+    if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
         date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll,
                                   .var.name = "date_ts")
     }
@@ -102,16 +104,14 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 
     checkmate::reportAssertions(coll)
 
-    if (length(date_ts) == 2L) {
-        year <- date_ts[1L]
-        month <- date_ts[2L]
-        return(c(
-            year + ((month - 1L + lag) %/% frequency_ts),
-            1L + ((month - 1L + lag) %% frequency_ts)
-        ))
-    } else {
-        return(date_ts + lag / frequency_ts)
-    }
+    year <- date_ts[1L]
+    period <- date_ts[2L] + lag
+
+    return(format_date_ts(
+        date_ts = c(year, period),
+        frequency_ts = frequency_ts,
+        test = FALSE
+    ))
 }
 
 #' Première date non NA

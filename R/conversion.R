@@ -245,7 +245,7 @@ date_ts2date <- function(date_ts, frequency_ts) {
     frequency_ts <- assert_frequency(frequency_ts, add = coll,
                                      .var.name = "frequency_ts")
     # Check du format date_ts
-    if (isTRUE(check_frequency(frequency_ts))) {
+    if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
         date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll,
                                   .var.name = "date_ts")
     }

@@ -114,13 +114,13 @@ testthat::test_that("warning for double date", {
                 {
                     libel1 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L, warn = TRUE)
                 },
-                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+                regexp = message_double("date_ts")
             )
             testthat::expect_warning(
                 {
                     libel2 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L)
                 },
-                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+                regexp = message_double("date_ts")
             )
             testthat::expect_no_warning(
                 {
@@ -149,13 +149,13 @@ testthat::test_that("warning for double date", {
                 {
                     libel1 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L, warn = TRUE)
                 },
-                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+                regexp = message_double("date_ts")
             )
             testthat::expect_warning(
                 {
                     libel2 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12L)
                 },
-                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+                regexp = message_double("date_ts")
             )
             testthat::expect_no_warning(
                 {
@@ -184,13 +184,13 @@ testthat::test_that("warning for double date", {
                 {
                     libel1 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L, warn = TRUE)
                 },
-                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+                regexp = message_double("date_ts")
             )
             testthat::expect_warning(
                 {
                     libel2 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L)
                 },
-                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+                regexp = message_double("date_ts")
             )
             testthat::expect_no_warning(
                 {
@@ -219,13 +219,13 @@ testthat::test_that("warning for double date", {
                 {
                     libel1 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L, warn = TRUE)
                 },
-                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+                regexp = message_double("date_ts")
             )
             testthat::expect_warning(
                 {
                     libel2 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4L)
                 },
-                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+                regexp = message_double("date_ts")
             )
             testthat::expect_no_warning(
                 {
@@ -259,7 +259,7 @@ testthat::test_that("warning for double date and out of range", {
                     },
                     regexp = "Assertion on 'period' failed: Element 1 is not <= 12.|Assertion on 'period' failed: Element 1 is not >= 1."
                 ),
-                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+                regexp = message_double("date_ts")
             )
             testthat::expect_warning(
                 testthat::expect_warning(
@@ -268,7 +268,7 @@ testthat::test_that("warning for double date and out of range", {
                     },
                     regexp = "Assertion on 'period' failed: Element 1 is not <= 12.|Assertion on 'period' failed: Element 1 is not >= 1."
                 ),
-                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+                regexp = message_double("date_ts")
             )
             testthat::expect_no_warning(
                 object = {
@@ -300,7 +300,7 @@ testthat::test_that("warning for double date and out of range", {
                     },
                     regexp = "Assertion on 'period' failed: Element 1 is not <= 4.|Assertion on 'period' failed: Element 1 is not >= 1."
                 ),
-                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+                regexp = message_double("date_ts")
             )
             testthat::expect_warning(
                 testthat::expect_warning(
@@ -309,7 +309,7 @@ testthat::test_that("warning for double date and out of range", {
                     },
                     regexp = "Assertion on 'period' failed: Element 1 is not <= 4.|Assertion on 'period' failed: Element 1 is not >= 1."
                 ),
-                regexp = "Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'."
+                regexp = message_double("date_ts")
             )
             testthat::expect_no_warning(
                 object = {
@@ -340,13 +340,13 @@ testthat::test_that("warning for double monthly frequency", {
                 {
                     libel1 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12., warn = TRUE)
                 },
-                regexp = warning_frequency_double
+                regexp = message_double("frequency_ts")
             )
             testthat::expect_warning(
                 {
                     libel2 <- libelles_one_date(date_ts = c(year, month), frequency_ts = 12.)
                 },
-                regexp = warning_frequency_double
+                regexp = message_double("frequency_ts")
             )
             testthat::expect_no_warning(
                 {
@@ -377,13 +377,13 @@ testthat::test_that("warning for double quaterly frequency", {
                 {
                     libel1 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4., warn = TRUE)
                 },
-                regexp = warning_frequency_double
+                regexp = message_double("frequency_ts")
             )
             testthat::expect_warning(
                 {
                     libel2 <- libelles_one_date(date_ts = c(year, quarter), frequency_ts = 4.)
                 },
-                regexp = warning_frequency_double
+                regexp = message_double("frequency_ts")
             )
             testthat::expect_no_warning(
                 {

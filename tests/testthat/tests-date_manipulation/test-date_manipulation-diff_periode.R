@@ -76,12 +76,12 @@ testthat::test_that("warning with double years", {
             })
             testthat::expect_match(
                 object = w,
-                regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
+                regexp = message_double("a"),
                 all = FALSE
             )
             testthat::expect_match(
                 object = w,
-                regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
+                regexp = message_double("a"),
                 all = FALSE
             )
 
@@ -90,12 +90,12 @@ testthat::test_that("warning with double years", {
             })
             testthat::expect_match(
                 object = w,
-                regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
+                regexp = message_double("a"),
                 all = FALSE
             )
             testthat::expect_match(
                 object = w,
-                regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
+                regexp = message_double("a"),
                 all = FALSE
             )
 
@@ -109,7 +109,7 @@ testthat::test_that("warning with double years", {
             })
             testthat::expect_match(
                 object = w,
-                regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
+                regexp = message_double("a"),
                 all = FALSE
             )
             testthat::expect_match(
@@ -123,7 +123,7 @@ testthat::test_that("warning with double years", {
             })
             testthat::expect_match(
                 object = w,
-                regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
+                regexp = message_double("a"),
                 all = FALSE
             )
             testthat::expect_match(
@@ -146,12 +146,12 @@ testthat::test_that("warning with double years", {
                 })
                 testthat::expect_match(
                     object = w,
-                    regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
+                    regexp = message_double("a"),
                     all = FALSE
                 )
                 testthat::expect_match(
                     object = w,
-                    regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
+                    regexp = message_double("a"),
                     all = FALSE
                 )
 
@@ -160,12 +160,12 @@ testthat::test_that("warning with double years", {
                 })
                 testthat::expect_match(
                     object = w,
-                    regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
+                    regexp = message_double("a"),
                     all = FALSE
                 )
                 testthat::expect_match(
                     object = w,
-                    regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
+                    regexp = message_double("a"),
                     all = FALSE
                 )
 
@@ -184,7 +184,7 @@ testthat::test_that("warning with double years", {
                 })
                 testthat::expect_match(
                     object = w,
-                    regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
+                    regexp = message_double("a"),
                     all = FALSE
                 )
                 testthat::expect_match(
@@ -198,7 +198,7 @@ testthat::test_that("warning with double years", {
                 })
                 testthat::expect_match(
                     object = w,
-                    regexp = "Assertion on 'a' failed: Must be of type 'integer', not 'double'.",
+                    regexp = message_double("a"),
                     all = FALSE
                 )
                 testthat::expect_match(
@@ -226,13 +226,13 @@ testthat::test_that("warning frequency", {
                 object = {
                     res1 <- diff_periode(date_a, date_b, frequency_ts = 12.)
                 },
-                regexp = warning_frequency_double
+                regexp = message_double("frequency_ts")
             )
             testthat::expect_warning(
                 object = {
                     res2 <- diff_periode(date_b, date_a, frequency_ts = 12.)
                 },
-                regexp = warning_frequency_double
+                regexp = message_double("frequency_ts")
             )
 
             testthat::expect_type(res1, "integer")
@@ -244,13 +244,13 @@ testthat::test_that("warning frequency", {
                 object = {
                     res1 <- diff_periode(date_a, date_b, frequency_ts = 4.)
                 },
-                regexp = warning_frequency_double
+                regexp = message_double("frequency_ts")
             )
             testthat::expect_warning(
                 object = {
                     res2 <- diff_periode(date_b, date_a, frequency_ts = 4.)
                 },
-                regexp = warning_frequency_double
+                regexp = message_double("frequency_ts")
             )
 
             testthat::expect_type(res1, "integer")
@@ -269,13 +269,13 @@ testthat::test_that("warning frequency", {
                     object = {
                         res1 <- diff_periode(date_a, date_b, frequency_ts = 12.)
                     },
-                    regexp = warning_frequency_double
+                    regexp = message_double("frequency_ts")
                 )
                 testthat::expect_warning(
                     object = {
                         res2 <- diff_periode(date_b, date_a, frequency_ts = 12.)
                     },
-                    regexp = warning_frequency_double
+                    regexp = message_double("frequency_ts")
                 )
 
                 testthat::expect_type(res1, "integer")
@@ -295,13 +295,13 @@ testthat::test_that("warning frequency", {
                     object = {
                         res1 <- diff_periode(date_a, date_b, frequency_ts = 4.)
                     },
-                    regexp = warning_frequency_double
+                    regexp = message_double("frequency_ts")
                 )
                 testthat::expect_warning(
                     object = {
                         res2 <- diff_periode(date_b, date_a, frequency_ts = 4.)
                     },
-                    regexp = warning_frequency_double
+                    regexp = message_double("frequency_ts")
                 )
 
                 testthat::expect_type(res1, "integer")

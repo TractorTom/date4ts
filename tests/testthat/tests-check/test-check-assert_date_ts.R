@@ -49,14 +49,14 @@ testthat::test_that("warning for double date", {
         warning_date <- warning_year
         testthat::expect_warning(
             assert_date_ts(warning_date, frequency_ts = 12L),
-            regexp = warning_date_double
+            regexp = message_double("warning_date")
         )
 
         for (good_month in good_months) {
             warning_date <- c(warning_year, good_month)
             testthat::expect_warning(
                 assert_date_ts(warning_date, frequency_ts = 12L),
-                regexp = warning_date_double
+                regexp = message_double("warning_date")
             )
         }
     }
@@ -66,7 +66,7 @@ testthat::test_that("warning for double date", {
             warning_date <- c(good_year, warning_month)
             testthat::expect_warning(
                 assert_date_ts(warning_date, frequency_ts = 12L),
-                regexp = warning_date_double
+                regexp = message_double("warning_date")
             )
         }
     }
@@ -76,7 +76,7 @@ testthat::test_that("warning for double date", {
             warning_date <- c(warning_year, warning_month)
             testthat::expect_warning(
                 assert_date_ts(warning_date, frequency_ts = 12L),
-                regexp = warning_date_double
+                regexp = message_double("warning_date")
             )
         }
     }
@@ -91,7 +91,7 @@ testthat::test_that("several warning", {
             )
             testthat::expect_match(
                 object = w,
-                regexp = warning_date_double,
+                regexp = message_double("warning_date"),
                 all = FALSE
             )
             testthat::expect_match(
@@ -110,7 +110,7 @@ testthat::test_that("several warning", {
             )
             testthat::expect_match(
                 object = w,
-                regexp = warning_date_double,
+                regexp = message_double("warning_date"),
                 all = FALSE
             )
             testthat::expect_match(
@@ -129,7 +129,7 @@ testthat::test_that("several warning", {
             )
             testthat::expect_match(
                 object = w,
-                regexp = warning_date_double,
+                regexp = message_double("warning_date"),
                 all = FALSE
             )
             testthat::expect_match(
@@ -166,7 +166,7 @@ testthat::test_that("warning for double date", {
             {
                 boolRes <- assert_date_ts(warning_date, frequency_ts = 4L)
             },
-            regexp = warning_date_double
+            regexp = message_double("warning_date")
         )
         testthat::expect_silent(boolRes)
 
@@ -176,7 +176,7 @@ testthat::test_that("warning for double date", {
                 {
                     boolRes <- assert_date_ts(warning_date, frequency_ts = 4L)
                 },
-                regexp = warning_date_double
+                regexp = message_double("warning_date")
             )
             testthat::expect_silent(boolRes)
         }
@@ -189,7 +189,7 @@ testthat::test_that("warning for double date", {
                 {
                     boolRes <- assert_date_ts(warning_date, frequency_ts = 4L)
                 },
-                regexp = warning_date_double
+                regexp = message_double("warning_date")
             )
             testthat::expect_silent(boolRes)
         }
@@ -202,7 +202,7 @@ testthat::test_that("warning for double date", {
                 {
                     boolRes <- assert_date_ts(warning_date, frequency_ts = 4L)
                 },
-                regexp = warning_date_double
+                regexp = message_double("warning_date")
             )
             testthat::expect_silent(boolRes)
         }
@@ -218,7 +218,7 @@ testthat::test_that("several warning", {
             })
             testthat::expect_match(
                 object = w,
-                regexp = warning_date_double,
+                regexp = message_double("warning_date"),
                 all = FALSE
             )
             testthat::expect_match(
@@ -239,7 +239,7 @@ testthat::test_that("several warning", {
             })
             testthat::expect_match(
                 object = w,
-                regexp = warning_date_double,
+                regexp = message_double("warning_date"),
                 all = FALSE
             )
             testthat::expect_match(
@@ -260,7 +260,7 @@ testthat::test_that("several warning", {
             })
             testthat::expect_match(
                 object = w,
-                regexp = warning_date_double,
+                regexp = message_double("warning_date"),
                 all = FALSE
             )
             testthat::expect_match(
@@ -285,7 +285,7 @@ testthat::test_that("warning for integer date", {
                 {
                     boolRes <- assert_date_ts(good_date, frequency_ts = 4.)
                 },
-                regexp = warning_frequency_double
+                regexp = message_double("frequency_ts")
             )
             testthat::expect_silent(boolRes)
         }
@@ -296,7 +296,7 @@ testthat::test_that("warning for integer date", {
             good_date <- c(good_year, good_month)
             testthat::expect_warning(
                 assert_date_ts(good_date, frequency_ts = 12.),
-                regexp = warning_frequency_double
+                regexp = message_double("frequency_ts")
             )
         }
     }
