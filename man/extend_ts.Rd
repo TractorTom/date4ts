@@ -29,7 +29,7 @@ l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu,
 qu'il contienne des NA ou non à la fin.
 Si le vecteur \code{replacement} est de taille un sous-multiple de la différence
 de période entre la date de fin de \code{series} et \code{date_ts}, le vecteur
-\code{replacement} est répété.
+\code{replacement} est répété jusqu'à la date \code{date_ts}.
 }
 \examples{
 

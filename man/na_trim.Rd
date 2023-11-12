@@ -4,7 +4,7 @@
 \alias{na_trim}
 \title{Supprime les NA aux bords}
 \usage{
-na_trim(series)
+na_trim(series, sides = "both")
 }
 \arguments{
 \item{series}{un objet ts unidimensionnel conforme aux règles de assert_ts}

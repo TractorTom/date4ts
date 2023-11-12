@@ -227,7 +227,7 @@ combine2ts <- function(a, b) {
 #' qu'il contienne des NA ou non à la fin.
 #' Si le vecteur `replacement` est de taille un sous-multiple de la différence
 #' de période entre la date de fin de `series` et `date_ts`, le vecteur
-#' `replacement` est répété.
+#' `replacement` est répété jusqu'à la date `date_ts`.
 #' @export
 #'
 #' @examples
@@ -265,6 +265,7 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
     end_ts <- as.integer(stats::end(series))
 
     if (replace_na) {
+        series <- na_trim(series, sides = "right")
         start_replacement <- next_date_ts(last_date(series),
                                           frequency_ts = frequency_ts)
     } else {
@@ -322,7 +323,7 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
 #' na_trim(ts2)
 #' na_trim(ts3)
 #'
-na_trim <- function(series) {
+na_trim <- function(series, sides = "both") {
 
     coll <- NULL
 
@@ -334,7 +335,16 @@ na_trim <- function(series) {
                                     add = coll, .var.name = "series")
 
     non_na <- seq_along(series)[!is.na(series)]
-    content <- series[min(non_na):max(non_na)]
+
+    if (sides %in% "both") {
+        content <- series[min(non_na):max(non_na)]
+    } else if (sides == "left") {
+        content <- series[min(non_na):length(series)]
+    } else if (sides == "right") {
+        content <- series[1L:max(non_na)]
+    } else {
+        stop("L'argument sides doit être \"both\", \"left\" ou \"right\".")
+    }
 
     frequency_ts <- assert_frequency(
         x = stats::frequency(series),

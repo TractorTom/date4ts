@@ -177,3 +177,4 @@ invalid_monthly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|
 invalid_quaterly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 4."
 
 double_instead_of_integer <- "Must be of type 'integer', not 'double'."
+warning_extend <- "extending time series when replacing values"

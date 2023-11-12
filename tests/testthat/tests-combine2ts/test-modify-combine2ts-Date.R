@@ -47,7 +47,7 @@ for (frequenceA in list_frequence) {
                                     {
                                         resAB1 <- combine2ts(ts_A, ts_B1)
                                     },
-                                    regexp = "extending time series when replacing values"
+                                    regexp = warning_extend
                                 )
                             } else {
                                 resAB1 <- combine2ts(ts_A, ts_B1)
@@ -56,7 +56,7 @@ for (frequenceA in list_frequence) {
                                 {
                                     resB1A <- combine2ts(ts_B1, ts_A)
                                 },
-                                regexp = "extending time series when replacing values"
+                                regexp = warning_extend
                             )
                             if (typeA != "Date") {
                                 testthat::expect_type(resAB1, typeA)
@@ -89,7 +89,7 @@ for (frequenceA in list_frequence) {
                                     {
                                         resAB2 <- combine2ts(ts_A, ts_B2)
                                     },
-                                    regexp = "extending time series when replacing values"
+                                    regexp = warning_extend
                                 )
                             } else {
                                 resAB2 <- combine2ts(ts_A, ts_B2)
@@ -98,7 +98,7 @@ for (frequenceA in list_frequence) {
                                 {
                                     resB2A <- combine2ts(ts_B2, ts_A)
                                 },
-                                regexp = "extending time series when replacing values"
+                                regexp = warning_extend
                             )
 
                             if (typeA != "Date") {
@@ -130,7 +130,7 @@ for (frequenceA in list_frequence) {
                                                 {
                                                     resAB3 <- combine2ts(ts_A, ts_B3)
                                                 },
-                                                regexp = "extending time series when replacing values"
+                                                regexp = warning_extend
                                             )
                                         },
                                         regexp = "out-of-range values treated as 0 in coercion to raw"
@@ -141,7 +141,7 @@ for (frequenceA in list_frequence) {
                                                 {
                                                     resB3A <- combine2ts(ts_B3, ts_A)
                                                 },
-                                                regexp = "extending time series when replacing values"
+                                                regexp = warning_extend
                                             )
                                         },
                                         regexp = "out-of-range values treated as 0 in coercion to raw"
@@ -151,13 +151,13 @@ for (frequenceA in list_frequence) {
                                         {
                                             resAB3 <- combine2ts(ts_A, ts_B3)
                                         },
-                                        regexp = "extending time series when replacing values"
+                                        regexp = warning_extend
                                     )
                                     testthat::expect_warning(
                                         {
                                             resB3A <- combine2ts(ts_B3, ts_A)
                                         },
-                                        regexp = "extending time series when replacing values"
+                                        regexp = warning_extend
                                     )
                                 }
                             } else {
@@ -167,13 +167,13 @@ for (frequenceA in list_frequence) {
                                     {
                                         resAB3 <- combine2ts(ts_A, ts_B3)
                                     },
-                                    regexp = "extending time series when replacing values"
+                                    regexp = warning_extend
                                 )
                                 testthat::expect_warning(
                                     {
                                         resB3A <- combine2ts(ts_B3, ts_A)
                                     },
-                                    regexp = "extending time series when replacing values"
+                                    regexp = warning_extend
                                 )
                             }
 
@@ -206,7 +206,7 @@ for (frequenceA in list_frequence) {
                                                 {
                                                     resAB4 <- combine2ts(ts_A, ts_B4)
                                                 },
-                                                regexp = "extending time series when replacing values"
+                                                regexp = warning_extend
                                             )
                                         },
                                         regexp = "out-of-range values treated as 0 in coercion to raw"
@@ -217,7 +217,7 @@ for (frequenceA in list_frequence) {
                                                 {
                                                     resB4A <- combine2ts(ts_B4, ts_A)
                                                 },
-                                                regexp = "extending time series when replacing values"
+                                                regexp = warning_extend
                                             )
                                         },
                                         regexp = "out-of-range values treated as 0 in coercion to raw"
@@ -227,13 +227,13 @@ for (frequenceA in list_frequence) {
                                         {
                                             resAB4 <- combine2ts(ts_A, ts_B4)
                                         },
-                                        regexp = "extending time series when replacing values"
+                                        regexp = warning_extend
                                     )
                                     testthat::expect_warning(
                                         {
                                             resB4A <- combine2ts(ts_B4, ts_A)
                                         },
-                                        regexp = "extending time series when replacing values"
+                                        regexp = warning_extend
                                     )
                                 }
                             } else {
@@ -243,13 +243,13 @@ for (frequenceA in list_frequence) {
                                     {
                                         resAB4 <- combine2ts(ts_A, ts_B4)
                                     },
-                                    regexp = "extending time series when replacing values"
+                                    regexp = warning_extend
                                 )
                                 testthat::expect_warning(
                                     {
                                         resB4A <- combine2ts(ts_B4, ts_A)
                                     },
-                                    regexp = "extending time series when replacing values"
+                                    regexp = warning_extend
                                 )
                             }
 
@@ -287,7 +287,7 @@ for (frequenceA in list_frequence) {
                                 {
                                     resAB5 <- combine2ts(ts_A, ts_B5)
                                 },
-                                regexp = "extending time series when replacing values"
+                                regexp = warning_extend
                             )
                         } else {
                             resAB5 <- combine2ts(ts_A, ts_B5)
@@ -323,7 +323,7 @@ for (frequenceA in list_frequence) {
                                 {
                                     resB6A <- combine2ts(ts_B6, ts_A)
                                 },
-                                regexp = "extending time series when replacing values"
+                                regexp = warning_extend
                             )
 
                             if (typeA != "Date") {

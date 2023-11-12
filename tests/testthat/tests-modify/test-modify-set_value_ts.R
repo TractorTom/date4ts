@@ -45,7 +45,7 @@ for (typeA in list_type) {
                                                     {
                                                         resAB <- set_value_ts(ts_A, date = startB, replacement = valueB)
                                                     },
-                                                    regexp = "extending time series when replacing values"
+                                                    regexp = warning_extend
                                                 )
                                             },
                                             regexp = "out-of-range values treated as 0 in coercion to raw"
@@ -56,7 +56,7 @@ for (typeA in list_type) {
                                                     {
                                                         ts_ResAB2 <- combine2ts(ts_A, ts_B)
                                                     },
-                                                    regexp = "extending time series when replacing values"
+                                                    regexp = warning_extend
                                                 )
                                             },
                                             regexp = "out-of-range values treated as 0 in coercion to raw"
@@ -68,13 +68,13 @@ for (typeA in list_type) {
                                             {
                                                 resAB <- set_value_ts(ts_A, date = startB, replacement = valueB)
                                             },
-                                            regexp = "extending time series when replacing values"
+                                            regexp = warning_extend
                                         )
                                         testthat::expect_warning(
                                             {
                                                 ts_ResAB2 <- combine2ts(ts_A, ts_B)
                                             },
-                                            regexp = "extending time series when replacing values"
+                                            regexp = warning_extend
                                         )
                                     }
                                 } else if (lagB + lenB < lenA) { # Cas 6
@@ -92,13 +92,13 @@ for (typeA in list_type) {
                                         {
                                             ts_ResAB2 <- combine2ts(ts_A, ts_B)
                                         },
-                                        regexp = "extending time series when replacing values"
+                                        regexp = warning_extend
                                     )
                                     testthat::expect_warning(
                                         {
                                             resAB <- set_value_ts(ts_A, date = startB, replacement = valueB)
                                         },
-                                        regexp = "extending time series when replacing values"
+                                        regexp = warning_extend
                                     )
                                 }
                             } else if (lagB < 0L) { # Cas où start = strartB < startA
@@ -114,7 +114,7 @@ for (typeA in list_type) {
                                                     {
                                                         resAB <- set_value_ts(ts_A, date = startB, replacement = valueB)
                                                     },
-                                                    regexp = "extending time series when replacing values"
+                                                    regexp = warning_extend
                                                 )
                                             },
                                             regexp = "out-of-range values treated as 0 in coercion to raw"
@@ -125,7 +125,7 @@ for (typeA in list_type) {
                                                     {
                                                         ts_ResAB2 <- combine2ts(ts_A, ts_B)
                                                     },
-                                                    regexp = "extending time series when replacing values"
+                                                    regexp = warning_extend
                                                 )
                                             },
                                             regexp = "out-of-range values treated as 0 in coercion to raw"
@@ -136,13 +136,13 @@ for (typeA in list_type) {
                                             {
                                                 ts_ResAB2 <- combine2ts(ts_A, ts_B)
                                             },
-                                            regexp = "extending time series when replacing values"
+                                            regexp = warning_extend
                                         )
                                         testthat::expect_warning(
                                             {
                                                 resAB <- set_value_ts(ts_A, date = startB, replacement = valueB)
                                             },
-                                            regexp = "extending time series when replacing values"
+                                            regexp = warning_extend
                                         )
                                     }
                                 } else if (lagB + lenB >= lenA) { # Cas 5
@@ -151,13 +151,13 @@ for (typeA in list_type) {
                                         {
                                             ts_ResAB2 <- combine2ts(ts_A, ts_B)
                                         },
-                                        regexp = "extending time series when replacing values"
+                                        regexp = warning_extend
                                     )
                                     testthat::expect_warning(
                                         {
                                             resAB <- set_value_ts(ts_A, date = startB, replacement = valueB)
                                         },
-                                        regexp = "extending time series when replacing values"
+                                        regexp = warning_extend
                                     )
                                 } else { # Cas 2
                                     ts_ResAB1 <- ts(c(valueB, A_content[(lagB + lenB + 1):lenA]), start = startB, frequency = frequenceA)
@@ -165,13 +165,13 @@ for (typeA in list_type) {
                                         {
                                             ts_ResAB2 <- combine2ts(ts_A, ts_B)
                                         },
-                                        regexp = "extending time series when replacing values"
+                                        regexp = warning_extend
                                     )
                                     testthat::expect_warning(
                                         {
                                             resAB <- set_value_ts(ts_A, date = startB, replacement = valueB)
                                         },
-                                        regexp = "extending time series when replacing values"
+                                        regexp = warning_extend
                                     )
                                 }
                             } else { # Cas où lag = 0
@@ -189,13 +189,13 @@ for (typeA in list_type) {
                                         {
                                             ts_ResAB2 <- combine2ts(ts_A, ts_B)
                                         },
-                                        regexp = "extending time series when replacing values"
+                                        regexp = warning_extend
                                     )
                                     testthat::expect_warning(
                                         {
                                             resAB <- set_value_ts(ts_A, date = startB, replacement = valueB)
                                         },
-                                        regexp = "extending time series when replacing values"
+                                        regexp = warning_extend
                                     )
                                 }
                             }
