@@ -307,6 +307,9 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
 #' période.
 #'
 #' @param series un objet ts unidimensionnel conforme aux règles de assert_ts
+#' @param sides une chaine de caractere qui spécifie quelle NA doivent être
+#' retirés (au début et à la fin ("both"), juste au début ("left") ou juste à
+#' la fin ("right"))
 #'
 #' @return En sortie, la fonction retourne une copie de l'objet `series` corrigé
 #' des NA et début et fin de série.
@@ -336,16 +339,6 @@ na_trim <- function(series, sides = "both") {
 
     non_na <- seq_along(series)[!is.na(series)]
 
-    if (sides %in% "both") {
-        content <- series[min(non_na):max(non_na)]
-    } else if (sides == "left") {
-        content <- series[min(non_na):length(series)]
-    } else if (sides == "right") {
-        content <- series[1L:max(non_na)]
-    } else {
-        stop("L'argument sides doit être \"both\", \"left\" ou \"right\".")
-    }
-
     frequency_ts <- assert_frequency(
         x = stats::frequency(series),
         add = coll,
@@ -357,13 +350,29 @@ na_trim <- function(series, sides = "both") {
         test = FALSE
     )
 
-    return(stats::ts(
-        data = content,
-        start = next_date_ts(
+    if (sides %in% "both") {
+        content <- series[min(non_na):max(non_na)]
+        start_ts <- next_date_ts(
             date_ts = start_ts,
             frequency_ts = frequency_ts,
             lag = min(non_na) - 1L
-        ),
+        )
+    } else if (sides == "left") {
+        content <- series[min(non_na):length(series)]
+        start_ts <- next_date_ts(
+            date_ts = start_ts,
+            frequency_ts = frequency_ts,
+            lag = min(non_na) - 1L
+        )
+    } else if (sides == "right") {
+        content <- series[1L:max(non_na)]
+    } else {
+        stop("L'argument sides doit \u00eatre \"both\", \"left\" ou \"right\".")
+    }
+
+    return(stats::ts(
+        data = content,
+        start = start_ts,
         frequency = frequency_ts
     ))
 }

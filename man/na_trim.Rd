@@ -8,6 +8,10 @@ na_trim(series, sides = "both")
 }
 \arguments{
 \item{series}{un objet ts unidimensionnel conforme aux règles de assert_ts}
+
+\item{sides}{une chaine de caractere qui spécifie quelle NA doivent être
+retirés (au début et à la fin ("both"), juste au début ("left") ou juste à
+la fin ("right"))}
 }
 \value{
 En sortie, la fonction retourne une copie de l'objet \code{series} corrigé
