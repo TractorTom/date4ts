@@ -295,11 +295,15 @@ testthat::test_that("miscellaneous frequency are not allowed", {
 
 testthat::expect_identical(
     object = next_date_ts(2020L, frequency_ts = 12L, lag = 2L),
-    expected = c(2019L, 11L)
+    expected = c(2020L, 3L)
 )
 testthat::expect_identical(
     object = next_date_ts(c(2020L, 5L), frequency_ts = 12L, lag = 5L),
-    expected = c(2019L, 12L)
+    expected = c(2020L, 10L)
+)
+testthat::expect_identical(
+    object = next_date_ts(c(2020L, 5L), frequency_ts = 12L, lag = 10L),
+    expected = c(2021L, 3L)
 )
 testthat::expect_identical(
     object = next_date_ts(2020L, frequency_ts = 12L, lag = 0L),
