@@ -188,8 +188,11 @@ last_date <- function(series) {
     last_time <- time_ts[length(time_ts)]
     frequency_ts <- as.integer(stats::frequency(series))
 
-    return(as.integer(c(last_time %/% 1L,
-                        (last_time %% 1L) * frequency_ts + 1L)))
+    if (frequency_ts == 12L) {
+        return(as_yyyymm(last_time))
+    } else if (frequency_ts == 4L) {
+        return(as_yyyytt(last_time))
+    }
 }
 
 #' Comparaison de 2 date_ts

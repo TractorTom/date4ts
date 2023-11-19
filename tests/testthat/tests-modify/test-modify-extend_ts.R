@@ -14,12 +14,12 @@ for (typeA in list_type) {
                     B_content <- create_random_type(type = typeA, len = lenB)
 
                     test_name <- paste("expected result with ",
-                                       "\ntypeA = '", typeA,
-                                       "'\nfrequenceA = ", frequenceA,
-                                       "\nstartA = ", deparse(startA),
-                                       "\nlenA = ", lenA,
-                                       "\nlenB = ", lenB,
-                                       sep = ""
+                                       "typeA = '", deparse(typeA),
+                                       "frequenceA = ", deparse(frequenceA),
+                                       "startA = ", deparse(startA),
+                                       "lenA = ", deparse(lenA),
+                                       "lenB = ", deparse(lenB),
+                                       sep = "\n"
                     )
 
                     testthat::test_that(test_name, {
@@ -70,7 +70,14 @@ for (typeA in list_type) {
                             )
 
                             testthat::expect_warning(
-                                { res <- extend_ts(series = ts_A, replacement = B_content, date_ts = NULL, replace_na = TRUE) },
+                                {
+                                    res <- extend_ts(
+                                        series = ts_A,
+                                        replacement = B_content,
+                                        date_ts = NULL,
+                                        replace_na = TRUE
+                                    )
+                                },
                                 regexp = warning_extend
                             )
 

@@ -1,6 +1,7 @@
 # Options ----------------------------------------------------------------------
 
 withr::local_locale(.new = c("LC_TIME" = "en_US"))
+Sys.setenv(lang = "en_US")
 
 # Création de fonctions --------------------------------------------------------
 
