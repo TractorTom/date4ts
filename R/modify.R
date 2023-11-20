@@ -227,7 +227,8 @@ combine2ts <- function(a, b) {
 #' qu'il contienne des NA ou non à la fin.
 #' Si le vecteur `replacement` est de taille un sous-multiple de la différence
 #' de période entre la date de fin de `series` et `date_ts`, le vecteur
-#' `replacement` est répété jusqu'à la date `date_ts`.
+#' `replacement` est répété jusqu'à la date `date_ts`. Sinon une erreur est
+#' générée.
 #' @export
 #'
 #' @examples
