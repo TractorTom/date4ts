@@ -126,11 +126,11 @@ date_ts2timeunits <- function(date_ts, frequency_ts) {
     date_ts <- assert_date_ts(x = date_ts, frequency_ts  = frequency_ts,
                               add = NULL, .var.name = "date_ts")
 
-    if (length(date_ts) == 2L) {
-        return(date_ts[1L] + (date_ts[2L] - 1) / frequency_ts)
-    }
+    # date_ts must be of size 2 else:
+    #   - an error would have been raised
+    #   - or date_ts would have been modified
 
-    return(date_ts[1L])
+    return(date_ts[1L] + (date_ts[2L] - 1) / frequency_ts)
 }
 
 #' Conversion d'une date au format TS

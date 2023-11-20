@@ -1,6 +1,6 @@
 # Initialisation ---------------------------------------------------------------
 
-set.seed(2023L)
+set.seed(2044L)
 
 
 # Tests de résultat avec start vecteur d'entiers -------------------------------

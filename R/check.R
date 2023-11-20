@@ -612,9 +612,14 @@ assert_frequency <- function(x, add = NULL,
     }
 
     if (isTRUE(check_frequency(x, warn = FALSE))) {
-        if (isTRUE(check_warn) && warn && (!isTRUE(checkmate::check_integer(x)))) {
-            err <- try(expr = checkmate::assert_integer(x, .var.name = .var.name),
-                       silent = TRUE)
+        if (isTRUE(check_warn)
+            && warn
+            && (!isTRUE(checkmate::check_integer(x)))) {
+
+            err <- try(
+                expr = checkmate::assert_integer(x, .var.name = .var.name),
+                silent = TRUE
+            )
             warning(attr(err, "condition")$message)
         }
         x <- x_corr

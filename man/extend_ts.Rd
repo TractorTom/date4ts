@@ -29,12 +29,13 @@ l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu,
 qu'il contienne des NA ou non à la fin.
 Si le vecteur \code{replacement} est de taille un sous-multiple de la différence
 de période entre la date de fin de \code{series} et \code{date_ts}, le vecteur
-\code{replacement} est répété jusqu'à la date \code{date_ts}.
+\code{replacement} est répété jusqu'à la date \code{date_ts}. Sinon une erreur est
+générée.
 }
 \examples{
 
 ts1 <- ts(c(rep(NA, 3L), 1:10, rep(NA, 3L)), start = 2020, frequency = 12)
-x <- rep(3, 2)
+x <- rep(3L, 2L)
 
 extend_ts(series = ts1, replacement = x)
 extend_ts(series = ts1, replacement = x, replace_na = FALSE)
