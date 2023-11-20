@@ -287,138 +287,166 @@ for (typeA in list_type) {
 
 
 # # Tests sur les erreurs de mts --------------------------------------------
-#
-# testthat::test_that("Several dimensions are not allowed", {
-#     for (typeA in list_type) {
-#         for (frequenceA in list_frequence) {
-#             for (startA in list_start) {
-#                 for (lenA in list_len[-1L]) {
-#                     B_content <- as.data.frame(lapply(
-#                         X = 1L:5L,
-#                         FUN = function(i) create_random_type(type = typeA, len = lenA)
-#                     ))
-#
-#                     if (typeA == "complex") {
-#                         mts_B <- do.call(
-#                             what = cbind,
-#                             args = lapply(
-#                                 X = B_content,
-#                                 FUN = ts,
-#                                 start = startA,
-#                                 frequency = frequenceA
-#                             )
-#                         )
-#                     } else {
-#                         mts_B <- ts(B_content, start = startA, frequency = frequenceA)
-#                     }
-#
-#                     testthat::expect_error(
-#                         extend_ts(
-#                             series = mts_B,
-#                             date = create_random_date_ts(),
-#                             replacement = create_random_type(type = typeA)
-#                         ),
-#                         regexp = "Variable 'series': Must be of type 'atomic vector'"
-#                     )
-#                 }
-#             }
-#         }
-#     }
-# })
-#
-# # Tests sur les erreurs d'input ------------------------------------------------
-#
-# ## Test sur le ts --------------------------------------------------------------
-#
-# testthat::test_that("miscellaneous series are not allowed", {
-#     for (typeA in list_type) {
-#         for (obj in object_bank_R) {
-#             testthat::expect_error(extend_ts(
-#                 series = obj,
-#                 date = create_random_date_ts(),
-#                 replacement = create_random_type(type = typeA)
-#             ))
-#         }
-#     }
-# })
-#
-# ## Test sur la date ------------------------------------------------------------
-#
-# testthat::test_that("miscellaneous date are not allowed", {
-#     for (typeA in list_type) {
-#         for (wrong_date in list_wrong_date_ts) {
-#             testthat::expect_error(extend_ts(
-#                 series = create_random_ts(type = typeA),
-#                 date = wrong_date,
-#                 replacement = create_random_type(type = typeA)
-#             ))
-#         }
-#     }
-# })
-#
-# ## Test sur le vecteur value ---------------------------------------------------
-#
-# testthat::test_that("miscellaneous value input are not allowed", {
-#     list_wrong_value <- c(fuzzr::test_df()[-4L], NULL, character(0L), numeric(0L), logical(0L), integer(0L), complex(0L))
-#     for (typeA in list_type) {
-#         for (value in list_wrong_value) {
-#             testthat::expect_error(extend_ts(
-#                 series = create_random_ts(type = typeA),
-#                 date = create_random_date_ts(),
-#                 replacement = value
-#             ))
-#         }
-#     }
-# })
-#
-# testthat::test_that("value should have same type as series", {
-#     for (typeA in list_type[-7L]) {
-#         for (typeB in list_type[-7L]) {
-#             if (typeA != typeB) {
-#                 testthat::expect_error(
-#                     extend_ts(
-#                         series = create_random_ts(type = typeA),
-#                         date = create_random_date_ts(),
-#                         replacement = create_random_type(typeB)
-#                     ),
-#                     regexp = "Les objets `series` et `replacement` doivent \u00eatre de m\u00eame type."
-#                 )
-#             }
-#         }
-#     }
-# })
-#
-# testthat::test_that("NA values generate warning", {
-#     for (typeA in list_type[-6L]) {
-#         ts_A <- create_random_ts(type = typeA, start = 2000L, len = 80L, frequency = 4L)
-#         v1 <- sample(c(create_random_type(typeA, len = 10L), get(paste0("as.", typeA))(rep(NA, 5L))), replace = TRUE)
-#         v2 <- get(paste0("as.", typeA))(rep(NA, 5L))
-#
-#         testthat::expect_warning(extend_ts(series = ts_A, date = 2010L, replacement = v1),
-#                                  regexp = "Contains missing values"
-#         )
-#         testthat::expect_warning(extend_ts(series = ts_A, date = 2010L, replacement = v2),
-#                                  regexp = "Contains missing values"
-#         )
-#     }
-# })
-#
-# # Tests sur les erreurs de temporalité --------------------------------------------
-#
-# testthat::test_that("series and date are temporally consistent", {
-#     for (typeA in list_type) {
-#         testthat::expect_error(extend_ts(
-#             series = create_random_ts(type = typeA, start = 2010 + 1 / 7, frequency = 12L),
-#             date = create_random_date_ts(),
-#             replacement = create_random_type(type = typeA)
-#         ))
-#     }
-#
-#     for (typeA in list_type) {
-#         testthat::expect_error(extend_ts(
-#             series = create_random_ts(type = typeA, start = 2022 + 1 / 5, frequency = 4L),
-#             date = create_random_date_ts(),
-#             replacement = create_random_type(type = typeA)
-#         ))
-#     }
-# })
+
+testthat::test_that("Several dimensions are not allowed", {
+    for (typeA in list_type) {
+        for (frequenceA in list_frequence) {
+            for (startA in list_start) {
+                for (lenA in list_len[-1L]) {
+                    B_content <- as.data.frame(lapply(
+                        X = 1L:5L,
+                        FUN = function(i) create_random_type(type = typeA, len = lenA)
+                    ))
+
+                    if (typeA == "complex") {
+                        mts_B <- do.call(
+                            what = cbind,
+                            args = lapply(
+                                X = B_content,
+                                FUN = ts,
+                                start = startA,
+                                frequency = frequenceA
+                            )
+                        )
+                    } else {
+                        mts_B <- ts(B_content, start = startA, frequency = frequenceA)
+                    }
+
+                    testthat::expect_error(
+                        extend_ts(
+                            series = mts_B,
+                            date_ts = create_random_date_ts(),
+                            replacement = create_random_type(type = typeA)
+                        ),
+                        regexp = "Variable 'series': Must be of type 'atomic vector'"
+                    )
+                }
+            }
+        }
+    }
+})
+
+# Tests sur les erreurs d'input ------------------------------------------------
+
+## Test sur le ts --------------------------------------------------------------
+
+testthat::test_that("miscellaneous series are not allowed", {
+    for (typeA in list_type) {
+        for (obj in object_bank_R) {
+            testthat::expect_error(extend_ts(
+                series = obj,
+                date_ts = create_random_date_ts(),
+                replacement = create_random_type(type = typeA)
+            ))
+        }
+    }
+})
+
+## Test sur la date ------------------------------------------------------------
+
+testthat::test_that("miscellaneous date are not allowed", {
+    for (typeA in list_type) {
+        for (wrong_date in list_wrong_date_ts[-46]) {
+            testthat::expect_error(extend_ts(
+                series = create_random_ts(type = typeA),
+                date_ts = wrong_date,
+                replacement = create_random_type(type = typeA)
+            ))
+        }
+    }
+})
+
+## Test sur le vecteur value ---------------------------------------------------
+
+testthat::test_that("miscellaneous value input are not allowed", {
+    list_wrong_value <- c(fuzzr::test_df()[-4L], NULL, character(0L), numeric(0L), logical(0L), integer(0L), complex(0L))
+    for (typeA in list_type) {
+        for (value in list_wrong_value) {
+            testthat::expect_error(extend_ts(
+                series = create_random_ts(type = typeA),
+                date_ts = create_random_date_ts(),
+                replacement = value
+            ))
+            testthat::expect_error(extend_ts(
+                series = create_random_ts(type = typeA),
+                date_ts = NULL,
+                replacement = value
+            ))
+        }
+    }
+})
+
+testthat::test_that("value should have same type as series", {
+    for (typeA in list_type[-7L]) {
+        for (typeB in list_type[-7L]) {
+            if (typeA != typeB) {
+                testthat::expect_error(
+                    extend_ts(
+                        series = create_random_ts(type = typeA),
+                        date_ts = NULL,
+                        replacement = create_random_type(typeB)
+                    ),
+                    regexp = "Les objets `series` et `replacement` doivent \u00eatre de m\u00eame type."
+                )
+            }
+        }
+    }
+})
+
+# Tests sur les erreurs de temporalité --------------------------------------------
+
+testthat::test_that("series and date are temporally consistent", {
+    for (wrong_timeunits in c(object_bank_R[-c(10L, 16L)], list_wrong_timeunits)) {
+        for (typeA in list_type) {
+            # Monthly
+            testthat::expect_error(extend_ts(
+                series = create_random_ts(type = typeA, start = wrong_timeunits, frequency = 12L),
+                date_ts = create_random_date_ts(),
+                replacement = create_random_type(type = typeA)
+            ))
+            testthat::expect_error(extend_ts(
+                series = create_random_ts(type = typeA, start = wrong_timeunits, frequency = 12L),
+                date_ts = NULL,
+                replacement = create_random_type(type = typeA)
+            ))
+            testthat::expect_error(extend_ts(
+                series = create_random_ts(type = typeA, start = wrong_timeunits, frequency = 12L),
+                replacement = create_random_type(type = typeA)
+            ))
+
+            # Quaterly
+            testthat::expect_error(extend_ts(
+                series = create_random_ts(type = typeA, start = wrong_timeunits, frequency = 4L),
+                date_ts = create_random_date_ts(),
+                replacement = create_random_type(type = typeA)
+            ))
+            testthat::expect_error(extend_ts(
+                series = create_random_ts(type = typeA, start = wrong_timeunits, frequency = 4L),
+                date_ts = NULL,
+                replacement = create_random_type(type = typeA)
+            ))
+            testthat::expect_error(extend_ts(
+                series = create_random_ts(type = typeA, start = wrong_timeunits, frequency = 4L),
+                replacement = create_random_type(type = typeA)
+            ))
+        }
+    }
+})
+
+testthat::test_that("date_ts must be after end_ts", {
+    for (typeA in list_type) {
+        # Monthly
+        testthat::expect_error(extend_ts(
+            series = create_random_ts(type = typeA, start = 2010L, frequency = 12L, len = 10L),
+            date_ts = 2010L,
+            replacement = create_random_type(type = typeA)
+        ))
+
+        # Quaterly
+        testthat::expect_error(extend_ts(
+            series = create_random_ts(type = typeA, start = 2022L, frequency = 4L, len = 10L),
+            date_ts = 2023L,
+            replacement = create_random_type(type = typeA)
+        ))
+    }
+})

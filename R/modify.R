@@ -253,6 +253,14 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
     # Check de replace_na
     checkmate::assert_flag(replace_na, add = coll, .var.name = "replace_na")
 
+    if (!isTRUE(typeof(series) == typeof(replacement))) {
+        error_message <- paste(
+            "Les objets `series` et `replacement` doivent",
+            "\u00eatre de m\u00eame type."
+        )
+        coll$push(msg = error_message)
+    }
+
     checkmate::reportAssertions(coll)
 
     frequency_ts <- as.integer(stats::frequency(series))

@@ -320,8 +320,8 @@ testthat::test_that("value should have same type as series", {
 testthat::test_that("NA values generate warning", {
     for (typeA in list_type[-6L]) {
         ts_A <- create_random_ts(type = typeA, start = 2000L, len = 80L, frequency = 4L)
-        v1 <- sample(c(create_random_type(typeA, len = 10L), get(paste0("as.", typeA))(rep(NA, 5L))), replace = TRUE)
-        v2 <- get(paste0("as.", typeA))(rep(NA, 5L))
+        v1 <- sample(c(create_random_type(typeA, len = 10L), create_NA_type(type = typeA, len = 5L)), replace = TRUE)
+        v2 <- create_NA_type(type = typeA, len = 5L)
 
         testthat::expect_warning(set_value_ts(series = ts_A, date = 2010L, replacement = v1),
             regexp = "Contains missing values"
