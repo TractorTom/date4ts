@@ -233,7 +233,11 @@ combine2ts <- function(a, b) {
 #'
 #' @examples
 #'
-#' ts1 <- ts(c(rep(NA, 3L), 1:10, rep(NA, 3L)), start = 2020, frequency = 12)
+#' ts1 <- ts(
+#'     data = c(rep(NA_integer_, 3L), 1L:10L, rep(NA_integer_, 3L)),
+#'     start = 2020,
+#'     frequency = 12
+#' )
 #' x <- rep(3L, 2L)
 #'
 #' extend_ts(series = ts1, replacement = x)
