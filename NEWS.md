@@ -1,3 +1,3 @@
 # TractorTsbox (development version)
 
-* Initial CRAN submission.
+* Initial release.

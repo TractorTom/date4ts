@@ -851,11 +851,13 @@ assert_scalar_natural <- function(x, add = NULL,
     # Check du type
     # Ici on passe d'abord par un check car il y a une génération de warning
     # non voulue sinon... (voir issue #242)
-    if (isTRUE(checkmate::check_numeric(x, finite = TRUE))) {
+    check_1 <- checkmate::check_numeric(x, any.missing = FALSE, finite = TRUE)
+    x_corr <- x
+    if (isTRUE(check_1)) {
         x_corr <- checkmate::assert_count(x, coerce = TRUE, positive = TRUE,
                                           add = coll, .var.name = .var.name)
     } else {
-        checkmate::assert_numeric(x, finite = TRUE,
+        checkmate::assert_numeric(x, any.missing = FALSE, finite = TRUE,
                                   add = coll, .var.name = .var.name)
     }
 
@@ -863,7 +865,7 @@ assert_scalar_natural <- function(x, add = NULL,
         checkmate::reportAssertions(coll)
     }
 
-    if (isTRUE(check_warn) && warn && !isTRUE(checkmate::check_integer(x))) {
+    if (isTRUE(check_1) && isTRUE(check_warn) && warn && !isTRUE(checkmate::check_integer(x))) {
         err <- try(expr = checkmate::assert_integer(x, .var.name = .var.name),
                    silent = TRUE)
         warning(attr(err, "condition")$message)
