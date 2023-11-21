@@ -168,8 +168,8 @@ date2date_ts <- function(date, frequency_ts = 12L) {
 
     checkmate::reportAssertions(coll)
 
-    year <- as.numeric(format(date, format = "%Y"))
-    month <- as.numeric(format(date, format = "%m"))
+    year <- as.integer(format(date, format = "%Y"))
+    month <- as.integer(format(date, format = "%m"))
 
     if (frequency_ts == 4L) {
         month <- 1L + ((month - 1L) %/% 3L)
@@ -262,7 +262,7 @@ date_ts2date <- function(date_ts, frequency_ts) {
         }
     }
 
-    if (year < 0) {
+    if (year < 0L) {
         return(substr_year(
             date = as.Date(paste("0000", month, "01", sep = "-")),
             n = -year

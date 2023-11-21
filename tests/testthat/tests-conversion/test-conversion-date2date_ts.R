@@ -16,15 +16,14 @@ testthat::test_that("good result with Date", {
                 dateA <- as.Date(paste0(year, "-", month, "-", day), format = "%Y-%m-%d")
 
                 testthat::expect_identical(
-                    date2date_ts(date = dateA, frequency_ts = 12L),
-                    c(year, month)
+                    object = date2date_ts(date = dateA, frequency_ts = 12L),
+                    expected = c(year, month)
                 )
                 testthat::expect_identical(
-                    date2date_ts(date = dateA, frequency_ts = 4L),
-                    c(year, month %/% 3L + 1L)
+                    object = date2date_ts(date = dateA, frequency_ts = 4L),
+                    expected = c(year, (month + 2L) %/% 3L)
                 )
             }
-
         }
     }
 })
@@ -34,26 +33,36 @@ testthat::test_that("good result with Date", {
 
 ## Fréquence -------------------------------------------------------------------
 
-testthat::test_that("warning for integer date", {
-    for (year in good_years) {
-        for (month in good_months) {
-            good_timeunits <- year + (month - 1) / 12
-            testthat::expect_warning(
-                res <- assert_timeunits(x = good_timeunits, frequency_ts = 12.),
-                regexp = message_double("frequency_ts")
-            )
-            testthat::expect_identical(res, good_timeunits)
-        }
-    }
+testthat::test_that("warning for double frequency", {
 
-    for (year in good_years) {
-        for (quarter in good_quarters) {
-            good_timeunits <- year + (quarter - 1) / 4
-            testthat::expect_warning(
-                res <- assert_timeunits(x = good_timeunits, frequency_ts = 4.),
-                regexp = message_double("frequency_ts")
-            )
-            testthat::expect_identical(res, good_timeunits)
+    testthat::expect_warning(
+        res <- date2date_ts(date = Sys.Date(), frequency_ts = 12.),
+        regexp = message_double("frequency_ts")
+    )
+
+    testthat::expect_warning(
+        res <- date2date_ts(date = Sys.Date(), frequency_ts = 4.),
+        regexp = message_double("frequency_ts")
+    )
+
+    for (year in good_years[-1:-2]) {
+        for (month in good_months) {
+            for (day in seq_len(28L)) {
+                dateA <- as.Date(paste0(year, "-", month, "-", day), format = "%Y-%m-%d")
+
+                testthat::expect_warning(
+                    res <- date2date_ts(date = dateA, frequency_ts = 12.),
+                    regexp = message_double("frequency_ts")
+                )
+                testthat::expect_identical(res, c(year, month))
+
+                testthat::expect_warning(
+                    res <- date2date_ts(date = dateA, frequency_ts = 4.),
+                    regexp = message_double("frequency_ts")
+                )
+                testthat::expect_identical(res, c(year, (month + 2L) %/% 3L))
+            }
+
         }
     }
 })

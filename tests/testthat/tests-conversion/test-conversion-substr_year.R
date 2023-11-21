@@ -34,31 +34,7 @@ testthat::test_that("good result with Date", {
 
 # Test de résultat positif avec warnings ---------------------------------------
 
-## n -------------------------------------------------------------------
-
-testthat::test_that("warning for integer date", {
-    for (year in good_years) {
-        for (month in good_months) {
-            good_timeunits <- year + (month - 1) / 12
-            testthat::expect_warning(
-                res <- assert_timeunits(x = good_timeunits, n = 12.),
-                regexp = message_double("frequency_ts")
-            )
-            testthat::expect_identical(res, good_timeunits)
-        }
-    }
-
-    for (year in good_years) {
-        for (quarter in good_quarters) {
-            good_timeunits <- year + (quarter - 1) / 4
-            testthat::expect_warning(
-                res <- assert_timeunits(x = good_timeunits, n = 4.),
-                regexp = message_double("frequency_ts")
-            )
-            testthat::expect_identical(res, good_timeunits)
-        }
-    }
-})
+## n ---------------------------------------------------------------------------
 
 testthat::test_that("good result with warning n", {
 
