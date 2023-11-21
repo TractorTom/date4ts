@@ -61,7 +61,7 @@ testthat::test_that("good result with warning n", {
                             res <- substr_year(date = dateA, n = n),
                             regexp = message_double("n")
                         )
-                        testthat::expect_identical(res, good_timeunits)
+                        testthat::expect_identical(res, date_theo)
                     }
 
                 }
