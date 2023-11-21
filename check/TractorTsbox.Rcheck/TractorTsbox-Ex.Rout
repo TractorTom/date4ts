@@ -1,0 +1,1126 @@
+
+R version 4.3.0 (2023-04-21 ucrt) -- "Already Tomorrow"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "TractorTsbox"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> options(pager = "console")
+> base::assign(".ExTimings", "TractorTsbox-Ex.timings", pos = 'CheckExEnv')
+> base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+> base::assign(".format_ptime",
++ function(x) {
++   if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
++   if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
++   options(OutDec = '.')
++   format(x[1L:3L], digits = 7L)
++ },
++ pos = 'CheckExEnv')
+> 
+> ### * </HEADER>
+> library('TractorTsbox')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("as_yyyytt")
+> ### * as_yyyytt
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: as_yyyytt
+> ### Title: Conversion au format date_ts
+> ### Aliases: as_yyyytt as_yyyymm
+> 
+> ### ** Examples
+> 
+> as_yyyytt(2019.75) # 4ème trimestre 2019
+[1] 2019    4
+> as_yyyytt(2020) # 1er trimestre 2020
+[1] 2020    1
+> as_yyyytt(2022 + 1 / 4) # 2ème trimestre 2022
+[1] 2022    2
+> 
+> as_yyyymm(2019.75) # Octobre 2019
+[1] 2019   10
+> as_yyyymm(2020) # Janvier 2020
+[1] 2020    1
+> as_yyyymm(2020 + 1 / 12) # Février 2020
+[1] 2020    2
+> as_yyyymm(2020 + 12 / 12) # Janvier 2021
+[1] 2021    1
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("as_yyyytt", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_date_ts")
+> ### * check_date_ts
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_date_ts
+> ### Title: Vérifie le format de date
+> ### Aliases: check_date_ts assert_date_ts
+> 
+> ### ** Examples
+> 
+> # De bons formats de date
+> assert_date_ts(c(2020L, 8L), frequency_ts = 12L)
+> assert_date_ts(c(2020L, 2L), frequency_ts = 4L)
+> check_date_ts(2022L, frequency_ts = 12L)
+[1] TRUE
+> 
+> # Format double --> génération d'un warning
+> assert_date_ts(c(2020., 4.), frequency_ts = 4L)
+Warning in assert_date_ts(c(2020, 4), frequency_ts = 4L) :
+  Assertion on 'c(2020, 4)' failed: Must be of type 'integer', not 'double'.
+> assert_date_ts(2022., frequency_ts = 12L)
+Warning in assert_date_ts(2022, frequency_ts = 12L) :
+  Assertion on '2022' failed: Must be of type 'integer', not 'double'.
+> check_date_ts(2022., frequency_ts = 12L)
+Warning in check_date_ts(2022, frequency_ts = 12L) :
+  Assertion on '2022' failed: Must be of type 'integer', not 'double'.
+[1] TRUE
+> 
+> # Fréquence au format double --> génération d'un warning
+> assert_date_ts(c(2020L, 6L), frequency_ts = 4.)
+Warning in assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts",  :
+  Assertion on 'frequency_ts' failed: Must be of type 'integer', not 'double'.
+Warning in assert_date_ts(c(2020L, 6L), frequency_ts = 4) :
+  Assertion on 'period' failed: Element 1 is not <= 4.
+> assert_date_ts(c(2020L, 42L), frequency_ts = 12.)
+Warning in assert_frequency(frequency_ts, add = coll, .var.name = "frequency_ts",  :
+  Assertion on 'frequency_ts' failed: Must be of type 'integer', not 'double'.
+Warning in assert_date_ts(c(2020L, 42L), frequency_ts = 12) :
+  Assertion on 'period' failed: Element 1 is not <= 12.
+> 
+> # Dépassement la fréquence --> génération d'un warning
+> assert_date_ts(c(2020L, 6L), frequency_ts = 4L)
+Warning in assert_date_ts(c(2020L, 6L), frequency_ts = 4L) :
+  Assertion on 'period' failed: Element 1 is not <= 4.
+> assert_date_ts(c(2020L, 42L), frequency_ts = 12L)
+Warning in assert_date_ts(c(2020L, 42L), frequency_ts = 12L) :
+  Assertion on 'period' failed: Element 1 is not <= 12.
+> assert_date_ts(c(2020L, -4L), frequency_ts = 12L)
+Warning in assert_date_ts(c(2020L, -4L), frequency_ts = 12L) :
+  Assertion on 'period' failed: Element 1 is not >= 1.
+> 
+> # Avec des erreurs
+> check_date_ts(1:10, frequency_ts = 12L)
+[1] "* 1:10 Must have length <= 2, but has length 10"
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_date_ts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_expression")
+> ### * check_expression
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_expression
+> ### Title: Vérifie la conformité d'une expression
+> ### Aliases: check_expression assert_expression
+> 
+> ### ** Examples
+> 
+> 
+> assert_expression(expr = {2 + 2})
+> assert_expression(expr = {is.integer(1L)})
+> try(assert_expression(expr = {log("a")}), silent = TRUE)
+> 
+> check_expression(expr = {2 + 2})
+[1] TRUE
+> check_expression(expr = {is.integer(1L)})
+[1] TRUE
+> check_expression(expr = {log("a")})
+[1] "Invalid expression : {"              "Invalid expression :     log(\"a\")"
+[3] "Invalid expression : }"             
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_expression", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_frequency")
+> ### * check_frequency
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_frequency
+> ### Title: Vérifie la conformité d'une fréquence
+> ### Aliases: check_frequency assert_frequency
+> 
+> ### ** Examples
+> 
+> 
+> assert_frequency(4L)
+> assert_frequency(12L)
+> 
+> check_frequency(4L)
+[1] TRUE
+> check_frequency(12L)
+[1] TRUE
+> 
+> # Avec des erreurs,
+> 
+> check_frequency(Inf, warn = FALSE)
+[1] "* Inf Must be finite"
+> check_frequency(1:10)
+[1] "* 1:10 Must have length 1 \n * 1:10 Must be element of set {'4','12'}, but is not atomic scalar"
+> check_frequency(1L)
+[1] "* 1L Must be element of set {'4','12'}, but is '1'"
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_frequency", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_scalar_date")
+> ### * check_scalar_date
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_scalar_date
+> ### Title: Vérifie la conformité d'une date scalaire
+> ### Aliases: check_scalar_date assert_scalar_date
+> 
+> ### ** Examples
+> 
+> 
+> assert_scalar_date(as.Date("2018-01-24"))
+> assert_scalar_date(as.Date("2000-02-29"))
+> assert_scalar_date(Sys.Date())
+> 
+> check_scalar_date(as.Date("2018-01-24"))
+[1] "TRUE"
+> check_scalar_date(as.Date("2000-02-29"))
+[1] "TRUE"
+> check_scalar_date(Sys.Date())
+[1] "TRUE"
+> 
+> # Avec des erreurs
+> 
+> check_scalar_date(2L)
+[1] "Must be of class 'Date', not 'integer'"
+> check_scalar_date(seq(from = as.Date("2000-01-01"), to = Sys.Date(), by =
++ "year"))
+[1] "Must have length 1"
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_scalar_date", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_scalar_integer")
+> ### * check_scalar_integer
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_scalar_integer
+> ### Title: Vérifie la conformité d'un entier scalaire
+> ### Aliases: check_scalar_integer assert_scalar_integer
+> 
+> ### ** Examples
+> 
+> 
+> assert_scalar_integer(1L)
+> assert_scalar_integer(100L)
+> assert_scalar_integer(-4L)
+> assert_scalar_integer(0L)
+> 
+> check_scalar_integer(1L)
+[1] TRUE
+> check_scalar_integer(100L)
+[1] TRUE
+> check_scalar_integer(-4L)
+[1] TRUE
+> check_scalar_integer(0L)
+[1] TRUE
+> 
+> # Avec des erreurs,
+> 
+> check_scalar_integer(Inf)
+[1] "* x Must be of type 'single integerish value', not 'double'"
+> check_scalar_integer(1:10)
+[1] "* x Must have length 1"
+> check_scalar_integer(pi)
+[1] "* x Must be of type 'single integerish value', not 'double'"
+> check_scalar_integer(2.)
+Warning in check_scalar_integer(2) :
+  Assertion on 'x' failed: Must be of type 'integer', not 'double'.
+[1] TRUE
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_scalar_integer", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_scalar_natural")
+> ### * check_scalar_natural
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_scalar_natural
+> ### Title: Vérifie la conformité d'un entier naturel
+> ### Aliases: check_scalar_natural assert_scalar_natural
+> 
+> ### ** Examples
+> 
+> 
+> # Avec des entier integer
+> assert_scalar_natural(1L)
+> assert_scalar_natural(100L)
+> 
+> # Avec des entiers double
+> assert_scalar_natural(2.)
+Warning in assert_scalar_natural(2) :
+  Assertion on '2' failed: Must be of type 'integer', not 'double'.
+> assert_scalar_natural(457)
+Warning in assert_scalar_natural(457) :
+  Assertion on '457' failed: Must be of type 'integer', not 'double'.
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_scalar_natural", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_timeunits")
+> ### * check_timeunits
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_timeunits
+> ### Title: Vérifie la conformité d'un objet TimeUnits
+> ### Aliases: check_timeunits assert_timeunits
+> 
+> ### ** Examples
+> 
+> 
+> assert_timeunits(2020.5, frequency_ts = 12L)
+> assert_timeunits(2020.5, frequency_ts = 4L)
+> assert_timeunits(2023., frequency_ts = 12L)
+> 
+> assert_timeunits(2000. + 5. / 12., frequency_ts = 12L)
+> assert_timeunits(2015. + 3. / 4., frequency_ts = 4L)
+> 
+> check_timeunits(2020.5, frequency_ts = 12L)
+[1] TRUE
+> check_timeunits(2015. + 3. / 4., frequency_ts = 4L)
+[1] TRUE
+> 
+> # Avec erreur
+> 
+> check_timeunits(list(1.), frequency_ts = 12L)
+[1] "* list(1) Must be of type 'number', not 'list'"
+> check_timeunits(2000., frequency_ts = 1L)
+[1] "* frequency_ts Must be element of set {'4','12'}, but is '1'"
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_timeunits", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_ts")
+> ### * check_ts
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_ts
+> ### Title: Vérifie la conformité d'un objet ts
+> ### Aliases: check_ts assert_ts
+> 
+> ### ** Examples
+> 
+> ts1 <- ts(1:100, start = 2010L, frequency = 12L)
+> ts2 <- ts(1:10, start = c(2020L, 4L), frequency = 4L)
+> 
+> assert_ts(ts1)
+> assert_ts(ts2)
+> 
+> check_ts(ts1)
+[1] TRUE
+> check_ts(ts2)
+[1] TRUE
+> 
+> # Exemples avec des erreurs
+> 
+> check_ts(1)
+[1] "* 1 Must inherit from class 'ts', but has class 'numeric'"
+> check_ts(ts(1:10, start = 2010L, frequency = 2L))
+[1] "* frequency_ts Must be element of set {'4','12'}, but is '2'"
+> check_ts(1:10)
+[1] "* 1:10 Must inherit from class 'ts', but has class 'integer'"
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_ts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("combine2ts")
+> ### * combine2ts
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: combine2ts
+> ### Title: Combiner 2 ts
+> ### Aliases: combine2ts
+> 
+> ### ** Examples
+> 
+> 
+> trim_1 <- stats::ts(rep(1, 4), start = 2021, frequency = 4)
+> 
+> mens_1 <- stats::ts(rep(1, 4), start = 2020, frequency = 12)
+> mens_2 <- stats::ts(rep(2, 4), start = 2022, frequency = 12)
+> 
+> # La série de PIB est écrasé par trim_1 sur la période temporelle de trim_1
+> combine2ts(ev_pib, trim_1)
+              Qtr1          Qtr2          Qtr3          Qtr4
+1970            NA            NA            NA            NA
+1971            NA            NA            NA            NA
+1972            NA            NA            NA            NA
+1973            NA            NA            NA            NA
+1974            NA            NA            NA            NA
+1975            NA            NA            NA            NA
+1976            NA            NA            NA            NA
+1977            NA            NA            NA            NA
+1978            NA            NA            NA            NA
+1979            NA            NA            NA            NA
+1980            NA  -0.552712174  -0.086754850  -0.130764175
+1981   0.436797694   0.663555818   0.655755678   0.465977515
+1982   0.892058545   0.662204954   0.047370440   0.507157219
+1983   0.581233329  -0.042548981   0.077874681   0.583935348
+1984   0.619554314   0.363253711   0.462243113   0.288218891
+1985   0.123719710   0.631349292   0.756575266   0.327524429
+1986   0.357772133   1.122129272   0.326669036   0.370966439
+1987   0.251659155   1.144598588   0.680758053   1.694026185
+1988   1.231391234   0.593185145   1.302640709   1.065361026
+1989   1.260037978   0.825806743   1.075064005   1.523944130
+1990   0.517826385   0.377746880   0.459923112   0.366254003
+1991  -0.156699858   0.309591699   0.289346425   0.496079715
+1992   0.967856839  -0.057920191   0.028450027  -0.223321860
+1993  -0.556650909   0.039547303   0.133452547   0.269728893
+1994   0.725093411   1.095551160   0.539244435   0.886607198
+1995   0.569503181   0.478767111   0.081524147   0.164939274
+1996   0.631394447   0.165893251   0.621382576   0.125750143
+1997   0.302664793   1.148738446   0.785645124   1.092788520
+1998   0.838700519   0.933602781   0.685747514   0.764421531
+1999   0.504428016   0.825984551   1.222733930   1.401265205
+2000   0.909693692   0.987402187   0.624501289   0.812645817
+2001   0.547797973   0.184046964   0.272336544   0.026816438
+2002   0.372541324   0.461330701   0.418587141  -0.054011578
+2003   0.203235664  -0.218262571   0.676991816   0.717703853
+2004   0.939180093   0.645697044   0.258638250   0.744155119
+2005   0.269714193   0.198490900   0.500009124   0.776948575
+2006   0.754542470   1.015941519   0.013572258   0.786297420
+2007   0.740940215   0.773456477   0.351755993   0.225637214
+2008   0.395791727  -0.412315400  -0.280602493  -1.467532567
+2009  -1.632375943  -0.101454578   0.160750061   0.695136221
+2010   0.368232308   0.507493101   0.645610703   0.704301595
+2011   0.997901680   0.027941934   0.367134262   0.173618343
+2012   0.093557392  -0.157293866   0.191962538  -0.077204189
+2013  -0.001133455   0.655711072   0.012011561   0.475525630
+2014   0.084980333   0.118498226   0.504372721   0.081229345
+2015   0.489945372   0.007744848   0.332080732   0.139118865
+2016   0.636268205  -0.161024723   0.198728721   0.544690904
+2017   0.816780164   0.820053915   0.622880698   0.828202860
+2018   0.048700300   0.382559370   0.366396552   0.701164421
+2019   0.665798334   0.604099134   0.011971808  -0.400152537
+2020  -5.647477753 -13.443145590  18.555378962  -1.118046566
+2021   1.000000000   1.000000000   1.000000000   1.000000000
+2022  -0.047254400            NA            NA              
+> 
+> # La période entre les séries temporelles mens_1 et mens_2 est complétée par
+> # des NA
+> combine2ts(mens_1, mens_2)
+Warning: extending time series when replacing values
+     Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+2020   1   1   1   1  NA  NA  NA  NA  NA  NA  NA  NA
+2021  NA  NA  NA  NA  NA  NA  NA  NA  NA  NA  NA  NA
+2022   2   2   2   2                                
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("combine2ts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("date2date_ts")
+> ### * date2date_ts
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: date2date_ts
+> ### Title: Conversion d'une date au format TS
+> ### Aliases: date2date_ts
+> 
+> ### ** Examples
+> 
+> 
+> date2date_ts(as.Date("2000-01-01"))
+[1] 2000    1
+> date2date_ts(as.Date("2000-01-01"), frequency_ts = 12L)
+[1] 2000    1
+> 
+> date2date_ts(as.Date("2021-10-01"), frequency_ts = 12L)
+[1] 2021   10
+> date2date_ts(as.Date("2021-10-01"), frequency_ts = 4L)
+[1] 2021    4
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("date2date_ts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("date_ts2date")
+> ### * date_ts2date
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: date_ts2date
+> ### Title: Conversion d'une date du format TS au format date
+> ### Aliases: date_ts2date
+> 
+> ### ** Examples
+> 
+> 
+> date_ts2date(date_ts = c(2020L, 11L), frequency_ts = 12L)
+[1] "2020-11-01"
+> date_ts2date(date_ts = c(1995L, 2L), frequency_ts = 4L)
+[1] "1995-04-01"
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("date_ts2date", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("date_ts2timeunits")
+> ### * date_ts2timeunits
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: date_ts2timeunits
+> ### Title: Conversion d'une date du format date_ts au format TimeUnits
+> ### Aliases: date_ts2timeunits
+> 
+> ### ** Examples
+> 
+> 
+> # Avril 2020
+> date_ts2timeunits(date_ts = c(2020L, 4L), frequency_ts = 12L)
+[1] 2020.25
+> # Novembre 2020
+> date_ts2timeunits(date_ts = c(2022L, 11L), frequency_ts = 12L)
+[1] 2022.833
+> 
+> # 4ème trimestre de 2022
+> date_ts2timeunits(date_ts = c(2022, 4L), frequency_ts = 4L)
+Warning in assert_date_ts(x = date_ts, frequency_ts = frequency_ts, add = NULL,  :
+  Assertion on 'date_ts' failed: Must be of type 'integer', not 'double'.
+[1] 2022.75
+> # 2ème trimestre de 1995
+> date_ts2timeunits(date_ts = c(1995L, 2L), frequency_ts = 4L)
+[1] 1995.25
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("date_ts2timeunits", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("diff_periode")
+> ### * diff_periode
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: diff_periode
+> ### Title: Intervalle entre 2 dates
+> ### Aliases: diff_periode
+> 
+> ### ** Examples
+> 
+> # Une seule période
+> diff_periode(a = 2020L, b = 2020L, frequency_ts = 4L)
+[1] 1
+> 
+> diff_periode(a = c(2000L, 1L), b = c(2020L, 4L), frequency_ts = 4L)
+[1] 84
+> 
+> # Ordre chronologique respecté
+> diff_periode(a = c(2021L, 5L), b = c(2023L, 8L), frequency_ts = 12L)
+[1] 28
+> 
+> # Date inversées
+> diff_periode(a = c(2023L, 8L), b = c(2021L, 5L), frequency_ts = 12L)
+[1] 28
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("diff_periode", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("extend_ts")
+> ### * extend_ts
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: extend_ts
+> ### Title: Ajoute de nouvelles valeurs à un ts
+> ### Aliases: extend_ts
+> 
+> ### ** Examples
+> 
+> 
+> ts1 <- ts(
++     data = c(rep(NA_integer_, 3L), 1L:10L, rep(NA_integer_, 3L)),
++     start = 2020,
++     frequency = 12
++ )
+> x <- rep(3L, 2L)
+> 
+> extend_ts(series = ts1, replacement = x)
+Warning: extending time series when replacing values
+     Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+2020  NA  NA  NA   1   2   3   4   5   6   7   8   9
+2021  10   3   3                                    
+> extend_ts(series = ts1, replacement = x, replace_na = FALSE)
+Warning: extending time series when replacing values
+     Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+2020  NA  NA  NA   1   2   3   4   5   6   7   8   9
+2021  10  NA  NA  NA   3   3                        
+> extend_ts(series = ts1, replacement = x,
++           date_ts = c(2021L, 7L), replace_na = TRUE)
+Warning: extending time series when replacing values
+     Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+2020  NA  NA  NA   1   2   3   4   5   6   7   8   9
+2021  10   3   3   3   3   3   3                    
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("extend_ts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("first_date")
+> ### * first_date
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: first_date
+> ### Title: Première date non NA
+> ### Aliases: first_date
+> 
+> ### ** Examples
+> 
+> 
+> ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12)
+> ts2 <- ts(c(1:10, NA), start = 2020, frequency = 4)
+> 
+> stats::start(ts1)
+[1] 2000    1
+> first_date(ts1)
+[1] 2000    4
+> 
+> stats::start(ts1)
+[1] 2000    1
+> first_date(ts2)
+[1] 2020    1
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("first_date", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("format_date_ts")
+> ### * format_date_ts
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: format_date_ts
+> ### Title: Formatter un objet date_ts
+> ### Aliases: format_date_ts
+> 
+> ### ** Examples
+> 
+> 
+> # Formattage inchangée
+> format_date_ts(c(2020L, 1L), frequency_ts = 4L) # 1er trimestre de 2020
+[1] 2020    1
+> format_date_ts(c(2020L, 8L), frequency_ts = 12L) # Aout 2020
+[1] 2020    8
+> 
+> # Retour dans le passé
+> format_date_ts(c(2020L, 0L), frequency_ts = 4L) # 4ème trimestre de 2019
+Warning in assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts") :
+  Assertion on 'period' failed: Element 1 is not >= 1.
+[1] 2019    4
+> format_date_ts(c(2020L, -10L), frequency_ts = 12L) # février 2019
+Warning in assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts") :
+  Assertion on 'period' failed: Element 1 is not >= 1.
+[1] 2019    2
+> 
+> # Avancée dans le futur
+> format_date_ts(c(2020L, 7L), frequency_ts = 4L) # 3ème trimestre de 2021
+Warning in assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts") :
+  Assertion on 'period' failed: Element 1 is not <= 4.
+[1] 2021    3
+> format_date_ts(c(2020L, 13L), frequency_ts = 4L) # janvier 2021
+Warning in assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name = "date_ts") :
+  Assertion on 'period' failed: Element 1 is not <= 4.
+[1] 2023    1
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("format_date_ts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("get_value_ts")
+> ### * get_value_ts
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: get_value_ts
+> ### Title: Récupère des valeurs d'un ts
+> ### Aliases: get_value_ts
+> 
+> ### ** Examples
+> 
+> 
+> ts1 <- ts(1:100, start = 2012L, frequency = 12L)
+> ts2 <- ts(letters, start = 2014L, frequency = 4L)
+> ts3 <- ts(exp(-(1:50)), start = 2015L, frequency = 12L)
+> 
+> get_value_ts(series = ts1, date_from = c(2015L, 7L), date_to = c(2018L, 6L))
+ [1] 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67
+[26] 68 69 70 71 72 73 74 75 76 77 78
+> get_value_ts(series = ts2, date_from = c(2018L, 4L), n = 4L)
+[1] "t" "u" "v" "w"
+> get_value_ts(series = ts3, date_to = c(2018L, 4L), n = 14L)
+ [1] 1.879529e-12 6.914400e-13 2.543666e-13 9.357623e-14 3.442477e-14
+ [6] 1.266417e-14 4.658886e-15 1.713908e-15 6.305117e-16 2.319523e-16
+[11] 8.533048e-17 3.139133e-17 1.154822e-17 4.248354e-18
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("get_value_ts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("is_before")
+> ### * is_before
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: is_before
+> ### Title: Comparaison de 2 date_ts
+> ### Aliases: is_before
+> 
+> ### ** Examples
+> 
+> 
+> is_before(a = c(2020L, 3L), b = c(2022L, 4L), frequency_ts = 12L)
+[1] TRUE
+> is_before(a = c(2022L, 3L), b = c(2010L, 1L), frequency_ts = 4L)
+[1] FALSE
+> 
+> is_before(a = c(2022L, 4L), b = c(2022L, 4L), frequency_ts = 12L)
+[1] TRUE
+> is_before(a = c(2022L, 4L), b = c(2022L, 4L),
++     frequency_ts = 12L, strict = TRUE)
+[1] FALSE
+> 
+> # Importance de la fréquence
+> is_before(a = c(2022L, -3L), b = c(2021L, 8L), frequency_ts = 12L)
+Warning in assert_date_ts(x = a, frequency_ts, add = coll, .var.name = "a") :
+  Assertion on 'period' failed: Element 1 is not >= 1.
+[1] FALSE
+> is_before(a = c(2022L, -3L), b = c(2021L, 8L), frequency_ts = 4L)
+Warning in assert_date_ts(x = a, frequency_ts, add = coll, .var.name = "a") :
+  Assertion on 'period' failed: Element 1 is not >= 1.
+Warning in assert_date_ts(x = b, frequency_ts, add = coll, .var.name = "b") :
+  Assertion on 'period' failed: Element 1 is not <= 4.
+[1] TRUE
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("is_before", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("last_date")
+> ### * last_date
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: last_date
+> ### Title: Dernière date non NA
+> ### Aliases: last_date
+> 
+> ### ** Examples
+> 
+> 
+> ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12)
+> ts2 <- ts(c(1:10), start = 2020, frequency = 4)
+> 
+> stats::end(ts1)
+[1] 2001    2
+> last_date(ts1)
+[1] 2001    1
+> 
+> stats::end(ts1)
+[1] 2001    2
+> last_date(ts2)
+[1] 2022    2
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("last_date", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("libelles")
+> ### * libelles
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: libelles
+> ### Title: Libelés pour une période
+> ### Aliases: libelles
+> 
+> ### ** Examples
+> 
+> libelles(date_ts = c(2019L, 10L), frequency_ts = 12L, n = 9L)
+[1] "oct. 2019"  "nov. 2019"  "déc. 2019"  "janv. 2020" "févr. 2020"
+[6] "mars 2020"  "avr. 2020"  "mai 2020"   "juin 2020" 
+> libelles(date_ts = c(2019L, 4L), frequency_ts = 4L, n = 3L)
+[1] "Q4 2019" "Q1 2020" "Q2 2020"
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("libelles", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("libelles_one_date")
+> ### * libelles_one_date
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: libelles_one_date
+> ### Title: Libelé pour une date
+> ### Aliases: libelles_one_date
+> 
+> ### ** Examples
+> 
+> TractorTsbox:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 12L)
+[1] "avr. 2020"
+> TractorTsbox:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 4L)
+[1] "Q4 2020"
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("libelles_one_date", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("na_trim")
+> ### * na_trim
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: na_trim
+> ### Title: Supprime les NA aux bords
+> ### Aliases: na_trim
+> 
+> ### ** Examples
+> 
+> 
+> ts1 <- ts(c(rep(NA, 3L), 1:10, rep(NA, 3L)), start = 2020, frequency = 12)
+> ts2 <- ts(c(1:10, rep(NA, 3L)), start = c(2023, 2), frequency = 4)
+> ts3 <- ts(c(rep(NA, 3L), 1:10), start = 2000, frequency = 12)
+> 
+> na_trim(ts1)
+     Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+2020               1   2   3   4   5   6   7   8   9
+2021  10                                            
+> na_trim(ts2)
+     Qtr1 Qtr2 Qtr3 Qtr4
+2023         1    2    3
+2024    4    5    6    7
+2025    8    9   10     
+> na_trim(ts3)
+     Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+2000               1   2   3   4   5   6   7   8   9
+2001  10                                            
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("na_trim", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("next_date_ts")
+> ### * next_date_ts
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: next_date_ts
+> ### Title: Obtenir la date suivante
+> ### Aliases: next_date_ts
+> 
+> ### ** Examples
+> 
+> 
+> next_date_ts(c(2020L, 4L), frequency_ts = 4L, lag = 2L)
+[1] 2021    2
+> next_date_ts(c(2021L, 1L), frequency_ts = 4L, lag = -2L)
+[1] 2020    3
+> 
+> next_date_ts(c(2020L, 4L), frequency_ts = 12L, lag = 2L)
+[1] 2020    6
+> next_date_ts(c(2022L, 6L), frequency_ts = 12L, lag = 12L)
+[1] 2023    6
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("next_date_ts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("previous_date_ts")
+> ### * previous_date_ts
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: previous_date_ts
+> ### Title: Obtenir la date précédente
+> ### Aliases: previous_date_ts
+> 
+> ### ** Examples
+> 
+> 
+> previous_date_ts(c(2020L, 4L), frequency_ts = 4L, lag = 2L)
+[1] 2020    2
+> previous_date_ts(c(2021L, 1L), frequency_ts = 4L, lag = -2L)
+[1] 2021    3
+> 
+> previous_date_ts(c(2020L, 4L), frequency_ts = 12L, lag = 2L)
+[1] 2020    2
+> previous_date_ts(c(2022L, 6L), frequency_ts = 12L, lag = 12L)
+[1] 2021    6
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("previous_date_ts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("set_value_ts")
+> ### * set_value_ts
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: set_value_ts
+> ### Title: Change certaines valeurs d'un ts
+> ### Aliases: set_value_ts
+> 
+> ### ** Examples
+> 
+> set_value_ts(
++     series = ev_pib,
++     date_ts = c(2021L, 2L),
++     replacement = c(1, 2, 3)
++ )
+              Qtr1          Qtr2          Qtr3          Qtr4
+1970            NA            NA            NA            NA
+1971            NA            NA            NA            NA
+1972            NA            NA            NA            NA
+1973            NA            NA            NA            NA
+1974            NA            NA            NA            NA
+1975            NA            NA            NA            NA
+1976            NA            NA            NA            NA
+1977            NA            NA            NA            NA
+1978            NA            NA            NA            NA
+1979            NA            NA            NA            NA
+1980            NA  -0.552712174  -0.086754850  -0.130764175
+1981   0.436797694   0.663555818   0.655755678   0.465977515
+1982   0.892058545   0.662204954   0.047370440   0.507157219
+1983   0.581233329  -0.042548981   0.077874681   0.583935348
+1984   0.619554314   0.363253711   0.462243113   0.288218891
+1985   0.123719710   0.631349292   0.756575266   0.327524429
+1986   0.357772133   1.122129272   0.326669036   0.370966439
+1987   0.251659155   1.144598588   0.680758053   1.694026185
+1988   1.231391234   0.593185145   1.302640709   1.065361026
+1989   1.260037978   0.825806743   1.075064005   1.523944130
+1990   0.517826385   0.377746880   0.459923112   0.366254003
+1991  -0.156699858   0.309591699   0.289346425   0.496079715
+1992   0.967856839  -0.057920191   0.028450027  -0.223321860
+1993  -0.556650909   0.039547303   0.133452547   0.269728893
+1994   0.725093411   1.095551160   0.539244435   0.886607198
+1995   0.569503181   0.478767111   0.081524147   0.164939274
+1996   0.631394447   0.165893251   0.621382576   0.125750143
+1997   0.302664793   1.148738446   0.785645124   1.092788520
+1998   0.838700519   0.933602781   0.685747514   0.764421531
+1999   0.504428016   0.825984551   1.222733930   1.401265205
+2000   0.909693692   0.987402187   0.624501289   0.812645817
+2001   0.547797973   0.184046964   0.272336544   0.026816438
+2002   0.372541324   0.461330701   0.418587141  -0.054011578
+2003   0.203235664  -0.218262571   0.676991816   0.717703853
+2004   0.939180093   0.645697044   0.258638250   0.744155119
+2005   0.269714193   0.198490900   0.500009124   0.776948575
+2006   0.754542470   1.015941519   0.013572258   0.786297420
+2007   0.740940215   0.773456477   0.351755993   0.225637214
+2008   0.395791727  -0.412315400  -0.280602493  -1.467532567
+2009  -1.632375943  -0.101454578   0.160750061   0.695136221
+2010   0.368232308   0.507493101   0.645610703   0.704301595
+2011   0.997901680   0.027941934   0.367134262   0.173618343
+2012   0.093557392  -0.157293866   0.191962538  -0.077204189
+2013  -0.001133455   0.655711072   0.012011561   0.475525630
+2014   0.084980333   0.118498226   0.504372721   0.081229345
+2015   0.489945372   0.007744848   0.332080732   0.139118865
+2016   0.636268205  -0.161024723   0.198728721   0.544690904
+2017   0.816780164   0.820053915   0.622880698   0.828202860
+2018   0.048700300   0.382559370   0.366396552   0.701164421
+2019   0.665798334   0.604099134   0.011971808  -0.400152537
+2020  -5.647477753 -13.443145590  18.555378962  -1.118046566
+2021   0.156198162   1.000000000   2.000000000   3.000000000
+2022  -0.047254400            NA            NA              
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("set_value_ts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("substr_year")
+> ### * substr_year
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: substr_year
+> ### Title: Retire une année à une date
+> ### Aliases: substr_year
+> 
+> ### ** Examples
+> 
+> 
+> substr_year(as.Date("2000-02-29"), n = 1L)
+[1] "1999-02-28"
+> substr_year(as.Date("2000-02-29"), n = 3L)
+[1] "1997-02-28"
+> substr_year(as.Date("2000-02-29"), n = 4L)
+[1] "1996-02-29"
+> substr_year(as.Date("2000-02-29"), n = 16L)
+[1] "1984-02-29"
+> 
+> substr_year(as.Date("2023-01-25"), n = 10L)
+[1] "2013-01-25"
+> substr_year(as.Date("2022-11-01"), n = 3L)
+[1] "2019-11-01"
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("substr_year", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("trim2mens")
+> ### * trim2mens
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: trim2mens
+> ### Title: Conversion entre date mensuelle et trimestrielle
+> ### Aliases: trim2mens mens2trim
+> 
+> ### ** Examples
+> 
+> trim2mens(c(2019L, 4L)) # 4ème trimestre 2019 --> Octobre 2019
+[1] 2019   10
+> trim2mens(c(2020L, 1L)) # 1er trimestre 2020 --> Janvier 2020
+[1] 2020    1
+> 
+> mens2trim(c(2019L, 4L)) # Avril 2019 --> 2ème trimestre 2019
+[1] 2019    2
+> mens2trim(c(2020L, 11L)) # Novembre 2020 --> 4ème trimestre 2020
+[1] 2020    4
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("trim2mens", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.63 0.14 1.56 NA NA 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

@@ -1,0 +1,32 @@
+as_yyyytt               Conversion au format date_ts
+check_date_ts           Vérifie le format de date
+check_expression        Vérifie la conformité d'une expression
+check_frequency         Vérifie la conformité d'une fréquence
+check_scalar_date       Vérifie la conformité d'une date scalaire
+check_scalar_integer    Vérifie la conformité d'un entier scalaire
+check_scalar_natural    Vérifie la conformité d'un entier naturel
+check_timeunits         Vérifie la conformité d'un objet TimeUnits
+check_ts                Vérifie la conformité d'un objet ts
+combine2ts              Combiner 2 ts
+date2date_ts            Conversion d'une date au format TS
+date_ts2date            Conversion d'une date du format TS au format
+                        date
+date_ts2timeunits       Conversion d'une date du format date_ts au
+                        format TimeUnits
+diff_periode            Intervalle entre 2 dates
+ev_pib                  Évolution du PIB français jusqu'au T1 2022
+extend_ts               Ajoute de nouvelles valeurs à un ts
+first_date              Première date non NA
+format_date_ts          Formatter un objet date_ts
+get_value_ts            Récupère des valeurs d'un ts
+is_before               Comparaison de 2 date_ts
+last_date               Dernière date non NA
+libelles                Libelés pour une période
+libelles_one_date       Libelé pour une date
+na_trim                 Supprime les NA aux bords
+next_date_ts            Obtenir la date suivante
+previous_date_ts        Obtenir la date précédente
+set_value_ts            Change certaines valeurs d'un ts
+substr_year             Retire une année à une date
+trim2mens               Conversion entre date mensuelle et
+                        trimestrielle
