@@ -1,4 +1,4 @@
-#' Formatter un objet date_ts
+#' Ajuste un objet date_ts dans un format conforme.
 #'
 #' @param date_ts un vecteur numérique, de préférence `integer` au format
 #' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
@@ -19,18 +19,18 @@
 #' @examples
 #'
 #' # Formattage inchangée
-#' format_date_ts(c(2020L, 1L), frequency_ts = 4L) # 1er trimestre de 2020
-#' format_date_ts(c(2020L, 8L), frequency_ts = 12L) # Aout 2020
+#' normalize_date_ts(c(2020L, 1L), frequency_ts = 4L) # 1er trimestre de 2020
+#' normalize_date_ts(c(2020L, 8L), frequency_ts = 12L) # Aout 2020
 #'
 #' # Retour dans le passé
-#' format_date_ts(c(2020L, 0L), frequency_ts = 4L) # 4ème trimestre de 2019
-#' format_date_ts(c(2020L, -10L), frequency_ts = 12L) # février 2019
+#' normalize_date_ts(c(2020L, 0L), frequency_ts = 4L) # 4ème trimestre de 2019
+#' normalize_date_ts(c(2020L, -10L), frequency_ts = 12L) # février 2019
 #'
 #' # Avancée dans le futur
-#' format_date_ts(c(2020L, 7L), frequency_ts = 4L) # 3ème trimestre de 2021
-#' format_date_ts(c(2020L, 13L), frequency_ts = 4L) # janvier 2021
+#' normalize_date_ts(c(2020L, 7L), frequency_ts = 4L) # 3ème trimestre de 2021
+#' normalize_date_ts(c(2020L, 13L), frequency_ts = 4L) # janvier 2021
 #'
-format_date_ts <- function(date_ts, frequency_ts, test = TRUE) {
+normalize_date_ts <- function(date_ts, frequency_ts, test = TRUE) {
 
     if (test) {
 

@@ -340,4 +340,3 @@ for (frequenceA in list_frequence) {
         }
     }
 }
-

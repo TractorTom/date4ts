@@ -51,7 +51,7 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
     year <- date_ts[1L]
     period <- date_ts[2L] - lag
 
-    return(format_date_ts(
+    return(normalize_date_ts(
         date_ts = c(year, period),
         frequency_ts = frequency_ts,
         test = FALSE
@@ -107,7 +107,7 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
     year <- date_ts[1L]
     period <- date_ts[2L] + lag
 
-    return(format_date_ts(
+    return(normalize_date_ts(
         date_ts = c(year, period),
         frequency_ts = frequency_ts,
         test = FALSE

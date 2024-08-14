@@ -74,7 +74,7 @@ set_value_ts <- function(series, date_ts, replacement) {
             frequency = stats::frequency(ts_output)
         )
     } else {
-        start_ts <- format_date_ts(
+        start_ts <- normalize_date_ts(
             date_ts = date_ts,
             frequency_ts = as.integer(stats::frequency(series))
         )
@@ -357,7 +357,7 @@ na_trim <- function(series, sides = "both") {
         add = coll,
         warn = FALSE
     )
-    start_ts <- format_date_ts(
+    start_ts <- normalize_date_ts(
         date_ts = stats::start(series),
         frequency_ts = frequency_ts,
         test = FALSE

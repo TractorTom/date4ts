@@ -191,7 +191,7 @@ assert_date_ts <- function(x, frequency_ts, add = NULL,
             }
         }
 
-        x <- format_date_ts(x_corr, frequency_ts, test = FALSE)
+        x <- normalize_date_ts(x_corr, frequency_ts, test = FALSE)
     }
 
     return(invisible(x))
@@ -202,9 +202,10 @@ assert_date_ts <- function(x, frequency_ts, add = NULL,
 #' @description Les fonctions `assert_ts` et `check_ts` vérifient qu'un objet ts
 #' est bien conforme.
 #'
-#' @param x un objet ts unidimensionnel
+#' @param x Un objet ts unidimensionnel
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
+#' @param allow_mts Booleen. Est ce que les objects \code{mts} sont acceptés ?
 #'
 #' @return En sortie la fonction retourne l'objet `x` de manière invisible ou
 #' une erreur.
@@ -246,7 +247,7 @@ assert_date_ts <- function(x, frequency_ts, add = NULL,
 #' check_ts(ts(1:10, start = 2010L, frequency = 2L))
 #' check_ts(1:10)
 #'
-check_ts <- function(x, .var.name = checkmate::vname(x)) {
+check_ts <- function(x, .var.name = checkmate::vname(x), allow_mts = FALSE) {
 
     output <- make_check_collection()
 
@@ -316,7 +317,11 @@ check_ts <- function(x, .var.name = checkmate::vname(x)) {
         }
 
         # Check que l'objet ne soit pas un mts
-        check_8 <- checkmate::check_false(stats::is.mts(x))
+        check_8 <- ifelse(
+            test = allow_mts,
+            yes = TRUE,
+            no = checkmate::check_false(stats::is.mts(x))
+        )
         output <- add_check_collection(
             coll = output, check_output = check_8,
             .var.name = paste0("stats::is.mts(", .var.name, ")")
@@ -324,7 +329,22 @@ check_ts <- function(x, .var.name = checkmate::vname(x)) {
 
         # Check du type de données
         check_9 <- checkmate::check_atomic_vector(x)
-        output <- add_check_collection(coll = output, check_output = check_9,
+        check_10 <- checkmate::check_matrix(x, mode = "atomic", null.ok = FALSE)
+
+        cond_mts <- isTRUE(check_9) || isTRUE(check_10)
+        check_11 <- ifelse(
+            test = cond_mts,
+            yes = TRUE,
+            no = paste(check_9, check_10, sep = " OR ")
+        )
+
+        check_12 <- ifelse(
+            test = allow_mts,
+            yes = check_11,
+            no = check_9
+        )
+
+        output <- add_check_collection(coll = output, check_output = check_12,
                                        .var.name = .var.name)
     }
 
@@ -334,7 +354,8 @@ check_ts <- function(x, .var.name = checkmate::vname(x)) {
 #' @name check_ts
 #' @export
 #'
-assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
+assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x),
+                      allow_mts = FALSE) {
 
     if (is.null(add)) {
         coll <- checkmate::makeAssertCollection()
@@ -372,11 +393,23 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
                              .var.name = "end", warn = FALSE)
 
     # Check de la classe de l'objet
-    checkmate::assert_false(stats::is.mts(x), add = coll,
-                            .var.name = paste0("is.mts(", .var.name, ")"))
+    if (!allow_mts) {
+        checkmate::assert_false(
+            x = stats::is.mts(x),
+            add = coll,
+            .var.name = paste0("is.mts(", .var.name, ")")
+        )
+    }
 
     # Check du type de données
-    checkmate::assert_atomic_vector(x, add = coll, .var.name = .var.name)
+    cond_mts <- isTRUE(checkmate::check_atomic_vector(x)) ||
+        isTRUE(checkmate::check_matrix(x, mode = "atomic", null.ok = FALSE))
+
+    if (allow_mts && !cond_mts) {
+        coll$push(msg = paste(check_9, check_10, sep = " OR "))
+    } else if (!allow_mts) {
+        checkmate::assert_atomic_vector(x, add = coll, .var.name = .var.name)
+    }
 
     if (is.null(add)) {
         checkmate::reportAssertions(coll)
@@ -384,7 +417,6 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
     return(invisible(x))
 }
-
 
 #' Vérifie la conformité d'un objet TimeUnits
 #'
@@ -1011,7 +1043,8 @@ assert_expression <- function(expr) {
     )
 
     if (inherits(out, "warning") || inherits(out, "error")) {
-        stop(paste("Invalid expression :", deparse(substitute(expr))))
+        stop("Invalid expression :",
+             deparse(substitute(expr)))
     }
 
     return(invisible(expr))

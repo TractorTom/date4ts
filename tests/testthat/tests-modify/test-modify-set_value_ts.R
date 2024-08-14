@@ -26,7 +26,7 @@ for (typeA in list_type) {
                         testthat::test_that(test_name, {
                             if (length(startA) == 1L) startA <- c(startA, 1L)
                             valueB <- create_random_type(type = typeA, len = lenB)
-                            startB <- format_date_ts(
+                            startB <- normalize_date_ts(
                                 date_ts = c(startA[1L], startA[2L] + lagB),
                                 frequency_ts = frequenceA, test = FALSE
                             )

@@ -271,3 +271,29 @@ date_ts2date <- function(date_ts, frequency_ts) {
         return(as.Date(paste(year, month, "01", sep = "-")))
     }
 }
+
+ts2df <- function(x) {
+
+    # Check de l'objet x
+    assert_ts(x, .var.name = "x", allow_mts = TRUE)
+
+    if (stats::is.mts(x)) {
+        length_series <- nrow(x)
+    } else {
+        length_series <- length(x)
+    }
+
+    frequency_ts <- as.integer(stats::frequency(x))
+    first_timeunits <- time(x)[1L]
+
+    if (frequency(x) == 12L) {
+        first_date_ts <- as_yyyymm(first_timeunits)
+    } else if (frequency_ts == 4L) {
+        first_date_ts <- as_yyyymm(first_timeunits)
+    }
+
+    rownames_libelles <- libelles(date_ts = first_date_ts, frequency_ts = frequency_ts, n = length_series)
+    x <- data.frame(date = rownames_libelles, x)
+
+    return(x)
+}
