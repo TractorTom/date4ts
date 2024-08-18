@@ -5,14 +5,16 @@
 \alias{assert_ts}
 \title{Vérifie la conformité d'un objet ts}
 \usage{
-check_ts(x, .var.name = checkmate::vname(x))
+check_ts(x, .var.name = checkmate::vname(x), allow_mts = FALSE)
 
-assert_ts(x, add = NULL, .var.name = checkmate::vname(x))
+assert_ts(x, add = NULL, .var.name = checkmate::vname(x), allow_mts = FALSE)
 }
 \arguments{
-\item{x}{un objet ts unidimensionnel}
+\item{x}{Un objet ts unidimensionnel}
 
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
+
+\item{allow_mts}{Booleen. Est ce que les objects \code{mts} sont acceptés ?}
 
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 }
