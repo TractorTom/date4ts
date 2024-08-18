@@ -1,41 +1,41 @@
 # Options ----------------------------------------------------------------------
 
-withr::local_locale(.new = c("LC_TIME" = "en_US"))
+withr::local_locale(.new = c(LC_TIME = "en_US"))
 Sys.setenv(lang = "en_US")
 
 # Création de fonctions --------------------------------------------------------
 
 create_random_type <- function(type, len = NULL) {
     if (is.null(len)) len <- sample(1L:1000L, size = 1L)
+
     if (type == "character") {
-        return(strsplit(intToUtf8(sample(c(1L:55295L, 57344L:1114111L), size = len, replace = TRUE)), "")[[1L]])
-    }
-    if (type == "integer") {
-        return(sample(-20000000L:20000000L, size = len, replace = TRUE))
-    }
-    if (type == "double") {
-        return(runif(n = len, min = -10000L, max = 10000L))
-    }
-    if (type == "logical") {
-        return(sample(x = c(TRUE, FALSE), size = len, replace = TRUE))
-    }
-    if (type == "complex") {
-        return(complex(
+        output <- strsplit(x = intToUtf8(sample(c(1L:55295L, 57344L:1114111L),
+                                                size = len, replace = TRUE)),
+                           split = "",
+                           fixed = TRUE)[[1L]]
+    } else if (type == "integer") {
+        output <- sample(-20000000L:20000000L, size = len, replace = TRUE)
+    } else if (type == "double") {
+        output <- runif(n = len, min = -10000L, max = 10000L)
+    } else if (type == "logical") {
+        output <- sample(x = c(TRUE, FALSE), size = len, replace = TRUE)
+    } else if (type == "complex") {
+        output <- complex(
             real = runif(n = len, min = -10000L, max = 10000L),
             imaginary = runif(n = len, min = -10000L, max = 10000L)
-        ))
+        )
+    } else if (type == "raw") {
+        output <- sample(x = as.raw(0L:255L), size = len, replace = TRUE)
+    } else if (type == "Date") {
+        output <- sample(x = seq(as.Date("1950-01-01"), as.Date("2024-01-01"), by = "day"), size = len, replace = TRUE)
+    } else {
+        stop("Le type n'est pas reconnu.")
     }
-    if (type == "raw") {
-        return(sample(x = as.raw(0L:255L), size = len, replace = TRUE))
-    }
-    if (type == "Date") {
-        return(sample(x = seq(as.Date("1950-01-01"), as.Date("2024-01-01"), by = "day"), size = len, replace = TRUE))
-    }
-    stop("Le type n'est pas reconnu.")
+    return(output)
 }
 
 create_random_date_ts <- function(frequency_ts = NULL) {
-    if (runif(n = 1L, min = 0L, max = 1L) > .5) {
+    if (runif(n = 1L, min = 0L, max = 1L) > 0.5) {
         return(sample(1950L:2022L, size = 1L))
     }
 
@@ -65,27 +65,23 @@ create_random_ts <- function(type = NULL, len = NULL, start = NULL, frequency = 
 
 create_NA_type <- function(type, len = 1L) {
     if (type == "character") {
-        return(rep(x = NA_character_, times = len))
+        output <- rep(x = NA_character_, times = len)
+    } else if (type == "integer") {
+        output <- rep(x = NA_integer_, times = len)
+    } else if (type == "double") {
+        output <- rep(x = NA_real_, times = len)
+    } else if (type == "logical") {
+        output <- rep(x = NA, times = len)
+    } else if (type == "complex") {
+        output <- rep(x = NA_complex_, times = len)
+    } else if (type == "Date") {
+        output <- rep(structure(NA_integer_, class = "Date"), times = len)
+    } else if (type == "raw") {
+        output <- rep(x = as.raw(0x00), times = len)
+    } else {
+        stop("Le type n'est pas reconnu.")
     }
-    if (type == "integer") {
-        return(rep(x = NA_integer_, times = len))
-    }
-    if (type == "double") {
-        return(rep(x = NA_real_, times = len))
-    }
-    if (type == "logical") {
-        return(rep(x = NA, times = len))
-    }
-    if (type == "complex") {
-        return(rep(x = NA_complex_, times = len))
-    }
-    if (type == "Date") {
-        return(rep(structure(NA_integer_, class = "Date"), times = len))
-    }
-    if (type == "raw") {
-        return(rep(x = as.raw(0x00), times = len))
-    }
-    stop("Le type n'est pas reconnu.")
+    return(output)
 }
 
 
@@ -109,7 +105,7 @@ wrong_type_ts <- list(
 ## Fréquences ------------------------------------------------------------------
 
 list_frequence <- c(4L, 12L)
-weird_frequency <- list(1L, 2, 7, .1, 1 / 3, 3.5, 365, 365.25, pi)
+weird_frequency <- list(1L, 2, 7, 0.1, 1 / 3, 3.5, 365, 365.25, pi)
 
 
 ## Dates -----------------------------------------------------------------------

@@ -30,15 +30,15 @@ set_value_ts <- function(series, date_ts, replacement) {
     checkmate::assert_atomic_vector(replacement, add = coll,
                                     .var.name = "replacement")
 
-    check_1 <- checkmate::check_atomic_vector(replacement)
-    check_2 <- checkmate::anyMissing(replacement)
+    check_1 <- checkmate::check_atomic_vector(x = replacement)
+    check_2 <- checkmate::anyMissing(x = replacement)
     if (isTRUE(check_1) && isTRUE(check_2)) {
-        warning(paste(
-            "the argument replacement",
+        warning(
+            "the argument replacement ",
             checkmate::check_atomic_vector(
                 x = replacement, any.missing = FALSE
             )
-        ))
+        )
     }
 
     # Check des types des objets
@@ -339,7 +339,7 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
 #' na_trim(ts2)
 #' na_trim(ts3)
 #'
-na_trim <- function(series, sides = "both") {
+na_trim <- function(series, sides = c("both", "left", "right")) {
 
     coll <- NULL
 
@@ -349,6 +349,8 @@ na_trim <- function(series, sides = "both") {
     checkmate::assert_atomic_vector(series,
                                     all.missing = FALSE,
                                     add = coll, .var.name = "series")
+    # Check de l'argument sides
+    sides <- match.arg(sides)
 
     non_na <- seq_along(series)[!is.na(series)]
 
@@ -363,7 +365,7 @@ na_trim <- function(series, sides = "both") {
         test = FALSE
     )
 
-    if (sides %in% "both") {
+    if (sides == "both") {
         content <- series[min(non_na):max(non_na)]
         start_ts <- next_date_ts(
             date_ts = start_ts,

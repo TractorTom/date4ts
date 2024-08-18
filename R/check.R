@@ -404,9 +404,11 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x),
     # Check du type de données
     cond_mts <- isTRUE(checkmate::check_atomic_vector(x)) ||
         isTRUE(checkmate::check_matrix(x, mode = "atomic", null.ok = FALSE))
+    check_1 <- checkmate::check_atomic_vector(x)
+    check_2 <- checkmate::check_matrix(x, mode = "atomic", null.ok = FALSE)
 
     if (allow_mts && !cond_mts) {
-        coll$push(msg = paste(check_9, check_10, sep = " OR "))
+        coll$push(msg = paste(check_1, check_2, sep = " OR "))
     } else if (!allow_mts) {
         checkmate::assert_atomic_vector(x, add = coll, .var.name = .var.name)
     }

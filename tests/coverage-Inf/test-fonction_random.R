@@ -4,8 +4,8 @@ moy <- function(x, y) {
 
 
 test_that("moy works", {
-    expect_equal(moy(2, 2), 2)
-    expect_equal(moy(2, 0), 1)
+    expect_identical(moy(2, 2), 2)
+    expect_identical(moy(2, 0), 1)
 })
 
 

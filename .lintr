@@ -1,7 +1,7 @@
 linters: lintr::all_linters(
         indentation_linter = lintr::indentation_linter(indent = 4L),
         # line_length_linter = lintr::line_length_linter(80L),
-        line_length_linter = lintr::line_length_linter(200L),
+        line_length_linter = lintr::line_length_linter(150L),
         extraction_operator_linter = NULL,
         implicit_integer_linter = NULL,
         nonportable_path_linter = NULL,
@@ -12,6 +12,8 @@ linters: lintr::all_linters(
         # cyclocomp_linter = lintr::cyclocomp_linter(complexity_limit = 10L),
         object_usage_linter = NULL,
         object_name_linter = NULL,
-        implicit_assignment_linter = NULL
+        implicit_assignment_linter = NULL,
+        expect_identical_linter = NULL,
+        commented_code_linter = NULL
     )
 encoding: "UTF-8"

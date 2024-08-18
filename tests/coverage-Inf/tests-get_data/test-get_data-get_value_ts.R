@@ -379,8 +379,7 @@ testthat::test_that("miscelanous n are not accepted", {
                       object_bank_R[-10L],
                       rnorm(10L),
                       as.double(-abs(c(list_lag, list_len, create_random_type("integer", len = 10L)))),
-                      -abs(c(list_len, list_lag, create_random_type("integer", len = 10L))))
-         ) {
+                      -abs(c(list_len, list_lag, create_random_type("integer", len = 10L))))) {
 
         ts_A <- create_random_ts()
 

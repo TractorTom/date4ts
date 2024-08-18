@@ -112,7 +112,13 @@ testthat::test_that("several warning", {
                 resQuarterly <- mens2trim(c(warning_year, warning_month))
             })
             testthat::expect_match(object = w, regexp = message_double("date_ts"), all = FALSE)
-            testthat::expect_match(object = w, regexp = "Assertion on 'period' failed: Element 1 is not <= 12.|Assertion on 'period' failed: Element 1 is not >= 1.", all = FALSE)
+            testthat::expect_match(
+                object = w,
+                regexp = paste(
+                    "Assertion on 'period' failed: Element 1 is not <= 12.",
+                    "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"),
+                all = FALSE
+            )
 
             real_month <- (warning_month - 1L) %% 12L + 1L
             year_real <- warning_year + (warning_month - 1L) %/% 12L
@@ -129,7 +135,14 @@ testthat::test_that("several warning", {
                 resQuarterly <- mens2trim(c(warning_year, warning_month))
             })
             testthat::expect_match(object = w, regexp = message_double("date_ts"), all = FALSE)
-            testthat::expect_match(object = w, regexp = "Assertion on 'period' failed: Element 1 is not <= 12.|Assertion on 'period' failed: Element 1 is not >= 1.", all = FALSE)
+
+            testthat::expect_match(
+                object = w,
+                regexp = paste(
+                    "Assertion on 'period' failed: Element 1 is not <= 12.",
+                    "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"),
+                all = FALSE
+            )
 
             real_month <- (warning_month - 1L) %% 12L + 1L
             year_real <- warning_year + (warning_month - 1L) %/% 12L
@@ -146,7 +159,13 @@ testthat::test_that("several warning", {
                 resQuarterly <- mens2trim(c(good_year, warning_month))
             })
             testthat::expect_match(object = w, regexp = message_double("date_ts"), all = FALSE)
-            testthat::expect_match(object = w, regexp = "Assertion on 'period' failed: Element 1 is not <= 12.|Assertion on 'period' failed: Element 1 is not >= 1.", all = FALSE)
+            testthat::expect_match(
+                object = w,
+                regexp = paste(
+                    "Assertion on 'period' failed: Element 1 is not <= 12.",
+                    "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"),
+                all = FALSE
+            )
 
             real_month <- (warning_month - 1L) %% 12L + 1L
             year_real <- good_year + (warning_month - 1L) %/% 12L

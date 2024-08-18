@@ -13,14 +13,14 @@ for (typeA in list_type) {
                 ts_A <- ts(A_content, start = startA, frequency = frequenceA)
                 for (lagB in list_lag) {
                     for (lenB in list_len[-1L]) {
-                        test_name <- paste("expected result with ",
+                        test_name <- paste0(
+                            "expected result with ",
                             "\ntypeA = '", typeA,
                             "'\nfrequenceA = ", frequenceA,
                             "\nstartA = ", deparse(startA),
                             "\nlenA = ", lenA,
                             "\nlagB = ", lagB,
-                            "\nlenB = ", lenB,
-                            sep = ""
+                            "\nlenB = ", lenB
                         )
 
                         testthat::test_that(test_name, {

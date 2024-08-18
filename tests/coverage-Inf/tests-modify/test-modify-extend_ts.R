@@ -13,13 +13,13 @@ for (typeA in list_type) {
                 for (lenB in list_len[-1L]) {
                     B_content <- create_random_type(type = typeA, len = lenB)
 
-                    test_name <- paste("expected result with ",
-                                       "\ntypeA = ", deparse(typeA),
-                                       "\nfrequenceA = ", deparse(frequenceA),
-                                       "\nstartA = ", deparse(startA),
-                                       "\nlenA = ", deparse(lenA),
-                                       "\nlenB = ", deparse(lenB),
-                                       sep = ""
+                    test_name <- paste0(
+                        "expected result with ",
+                        "\ntypeA = ", deparse(typeA),
+                        "\nfrequenceA = ", deparse(frequenceA),
+                        "\nstartA = ", deparse(startA),
+                        "\nlenA = ", deparse(lenA),
+                        "\nlenB = ", deparse(lenB)
                     )
 
                     testthat::test_that(test_name, {
@@ -33,7 +33,8 @@ for (typeA in list_type) {
                                     series = ts_A,
                                     replacement = B_content,
                                     date_ts = NULL,
-                                    replace_na = FALSE)
+                                    replace_na = FALSE
+                                )
                             },
                             regexp = warning_extend
                         )
@@ -168,7 +169,8 @@ for (typeA in list_type) {
                                         series = ts_A,
                                         replacement = B_content,
                                         date_ts = date_end_replacement,
-                                        replace_na = FALSE)
+                                        replace_na = FALSE
+                                    )
                                 },
                                 regexp = warning_extend
                             )

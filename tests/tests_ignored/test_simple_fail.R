@@ -16,7 +16,7 @@ testthat::test_that("good result for integer freq", {
         expected = c(2020L, 1L)
     )
     testthat::expect_identical(
-        object = TractorTsbox:::libelles_one_date(2020L, 12),
+        object = libelles_one_date(2020L, 12),
         expected = "Jan 2020"
     )
 })

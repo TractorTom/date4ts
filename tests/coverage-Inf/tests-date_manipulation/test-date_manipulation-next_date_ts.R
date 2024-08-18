@@ -91,7 +91,9 @@ testthat::test_that(desc = "Warning with double years and monthly frequency", {
             date_b <- c(year + minus_year, minus_months) |> as.integer()
 
             testthat::expect_warning(
-                object = {res <- next_date_ts(date_a, frequency_ts = 12L, lag = lag)},
+                object = {
+                    res <- next_date_ts(date_a, frequency_ts = 12L, lag = lag)
+                },
                 regexp = message_double("date_ts")
             )
 
@@ -110,7 +112,9 @@ testthat::test_that(desc = "Warning with double years and monthly frequency", {
                 date_b <- c(year + minus_year, minus_months) |> as.integer()
 
                 testthat::expect_warning(
-                    object = {res <- next_date_ts(date_a, frequency_ts = 12L, lag = lag)},
+                    object = {
+                        res <- next_date_ts(date_a, frequency_ts = 12L, lag = lag)
+                    },
                     regexp = message_double("date_ts")
                 )
 
@@ -136,7 +140,9 @@ testthat::test_that(desc = "Warning with double years and quaterly frequency", {
             date_b <- c(year + minus_year, minus_months) |> as.integer()
 
             testthat::expect_warning(
-                object = {res <- next_date_ts(date_a, frequency_ts = 4L, lag = lag)},
+                object = {
+                    res <- next_date_ts(date_a, frequency_ts = 4L, lag = lag)
+                },
                 regexp = message_double("date_ts")
             )
 
@@ -155,7 +161,9 @@ testthat::test_that(desc = "Warning with double years and quaterly frequency", {
                 date_b <- c(year + minus_year, minus_quarters) |> as.integer()
 
                 testthat::expect_warning(
-                    object = {res <- next_date_ts(date_a, frequency_ts = 4L, lag = lag)},
+                    object = {
+                        res <- next_date_ts(date_a, frequency_ts = 4L, lag = lag)
+                    },
                     regexp = message_double("date_ts")
                 )
 
@@ -181,7 +189,9 @@ testthat::test_that(desc = "Warning with frequency and monthly frequency", {
             date_b <- c(year + minus_year, minus_months) |> as.integer()
 
             testthat::expect_warning(
-                object = {res <- next_date_ts(date_a, frequency_ts = 12, lag = lag)},
+                object = {
+                    res <- next_date_ts(date_a, frequency_ts = 12, lag = lag)
+                },
                 regexp = message_double("frequency_ts")
             )
 
@@ -200,7 +210,9 @@ testthat::test_that(desc = "Warning with frequency and monthly frequency", {
                 date_b <- c(year + minus_year, minus_months) |> as.integer()
 
                 testthat::expect_warning(
-                    object = {res <- next_date_ts(date_a, frequency_ts = 12, lag = lag)},
+                    object = {
+                        res <- next_date_ts(date_a, frequency_ts = 12, lag = lag)
+                    },
                     regexp = message_double("frequency_ts")
                 )
 
@@ -226,7 +238,9 @@ testthat::test_that(desc = "Warning with frequency and quaterly frequency", {
             date_b <- c(year + minus_year, minus_months) |> as.integer()
 
             testthat::expect_warning(
-                object = {res <- next_date_ts(date_a, frequency_ts = 4, lag = lag)},
+                object = {
+                    res <- next_date_ts(date_a, frequency_ts = 4, lag = lag)
+                },
                 regexp = message_double("frequency_ts")
             )
 
@@ -245,7 +259,9 @@ testthat::test_that(desc = "Warning with frequency and quaterly frequency", {
                 date_b <- c(year + minus_year, minus_quarters) |> as.integer()
 
                 testthat::expect_warning(
-                    object = {res <- next_date_ts(date_a, frequency_ts = 4, lag = lag)},
+                    object = {
+                        res <- next_date_ts(date_a, frequency_ts = 4, lag = lag)
+                    },
                     regexp = message_double("frequency_ts")
                 )
 
@@ -271,7 +287,8 @@ testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
         testthat::expect_error(next_date_ts(
             date_ts = create_random_date_ts(),
-            frequency_ts = wrong_frequency, lag = 4L))
+            frequency_ts = wrong_frequency, lag = 4L)
+        )
     }
 })
 
@@ -281,13 +298,15 @@ testthat::test_that("miscellaneous frequency are not allowed", {
         date_ts <- create_random_date_ts(frequency_ts = 12L)
         testthat::expect_error(next_date_ts(
             date_ts = date_ts,
-            frequency_ts = 12L, lag = wrong_lag))
+            frequency_ts = 12L, lag = wrong_lag)
+        )
 
 
         date_ts <- create_random_date_ts(frequency_ts = 4L)
         testthat::expect_error(next_date_ts(
             date_ts = date_ts,
-            frequency_ts = 4L, lag = wrong_lag))
+            frequency_ts = 4L, lag = wrong_lag)
+        )
     }
 })
 
@@ -309,4 +328,3 @@ testthat::expect_identical(
     object = next_date_ts(2020L, frequency_ts = 12L, lag = 0L),
     expected = c(2020L, 1L)
 )
-

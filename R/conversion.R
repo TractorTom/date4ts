@@ -284,9 +284,9 @@ ts2df <- function(x) {
     }
 
     frequency_ts <- as.integer(stats::frequency(x))
-    first_timeunits <- time(x)[1L]
+    first_timeunits <- stats::time(x)[1L]
 
-    if (frequency(x) == 12L) {
+    if (frequency_ts == 12L) {
         first_date_ts <- as_yyyymm(first_timeunits)
     } else if (frequency_ts == 4L) {
         first_date_ts <- as_yyyymm(first_timeunits)
