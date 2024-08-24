@@ -304,8 +304,8 @@ testthat::test_that("miscellaneous frequency are not allowed", {
         date_ts <- create_random_date_ts(frequency_ts = 4L)
         testthat::expect_error(previous_date_ts(
             date_ts = date_ts,
-            frequency_ts = 4L, lag = wrong_lag)
-        )
+            frequency_ts = 4L, lag = wrong_lag
+        ))
     }
 })
 

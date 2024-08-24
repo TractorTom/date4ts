@@ -116,7 +116,8 @@ testthat::test_that("several warning", {
                 object = w,
                 regexp = paste(
                     "Assertion on 'period' failed: Element 1 is not <= 12.",
-                    "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"),
+                    "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"
+                ),
                 all = FALSE
             )
 
@@ -140,7 +141,8 @@ testthat::test_that("several warning", {
                 object = w,
                 regexp = paste(
                     "Assertion on 'period' failed: Element 1 is not <= 12.",
-                    "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"),
+                    "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"
+                ),
                 all = FALSE
             )
 
@@ -163,7 +165,8 @@ testthat::test_that("several warning", {
                 object = w,
                 regexp = paste(
                     "Assertion on 'period' failed: Element 1 is not <= 12.",
-                    "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"),
+                    "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"
+                ),
                 all = FALSE
             )
 

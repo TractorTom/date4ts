@@ -287,8 +287,8 @@ testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
         testthat::expect_error(next_date_ts(
             date_ts = create_random_date_ts(),
-            frequency_ts = wrong_frequency, lag = 4L)
-        )
+            frequency_ts = wrong_frequency, lag = 4L
+        ))
     }
 })
 
@@ -298,15 +298,14 @@ testthat::test_that("miscellaneous frequency are not allowed", {
         date_ts <- create_random_date_ts(frequency_ts = 12L)
         testthat::expect_error(next_date_ts(
             date_ts = date_ts,
-            frequency_ts = 12L, lag = wrong_lag)
-        )
-
+            frequency_ts = 12L, lag = wrong_lag
+        ))
 
         date_ts <- create_random_date_ts(frequency_ts = 4L)
         testthat::expect_error(next_date_ts(
             date_ts = date_ts,
-            frequency_ts = 4L, lag = wrong_lag)
-        )
+            frequency_ts = 4L, lag = wrong_lag
+        ))
     }
 })
 

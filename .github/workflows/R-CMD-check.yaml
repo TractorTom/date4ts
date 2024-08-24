@@ -18,8 +18,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ 'windows-latest', 'macOS-latest' ]
-        r: [ 'release', '4.2.1' ]
+        os: [ 'windows-latest', 'macOS-latest', 'ubuntu-latest' ]
+        r: [ 'devel', 'release', 'oldrel-1' ]
         # # os: [ 'ubuntu-latest', 'windows-latest', 'macOS-latest' ]
         # # r: [ 'devel', 'release', 'oldrel-1', '4.2.1', '4.1.1', '4.1.3', '3.6.1' ]
         # include:
