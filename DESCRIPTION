@@ -1,6 +1,6 @@
 Package: TractorTsbox
 Title: Outils de gestion des ts et des dates des ts
-Version: 0.1.0.1
+Version: 0.1.0
 Authors@R: 
     person("Tanguy", "Barthelemy", email = "tangbarth@hotmail.fr", role = c("aut", "cre"))
 Description: Ce package propose des outils pour gérer les dates des objets ts.
