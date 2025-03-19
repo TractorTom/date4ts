@@ -62,8 +62,12 @@ jobs:
         with:
           r-version: ${{ matrix.r }}
 
-
       - uses: r-lib/actions/setup-renv@v2
+
+      - name: Install dependencies to check
+        run: |
+          install.packages("rcmdcheck")
+        shell: Rscript {0}
 
       # - name: Install dependencies
       #   uses: r-lib/actions/setup-r-dependencies@v2
