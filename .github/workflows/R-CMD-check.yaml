@@ -48,6 +48,10 @@ jobs:
 
       - name: Set up Tinytex
         uses: r-lib/actions/setup-tinytex@v2
+      - name: Setup makeindex
+        run: |
+            tlmgr update --self
+            tlmgr install makeindex
 
       - name: "Update tidy on macos"
         if: runner.os == 'macOS'
