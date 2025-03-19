@@ -41,7 +41,7 @@ testthat::test_that("good result with warning n", {
     for (n in list_len[-1L]) {
         n <- as.double(n)
         testthat::expect_warning(
-            res <- substr_year(date = Sys.Date(), n = n),
+            {res <- substr_year(date = Sys.Date(), n = n)},
             regexp = message_double("n")
         )
     }
@@ -58,7 +58,7 @@ testthat::test_that("good result with warning n", {
 
                         date_theo <- as.Date(paste0(year - n, "-", month, "-", day), format = "%Y-%m-%d")
                         testthat::expect_warning(
-                            res <- substr_year(date = dateA, n = n),
+                            {res <- substr_year(date = dateA, n = n)},
                             regexp = message_double("n")
                         )
                         testthat::expect_identical(res, date_theo)

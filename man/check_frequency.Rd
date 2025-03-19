@@ -10,8 +10,8 @@ check_frequency(x, .var.name = checkmate::vname(x), warn = TRUE)
 assert_frequency(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE)
 }
 \arguments{
-\item{x}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries trimestrielles et
-\code{12L} (ou \code{12.}) pour les séries mensuelles.}
+\item{x}{un entier qui vaut \code{4L} (ou \code{4.0}) pour les séries trimestrielles et
+\code{12L} (ou \code{12.0}) pour les séries mensuelles.}
 
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
 
@@ -24,7 +24,7 @@ Vérifie la conformité d'une fréquence
 }
 \details{
 La fréquence d'une série temporelle est soit mensuelle (\code{12L} ou
-\code{12.}) soit trimestrielle (\code{4L} ou \code{4.}). Les autres fréquences ne sont pas
+\code{12.0}) soit trimestrielle (\code{4L} ou \code{4.0}). Les autres fréquences ne sont pas
 acceptées.
 Cette fonction s'appuie essentiellement sur les fonctions
 \code{checkmate::check_numeric}, \code{checkmate::check_int} et

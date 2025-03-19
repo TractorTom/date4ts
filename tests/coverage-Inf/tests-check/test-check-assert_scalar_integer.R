@@ -33,12 +33,16 @@ testthat::test_that("warning for integer date", {
     list_double <- as.double(c(list_lag, list_len, create_random_type("integer", len = 10L)))
 
     for (k in list_double) {
-        testthat::expect_warning(res1 <- assert_scalar_integer(x = k, warn = TRUE),
-                                 regexp = double_instead_of_integer)
+        testthat::expect_warning(
+            {res1 <- assert_scalar_integer(x = k, warn = TRUE)},
+            regexp = double_instead_of_integer
+        )
         testthat::expect_identical(res1, as.integer(k))
 
-        testthat::expect_warning(res2 <- assert_scalar_integer(x = k),
-                                 regexp = double_instead_of_integer)
+        testthat::expect_warning(
+            {res2 <- assert_scalar_integer(x = k)},
+            regexp = double_instead_of_integer
+        )
         testthat::expect_identical(res2, as.integer(k))
     }
 

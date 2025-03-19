@@ -224,13 +224,13 @@ testthat::test_that("warning frequency", {
 
             testthat::expect_warning(
                 object = {
-                    res1 <- diff_periode(date_a, date_b, frequency_ts = 12.)
+                    res1 <- diff_periode(date_a, date_b, frequency_ts = 12.0)
                 },
                 regexp = message_double("frequency_ts")
             )
             testthat::expect_warning(
                 object = {
-                    res2 <- diff_periode(date_b, date_a, frequency_ts = 12.)
+                    res2 <- diff_periode(date_b, date_a, frequency_ts = 12.0)
                 },
                 regexp = message_double("frequency_ts")
             )
@@ -242,13 +242,13 @@ testthat::test_that("warning frequency", {
 
             testthat::expect_warning(
                 object = {
-                    res1 <- diff_periode(date_a, date_b, frequency_ts = 4.)
+                    res1 <- diff_periode(date_a, date_b, frequency_ts = 4.0)
                 },
                 regexp = message_double("frequency_ts")
             )
             testthat::expect_warning(
                 object = {
-                    res2 <- diff_periode(date_b, date_a, frequency_ts = 4.)
+                    res2 <- diff_periode(date_b, date_a, frequency_ts = 4.0)
                 },
                 regexp = message_double("frequency_ts")
             )
@@ -267,13 +267,13 @@ testthat::test_that("warning frequency", {
 
                 testthat::expect_warning(
                     object = {
-                        res1 <- diff_periode(date_a, date_b, frequency_ts = 12.)
+                        res1 <- diff_periode(date_a, date_b, frequency_ts = 12.0)
                     },
                     regexp = message_double("frequency_ts")
                 )
                 testthat::expect_warning(
                     object = {
-                        res2 <- diff_periode(date_b, date_a, frequency_ts = 12.)
+                        res2 <- diff_periode(date_b, date_a, frequency_ts = 12.0)
                     },
                     regexp = message_double("frequency_ts")
                 )
@@ -293,13 +293,13 @@ testthat::test_that("warning frequency", {
 
                 testthat::expect_warning(
                     object = {
-                        res1 <- diff_periode(date_a, date_b, frequency_ts = 4.)
+                        res1 <- diff_periode(date_a, date_b, frequency_ts = 4.0)
                     },
                     regexp = message_double("frequency_ts")
                 )
                 testthat::expect_warning(
                     object = {
-                        res2 <- diff_periode(date_b, date_a, frequency_ts = 4.)
+                        res2 <- diff_periode(date_b, date_a, frequency_ts = 4.0)
                     },
                     regexp = message_double("frequency_ts")
                 )

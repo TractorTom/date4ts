@@ -2,8 +2,8 @@
 #'
 #' @param date_ts un vecteur numérique, de préférence `integer` au format
 #' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries
-#' trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
+#' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #' @param lag un entier
 #'
 #' @return En sortie, la fonction retourne un vecteur d'entier qui représente la
@@ -263,8 +263,8 @@ is_before <- function(a, b, frequency_ts, strict = FALSE) {
 #' `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #' @param b un objet date_ts, c'est-à-dire un vecteur numérique, de préférence
 #' `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries
-#' trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
+#' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #'
 #' @return En sortie, la fonction retourne un entier qui désigne le nombre de
 #' période (mois ou trimestres) qui sépare les 2 dates `a` et `b`.

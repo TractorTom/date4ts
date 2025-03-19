@@ -36,7 +36,7 @@ testthat::test_that("warning for integer date", {
                 {
                     resQuarterly <- mens2trim(c(good_year, warning_month))
                 },
-                regexp = "Assertion on 'period' failed: Element 1 is not <= 12.|Assertion on 'period' failed: Element 1 is not >= 1."
+                regexp = "Assertion on 'period' failed: Element 1 is not <= 12.0|Assertion on 'period' failed: Element 1 is not >= 1."
             )
 
             real_month <- (warning_month - 1L) %% 12L + 1L
@@ -115,7 +115,7 @@ testthat::test_that("several warning", {
             testthat::expect_match(
                 object = w,
                 regexp = paste(
-                    "Assertion on 'period' failed: Element 1 is not <= 12.",
+                    "Assertion on 'period' failed: Element 1 is not <= 12.0",
                     "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"
                 ),
                 all = FALSE
@@ -140,7 +140,7 @@ testthat::test_that("several warning", {
             testthat::expect_match(
                 object = w,
                 regexp = paste(
-                    "Assertion on 'period' failed: Element 1 is not <= 12.",
+                    "Assertion on 'period' failed: Element 1 is not <= 12.0",
                     "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"
                 ),
                 all = FALSE
@@ -164,7 +164,7 @@ testthat::test_that("several warning", {
             testthat::expect_match(
                 object = w,
                 regexp = paste(
-                    "Assertion on 'period' failed: Element 1 is not <= 12.",
+                    "Assertion on 'period' failed: Element 1 is not <= 12.0",
                     "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"
                 ),
                 all = FALSE

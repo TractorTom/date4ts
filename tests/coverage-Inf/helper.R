@@ -122,14 +122,14 @@ withr::with_envvar(new = c(lang = "en_US"), {
     warning_double_months <- c(-200., -20., -5., -1., 0., 13., 46., 200.)
     warning_integer_months <- c(-200L, -20L, -12L, -5L:0L, 13L:15L, 24L, 46L, 200L)
 
-    double_months <- c(1., 2., 3., 4., 5., 6., 7., 8., 9., 10., 11., 12.)
+    double_months <- c(1., 2., 3., 4.0, 5., 6., 7., 8., 9., 10., 11., 12.0)
     good_months <- 1L:12L
 
     # Quarter
-    warning_double_quarters <- c(-200., -20., -5., -3., -2., -1., 0., 5., 12., 13., 46.)
+    warning_double_quarters <- c(-200., -20., -5., -3., -2., -1., 0., 5., 12.0, 13., 46.)
     warning_integer_quarters <- c(-200L, -20L, -5L, -3L, -2L, -1L, 0L, 5L, 12L, 13L, 46L)
 
-    double_quarters <- c(1., 2., 3., 4.)
+    double_quarters <- c(1., 2., 3., 4.0)
     good_quarters <- 1L:4L
 
     # Dates
@@ -141,9 +141,9 @@ withr::with_envvar(new = c(lang = "en_US"), {
         list(list(2020L, 5L), list(2L, "a", 3.5), list(NULL), list(2005), list(c(2022L, 8L)), list(c(2022L, 8.))),
         lapply(list_type[-c(1L, 3L)], create_random_type, len = 2L),
         lapply(list_type, create_random_type, len = 3),
-        list(2019.5, 2020. + 1. / 12., pi / 4., c(2020., 2.5), c(2010.25, 3.), c(2002., 3., 1.), c("2002", "3")),
+        list(2019.5, 2020. + 1. / 12.0, pi / 4.0, c(2020., 2.5), c(2010.25, 3.), c(2002., 3., 1.), c("2002", "3")),
         list(c(2020L, NA_integer_), c(NA_integer_, 5L), c(NA_integer_, NA_integer_), c(2020, NA_real_), c(NA_real_, 5.), c(NA_real_, NA_real_)),
-        list(2L:4L, c(2020.0, 7., 1.), c(2020L, 0L, NA_integer_), numeric(0), integer(0), Inf, c(2000L, Inf), c(Inf, 4.)),
+        list(2L:4L, c(2020.0, 7., 1.), c(2020L, 0L, NA_integer_), numeric(0), integer(0), Inf, c(2000L, Inf), c(Inf, 4.0)),
         rnorm(10L)
     )
 
@@ -171,8 +171,8 @@ withr::with_envvar(new = c(lang = "en_US"), {
         return(paste0("Assertion on '", var, "' failed: Must be of type 'integer', not 'double'."))
     }
 
-    invalid_monthly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 12."
-    invalid_quaterly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 4."
+    invalid_monthly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 12.0"
+    invalid_quaterly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 4.0"
 
     double_instead_of_integer <- "Must be of type 'integer', not 'double'."
     warning_extend <- "extending time series when replacing values"

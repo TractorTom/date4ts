@@ -283,7 +283,7 @@ testthat::test_that("warning for integer date", {
             good_date <- c(good_year, good_quarter)
             testthat::expect_warning(
                 {
-                    boolRes <- assert_date_ts(x = good_date, frequency_ts = 4.)
+                    boolRes <- assert_date_ts(x = good_date, frequency_ts = 4.0)
                 },
                 regexp = message_double("frequency_ts")
             )
@@ -295,7 +295,7 @@ testthat::test_that("warning for integer date", {
         for (good_month in good_months) {
             good_date <- c(good_year, good_month)
             testthat::expect_warning(
-                assert_date_ts(x = good_date, frequency_ts = 12.),
+                assert_date_ts(x = good_date, frequency_ts = 12.0),
                 regexp = message_double("frequency_ts")
             )
         }

@@ -90,8 +90,8 @@ mens2trim <- function(date_ts) {
 #'
 #' @param date_ts un vecteur numérique, de préférence `integer` au format
 #' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries
-#' trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
+#' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #'
 #' @return En sortie, la fonction retourne la date au format `AAAA + TT/4` ou
 #' `AAAA + MM/12` (un numeric de longueur 1).
@@ -140,8 +140,8 @@ date_ts2timeunits <- function(date_ts, frequency_ts) {
 #' `c(AAAA, MM)` ou `c(AAAA, TT)` avec le mois ou trimestre en cours.
 #'
 #' @param date un objet de type Date
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries
-#' trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
+#' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #'
 #' @return En sortie, la fonction retourne la date au format `date_ts` (`c(AAAA,
 #' MM)` ou `c(AAAA, TT)`) avec le mois ou trimestre en cours selon l'argument
@@ -225,8 +225,8 @@ substr_year <- function(date, n = 1L) {
 #'
 #' @param date_ts un vecteur numérique, de préférence `integer`, au format
 #' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries
-#' trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
+#' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #'
 #' @return En sortie, la fonction retourne un objet de type Date (atomic) de
 #' longueur 1 qui correspond à l'objet `date_ts`.

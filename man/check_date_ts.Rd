@@ -19,8 +19,8 @@ assert_date_ts(
 \item{x}{un vecteur numérique, de préférence \code{integer} au format \code{AAAA},
 \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries
-trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.0}) pour les séries
+trimestrielles et \code{12L} (ou \code{12.0}) pour les séries mensuelles.}
 
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
 
@@ -74,13 +74,13 @@ assert_date_ts(c(2020L, 2L), frequency_ts = 4L)
 check_date_ts(2022L, frequency_ts = 12L)
 
 # Format double --> génération d'un warning
-assert_date_ts(c(2020., 4.), frequency_ts = 4L)
+assert_date_ts(c(2020., 4.0), frequency_ts = 4L)
 assert_date_ts(2022., frequency_ts = 12L)
 check_date_ts(2022., frequency_ts = 12L)
 
 # Fréquence au format double --> génération d'un warning
-assert_date_ts(c(2020L, 6L), frequency_ts = 4.)
-assert_date_ts(c(2020L, 42L), frequency_ts = 12.)
+assert_date_ts(c(2020L, 6L), frequency_ts = 4.0)
+assert_date_ts(c(2020L, 42L), frequency_ts = 12.0)
 
 # Dépassement la fréquence --> génération d'un warning
 assert_date_ts(c(2020L, 6L), frequency_ts = 4L)

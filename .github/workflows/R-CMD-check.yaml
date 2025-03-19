@@ -46,7 +46,7 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v2
 
       - name: "Update tidy on macos"
-        if: runner.os != 'Windows'
+        if: runner.os == 'macOS'
         run: |
           brew update
           brew install tidy-html5
@@ -62,17 +62,20 @@ jobs:
         with:
           r-version: ${{ matrix.r }}
 
-      - name: Install dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::rcmdcheck
-          needs: check
 
-      - name: renv status
-        run: |
-          renv::status()
-          renv::restore()
-        shell: Rscript {0}
+      - uses: r-lib/actions/setup-renv@v2
+
+      # - name: Install dependencies
+      #   uses: r-lib/actions/setup-r-dependencies@v2
+      #   with:
+      #     extra-packages: any::rcmdcheck
+      #     needs: check
+
+      # - name: renv status
+      #   run: |
+      #     renv::status()
+      #     renv::restore()
+      #   shell: Rscript {0}
 
       - name: Set up Tinytex
         uses: r-lib/actions/setup-tinytex@v2

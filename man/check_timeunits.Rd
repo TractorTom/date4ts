@@ -12,8 +12,8 @@ assert_timeunits(x, frequency_ts, add = NULL, .var.name = checkmate::vname(x))
 \arguments{
 \item{x}{un numérique qui représente le time units de}
 
-\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries
-trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.0}) pour les séries
+trimestrielles et \code{12L} (ou \code{12.0}) pour les séries mensuelles.}
 
 \item{.var.name}{Nom de l'objet à vérifier pour afficher dans les messages}
 
@@ -55,11 +55,11 @@ assert_timeunits(2020.5, frequency_ts = 12L)
 assert_timeunits(2020.5, frequency_ts = 4L)
 assert_timeunits(2023., frequency_ts = 12L)
 
-assert_timeunits(2000. + 5. / 12., frequency_ts = 12L)
-assert_timeunits(2015. + 3. / 4., frequency_ts = 4L)
+assert_timeunits(2000. + 5. / 12.0, frequency_ts = 12L)
+assert_timeunits(2015. + 3. / 4.0, frequency_ts = 4L)
 
 check_timeunits(2020.5, frequency_ts = 12L)
-check_timeunits(2015. + 3. / 4., frequency_ts = 4L)
+check_timeunits(2015. + 3. / 4.0, frequency_ts = 4L)
 
 # Avec erreur
 

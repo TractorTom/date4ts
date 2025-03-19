@@ -20,14 +20,14 @@ testthat::test_that("good result for integer frequency", {
 testthat::test_that("good result for double frequency without warning", {
     testthat::expect_silent(
         object = {
-            res <- assert_frequency(x = 12., warn = FALSE)
+            res <- assert_frequency(x = 12.0, warn = FALSE)
         }
     )
     testthat::expect_identical(res, 12L)
 
     testthat::expect_silent(
         object = {
-            res <- assert_frequency(x = 4., warn = FALSE)
+            res <- assert_frequency(x = 4.0, warn = FALSE)
         }
     )
     testthat::expect_identical(object = res, expected = 4L)
@@ -40,7 +40,7 @@ testthat::test_that("warning for integer date", {
 
     testthat::expect_warning(
         object = {
-            res <- assert_frequency(x = 12., warn = TRUE)
+            res <- assert_frequency(x = 12.0, warn = TRUE)
         },
         regexp = double_instead_of_integer
     )
@@ -48,7 +48,7 @@ testthat::test_that("warning for integer date", {
 
     testthat::expect_warning(
         object = {
-            res <- assert_frequency(x = 4., warn = TRUE)
+            res <- assert_frequency(x = 4.0, warn = TRUE)
         },
         regexp = double_instead_of_integer
     )
@@ -56,7 +56,7 @@ testthat::test_that("warning for integer date", {
 
     testthat::expect_warning(
         object = {
-            res <- assert_frequency(x = 12.)
+            res <- assert_frequency(x = 12.0)
         },
         regexp = double_instead_of_integer
     )
@@ -64,7 +64,7 @@ testthat::test_that("warning for integer date", {
 
     testthat::expect_warning(
         object = {
-            res <- assert_frequency(x = 4.)
+            res <- assert_frequency(x = 4.0)
         },
         regexp = double_instead_of_integer
     )

@@ -10,8 +10,8 @@ next_date_ts(date_ts, frequency_ts, lag = 1L)
 \item{date_ts}{un vecteur numérique, de préférence \code{integer} au format
 \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
-\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries
-trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.0}) pour les séries
+trimestrielles et \code{12L} (ou \code{12.0}) pour les séries mensuelles.}
 
 \item{lag}{un entier}
 }

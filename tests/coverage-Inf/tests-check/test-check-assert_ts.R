@@ -75,7 +75,10 @@ testthat::test_that("Result FALSE expected with wrong frequency", {
                         frequency = wrong_freq,
                         start = startA
                     )
-                    testthat::expect_error(assert_ts(ts_A), regexp = "Variable 'frequency_ts': Must be element of set \\{'4','12'\\}|Variable 'frequency_ts': Must be of type 'single integerish value'")
+                    testthat::expect_error(
+                        object = assert_ts(ts_A),
+                        regexp = "Variable 'frequency_ts': Must be element of set \\{'4','12'\\}|Variable 'frequency_ts': Must be of type 'single integerish value'"
+                    )
                 }
             }
         }

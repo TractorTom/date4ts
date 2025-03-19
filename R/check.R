@@ -5,8 +5,8 @@
 #'
 #' @param x un vecteur numérique, de préférence `integer` au format `AAAA`,
 #' `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries
-#' trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
+#' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #' @param warn un booleen
@@ -48,13 +48,13 @@
 #' check_date_ts(2022L, frequency_ts = 12L)
 #'
 #' # Format double --> génération d'un warning
-#' assert_date_ts(c(2020., 4.), frequency_ts = 4L)
+#' assert_date_ts(c(2020., 4.0), frequency_ts = 4L)
 #' assert_date_ts(2022., frequency_ts = 12L)
 #' check_date_ts(2022., frequency_ts = 12L)
 #'
 #' # Fréquence au format double --> génération d'un warning
-#' assert_date_ts(c(2020L, 6L), frequency_ts = 4.)
-#' assert_date_ts(c(2020L, 42L), frequency_ts = 12.)
+#' assert_date_ts(c(2020L, 6L), frequency_ts = 4.0)
+#' assert_date_ts(c(2020L, 42L), frequency_ts = 12.0)
 #'
 #' # Dépassement la fréquence --> génération d'un warning
 #' assert_date_ts(c(2020L, 6L), frequency_ts = 4L)
@@ -426,8 +426,8 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x),
 #' TimeUnits.
 #'
 #' @param x un numérique qui représente le time units de
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries
-#' trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
+#' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #'
@@ -460,11 +460,11 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x),
 #' assert_timeunits(2020.5, frequency_ts = 4L)
 #' assert_timeunits(2023., frequency_ts = 12L)
 #'
-#' assert_timeunits(2000. + 5. / 12., frequency_ts = 12L)
-#' assert_timeunits(2015. + 3. / 4., frequency_ts = 4L)
+#' assert_timeunits(2000. + 5. / 12.0, frequency_ts = 12L)
+#' assert_timeunits(2015. + 3. / 4.0, frequency_ts = 4L)
 #'
 #' check_timeunits(2020.5, frequency_ts = 12L)
-#' check_timeunits(2015. + 3. / 4., frequency_ts = 4L)
+#' check_timeunits(2015. + 3. / 4.0, frequency_ts = 4L)
 #'
 #' # Avec erreur
 #'
@@ -529,14 +529,14 @@ assert_timeunits <- function(x, frequency_ts, add = NULL,
 
 #' Vérifie la conformité d'une fréquence
 #'
-#' @param x un entier qui vaut `4L` (ou `4.`) pour les séries trimestrielles et
-#' `12L` (ou `12.`) pour les séries mensuelles.
+#' @param x un entier qui vaut `4L` (ou `4.0`) pour les séries trimestrielles et
+#' `12L` (ou `12.0`) pour les séries mensuelles.
 #' @param warn un booleen
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #'
 #' @details La fréquence d'une série temporelle est soit mensuelle (`12L` ou
-#' `12.`) soit trimestrielle (`4L` ou `4.`). Les autres fréquences ne sont pas
+#' `12.0`) soit trimestrielle (`4L` ou `4.0`). Les autres fréquences ne sont pas
 #' acceptées.
 #' Cette fonction s'appuie essentiellement sur les fonctions
 #' `checkmate::check_numeric`, `checkmate::check_int` et

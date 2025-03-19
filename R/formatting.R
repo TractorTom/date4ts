@@ -2,8 +2,8 @@
 #'
 #' @param date_ts un vecteur numérique, de préférence `integer` au format
 #' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.`) pour les séries
-#' trimestrielles et `12L` (ou `12.`) pour les séries mensuelles.
+#' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
+#' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #' @param test un booléen (Default is TRUE)
 #'
 #' @return En sortie, la fonction retourne une date au même format que l'objet

@@ -9,8 +9,8 @@ date2date_ts(date, frequency_ts = 12L)
 \arguments{
 \item{date}{un objet de type Date}
 
-\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.}) pour les séries
-trimestrielles et \code{12L} (ou \code{12.}) pour les séries mensuelles.}
+\item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.0}) pour les séries
+trimestrielles et \code{12L} (ou \code{12.0}) pour les séries mensuelles.}
 }
 \value{
 En sortie, la fonction retourne la date au format \code{date_ts} (\code{c(AAAA, MM)} ou \code{c(AAAA, TT)}) avec le mois ou trimestre en cours selon l'argument

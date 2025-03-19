@@ -36,12 +36,12 @@ testthat::test_that("good result with Date", {
 testthat::test_that("warning for double frequency", {
 
     testthat::expect_warning(
-        res <- date2date_ts(date = Sys.Date(), frequency_ts = 12.),
+        {res <- date2date_ts(date = Sys.Date(), frequency_ts = 12.0)},
         regexp = message_double("frequency_ts")
     )
 
     testthat::expect_warning(
-        res <- date2date_ts(date = Sys.Date(), frequency_ts = 4.),
+        {res <- date2date_ts(date = Sys.Date(), frequency_ts = 4.0)},
         regexp = message_double("frequency_ts")
     )
 
@@ -51,13 +51,13 @@ testthat::test_that("warning for double frequency", {
                 dateA <- as.Date(paste0(year, "-", month, "-", day), format = "%Y-%m-%d")
 
                 testthat::expect_warning(
-                    res <- date2date_ts(date = dateA, frequency_ts = 12.),
+                    {res <- date2date_ts(date = dateA, frequency_ts = 12.0)},
                     regexp = message_double("frequency_ts")
                 )
                 testthat::expect_identical(res, c(year, month))
 
                 testthat::expect_warning(
-                    res <- date2date_ts(date = dateA, frequency_ts = 4.),
+                    {res <- date2date_ts(date = dateA, frequency_ts = 4.0)},
                     regexp = message_double("frequency_ts")
                 )
                 testthat::expect_identical(res, c(year, (month + 2L) %/% 3L))
