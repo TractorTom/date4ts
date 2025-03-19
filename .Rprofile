@@ -1,4 +1,4 @@
-source("renv/activate.R")
+# source("renv/activate.R")
 
 # options(download.file.method = "curl")
 options(download.file.extra = "--noproxy \"*\"")
