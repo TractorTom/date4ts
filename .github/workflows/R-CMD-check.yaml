@@ -76,4 +76,6 @@ jobs:
         with:
           args: '"--as-cran"'
           error-on: '"note"'
+          upload-snapshots: true
+          upload-results: true
 
