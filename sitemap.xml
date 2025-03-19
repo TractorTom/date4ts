@@ -1,111 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/404.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/index.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/as_yyyytt.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/check_date_ts.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/check_expression.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/check_frequency.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/check_scalar_date.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/check_scalar_integer.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/check_scalar_natural.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/check_timeunits.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/check_ts.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/combine2ts.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/date2date_ts.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/date_ts2date.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/date_ts2timeunits.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/diff_periode.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/ev_pib.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/extend_ts.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/first_date.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/format_date_ts.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/get_value_ts.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/is_before.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/last_date.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/libelles.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/libelles_one_date.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/na_trim.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/next_date_ts.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/previous_date_ts.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/set_value_ts.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/substr_year.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/reference/trim2mens.html</loc>
-  </url>
-  <url>
-    <loc>https://tractortom.github.io/TractorTsbox/why.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://tractortom.github.io/TractorTsbox/404.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/LICENSE.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/authors.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/index.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/news/index.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/TractorTsbox-package.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/as_yyyytt.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/check_date_ts.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/check_expression.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/check_frequency.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/check_scalar_date.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/check_scalar_integer.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/check_scalar_natural.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/check_timeunits.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/check_ts.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/combine2ts.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/date2date_ts.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/date_ts2date.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/date_ts2timeunits.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/diff_periode.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/ev_pib.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/extend_ts.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/first_date.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/get_value_ts.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/index.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/is_before.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/last_date.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/libelles.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/libelles_one_date.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/na_trim.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/next_date_ts.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/normalize_date_ts.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/previous_date_ts.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/set_value_ts.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/substr_year.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/reference/trim2mens.html</loc></url>
+<url><loc>https://tractortom.github.io/TractorTsbox/why.html</loc></url>
 </urlset>
+
