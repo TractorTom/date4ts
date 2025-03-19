@@ -17,7 +17,7 @@ Imports:
     stats, 
     checkmate
 Depends: 
-    R (>= 3.6.1)
+    R (>= 3.6)
 LazyData: true
 Suggests: 
     testthat (>= 3.0.0), 
