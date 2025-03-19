@@ -7,11 +7,11 @@ set.seed(2034L)
 
 testthat::test_that("good result for integer date month", {
     for (year in good_years) {
-        testthat::expect_silent(res <- assert_timeunits(x = year, frequency_ts = 12L))
+        res <- testthat::expect_silent(assert_timeunits(x = year, frequency_ts = 12L))
         testthat::expect_identical(res, year)
         for (month in good_months) {
             good_timeunits <- year + (month - 1) / 12
-            testthat::expect_silent(res <- assert_timeunits(x = good_timeunits, frequency_ts = 12L))
+            res <- testthat::expect_silent(assert_timeunits(x = good_timeunits, frequency_ts = 12L))
             testthat::expect_identical(res, good_timeunits)
         }
     }
@@ -19,11 +19,11 @@ testthat::test_that("good result for integer date month", {
 
 testthat::test_that("good result for integer date quarter", {
     for (year in good_years) {
-        testthat::expect_silent(res <- assert_timeunits(x = year, frequency_ts = 4L))
+        res <- testthat::expect_silent(assert_timeunits(x = year, frequency_ts = 4L))
         testthat::expect_identical(res, year)
         for (quarter in good_quarters) {
             good_timeunits <- year + (quarter - 1) / 4
-            testthat::expect_silent(res <- assert_timeunits(x = good_timeunits, frequency_ts = 4L))
+            res <- testthat::expect_silent(assert_timeunits(x = good_timeunits, frequency_ts = 4L))
             testthat::expect_identical(res, good_timeunits)
         }
     }

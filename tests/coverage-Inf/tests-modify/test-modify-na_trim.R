@@ -27,7 +27,7 @@ for (typeA in list_type[-6L]) {
                         # Cas 1
                         ts_with_na <- ts(c(A_content, create_NA_type(type = typeA, len = param1)),
                                          start = startA, frequency = frequenceA)
-                        testthat::expect_silent(res <- na_trim(ts_with_na))
+                        res <- testthat::expect_silent(na_trim(ts_with_na))
                         testthat::expect_equal(
                             object = res,
                             expected = ts_without_na
@@ -36,7 +36,7 @@ for (typeA in list_type[-6L]) {
                         # Cas 2
                         ts_with_na <- ts(c(create_NA_type(type = typeA, len = param1), A_content),
                                          end = end(ts_without_na), frequency = frequenceA)
-                        testthat::expect_silent(res <- na_trim(ts_with_na))
+                        res <- testthat::expect_silent(na_trim(ts_with_na))
                         testthat::expect_equal(
                             object = res,
                             expected = ts_without_na
@@ -54,7 +54,7 @@ for (typeA in list_type[-6L]) {
                             ts_without_na <- ts(A_content, start = c(startA, param1),
                                                 frequency = frequenceA)
 
-                            testthat::expect_silent(res <- na_trim(ts_with_na))
+                            res <- testthat::expect_silent(na_trim(ts_with_na))
                             testthat::expect_equal(
                                 object = res,
                                 expected = ts_without_na

@@ -6,7 +6,7 @@
 # * https://r-pkgs.org/tests.html
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
-library("testthat")
-library("TractorTsbox")
+library("testthat") # nolint unused_import_linter
+library("TractorTsbox") # nolint unused_import_linter
 
-testthat::test_check("TractorTsbox")
+test_check("TractorTsbox")

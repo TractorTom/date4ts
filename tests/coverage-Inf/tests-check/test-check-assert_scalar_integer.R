@@ -10,7 +10,7 @@ testthat::test_that("good result for integer", {
     list_integer <- c(list_lag, list_len, create_random_type("integer", len = 10L))
 
     for (k in list_integer) {
-        testthat::expect_silent(res <- assert_scalar_integer(x = k))
+        res <- testthat::expect_silent(assert_scalar_integer(x = k))
         testthat::expect_identical(res, k)
     }
 })
@@ -20,7 +20,7 @@ testthat::test_that("good result for double without warning", {
     list_double <- as.double(c(list_lag, list_len, create_random_type("integer", len = 10L)))
 
     for (k in list_double) {
-        testthat::expect_silent(res <- assert_scalar_integer(x = k, warn = FALSE))
+        res <- testthat::expect_silent(assert_scalar_integer(x = k, warn = FALSE))
         testthat::expect_identical(res, as.integer(k))
     }
 })

@@ -4,7 +4,7 @@
 testthat::test_that("good result for Date", {
 
     date <- Sys.Date()
-    testthat::expect_silent(res <- assert_scalar_date(x = date))
+    res <- testthat::expect_silent(assert_scalar_date(x = date))
     testthat::expect_identical(res, date)
 
 })

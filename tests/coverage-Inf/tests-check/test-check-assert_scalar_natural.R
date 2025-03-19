@@ -10,7 +10,7 @@ testthat::test_that("good result for integer", {
     list_integer <- abs(c(list_len, list_lag, create_random_type("integer", len = 10L))) + 1L
 
     for (k in list_integer) {
-        testthat::expect_silent(res <- assert_scalar_natural(x = k))
+        res <- testthat::expect_silent(assert_scalar_natural(x = k))
         testthat::expect_identical(res, k)
     }
 })
@@ -20,7 +20,7 @@ testthat::test_that("good result for double without warning", {
     list_double <- as.double(abs(c(list_lag, list_len, create_random_type("integer", len = 10L))) + 1L)
 
     for (k in list_double) {
-        testthat::expect_silent(res <- assert_scalar_natural(x = k, warn = FALSE))
+        res <- testthat::expect_silent(assert_scalar_natural(x = k, warn = FALSE))
         testthat::expect_identical(res, as.integer(k))
     }
 })

@@ -15,5 +15,5 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * add to the user the possibility to allow mts in `assert_ts` and `check_ts`
 * add function to manage ts object and date_ts object
 
-[Unreleased]: https://github.com/TanguyBarthelemy/TBox/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/TanguyBarthelemy/TBox/releases/tag/v0.1.0
+[Unreleased]: https://github.com/TractorTom/TractorTsbox/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/TractorTom/TractorTsbox/releases/tag/v0.1.0
