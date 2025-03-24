@@ -21,7 +21,7 @@ En sortie, la fonction retourne une copie de l'objet \code{series}
 complété avec le vecteur \code{replacement}.
 }
 \description{
-La fonction \code{extend_ts} ajoute de nouvelles valeurs à un ts
+La fonction \code{extend_ts} ajoute de nouvelles valeurs à un ts.
 }
 \details{
 Si \code{replace_na} vaut \code{TRUE} alors le remplacement commence dès que

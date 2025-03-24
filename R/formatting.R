@@ -1,4 +1,4 @@
-#' Ajuste un objet date_ts dans un format conforme.
+#' @title Ajuste un objet date_ts dans un format conforme.
 #'
 #' @param date_ts un vecteur numérique, de préférence `integer` au format
 #' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
@@ -6,7 +6,7 @@
 #' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #' @param test un booléen (Default is TRUE)
 #'
-#' @return En sortie, la fonction retourne une date au même format que l'objet
+#' @returns En sortie, la fonction retourne une date au même format que l'objet
 #' `date_ts` avec la période inclus entre 1 et la fréquence.
 #' @details Ici le formattage correspond à une réécriture de la date sans
 #' en changer la valeur. Alors que l'objet c(2020L, 12L) désigne le mois de

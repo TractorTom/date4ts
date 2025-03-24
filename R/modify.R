@@ -1,6 +1,7 @@
-#' Change certaines valeurs d'un ts
+#' @title Change certaines valeurs d'un ts
 #'
-#' @description La fonction `set_value_ts` modifie la ou les valeurs d'un objet
+#' @description
+#' La fonction `set_value_ts` modifie la ou les valeurs d'un objet
 #' ts à une date donnée.
 #'
 #' @param series un objet ts unidimensionnel conforme aux règles de assert_ts
@@ -8,7 +9,7 @@
 #' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #' @param replacement un vecteur de même type que le ts `series`
 #'
-#' @return En sortie, la fonction retourne une copie de l'objet `series` modifié
+#' @returns En sortie, la fonction retourne une copie de l'objet `series` modifié
 #' avec les valeurs de `replacement` imputés à partir de la date `date_ts`.
 #' @export
 #'
@@ -93,15 +94,16 @@ set_value_ts <- function(series, date_ts, replacement) {
     return(ts_output)
 }
 
-#' Combiner 2 ts
+#' @title Combiner 2 ts
 #'
-#' @description La fonction `combine2ts` combine (comme c()) 2 time series de
+#' @description
+#' La fonction `combine2ts` combine (comme c()) 2 time series de
 #' même fréquence (mensuelle ou trimestrielle).
 #'
 #' @param a un objet ts unidimensionnel conforme aux règles de assert_ts
 #' @param b un objet ts unidimensionnel conforme aux règles de assert_ts
 #'
-#' @return En sortie, la fonction retourne un ts qui contient les valeurs de `a`
+#' @returns En sortie, la fonction retourne un ts qui contient les valeurs de `a`
 #' aux temps de `a` et les valeurs de `b` aux temps de `b`.
 #' @details Si `a` et `b` ont une période en commun, les valeurs de `b` écrasent
 #' celles de a sur la période concernée.
@@ -210,9 +212,10 @@ combine2ts <- function(a, b) {
     return(ts_output)
 }
 
-#' Ajoute de nouvelles valeurs à un ts
+#' @title Ajoute de nouvelles valeurs à un ts
 #'
-#' @description La fonction `extend_ts` ajoute de nouvelles valeurs à un ts
+#' @description
+#' La fonction `extend_ts` ajoute de nouvelles valeurs à un ts.
 #'
 #' @param series un objet ts unidimensionnel conforme aux règles de assert_ts
 #' @param replacement un vecteur de même type que le ts `series`
@@ -220,7 +223,7 @@ combine2ts <- function(a, b) {
 #' `date_ts` (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`) (default NULL)
 #' @param replace_na un booléen
 #'
-#' @return En sortie, la fonction retourne une copie de l'objet `series`
+#' @returns En sortie, la fonction retourne une copie de l'objet `series`
 #' complété avec le vecteur `replacement`.
 #' @details Si `replace_na` vaut `TRUE` alors le remplacement commence dès que
 #' l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu,
@@ -314,9 +317,10 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
     return(series)
 }
 
-#' Supprime les NA aux bords
+#' @title Supprime les NA aux bords
 #'
-#' @description La fonction `na_trim` supprime les NA en début et en fin de
+#' @description
+#' La fonction `na_trim` supprime les NA en début et en fin de
 #' période.
 #'
 #' @param series un objet ts unidimensionnel conforme aux règles de assert_ts
@@ -324,7 +328,7 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
 #' retirés (au début et à la fin ("both"), juste au début ("left") ou juste à
 #' la fin ("right"))
 #'
-#' @return En sortie, la fonction retourne une copie de l'objet `series` corrigé
+#' @returns En sortie, la fonction retourne une copie de l'objet `series` corrigé
 #' des NA et début et fin de série.
 #' @details L'objet retourné commence et finis par des valeurs non manquantes.
 #' @export
@@ -364,27 +368,19 @@ na_trim <- function(series, sides = c("both", "left", "right")) {
         frequency_ts = frequency_ts,
         test = FALSE
     )
-
-    if (sides == "both") {
-        content <- series[min(non_na):max(non_na)]
+    content <- switch(
+        EXPR = sides,
+        both = series[min(non_na):max(non_na)],
+        right = series[1L:max(non_na)],
+        left = series[min(non_na):length(series)]
+    )
+    if (sides != "right") {
         start_ts <- next_date_ts(
             date_ts = start_ts,
             frequency_ts = frequency_ts,
             lag = min(non_na) - 1L
         )
-    } else if (sides == "left") {
-        content <- series[min(non_na):length(series)]
-        start_ts <- next_date_ts(
-            date_ts = start_ts,
-            frequency_ts = frequency_ts,
-            lag = min(non_na) - 1L
-        )
-    } else if (sides == "right") {
-        content <- series[1L:max(non_na)]
-    } else {
-        stop("L'argument sides doit \u00eatre \"both\", \"left\" ou \"right\".")
     }
-
     return(stats::ts(
         data = content,
         start = start_ts,

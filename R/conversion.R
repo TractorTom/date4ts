@@ -1,4 +1,4 @@
-#' Conversion au format date_ts
+#' @title Conversion au format date_ts
 #'
 #' @description Les fonctions `as_yyyytt` et `as_yyyymm` convertissent une date
 #' du format TimeUnits au format `date_ts`.
@@ -6,7 +6,7 @@
 #' @param timeunits une date en année (Par exemple 2015.25 pour le 2ème
 #' trimestre 2015 ou `2021.83333333333` pour novembre 2021)
 #'
-#' @return En sortie, ces fonctions retournent la date au format `date_ts`
+#' @returns En sortie, ces fonctions retournent la date au format `date_ts`
 #' (c'est-à-dire un vecteur d'entiers de la forme `AAAA`, `c(AAAA, MM)` ou
 #' `c(AAAA, TT)`)
 #' @details
@@ -43,7 +43,7 @@ as_yyyymm <- function(timeunits) {
     return(as.integer(round(c(timeunits %/% 1L, (timeunits %% 1L) * 12L + 1L))))
 }
 
-#' Conversion entre date mensuelle et trimestrielle
+#' @title Conversion entre date mensuelle et trimestrielle
 #'
 #' @description Les fonctions `trim2mens` et `mens2trim` convertissent une
 #' `date_ts` du format mensuelle `c(AAAA, MM)` au format trimestrielle `c(AAAA,
@@ -52,7 +52,7 @@ as_yyyymm <- function(timeunits) {
 #' @param date_ts un vecteur numérique, de préférence `integer`, au format
 #' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #'
-#' @return En sortie, la fonction retourne la date toujours au format `date_ts`.
+#' @returns En sortie, la fonction retourne la date toujours au format `date_ts`.
 #' @export
 #'
 #' @examples
@@ -86,14 +86,14 @@ mens2trim <- function(date_ts) {
     return(as.integer(c(year, 1L + ((month - 1L) %/% 3L))))
 }
 
-#' Conversion d'une date du format date_ts au format TimeUnits
+#' @title Conversion d'une date du format date_ts au format TimeUnits
 #'
 #' @param date_ts un vecteur numérique, de préférence `integer` au format
 #' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
 #' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #'
-#' @return En sortie, la fonction retourne la date au format `AAAA + TT/4` ou
+#' @returns En sortie, la fonction retourne la date au format `AAAA + TT/4` ou
 #' `AAAA + MM/12` (un numeric de longueur 1).
 #'
 #' @details
@@ -133,7 +133,7 @@ date_ts2timeunits <- function(date_ts, frequency_ts) {
     return(date_ts[1L] + (date_ts[2L] - 1) / frequency_ts)
 }
 
-#' Conversion d'une date au format TS
+#' @title Conversion d'une date au format TS
 #'
 #' @description La fonction `date2date_ts` prend en argument une date au format
 #' date (integer avec une class Date) et la convertit au format `date_ts` :
@@ -143,7 +143,7 @@ date_ts2timeunits <- function(date_ts, frequency_ts) {
 #' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
 #' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #'
-#' @return En sortie, la fonction retourne la date au format `date_ts` (`c(AAAA,
+#' @returns En sortie, la fonction retourne la date au format `date_ts` (`c(AAAA,
 #' MM)` ou `c(AAAA, TT)`) avec le mois ou trimestre en cours selon l'argument
 #' `frequency_ts`.
 #' @export
@@ -178,13 +178,13 @@ date2date_ts <- function(date, frequency_ts = 12L) {
     return(c(year, month))
 }
 
-#' Retire une année à une date
+#' @title Retire une année à une date
 #'
 #' @param date un objet de type Date
 #' @param n un entier
 #'
 #' @description La fonction `substr_year` retire `n` annnée(s) à une date.
-#' @return En sortie, la fonction retourne un objet de type Date (atomic) de
+#' @returns En sortie, la fonction retourne un objet de type Date (atomic) de
 #' longueur 1.
 #' @export
 #'
@@ -221,14 +221,14 @@ substr_year <- function(date, n = 1L) {
     return(date - 365 * n - leap_year)
 }
 
-#' Conversion d'une date du format TS au format date
+#' @title Conversion d'une date du format TS au format date
 #'
 #' @param date_ts un vecteur numérique, de préférence `integer`, au format
 #' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
 #' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #'
-#' @return En sortie, la fonction retourne un objet de type Date (atomic) de
+#' @returns En sortie, la fonction retourne un objet de type Date (atomic) de
 #' longueur 1 qui correspond à l'objet `date_ts`.
 #' @export
 #'

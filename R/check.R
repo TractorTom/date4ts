@@ -1,4 +1,4 @@
-#' Vérifie le format de date
+#' @title Vérifie le format de date
 #'
 #' @description La fonction `assert_date_ts` vérifie qu'un objet est de type
 #' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
@@ -11,7 +11,7 @@
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #' @param warn un booleen
 #'
-#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou
+#' @returns En sortie la fonction retourne l'objet `x` de manière invisible ou
 #' une erreur.
 #' @details Les fonctions du package TractorTsbox sont faites pour fonctionner
 #' avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le
@@ -197,7 +197,7 @@ assert_date_ts <- function(x, frequency_ts, add = NULL,
     return(invisible(x))
 }
 
-#' Vérifie la conformité d'un objet ts
+#' @title Vérifie la conformité d'un objet ts
 #'
 #' @description Les fonctions `assert_ts` et `check_ts` vérifient qu'un objet ts
 #' est bien conforme.
@@ -207,7 +207,7 @@ assert_date_ts <- function(x, frequency_ts, add = NULL,
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #' @param allow_mts Booleen. Est ce que les objects \code{mts} sont acceptés ?
 #'
-#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou
+#' @returns En sortie la fonction retourne l'objet `x` de manière invisible ou
 #' une erreur.
 #' @details Les fonctions du package TractorTsbox sont faites pour fonctionner
 #' avec des times-series de fréquence mensuelle ou trimestrielle et basées sur
@@ -368,26 +368,20 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x),
 
     # Check de la fréquence
     frequency_ts <- assert_expression(
-        expr = {
-            stats::frequency(x)
-        }
+        expr = stats::frequency(x)
     )
     frequency_ts <- assert_frequency(frequency_ts, add = coll,
                                      .var.name = "frequency_ts", warn = FALSE)
 
     # Check de la temporalité
     start_ts <- assert_expression(
-        expr = {
-            stats::start(x)
-        }
+        expr = stats::start(x)
     )
     start_ts <- assert_date_ts(start_ts, frequency_ts = frequency_ts,
                                add = coll, .var.name = "start", warn = FALSE)
 
     end_ts <- assert_expression(
-        expr = {
-            stats::end(x)
-        }
+        expr = stats::end(x)
     )
     end_ts <- assert_date_ts(end_ts, frequency_ts = frequency_ts, add = coll,
                              .var.name = "end", warn = FALSE)
@@ -420,7 +414,7 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x),
     return(invisible(x))
 }
 
-#' Vérifie la conformité d'un objet TimeUnits
+#' @title Vérifie la conformité d'un objet TimeUnits
 #'
 #' @description La fonction `assert_timeunits` vérifie qu'un objet est un
 #' TimeUnits.
@@ -431,7 +425,7 @@ assert_ts <- function(x, add = NULL, .var.name = checkmate::vname(x),
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #'
-#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou
+#' @returns En sortie la fonction retourne l'objet `x` de manière invisible ou
 #' une erreur.
 #'
 #' @details
@@ -527,7 +521,7 @@ assert_timeunits <- function(x, frequency_ts, add = NULL,
     return(invisible(x))
 }
 
-#' Vérifie la conformité d'une fréquence
+#' @title Vérifie la conformité d'une fréquence
 #'
 #' @param x un entier qui vaut `4L` (ou `4.0`) pour les séries trimestrielles et
 #' `12L` (ou `12.0`) pour les séries mensuelles.
@@ -560,6 +554,9 @@ assert_timeunits <- function(x, frequency_ts, add = NULL,
 #'     - la fonction `assert_frequency` retourne un message d'erreur;
 #'     - la fonction `check_frequency` retourne une chaîne de caractère
 #'     signalant le problème.
+#'
+#' @returns En sortie la fonction retourne l'objet `x` de manière invisible ou
+#' une erreur.
 #'
 #' @export
 #'
@@ -663,14 +660,14 @@ assert_frequency <- function(x, add = NULL,
 }
 
 
-#' Vérifie la conformité d'un entier scalaire
+#' @title Vérifie la conformité d'un entier scalaire
 #'
 #' @param x un entier relatif (positif, négatif ou nul)
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #' @param warn un booleen
 #'
-#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou
+#' @returns En sortie la fonction retourne l'objet `x` de manière invisible ou
 #' une erreur.
 #'
 #' @details
@@ -787,7 +784,7 @@ assert_scalar_integer <- function(x, add = NULL,
     return(invisible(x))
 }
 
-#' Vérifie la conformité d'un entier naturel
+#' @title Vérifie la conformité d'un entier naturel
 #'
 #' @description
 #' Le but de cett fonction est de tester si une variable x est un nombre naturel
@@ -798,7 +795,7 @@ assert_scalar_integer <- function(x, add = NULL,
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #' @param warn un booleen
 #'
-#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou
+#' @returns En sortie la fonction retourne l'objet `x` de manière invisible ou
 #' une erreur.
 #'
 #' @details
@@ -908,13 +905,13 @@ assert_scalar_natural <- function(x, add = NULL,
 
     return(invisible(x))
 }
-#' Vérifie la conformité d'une date scalaire
+#' @title Vérifie la conformité d'une date scalaire
 #'
 #' @param x un objet de type `Date`.
 #' @param add Collection pour stocker les messages d'erreurs (Default is NULL)
 #' @param .var.name Nom de l'objet à vérifier pour afficher dans les messages
 #'
-#' @return En sortie la fonction retourne l'objet `x` de manière invisible ou
+#' @returns En sortie la fonction retourne l'objet `x` de manière invisible ou
 #' une erreur.
 #'
 #' @details
@@ -984,11 +981,11 @@ assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
 
     return(invisible(x))
 }
-#' Vérifie la conformité d'une expression
+#' @title Vérifie la conformité d'une expression
 #'
 #' @param expr une expression à évaluer
 #'
-#' @return En sortie la fonction retourne l'objet `x` (le résultat de
+#' @returns En sortie la fonction retourne l'objet `x` (le résultat de
 #' l'évaluation de l'expression `expr`) de manière invisible ou une erreur.
 #'
 #' @details La fonction évalue l'expression `expr`. Le check vérifie si la

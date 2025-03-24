@@ -5,32 +5,26 @@ withr::with_envvar(new = c(lang = "en_US"), {
 
     # Création de fonctions --------------------------------------------------------
 
-    create_random_type <- function(type, len = NULL) {
-        if (is.null(len)) len <- sample(1L:1000L, size = 1L)
+    create_random_type <- function(type = c("character", "integer", "double", "logical", "complex", "raw", "Date"), len = NULL) {
+        type <- match.arg(type)
+        if (is.null(len)) len <- sample.int(n = 1000L, size = 1L)
 
-        if (type == "character") {
-            output <- strsplit(x = intToUtf8(sample(c(1L:55295L, 57344L:1114111L),
-                                                    size = len, replace = TRUE)),
-                               split = "",
-                               fixed = TRUE)[[1L]]
-        } else if (type == "integer") {
-            output <- sample(-20000000L:20000000L, size = len, replace = TRUE)
-        } else if (type == "double") {
-            output <- runif(n = len, min = -10000L, max = 10000L)
-        } else if (type == "logical") {
-            output <- sample(x = c(TRUE, FALSE), size = len, replace = TRUE)
-        } else if (type == "complex") {
-            output <- complex(
-                real = runif(n = len, min = -10000L, max = 10000L),
-                imaginary = runif(n = len, min = -10000L, max = 10000L)
-            )
-        } else if (type == "raw") {
-            output <- sample(x = as.raw(0L:255L), size = len, replace = TRUE)
-        } else if (type == "Date") {
-            output <- sample(x = seq(as.Date("1950-01-01"), as.Date("2024-01-01"), by = "day"), size = len, replace = TRUE)
-        } else {
-            stop("Le type n'est pas reconnu.")
-        }
+        output <- switch(
+            EXPR = type,
+            character = strsplit(x = intToUtf8(sample(c(1L:55295L, 57344L:1114111L),
+                                                      size = len, replace = TRUE)),
+                                 split = "",
+                                 fixed = TRUE)[[1L]],
+            integer = sample(-20000000L:20000000L, size = len, replace = TRUE),
+            double = runif(n = len, min = -10000L, max = 10000L),
+            logical = sample(x = c(TRUE, FALSE), size = len, replace = TRUE),
+            complex = complex(
+                real = create_random_type(type = "double", len = len),
+                imaginary = create_random_type(type = "double", len = len)
+            ),
+            raw = as.raw(sample.int(n = 255L, size = len, replace = TRUE)),
+            Date = as.Date(sample.int(n = 27000L, size = len, replace = TRUE) - 7000)
+        )
         return(output)
     }
 
@@ -41,8 +35,8 @@ withr::with_envvar(new = c(lang = "en_US"), {
 
         if (!is.null(frequency_ts)) {
             return(c(
-                sample(1950L:2022L, size = 1L),
-                sample(seq_len(frequency_ts), size = 1L)
+                1950L + sample.int(n = 80L, size = 1L),
+                sample.int(n = frequency_ts, size = 1L)
             ))
         }
 
@@ -53,8 +47,8 @@ withr::with_envvar(new = c(lang = "en_US"), {
     }
 
     create_random_ts <- function(type = NULL, len = NULL, start = NULL, frequency = NULL) {
-        if (is.null(type)) type <- sample(list_type, size = 1L)
-        if (is.null(len)) len <- sample(1L:1000L, size = 1L)
+        if (is.null(type)) type <- sample(x = list_type, size = 1L)
+        if (is.null(len)) len <- sample.int(n = 1000L, size = 1L)
         if (is.null(frequency)) frequency <- sample(c(4L, 12L), size = 1L)
         if (is.null(start)) start <- create_random_date_ts()
 
@@ -63,25 +57,21 @@ withr::with_envvar(new = c(lang = "en_US"), {
         return(ts(content, start = start, frequency = frequency))
     }
 
-    create_NA_type <- function(type, len = 1L) {
-        if (type == "character") {
-            output <- rep(x = NA_character_, times = len)
-        } else if (type == "integer") {
-            output <- rep(x = NA_integer_, times = len)
-        } else if (type == "double") {
-            output <- rep(x = NA_real_, times = len)
-        } else if (type == "logical") {
-            output <- rep(x = NA, times = len)
-        } else if (type == "complex") {
-            output <- rep(x = NA_complex_, times = len)
-        } else if (type == "Date") {
-            output <- create_NA_type(type = "integer", len = len)
-            class(output) <- "Date"
-        } else if (type == "raw") {
-            output <- rep(x = as.raw(0x00), times = len)
-        } else {
-            stop("Le type n'est pas reconnu.")
-        }
+    create_NA_type <- function(type = c("character", "integer", "double", "logical", "complex", "raw", "Date"), len = 1L) {
+        type <- match.arg(type)
+        output <- rep(
+            x = switch(
+                EXPR = type,
+                character = NA_character_,
+                integer = NA_integer_,
+                double = NA_real_,
+                logical = NA,
+                complex = NA_complex_,
+                raw = as.raw(0x00),
+                Date = as.Date(NA_integer_)
+            ),
+            times = len
+        )
         return(output)
     }
 

@@ -1,4 +1,4 @@
-#' Obtenir la date précédente
+#' @title Obtenir la date précédente
 #'
 #' @param date_ts un vecteur numérique, de préférence `integer` au format
 #' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
@@ -6,7 +6,7 @@
 #' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #' @param lag un entier
 #'
-#' @return En sortie, la fonction retourne un vecteur d'entier qui représente la
+#' @returns En sortie, la fonction retourne un vecteur d'entier qui représente la
 #' date à la période passée au format `date_ts`.
 #'
 #' @details Lorsqu'on parle de date précédente, on parle de date passée.
@@ -58,11 +58,11 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
     ))
 }
 
-#' Obtenir la date suivante
+#' @title Obtenir la date suivante
 #'
 #' @inheritParams previous_date_ts
 #'
-#' @return En sortie, la fonction retourne un vecteur d'entier qui représente la
+#' @returns En sortie, la fonction retourne un vecteur d'entier qui représente la
 #' date à la période future au format `date_ts`.
 #'
 #' @details Lorsqu'on parle de date suivante, on parle de date future.
@@ -114,14 +114,14 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
     ))
 }
 
-#' Première date non NA
+#' @title Première date non NA
 #'
 #' @description Cette fonction calcule la première date pour laquelle l'objet
 #' `series` ne vaut pas NA.
 #'
 #' @param series un objet ts unidimensionnel conforme aux règles de assert_ts
 #'
-#' @return En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`,
+#' @returns En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`,
 #' `c(AAAA, MM)` ou `c(AAAA, TT)`)
 #'
 #' @details La date retournée en output est au format `date_ts`. Si l'objet
@@ -152,14 +152,14 @@ first_date <- function(series) {
     return(c(first_time %/% 1L, (first_time %% 1L) * frequency_ts + 1L))
 }
 
-#' Dernière date non NA
+#' @title Dernière date non NA
 #'
 #' @description Cette fonction calcule la dernière date pour laquelle l'objet
 #' `series` ne vaut pas NA.
 #'
 #' @inheritParams first_date
 #'
-#' @return En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`,
+#' @returns En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`,
 #' `c(AAAA, MM)` ou `c(AAAA, TT)`)
 #'
 #' @details La date retournée en output est au format `date_ts`. Si l'objet
@@ -195,12 +195,12 @@ last_date <- function(series) {
     }
 }
 
-#' Comparaison de 2 date_ts
+#' @title Comparaison de 2 date_ts
 #'
 #' @inheritParams diff_periode
 #' @param strict un booleen (default `FALSE`)
 #'
-#' @return En sortie, la fonction retourne un booleen (de longueur 1) qui
+#' @returns En sortie, la fonction retourne un booleen (de longueur 1) qui
 #' indique si la date `a` est antérieure à la date `b`.
 #'
 #' @details Les dates `a` et `b` sont au format date_ts. L'argument frequency_ts
@@ -257,7 +257,7 @@ is_before <- function(a, b, frequency_ts, strict = FALSE) {
 }
 
 
-#' Intervalle entre 2 dates
+#' @title Intervalle entre 2 dates
 #'
 #' @param a un objet date_ts, c'est-à-dire un vecteur numérique, de préférence
 #' `integer` au format `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
@@ -266,7 +266,7 @@ is_before <- function(a, b, frequency_ts, strict = FALSE) {
 #' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
 #' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #'
-#' @return En sortie, la fonction retourne un entier qui désigne le nombre de
+#' @returns En sortie, la fonction retourne un entier qui désigne le nombre de
 #' période (mois ou trimestres) qui sépare les 2 dates `a` et `b`.
 #'
 #' @details On travaille ici avec des dates au format date_ts, c'est-à-dire qui

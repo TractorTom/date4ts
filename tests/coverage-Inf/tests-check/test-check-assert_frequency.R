@@ -82,9 +82,7 @@ testthat::test_that("warning for integer date", {
 testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
         testthat::expect_error(
-            object = {
-                assert_frequency(x = wrong_frequency, warn = FALSE)
-            }
+            object = assert_frequency(x = wrong_frequency, warn = FALSE)
         )
     }
 })

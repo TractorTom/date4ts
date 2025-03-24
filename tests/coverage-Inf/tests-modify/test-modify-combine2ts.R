@@ -32,7 +32,13 @@ for (typeA in list_type) {
                                 if (length(startB1) == 1L) startB1 <- c(startB1, 1L)
                                 startB1[2L] <- startB1[2L] - (param1 - 1L)
                                 ts_B1 <- ts(B1_content, start = startB1, frequency = frequenceA)
-                                # ts_B1 <- ts(B1_content,  start = date_ts2timeunits(as.integer(end(ts_A)), frequency = frequenceA) - (param1 - 1L) / frequenceA, frequency = frequenceA)
+                                # ts_B1 <- ts(
+                                #     data = B1_content,
+                                #     start = date_ts2timeunits(
+                                #         as.integer(end(ts_A)),
+                                #         frequency = frequenceA) - (param1 - 1L) / frequenceA,
+                                #     frequency = frequenceA
+                                # )
 
                                 ts_ResAB1 <- ts(c(A_content[1L:(lenA - param1)], B1_content), start = startA, frequency = frequenceA)
                                 if (param2 == 0L) {
@@ -117,32 +123,34 @@ for (typeA in list_type) {
                                 if (length(startB3) == 1L) startB3 <- c(startB3, 1L)
                                 startB3[2L] <- startB3[2L] - (param1 + param2)
                                 ts_B3 <- ts(B3_content, start = startB3, frequency = frequenceA)
-                                # ts_B3 <- ts(B3_content, start = date_ts2timeunits(startA, frequency = frequenceA) - (param1 + param2) / frequenceA, frequency = frequenceA)
+                                # ts_B3 <- ts(
+                                #     data = B3_content,
+                                #     start = date_ts2timeunits(
+                                #         startA,
+                                #         frequency = frequenceA) - (param1 + param2) / frequenceA,
+                                #     frequency = frequenceA
+                                # )
 
                                 if (typeA == "raw") {
                                     ts_ResAB3 <- ts(c(B3_content, rep(as.raw(0L), param2), A_content), start = start(ts_B3), frequency = frequenceA)
                                     ts_ResB3A <- ts(c(B3_content, rep(as.raw(0L), param2), A_content), start = start(ts_B3), frequency = frequenceA)
                                     if (param2 > 0L) {
                                         testthat::expect_warning(
-                                            {
-                                                testthat::expect_warning(
-                                                    {
-                                                        resAB3 <- combine2ts(ts_A, ts_B3)
-                                                    },
-                                                    regexp = warning_extend
-                                                )
-                                            },
+                                            testthat::expect_warning(
+                                                {
+                                                    resAB3 <- combine2ts(ts_A, ts_B3)
+                                                },
+                                                regexp = warning_extend
+                                            ),
                                             regexp = "out-of-range values treated as 0 in coercion to raw"
                                         )
                                         testthat::expect_warning(
-                                            {
-                                                testthat::expect_warning(
-                                                    {
-                                                        resB3A <- combine2ts(ts_B3, ts_A)
-                                                    },
-                                                    regexp = warning_extend
-                                                )
-                                            },
+                                            testthat::expect_warning(
+                                                {
+                                                    resB3A <- combine2ts(ts_B3, ts_A)
+                                                },
+                                                regexp = warning_extend
+                                            ),
                                             regexp = "out-of-range values treated as 0 in coercion to raw"
                                         )
                                     } else {
@@ -193,32 +201,34 @@ for (typeA in list_type) {
                                 if (length(startB4) == 1L) startB4 <- c(startB4, 1L)
                                 startB4[2L] <- startB4[2L] + param1 + 1L
                                 ts_B4 <- ts(B4_content, start = startB4, frequency = frequenceA)
-                                # ts_B4 <- ts(B4_content,  start = date_ts2timeunits(as.integer(end(ts_A)), frequency = frequenceA) + (param1 + 1L) / frequenceA, frequency = frequenceA)
+                                # ts_B4 <- ts(
+                                #     data = B4_content,
+                                #     start = date_ts2timeunits(
+                                #         as.integer(end(ts_A)),
+                                #         frequency = frequenceA) + (param1 + 1L) / frequenceA,
+                                #     frequency = frequenceA
+                                # )
 
                                 if (typeA == "raw") {
                                     ts_ResAB4 <- ts(c(A_content, rep(as.raw(0L), param1), B4_content), start = startA, frequency = frequenceA)
                                     ts_ResB4A <- ts(c(A_content, rep(as.raw(0L), param1), B4_content), start = startA, frequency = frequenceA)
                                     if (param1 > 0L) {
                                         testthat::expect_warning(
-                                            {
-                                                testthat::expect_warning(
-                                                    {
-                                                        resAB4 <- combine2ts(ts_A, ts_B4)
-                                                    },
-                                                    regexp = warning_extend
-                                                )
-                                            },
+                                            testthat::expect_warning(
+                                                {
+                                                    resAB4 <- combine2ts(ts_A, ts_B4)
+                                                },
+                                                regexp = warning_extend
+                                            ),
                                             regexp = "out-of-range values treated as 0 in coercion to raw"
                                         )
                                         testthat::expect_warning(
-                                            {
-                                                testthat::expect_warning(
-                                                    {
-                                                        resB4A <- combine2ts(ts_B4, ts_A)
-                                                    },
-                                                    regexp = warning_extend
-                                                )
-                                            },
+                                            testthat::expect_warning(
+                                                {
+                                                    resB4A <- combine2ts(ts_B4, ts_A)
+                                                },
+                                                regexp = warning_extend
+                                            ),
                                             regexp = "out-of-range values treated as 0 in coercion to raw"
                                         )
                                     } else {
@@ -278,7 +288,13 @@ for (typeA in list_type) {
                             } else if (param2 == 0L) {
                                 ts_ResB5A <- ts(c(B5_content[1L:param1], A_content), start = start(ts_B5), frequency = frequenceA)
                             } else {
-                                ts_ResB5A <- ts(c(B5_content[1L:param1], A_content, B5_content[(param1 + lenA + 1):(param1 + param2 + lenA)]), start = start(ts_B5), frequency = frequenceA)
+                                ts_ResB5A <- ts(
+                                    data = c(B5_content[1L:param1],
+                                             A_content,
+                                             B5_content[(param1 + lenA + 1):(param1 + param2 + lenA)]),
+                                    start = start(ts_B5),
+                                    frequency = frequenceA
+                                )
                             }
 
                             if (param1 + param2 > 0L) {

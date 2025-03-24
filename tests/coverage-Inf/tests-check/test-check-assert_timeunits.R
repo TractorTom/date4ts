@@ -39,7 +39,9 @@ testthat::test_that("warning for integer date", {
         for (month in good_months) {
             good_timeunits <- year + (month - 1L) / 12L
             testthat::expect_warning(
-                res <- assert_timeunits(x = good_timeunits, frequency_ts = 12.0),
+                {
+                    res <- assert_timeunits(x = good_timeunits, frequency_ts = 12.0)
+                },
                 regexp = message_double("frequency_ts")
             )
             testthat::expect_identical(res, good_timeunits)
@@ -50,7 +52,9 @@ testthat::test_that("warning for integer date", {
         for (quarter in good_quarters) {
             good_timeunits <- year + (quarter - 1L) / 4L
             testthat::expect_warning(
-                res <- assert_timeunits(x = good_timeunits, frequency_ts = 4.0),
+                {
+                    res <- assert_timeunits(x = good_timeunits, frequency_ts = 4.0)
+                },
                 regexp = message_double("frequency_ts")
             )
             testthat::expect_identical(res, good_timeunits)

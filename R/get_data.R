@@ -1,4 +1,4 @@
-#' Récupère des valeurs d'un ts
+#' @title Récupère des valeurs d'un ts
 #'
 #' @description La fonction `get_value_ts` permet de récupérer des valeurs.
 #'
@@ -9,7 +9,7 @@
 #' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #' @param n un entier
 #'
-#' @return En sortie, la fonction retourne un vecteur (atomic) de même type que
+#' @returns En sortie, la fonction retourne un vecteur (atomic) de même type que
 #' `series` avec les valeurs extraites.
 #'
 #' @details

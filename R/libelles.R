@@ -1,4 +1,4 @@
-#' Libelé pour une date
+#' @title Libelé pour une date
 #'
 #' @description La fonction `libelles_one_date` créé le libellé pour une date
 #' à une fréquence donnée.modifie la ou les valeurs d'un objet ts à une date
@@ -10,7 +10,7 @@
 #' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #' @param warn un booleen
 #'
-#' @return En sortie, la fonction retourne une chaîne de caractère de longueur 1
+#' @returns En sortie, la fonction retourne une chaîne de caractère de longueur 1
 #' qui correspond au libellé de la date `date_ts`.
 #'
 #' @details
@@ -35,17 +35,17 @@ libelles_one_date <- function(date_ts, frequency_ts, warn = TRUE) {
     date_ts <- assert_date_ts(x = date_ts, frequency_ts, .var.name = "date_ts",
                               warn = warn)
 
-    date <- date_ts2date(date_ts, frequency_ts = frequency_ts)
+    date_obj <- date_ts2date(date_ts, frequency_ts = frequency_ts)
 
     year <- date_ts[1L]
     if (frequency_ts == 4L) {
-        return(paste(quarters(date), year))
+        return(paste(quarters(date_obj), year))
     } else if (frequency_ts == 12L) {
-        return(paste(months(date, abbreviate = TRUE), year))
+        return(paste(months(date_obj, abbreviate = TRUE), year))
     }
 }
 
-#' Libelés pour une période
+#' @title Libelés pour une période
 #'
 #' @description La fonction `libelles` créé un vecteur de chaines de caractère
 #' contenant les libelés de toutes les dates sur une période
@@ -53,7 +53,7 @@ libelles_one_date <- function(date_ts, frequency_ts, warn = TRUE) {
 #' @inheritParams libelles_one_date
 #' @param n un entier
 #'
-#' @return En sortie, la fonction retourne un vecteur de chaine de caractère de
+#' @returns En sortie, la fonction retourne un vecteur de chaine de caractère de
 #' longueur `n` avec les libellés de la période (de la date `date_ts` à la date
 #' `date_ts + n périodes`.
 #'

@@ -1,10 +1,11 @@
-#' Évolution du PIB français jusqu'au T1 2022
+#' @title Évolution du PIB français jusqu'au T1 2022
 #'
+#' @description
 #' Ce jeu de données contient une série `ts` de l'évolution trimestrielle du
 #' produit intérieur brut français.
 #' Toutes les infos complémentaires sur cette série se trouve sur la page de la
 #' \href{https://www.insee.fr/fr/statistiques/2830547}{publication} sur le site
-#' de l'\href{https://www.insee.fr}{Insee}.
+#' de l'\href{https://www.insee.fr/fr/accueil}{Insee}.
 #'
 #' @format Un ts unidimensionnel :
 #' \describe{

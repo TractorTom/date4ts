@@ -19,6 +19,10 @@ assert_frequency(x, add = NULL, .var.name = checkmate::vname(x), warn = TRUE)
 
 \item{add}{Collection pour stocker les messages d'erreurs (Default is NULL)}
 }
+\value{
+En sortie la fonction retourne l'objet \code{x} de manière invisible ou
+une erreur.
+}
 \description{
 Vérifie la conformité d'une fréquence
 }

@@ -40,25 +40,21 @@ for (typeA in list_type) {
                                         ts_ResAB1 <- ts(c(A_content, rep(as.raw(0L), lagB - lenA), valueB), start = startA, frequency = frequenceA)
 
                                         testthat::expect_warning(
-                                            {
-                                                testthat::expect_warning(
-                                                    {
-                                                        resAB <- set_value_ts(ts_A, date = startB, replacement = valueB)
-                                                    },
-                                                    regexp = warning_extend
-                                                )
-                                            },
+                                            testthat::expect_warning(
+                                                {
+                                                    resAB <- set_value_ts(ts_A, date = startB, replacement = valueB)
+                                                },
+                                                regexp = warning_extend
+                                            ),
                                             regexp = "out-of-range values treated as 0 in coercion to raw"
                                         )
                                         testthat::expect_warning(
-                                            {
-                                                testthat::expect_warning(
-                                                    {
-                                                        ts_ResAB2 <- combine2ts(ts_A, ts_B)
-                                                    },
-                                                    regexp = warning_extend
-                                                )
-                                            },
+                                            testthat::expect_warning(
+                                                {
+                                                    ts_ResAB2 <- combine2ts(ts_A, ts_B)
+                                                },
+                                                regexp = warning_extend
+                                            ),
                                             regexp = "out-of-range values treated as 0 in coercion to raw"
                                         )
                                     } else {
@@ -109,25 +105,21 @@ for (typeA in list_type) {
                                         ts_ResAB1 <- ts(c(valueB, rep(as.raw(0L), -lagB - lenB), A_content), start = startB, frequency = frequenceA)
 
                                         testthat::expect_warning(
-                                            {
-                                                testthat::expect_warning(
-                                                    {
-                                                        resAB <- set_value_ts(ts_A, date = startB, replacement = valueB)
-                                                    },
-                                                    regexp = warning_extend
-                                                )
-                                            },
+                                            testthat::expect_warning(
+                                                {
+                                                    resAB <- set_value_ts(ts_A, date = startB, replacement = valueB)
+                                                },
+                                                regexp = warning_extend
+                                            ),
                                             regexp = "out-of-range values treated as 0 in coercion to raw"
                                         )
                                         testthat::expect_warning(
-                                            {
-                                                testthat::expect_warning(
-                                                    {
-                                                        ts_ResAB2 <- combine2ts(ts_A, ts_B)
-                                                    },
-                                                    regexp = warning_extend
-                                                )
-                                            },
+                                            testthat::expect_warning(
+                                                {
+                                                    ts_ResAB2 <- combine2ts(ts_A, ts_B)
+                                                },
+                                                regexp = warning_extend
+                                            ),
                                             regexp = "out-of-range values treated as 0 in coercion to raw"
                                         )
                                     } else {
@@ -323,10 +315,12 @@ testthat::test_that("NA values generate warning", {
         v1 <- sample(c(create_random_type(typeA, len = 10L), create_NA_type(type = typeA, len = 5L)), replace = TRUE)
         v2 <- create_NA_type(type = typeA, len = 5L)
 
-        testthat::expect_warning(set_value_ts(series = ts_A, date = 2010L, replacement = v1),
+        testthat::expect_warning(
+            set_value_ts(series = ts_A, date = 2010L, replacement = v1),
             regexp = "Contains missing values"
         )
-        testthat::expect_warning(set_value_ts(series = ts_A, date = 2010L, replacement = v2),
+        testthat::expect_warning(
+            set_value_ts(series = ts_A, date = 2010L, replacement = v2),
             regexp = "Contains missing values"
         )
     }

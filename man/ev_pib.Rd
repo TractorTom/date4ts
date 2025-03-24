@@ -24,6 +24,6 @@ Ce jeu de données contient une série \code{ts} de l'évolution trimestrielle d
 produit intérieur brut français.
 Toutes les infos complémentaires sur cette série se trouve sur la page de la
 \href{https://www.insee.fr/fr/statistiques/2830547}{publication} sur le site
-de l'\href{insee.fr}{Insee}.
+de l'\href{https://www.insee.fr/fr/accueil}{Insee}.
 }
 \keyword{datasets}
