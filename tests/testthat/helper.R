@@ -23,7 +23,10 @@ withr::with_envvar(new = c(lang = "en_US"), {
                 imaginary = create_random_type(type = "double", len = len)
             ),
             raw = as.raw(sample.int(n = 255L, size = len, replace = TRUE)),
-            Date = as.Date(sample.int(n = 27000L, size = len, replace = TRUE) - 7000)
+            Date = as.Date(
+                x = sample.int(n = 27000L, size = len, replace = TRUE) - 7000,
+                origin = "1970-01-01"
+            )
         )
         return(output)
     }
