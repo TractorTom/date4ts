@@ -1,7 +1,7 @@
 Package: TractorTsbox
 Title: 
-    Wrangle and modify ts object with classic frequencies and exact dates.
-    Manipuler et modifier les objets ts avec des fréquences classiques et des dates exactes.
+    Wrangle and modify ts object with classic frequencies and exact dates
+    Manipuler et modifier les objets ts avec des fréquences classiques et des dates exactes
 Version: 0.1.1
 Authors@R: 
     person("Tanguy", "Barthelemy", email = "tangbarth@hotmail.fr", role = c("aut", "cre"))
