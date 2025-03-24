@@ -53,7 +53,7 @@
 
 <p><a href="https://app.codecov.io/gh/TractorTom/TractorTsbox" class="external-link"><img src="https://codecov.io/gh/TractorTom/TractorTsbox/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://www.codefactor.io/repository/github/TractorTom/TractorTsbox" class="external-link"><img src="https://www.codefactor.io/repository/github/TractorTom/TractorTsbox/badge" alt="CodeFactor"></a> <a href="https://github.com/TractorTom/TractorTsbox/actions/workflows/lint.yaml" class="external-link"><img src="https://github.com/TractorTom/TractorTsbox/actions/workflows/lint.yaml/badge.svg" alt="lint"></a> <!-- badges: end --></p>
 <p>TractorTsbox est une boite à outils pour la manipulation des objets <code>ts</code> en R.</p>
-<p>La motivation pour la création de ce package est le fait que pour créer un objet <code>ts</code> en R, il faut préciser la date sous le format <code>c(AAAA, PP)</code> (avec <code>PP</code> le numéro de la période).</p>
+<p>La motivation pour la création de ce package est le fait que pour créer un objet <code>ts</code> en R, il faut préciser la date sous le format <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>A</mi><mi>A</mi><mi>A</mi><mi>P</mi><mi>P</mi></mrow><annotation encoding="application/x-tex">AAAA PP</annotation></semantics></math> (avec <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>A</mi><mi>A</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">AAAA</annotation></semantics></math> l’année en 4 chiffres et <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>P</mi></mrow><annotation encoding="application/x-tex">PP</annotation></semantics></math> le numéro de la période).</p>
 <p>Par exemple, pour désigner le mois de septembre 2024, on utilise <code>c(2024, 9)</code> et pour désigner le mois de janvier 2025 on peut écrire <code>c(2025, 1)</code> ou <code>2025</code>.</p>
 <p>Mais on peut aussi utiliser le time-units (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>A</mi><mi>A</mi><mi>A</mi><mo>+</mo><mi>P</mi><mi>P</mi><mi>/</mi><mi>f</mi></mrow><annotation encoding="application/x-tex">AAAA + PP / f</annotation></semantics></math> avec <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math> la fréquence).</p>
 <p>L’idée est d’uniformiser les dates avec un ensemble de fonction de conversion, de formattage mais aussi de modification des <code>ts</code>.</p>
@@ -68,22 +68,29 @@
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/TractorTom/TractorTsbox" class="external-link">"TractorTsbox"</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="converting-dates">Converting Dates<a class="anchor" aria-label="anchor" href="#converting-dates"></a>
 </h3>
 <ul>
 <li>Convert a date from TimeUnits format to <code>date_ts</code> format:</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/as_yyyytt.html">as_yyyytt</a></span><span class="op">(</span><span class="fl">2019.75</span><span class="op">)</span><span class="co"># 4th quarter 2019</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/as_yyyytt.html">as_yyyytt</a></span><span class="op">(</span><span class="fl">2019.75</span><span class="op">)</span> <span class="co"># 4th quarter 2019</span></span>
+<span><span class="co">#&gt; [1] 2019    4</span></span>
 <span><span class="fu"><a href="reference/as_yyyytt.html">as_yyyytt</a></span><span class="op">(</span><span class="fl">2020</span><span class="op">)</span> <span class="co"># 1st quarter 2020</span></span>
-<span><span class="fu"><a href="reference/as_yyyytt.html">as_yyyytt</a></span><span class="op">(</span><span class="fl">2022</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">/</span> <span class="fl">4</span><span class="op">)</span><span class="co"># 2nd quarter 2022</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 2020    1</span></span>
+<span><span class="fu"><a href="reference/as_yyyytt.html">as_yyyytt</a></span><span class="op">(</span><span class="fl">2022</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">/</span> <span class="fl">4</span><span class="op">)</span> <span class="co"># 2nd quarter 2022</span></span>
+<span><span class="co">#&gt; [1] 2022    2</span></span></code></pre></div>
 <ul>
 <li>Convert a monthly date to a quarterly date:</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/trim2mens.html">trim2mens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2019L</span>, <span class="fl">4L</span><span class="op">)</span><span class="op">)</span><span class="co"># 4th quarter 2019 -&gt; October 2019</span></span>
-<span><span class="fu"><a href="reference/trim2mens.html">mens2trim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2020L</span>, <span class="fl">11L</span><span class="op">)</span><span class="op">)</span> <span class="co"># November 2020 -&gt; 4th quarter 2020</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/trim2mens.html">trim2mens</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2019L</span>, <span class="fl">4L</span><span class="op">)</span><span class="op">)</span> <span class="co"># 4th quarter 2019 -&gt; October 2019</span></span>
+<span><span class="co">#&gt; [1] 2019   10</span></span>
+<span><span class="fu"><a href="reference/trim2mens.html">mens2trim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2020L</span>, <span class="fl">11L</span><span class="op">)</span><span class="op">)</span> <span class="co"># November 2020 -&gt; 4th quarter 2020</span></span>
+<span><span class="co">#&gt; [1] 2020    4</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="manipulating-dates">Manipulating Dates<a class="anchor" aria-label="anchor" href="#manipulating-dates"></a>
@@ -91,19 +98,22 @@
 <ul>
 <li>Get the previous date:</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/previous_date_ts.html">previous_date_ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2020L</span>, <span class="fl">4L</span><span class="op">)</span>, frequency_ts <span class="op">=</span> <span class="fl">4L</span>, lag <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/previous_date_ts.html">previous_date_ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2020L</span>, <span class="fl">4L</span><span class="op">)</span>, frequency_ts <span class="op">=</span> <span class="fl">4L</span>, lag <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2020    2</span></span></code></pre></div>
 <ul>
 <li>Get the next date:</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/next_date_ts.html">next_date_ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2020L</span>, <span class="fl">4L</span><span class="op">)</span>, frequency_ts <span class="op">=</span> <span class="fl">4L</span>, lag <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/next_date_ts.html">next_date_ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2020L</span>, <span class="fl">4L</span><span class="op">)</span>, frequency_ts <span class="op">=</span> <span class="fl">4L</span>, lag <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2021    2</span></span></code></pre></div>
 <ul>
 <li>Find the first non-NA date in a time series:</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ts1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="cn">NA</span><span class="op">)</span>, start <span class="op">=</span> <span class="fl">2000</span>, frequency <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/first_date.html">first_date</a></span><span class="op">(</span><span class="va">ts1</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/first_date.html">first_date</a></span><span class="op">(</span><span class="va">ts1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2000    4</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="data-retrieval-and-modification">Data Retrieval and Modification<a class="anchor" aria-label="anchor" href="#data-retrieval-and-modification"></a>
@@ -111,27 +121,141 @@
 <ul>
 <li>Retrieve values from a time series:</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ts1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, start <span class="op">=</span> <span class="fl">2012L</span>, frequency <span class="op">=</span> <span class="fl">12L</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/get_value_ts.html">get_value_ts</a></span><span class="op">(</span>series <span class="op">=</span> <span class="va">ts1</span>, date_from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2015L</span>, <span class="fl">7L</span><span class="op">)</span>, date_to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2018L</span>, <span class="fl">6L</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/get_value_ts.html">get_value_ts</a></span><span class="op">(</span>series <span class="op">=</span> <span class="va">ts1</span>, date_from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2015L</span>, <span class="fl">7L</span><span class="op">)</span>, date_to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2018L</span>, <span class="fl">6L</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67</span></span>
+<span><span class="co">#&gt; [26] 68 69 70 71 72 73 74 75 76 77 78</span></span></code></pre></div>
 <ul>
 <li>Set values in a time series:</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/set_value_ts.html">set_value_ts</a></span><span class="op">(</span>series <span class="op">=</span> <span class="va">ev_pib</span>, date_ts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2021L</span>, <span class="fl">2L</span><span class="op">)</span>, replacement <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/set_value_ts.html">set_value_ts</a></span><span class="op">(</span>series <span class="op">=</span> <span class="va">ev_pib</span>, date_ts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2021L</span>, <span class="fl">2L</span><span class="op">)</span>, replacement <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;               Qtr1          Qtr2          Qtr3          Qtr4</span></span>
+<span><span class="co">#&gt; 1970            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1971            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1972            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1973            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1974            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1975            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1976            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1977            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1978            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1979            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1980            NA  -0.552712174  -0.086754850  -0.130764175</span></span>
+<span><span class="co">#&gt; 1981   0.436797694   0.663555818   0.655755678   0.465977515</span></span>
+<span><span class="co">#&gt; 1982   0.892058545   0.662204954   0.047370440   0.507157219</span></span>
+<span><span class="co">#&gt; 1983   0.581233329  -0.042548981   0.077874681   0.583935348</span></span>
+<span><span class="co">#&gt; 1984   0.619554314   0.363253711   0.462243113   0.288218891</span></span>
+<span><span class="co">#&gt; 1985   0.123719710   0.631349292   0.756575266   0.327524429</span></span>
+<span><span class="co">#&gt; 1986   0.357772133   1.122129272   0.326669036   0.370966439</span></span>
+<span><span class="co">#&gt; 1987   0.251659155   1.144598588   0.680758053   1.694026185</span></span>
+<span><span class="co">#&gt; 1988   1.231391234   0.593185145   1.302640709   1.065361026</span></span>
+<span><span class="co">#&gt; 1989   1.260037978   0.825806743   1.075064005   1.523944130</span></span>
+<span><span class="co">#&gt; 1990   0.517826385   0.377746880   0.459923112   0.366254003</span></span>
+<span><span class="co">#&gt; 1991  -0.156699858   0.309591699   0.289346425   0.496079715</span></span>
+<span><span class="co">#&gt; 1992   0.967856839  -0.057920191   0.028450027  -0.223321860</span></span>
+<span><span class="co">#&gt; 1993  -0.556650909   0.039547303   0.133452547   0.269728893</span></span>
+<span><span class="co">#&gt; 1994   0.725093411   1.095551160   0.539244435   0.886607198</span></span>
+<span><span class="co">#&gt; 1995   0.569503181   0.478767111   0.081524147   0.164939274</span></span>
+<span><span class="co">#&gt; 1996   0.631394447   0.165893251   0.621382576   0.125750143</span></span>
+<span><span class="co">#&gt; 1997   0.302664793   1.148738446   0.785645124   1.092788520</span></span>
+<span><span class="co">#&gt; 1998   0.838700519   0.933602781   0.685747514   0.764421531</span></span>
+<span><span class="co">#&gt; 1999   0.504428016   0.825984551   1.222733930   1.401265205</span></span>
+<span><span class="co">#&gt; 2000   0.909693692   0.987402187   0.624501289   0.812645817</span></span>
+<span><span class="co">#&gt; 2001   0.547797973   0.184046964   0.272336544   0.026816438</span></span>
+<span><span class="co">#&gt; 2002   0.372541324   0.461330701   0.418587141  -0.054011578</span></span>
+<span><span class="co">#&gt; 2003   0.203235664  -0.218262571   0.676991816   0.717703853</span></span>
+<span><span class="co">#&gt; 2004   0.939180093   0.645697044   0.258638250   0.744155119</span></span>
+<span><span class="co">#&gt; 2005   0.269714193   0.198490900   0.500009124   0.776948575</span></span>
+<span><span class="co">#&gt; 2006   0.754542470   1.015941519   0.013572258   0.786297420</span></span>
+<span><span class="co">#&gt; 2007   0.740940215   0.773456477   0.351755993   0.225637214</span></span>
+<span><span class="co">#&gt; 2008   0.395791727  -0.412315400  -0.280602493  -1.467532567</span></span>
+<span><span class="co">#&gt; 2009  -1.632375943  -0.101454578   0.160750061   0.695136221</span></span>
+<span><span class="co">#&gt; 2010   0.368232308   0.507493101   0.645610703   0.704301595</span></span>
+<span><span class="co">#&gt; 2011   0.997901680   0.027941934   0.367134262   0.173618343</span></span>
+<span><span class="co">#&gt; 2012   0.093557392  -0.157293866   0.191962538  -0.077204189</span></span>
+<span><span class="co">#&gt; 2013  -0.001133455   0.655711072   0.012011561   0.475525630</span></span>
+<span><span class="co">#&gt; 2014   0.084980333   0.118498226   0.504372721   0.081229345</span></span>
+<span><span class="co">#&gt; 2015   0.489945372   0.007744848   0.332080732   0.139118865</span></span>
+<span><span class="co">#&gt; 2016   0.636268205  -0.161024723   0.198728721   0.544690904</span></span>
+<span><span class="co">#&gt; 2017   0.816780164   0.820053915   0.622880698   0.828202860</span></span>
+<span><span class="co">#&gt; 2018   0.048700300   0.382559370   0.366396552   0.701164421</span></span>
+<span><span class="co">#&gt; 2019   0.665798334   0.604099134   0.011971808  -0.400152537</span></span>
+<span><span class="co">#&gt; 2020  -5.647477753 -13.443145590  18.555378962  -1.118046566</span></span>
+<span><span class="co">#&gt; 2021   0.156198162   1.000000000   2.000000000   3.000000000</span></span>
+<span><span class="co">#&gt; 2022  -0.047254400            NA            NA</span></span></code></pre></div>
 <ul>
 <li>Combine two time series:</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trim_1</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span>, start <span class="op">=</span> <span class="fl">2021</span>, frequency <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/combine2ts.html">combine2ts</a></span><span class="op">(</span><span class="va">ev_pib</span>, <span class="va">trim_1</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/combine2ts.html">combine2ts</a></span><span class="op">(</span><span class="va">ev_pib</span>, <span class="va">trim_1</span><span class="op">)</span></span>
+<span><span class="co">#&gt;               Qtr1          Qtr2          Qtr3          Qtr4</span></span>
+<span><span class="co">#&gt; 1970            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1971            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1972            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1973            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1974            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1975            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1976            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1977            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1978            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1979            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1980            NA  -0.552712174  -0.086754850  -0.130764175</span></span>
+<span><span class="co">#&gt; 1981   0.436797694   0.663555818   0.655755678   0.465977515</span></span>
+<span><span class="co">#&gt; 1982   0.892058545   0.662204954   0.047370440   0.507157219</span></span>
+<span><span class="co">#&gt; 1983   0.581233329  -0.042548981   0.077874681   0.583935348</span></span>
+<span><span class="co">#&gt; 1984   0.619554314   0.363253711   0.462243113   0.288218891</span></span>
+<span><span class="co">#&gt; 1985   0.123719710   0.631349292   0.756575266   0.327524429</span></span>
+<span><span class="co">#&gt; 1986   0.357772133   1.122129272   0.326669036   0.370966439</span></span>
+<span><span class="co">#&gt; 1987   0.251659155   1.144598588   0.680758053   1.694026185</span></span>
+<span><span class="co">#&gt; 1988   1.231391234   0.593185145   1.302640709   1.065361026</span></span>
+<span><span class="co">#&gt; 1989   1.260037978   0.825806743   1.075064005   1.523944130</span></span>
+<span><span class="co">#&gt; 1990   0.517826385   0.377746880   0.459923112   0.366254003</span></span>
+<span><span class="co">#&gt; 1991  -0.156699858   0.309591699   0.289346425   0.496079715</span></span>
+<span><span class="co">#&gt; 1992   0.967856839  -0.057920191   0.028450027  -0.223321860</span></span>
+<span><span class="co">#&gt; 1993  -0.556650909   0.039547303   0.133452547   0.269728893</span></span>
+<span><span class="co">#&gt; 1994   0.725093411   1.095551160   0.539244435   0.886607198</span></span>
+<span><span class="co">#&gt; 1995   0.569503181   0.478767111   0.081524147   0.164939274</span></span>
+<span><span class="co">#&gt; 1996   0.631394447   0.165893251   0.621382576   0.125750143</span></span>
+<span><span class="co">#&gt; 1997   0.302664793   1.148738446   0.785645124   1.092788520</span></span>
+<span><span class="co">#&gt; 1998   0.838700519   0.933602781   0.685747514   0.764421531</span></span>
+<span><span class="co">#&gt; 1999   0.504428016   0.825984551   1.222733930   1.401265205</span></span>
+<span><span class="co">#&gt; 2000   0.909693692   0.987402187   0.624501289   0.812645817</span></span>
+<span><span class="co">#&gt; 2001   0.547797973   0.184046964   0.272336544   0.026816438</span></span>
+<span><span class="co">#&gt; 2002   0.372541324   0.461330701   0.418587141  -0.054011578</span></span>
+<span><span class="co">#&gt; 2003   0.203235664  -0.218262571   0.676991816   0.717703853</span></span>
+<span><span class="co">#&gt; 2004   0.939180093   0.645697044   0.258638250   0.744155119</span></span>
+<span><span class="co">#&gt; 2005   0.269714193   0.198490900   0.500009124   0.776948575</span></span>
+<span><span class="co">#&gt; 2006   0.754542470   1.015941519   0.013572258   0.786297420</span></span>
+<span><span class="co">#&gt; 2007   0.740940215   0.773456477   0.351755993   0.225637214</span></span>
+<span><span class="co">#&gt; 2008   0.395791727  -0.412315400  -0.280602493  -1.467532567</span></span>
+<span><span class="co">#&gt; 2009  -1.632375943  -0.101454578   0.160750061   0.695136221</span></span>
+<span><span class="co">#&gt; 2010   0.368232308   0.507493101   0.645610703   0.704301595</span></span>
+<span><span class="co">#&gt; 2011   0.997901680   0.027941934   0.367134262   0.173618343</span></span>
+<span><span class="co">#&gt; 2012   0.093557392  -0.157293866   0.191962538  -0.077204189</span></span>
+<span><span class="co">#&gt; 2013  -0.001133455   0.655711072   0.012011561   0.475525630</span></span>
+<span><span class="co">#&gt; 2014   0.084980333   0.118498226   0.504372721   0.081229345</span></span>
+<span><span class="co">#&gt; 2015   0.489945372   0.007744848   0.332080732   0.139118865</span></span>
+<span><span class="co">#&gt; 2016   0.636268205  -0.161024723   0.198728721   0.544690904</span></span>
+<span><span class="co">#&gt; 2017   0.816780164   0.820053915   0.622880698   0.828202860</span></span>
+<span><span class="co">#&gt; 2018   0.048700300   0.382559370   0.366396552   0.701164421</span></span>
+<span><span class="co">#&gt; 2019   0.665798334   0.604099134   0.011971808  -0.400152537</span></span>
+<span><span class="co">#&gt; 2020  -5.647477753 -13.443145590  18.555378962  -1.118046566</span></span>
+<span><span class="co">#&gt; 2021   1.000000000   1.000000000   1.000000000   1.000000000</span></span>
+<span><span class="co">#&gt; 2022  -0.047254400            NA            NA</span></span></code></pre></div>
 <ul>
 <li>Extend a time series with new values:</li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ts1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA_integer_</span>, <span class="fl">3L</span><span class="op">)</span>, <span class="fl">1L</span><span class="op">:</span><span class="fl">10L</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA_integer_</span>, <span class="fl">3L</span><span class="op">)</span><span class="op">)</span>, start <span class="op">=</span> <span class="fl">2020</span>, frequency <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">3L</span>, <span class="fl">2L</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/extend_ts.html">extend_ts</a></span><span class="op">(</span>series <span class="op">=</span> <span class="va">ts1</span>, replacement <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/extend_ts.html">extend_ts</a></span><span class="op">(</span>series <span class="op">=</span> <span class="va">ts1</span>, replacement <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: extending time series when replacing values</span></span>
+<span><span class="co">#&gt;      Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</span></span>
+<span><span class="co">#&gt; 2020  NA  NA  NA   1   2   3   4   5   6   7   8   9</span></span>
+<span><span class="co">#&gt; 2021  10   3   3</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="formatting-and-labels">Formatting and Labels<a class="anchor" aria-label="anchor" href="#formatting-and-labels"></a>
@@ -139,13 +263,20 @@
 <ul>
 <li>Normalize a date:</li>
 </ul>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/normalize_date_ts.html">normalize_date_ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2020L</span>, <span class="fl">0L</span><span class="op">)</span>, frequency_ts <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span><span class="co"># 4th quarter of 2019</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/normalize_date_ts.html">normalize_date_ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2020L</span>, <span class="fl">0L</span><span class="op">)</span>, frequency_ts <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span> <span class="co"># 4th quarter of 2019</span></span>
+<span><span class="co">#&gt; Warning in assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name =</span></span>
+<span><span class="co">#&gt; "date_ts"): Assertion on 'period' failed: Element 1 is not &gt;= 1.</span></span>
+<span><span class="co">#&gt; [1] 2019    4</span></span>
+<span><span class="fu"><a href="reference/normalize_date_ts.html">normalize_date_ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2020L</span>, <span class="fl">0L</span><span class="op">)</span>, frequency_ts <span class="op">=</span> <span class="fl">4L</span>, test <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># 4th quarter of 2019</span></span>
+<span><span class="co">#&gt; [1] 2019    4</span></span></code></pre></div>
 <ul>
 <li>Generate labels for a period:</li>
 </ul>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/libelles.html">libelles</a></span><span class="op">(</span>date_ts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2019L</span>, <span class="fl">10L</span><span class="op">)</span>, frequency_ts <span class="op">=</span> <span class="fl">12L</span>, n <span class="op">=</span> <span class="fl">9L</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/libelles.html">libelles</a></span><span class="op">(</span>date_ts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2019L</span>, <span class="fl">10L</span><span class="op">)</span>, frequency_ts <span class="op">=</span> <span class="fl">12L</span>, n <span class="op">=</span> <span class="fl">9L</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Oct 2019" "Nov 2019" "Dec 2019" "Jan 2020" "Feb 2020" "Mar 2020" "Apr 2020"</span></span>
+<span><span class="co">#&gt; [8] "May 2020" "Jun 2020"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="data-information">Data Information<a class="anchor" aria-label="anchor" href="#data-information"></a>
@@ -153,8 +284,62 @@
 <ul>
 <li>Evolution of French GDP until Q1 2022:</li>
 </ul>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ev_pib</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ev_pib</span></span>
+<span><span class="co">#&gt;               Qtr1          Qtr2          Qtr3          Qtr4</span></span>
+<span><span class="co">#&gt; 1970            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1971            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1972            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1973            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1974            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1975            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1976            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1977            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1978            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1979            NA            NA            NA            NA</span></span>
+<span><span class="co">#&gt; 1980            NA  -0.552712174  -0.086754850  -0.130764175</span></span>
+<span><span class="co">#&gt; 1981   0.436797694   0.663555818   0.655755678   0.465977515</span></span>
+<span><span class="co">#&gt; 1982   0.892058545   0.662204954   0.047370440   0.507157219</span></span>
+<span><span class="co">#&gt; 1983   0.581233329  -0.042548981   0.077874681   0.583935348</span></span>
+<span><span class="co">#&gt; 1984   0.619554314   0.363253711   0.462243113   0.288218891</span></span>
+<span><span class="co">#&gt; 1985   0.123719710   0.631349292   0.756575266   0.327524429</span></span>
+<span><span class="co">#&gt; 1986   0.357772133   1.122129272   0.326669036   0.370966439</span></span>
+<span><span class="co">#&gt; 1987   0.251659155   1.144598588   0.680758053   1.694026185</span></span>
+<span><span class="co">#&gt; 1988   1.231391234   0.593185145   1.302640709   1.065361026</span></span>
+<span><span class="co">#&gt; 1989   1.260037978   0.825806743   1.075064005   1.523944130</span></span>
+<span><span class="co">#&gt; 1990   0.517826385   0.377746880   0.459923112   0.366254003</span></span>
+<span><span class="co">#&gt; 1991  -0.156699858   0.309591699   0.289346425   0.496079715</span></span>
+<span><span class="co">#&gt; 1992   0.967856839  -0.057920191   0.028450027  -0.223321860</span></span>
+<span><span class="co">#&gt; 1993  -0.556650909   0.039547303   0.133452547   0.269728893</span></span>
+<span><span class="co">#&gt; 1994   0.725093411   1.095551160   0.539244435   0.886607198</span></span>
+<span><span class="co">#&gt; 1995   0.569503181   0.478767111   0.081524147   0.164939274</span></span>
+<span><span class="co">#&gt; 1996   0.631394447   0.165893251   0.621382576   0.125750143</span></span>
+<span><span class="co">#&gt; 1997   0.302664793   1.148738446   0.785645124   1.092788520</span></span>
+<span><span class="co">#&gt; 1998   0.838700519   0.933602781   0.685747514   0.764421531</span></span>
+<span><span class="co">#&gt; 1999   0.504428016   0.825984551   1.222733930   1.401265205</span></span>
+<span><span class="co">#&gt; 2000   0.909693692   0.987402187   0.624501289   0.812645817</span></span>
+<span><span class="co">#&gt; 2001   0.547797973   0.184046964   0.272336544   0.026816438</span></span>
+<span><span class="co">#&gt; 2002   0.372541324   0.461330701   0.418587141  -0.054011578</span></span>
+<span><span class="co">#&gt; 2003   0.203235664  -0.218262571   0.676991816   0.717703853</span></span>
+<span><span class="co">#&gt; 2004   0.939180093   0.645697044   0.258638250   0.744155119</span></span>
+<span><span class="co">#&gt; 2005   0.269714193   0.198490900   0.500009124   0.776948575</span></span>
+<span><span class="co">#&gt; 2006   0.754542470   1.015941519   0.013572258   0.786297420</span></span>
+<span><span class="co">#&gt; 2007   0.740940215   0.773456477   0.351755993   0.225637214</span></span>
+<span><span class="co">#&gt; 2008   0.395791727  -0.412315400  -0.280602493  -1.467532567</span></span>
+<span><span class="co">#&gt; 2009  -1.632375943  -0.101454578   0.160750061   0.695136221</span></span>
+<span><span class="co">#&gt; 2010   0.368232308   0.507493101   0.645610703   0.704301595</span></span>
+<span><span class="co">#&gt; 2011   0.997901680   0.027941934   0.367134262   0.173618343</span></span>
+<span><span class="co">#&gt; 2012   0.093557392  -0.157293866   0.191962538  -0.077204189</span></span>
+<span><span class="co">#&gt; 2013  -0.001133455   0.655711072   0.012011561   0.475525630</span></span>
+<span><span class="co">#&gt; 2014   0.084980333   0.118498226   0.504372721   0.081229345</span></span>
+<span><span class="co">#&gt; 2015   0.489945372   0.007744848   0.332080732   0.139118865</span></span>
+<span><span class="co">#&gt; 2016   0.636268205  -0.161024723   0.198728721   0.544690904</span></span>
+<span><span class="co">#&gt; 2017   0.816780164   0.820053915   0.622880698   0.828202860</span></span>
+<span><span class="co">#&gt; 2018   0.048700300   0.382559370   0.366396552   0.701164421</span></span>
+<span><span class="co">#&gt; 2019   0.665798334   0.604099134   0.011971808  -0.400152537</span></span>
+<span><span class="co">#&gt; 2020  -5.647477753 -13.443145590  18.555378962  -1.118046566</span></span>
+<span><span class="co">#&gt; 2021   0.156198162   1.460529708   3.017719839   0.779781860</span></span>
+<span><span class="co">#&gt; 2022  -0.047254400            NA            NA</span></span></code></pre></div>
 </div>
 </div>
 </div>
