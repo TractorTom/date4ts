@@ -21,6 +21,8 @@
 #' TractorTsbox:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 12L)
 #' TractorTsbox:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 4L)
 #'
+#' @keywords internal
+#'
 libelles_one_date <- function(date_ts, frequency_ts, warn = TRUE) {
 
     # Check de warn

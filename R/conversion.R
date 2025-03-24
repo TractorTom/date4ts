@@ -272,6 +272,7 @@ date_ts2date <- function(date_ts, frequency_ts) {
     }
 }
 
+#' @keywords internal
 ts2df <- function(x) {
 
     # Check de l'objet x

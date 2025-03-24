@@ -1049,11 +1049,12 @@ assert_expression <- function(expr) {
     return(invisible(expr))
 }
 
-
+#' @keywords internal
 make_check_collection <- function() {
     return(TRUE)
 }
 
+#' @keywords internal
 add_check_collection <- function(coll, check_output, .var.name = NULL) {
     if (isTRUE(check_output))  {
         return(coll)
