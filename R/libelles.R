@@ -18,10 +18,8 @@
 #' warning lors de l'évaluation.
 #'
 #' @examples
-#' \dontrun{
-#' TractorTsbox:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 12L)
-#' TractorTsbox:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 4L)
-#' }
+#' # TractorTsbox:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 12L)
+#' # TractorTsbox:::libelles_one_date(date_ts = c(2020L, 4L), frequency_ts = 4L)
 #'
 #' @keywords internal
 #'
