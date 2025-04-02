@@ -30,14 +30,16 @@
 #'
 #' Selon le préfixe de la fonction :
 #'
-#' - si le check réussi :
-#'     - la fonction `assert_date_ts` retourne l'objet `x` de manière invisible;
-#'     - la fonction `check_date_ts` retourne le booléen `TRUE`.
-#'
-#' - si le check échoue :
-#'     - la fonction `assert_date_ts` retourne un message d'erreur;
-#'     - la fonction `check_date_ts` retourne une chaîne de caractère signalant
-#'     le problème.
+#' \itemize{
+#' \item si le check réussi : \itemize{
+#'     \item la fonction `assert_date_ts` retourne l'objet `x` de manière invisible;
+#'     \item la fonction `check_date_ts` retourne le booléen `TRUE`.
+#' }
+#' \item si le check échoue : \itemize{
+#'     \item la fonction `assert_date_ts` retourne un message d'erreur;
+#'     \item la fonction `check_date_ts` retourne une chaîne de caractère signalant le problème.
+#' }
+#' }
 #'
 #' @export
 #'
