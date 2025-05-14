@@ -18,7 +18,6 @@ jobs:
           files=$(find tests/coverage-Inf -name "*.R" -type f | jq -R -s -c 'split("\n")[:-1]')
           echo "matrix=$files" >> "$GITHUB_OUTPUT"
 
-jobs:
   run-tests:
     name: Run ${{ matrix.test_file && matrix.test_file | split('/') | last }}
     needs: list-tests
