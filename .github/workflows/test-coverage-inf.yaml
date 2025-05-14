@@ -26,6 +26,7 @@ jobs:
     strategy:
       matrix:
         test: ${{ fromJson(needs.list-tests.outputs.test-files) }}
+      fail-fast: false
     steps:
       - uses: actions/checkout@v4
 
