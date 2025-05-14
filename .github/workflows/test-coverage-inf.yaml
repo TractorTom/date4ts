@@ -1,4 +1,4 @@
-name: Check Other Tests
+name: Test coverage Inf
 
 on:
   workflow_dispatch:
