@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        test: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+        test: ${{ fromJson(needs.list-tests.outputs.test-files) }}
     steps:
       - uses: actions/checkout@v4
 
