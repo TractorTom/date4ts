@@ -41,6 +41,8 @@ jobs:
 
       - name: Run specific test file
         run: |
+          devtools::load_all()
           cat("Running: ", "${{ matrix.test_file }}", "\n")
-          testthat::test_file("${{ matrix.test_file }}")
+          res <- testthat::test_file("${{ matrix.test_file }}")
+          if (any(res$failed > 0)) quit(status = 1)
         shell: Rscript {0}
