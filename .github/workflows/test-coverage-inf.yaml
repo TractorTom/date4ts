@@ -15,20 +15,19 @@ jobs:
       - name: List .R files in tests/coverage-Inf
         id: set-matrix
         run: |
-          files=$(find tests/coverage-Inf -name "*.R" -type f | jq -R -s -c 'split("\n")[:-1]')
-          echo "matrix=$files" >> "$GITHUB_OUTPUT"
+          files=$(find tests/coverage-Inf -type f -name "*.R")
+          matrix=$(echo "$files" | jq -R -s -c 'split("\n")[:-1] | map({path: ., name: (. | split("/") | last)})')
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
   run-tests:
-    name: Run ${{ matrix.test_file && matrix.test_file | split('/') | last }}
+    name: Run ${{ matrix.test.name }}
     needs: list-tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        test_file: ${{ fromJson(needs.list-tests.outputs.test-files) }}
-
+        test: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
@@ -42,6 +41,6 @@ jobs:
       - name: Run specific test file
         run: |
           devtools::load_all()
-          cat("Running: ", "${{ matrix.test_file }}", "\n")
-          testthat::test_file("${{ matrix.test_file }}", stop_on_failure = TRUE)
+          cat("Running: ", "${{ matrix.test.path }}", "\n")
+          testthat::test_file("${{ matrix.test.path }}", stop_on_failure = TRUE)
         shell: Rscript {0}
