@@ -18,8 +18,9 @@ jobs:
           files=$(find tests/coverage-Inf -name "*.R" -type f | jq -R -s -c 'split("\n")[:-1]')
           echo "matrix=$files" >> "$GITHUB_OUTPUT"
 
+jobs:
   run-tests:
-    name: Run ${{ matrix.test_file }}
+    name: Run ${{ matrix.test_file && matrix.test_file | split('/') | last }}
     needs: list-tests
     runs-on: ubuntu-latest
     strategy:
@@ -43,6 +44,5 @@ jobs:
         run: |
           devtools::load_all()
           cat("Running: ", "${{ matrix.test_file }}", "\n")
-          res <- testthat::test_file("${{ matrix.test_file }}")
-          if (any(res$failed > 0)) quit(status = 1)
+          testthat::test_file("${{ matrix.test_file }}", stop_on_failure = TRUE)
         shell: Rscript {0}
