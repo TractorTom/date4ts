@@ -148,7 +148,7 @@ assert_date_ts <- function(x, frequency_ts, add = NULL,
 
     # Check du type
     # Ici on passe d'abord par un check car il y a une génération de warning
-    # non voulue sinon... (voir issue #242)
+    # non voulue sinon... (voir issue mllg/checkmate#242)
     if (isTRUE(checkmate::check_numeric(
         x, any.missing = FALSE,
         min.len = 1L, max.len = 2L, finite = TRUE

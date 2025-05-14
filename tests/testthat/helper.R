@@ -5,7 +5,8 @@ withr::with_envvar(new = c(lang = "en_US"), {
 
     # Création de fonctions --------------------------------------------------------
 
-    create_random_type <- function(type = c("character", "integer", "double", "logical", "complex", "raw", "Date"), len = NULL) {
+    create_random_type <- function(type = list_type,
+                                   len = NULL) {
         type <- match.arg(type)
         if (is.null(len)) len <- sample.int(n = 1000L, size = 1L)
 
@@ -60,7 +61,8 @@ withr::with_envvar(new = c(lang = "en_US"), {
         return(ts(content, start = start, frequency = frequency))
     }
 
-    create_NA_type <- function(type = c("character", "integer", "double", "logical", "complex", "raw", "Date"), len = 1L) {
+    create_NA_type <- function(type = list_type,
+                               len = 1L) {
         type <- match.arg(type)
         output <- rep(
             x = switch(
@@ -164,8 +166,8 @@ withr::with_envvar(new = c(lang = "en_US"), {
         return(paste0("Assertion on '", var, "' failed: Must be of type 'integer', not 'double'."))
     }
 
-    invalid_monthly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 12.0"
-    invalid_quaterly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 4.0"
+    invalid_monthly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 12."
+    invalid_quaterly_period <- "Assertion on 'period' failed: Element 1 is not >= 1.|Assertion on 'period' failed: Element 1 is not <= 4."
 
     double_instead_of_integer <- "Must be of type 'integer', not 'double'."
     warning_extend <- "extending time series when replacing values"

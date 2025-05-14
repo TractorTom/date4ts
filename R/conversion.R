@@ -143,9 +143,9 @@ date_ts2timeunits <- function(date_ts, frequency_ts) {
 #' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
 #' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #'
-#' @returns En sortie, la fonction retourne la date au format `date_ts` (`c(AAAA,
-#' MM)` ou `c(AAAA, TT)`) avec le mois ou trimestre en cours selon l'argument
-#' `frequency_ts`.
+#' @returns En sortie, la fonction retourne la date au format `date_ts`
+#' (`c(AAAA, MM)` ou `c(AAAA, TT)`) avec le mois ou trimestre en cours selon
+#' l'argument `frequency_ts`.
 #' @export
 #'
 #' @examples

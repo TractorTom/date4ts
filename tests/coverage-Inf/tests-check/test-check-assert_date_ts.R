@@ -32,7 +32,7 @@ testthat::test_that("good result for integer date quarter", {
 
 ## Mensuel -----------------------------------------------------------------
 
-testthat::test_that("warning for integer date", {
+testthat::test_that("warning for integer month", {
     for (good_year in good_years) {
         for (warning_month in warning_integer_months) {
             warning_date <- c(good_year, warning_month)
@@ -214,7 +214,7 @@ testthat::test_that("several warning", {
         for (warning_quarter in warning_integer_quarters) {
             warning_date <- c(warning_year, warning_quarter)
             w <- testthat::capture_warnings({
-                boolRes <- assert_date_ts(x = arning_date, frequency_ts = 4L)
+                boolRes <- assert_date_ts(x = warning_date, frequency_ts = 4L)
             })
             testthat::expect_match(
                 object = w,
@@ -305,12 +305,40 @@ testthat::test_that("warning for integer date", {
 
 # Tests de résultats négatifs --------------------------------------------------
 
+testthat::test_that("miscellaneous warn are not allowed", {
+    for (wrong_warn in c(list(0., 0L), object_bank_R[-29L])) {
+        testthat::expect_error(assert_date_ts(x = 2020L, frequency_ts = 12L, warn = wrong_warn))
+    }
+})
+
+testthat::test_that("miscellaneous warn are not allowed in collection", {
+    for (wrong_warn in c(list(0., 0L), object_bank_R[-29L])) {
+        coll <- checkmate::makeAssertCollection()
+        assert_date_ts(x = 2020L, frequency_ts = 12L, warn = wrong_warn, add = coll)
+        testthat::expect_error(reportAssertions(coll))
+    }
+})
+
 testthat::test_that("detection of wrong dates", {
     for (wrong_date in c(list_wrong_date_ts,
                          object_bank_R[-10L],
                          rnorm(10L))) {
         testthat::expect_error(assert_date_ts(x = wrong_date, frequency_ts = 12L))
         testthat::expect_error(assert_date_ts(x = wrong_date, frequency_ts = 4L))
+    }
+})
+
+testthat::test_that("detection of wrong dates in collection", {
+    for (wrong_date in c(list_wrong_date_ts,
+                         object_bank_R[-10L],
+                         rnorm(10L))) {
+        coll <- checkmate::makeAssertCollection()
+        assert_date_ts(x = wrong_date, frequency_ts = 12L, add = coll)
+        testthat::expect_error(reportAssertions(coll))
+
+        coll <- checkmate::makeAssertCollection()
+        assert_date_ts(x = wrong_date, frequency_ts = 4L, add = coll)
+        testthat::expect_error(reportAssertions(coll))
     }
 })
 
@@ -322,5 +350,13 @@ testthat::test_that("miscellaneous frequency are not allowed", {
                 frequency_ts = wrong_frequency
             )
         )
+    }
+})
+
+testthat::test_that("miscellaneous frequency are not allowed in collection", {
+    for (wrong_frequency in c(object_bank_R, weird_frequency)) {
+        coll <- checkmate::makeAssertCollection()
+        assert_date_ts(x, wrong_frequency, warn = TRUE, add = coll)
+        testthat::expect_error(reportAssertions(coll))
     }
 })
