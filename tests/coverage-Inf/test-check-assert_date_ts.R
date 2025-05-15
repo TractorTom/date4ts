@@ -356,7 +356,7 @@ testthat::test_that("miscellaneous frequency are not allowed", {
 testthat::test_that("miscellaneous frequency are not allowed in collection", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
         coll <- checkmate::makeAssertCollection()
-        assert_date_ts(x, wrong_frequency, warn = TRUE, add = coll)
+        assert_date_ts(x = 2020L, wrong_frequency, warn = TRUE, add = coll)
         testthat::expect_error(reportAssertions(coll))
     }
 })
