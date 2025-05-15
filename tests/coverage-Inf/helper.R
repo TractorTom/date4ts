@@ -71,7 +71,7 @@ withr::with_envvar(new = c(lang = "en_US"), {
                 integer = NA_integer_,
                 double = NA_real_,
                 logical = NA,
-                complex = NA_complex_,
+                complex = complex(real = NA, imaginary = 0), # NA_complex_,
                 raw = as.raw(0x00),
                 Date = as.Date(NA_integer_)
             ),
