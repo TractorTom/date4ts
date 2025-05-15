@@ -25,7 +25,7 @@ withr::with_envvar(new = c(lang = "en_US"), {
             ),
             raw = as.raw(sample.int(n = 255L, size = len, replace = TRUE)),
             Date = as.Date(
-                x = sample.int(n = 27000L, size = len, replace = TRUE) - 7000,
+                x = sample.int(n = 27000L, size = len, replace = TRUE) - 7000L,
                 origin = "1970-01-01"
             )
         )
