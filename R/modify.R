@@ -220,7 +220,8 @@ combine2ts <- function(a, b) {
 #' @param series un objet ts unidimensionnel conforme aux règles de assert_ts
 #' @param replacement un vecteur de même type que le ts `series`
 #' @param date_ts un vecteur numérique, de préférence `integer` au format
-#' `date_ts` (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`) (default NULL)
+#' `date_ts` (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`). Désigne la date jusqu'à
+#' laquelle le remplacement s'effectue. (default NULL)
 #' @param replace_na un booléen
 #'
 #' @returns En sortie, la fonction retourne une copie de l'objet `series`
@@ -281,7 +282,7 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
     end_ts <- as.integer(stats::end(series))
 
     if (replace_na) {
-        series <- na_trim(series, sides = "right")
+        series <- na_trim(series = series, sides = "right")
         start_replacement <- next_date_ts(last_date(series),
                                           frequency_ts = frequency_ts)
     } else {
@@ -297,19 +298,22 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
         }
         length_replacement <- diff_periode(
             a = start_replacement,
-            b = date_ts, frequency_ts = frequency_ts
+            b = date_ts,
+            frequency_ts = frequency_ts
         )
         if (length_replacement %% length(replacement) != 0L) {
             stop(c("number of values supplied is not a",
                    " sub-multiple of the number of values to be replaced"))
         }
         end_replacement <- date_ts
+        nb_replacement <- length_replacement %/% length(replacement)
     } else {
         end_replacement <- next_date_ts(
             date_ts = start_replacement,
             lag = length(replacement) - 1L,
             frequency_ts = frequency_ts
         )
+        nb_replacement <- 1L
     }
 
     stats::window(series, start = start_replacement,

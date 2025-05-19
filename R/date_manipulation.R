@@ -177,7 +177,7 @@ first_date <- function(series) {
 #' stats::end(ts1)
 #' last_date(ts1)
 #'
-#' stats::end(ts1)
+#' stats::end(ts2)
 #' last_date(ts2)
 #'
 last_date <- function(series) {
