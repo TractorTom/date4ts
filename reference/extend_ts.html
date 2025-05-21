@@ -55,8 +55,8 @@
 
 
 <dt id="arg-date-ts">date_ts<a class="anchor" aria-label="anchor" href="#arg-date-ts"></a></dt>
-<dd><p>un vecteur numérique, de préférence <code>integer</code> au format
-<code>date_ts</code> (<code>AAAA</code>, <code>c(AAAA, MM)</code> ou <code>c(AAAA, TT)</code>) (default NULL)</p></dd>
+<dd><p>un vecteur numérique, de préférence <code>integer</code>, au format
+<code>AAAA</code>, <code>c(AAAA, MM)</code> ou <code>c(AAAA, TT)</code></p></dd>
 
 
 <dt id="arg-replace-na">replace_na<a class="anchor" aria-label="anchor" href="#arg-replace-na"></a></dt>
@@ -70,7 +70,9 @@ complété avec le vecteur <code>replacement</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Si <code>replace_na</code> vaut <code>TRUE</code> alors le remplacement commence dès que
+    <p><code>date_ts</code> désigne la date jusqu'à laquelle le remplacement s'effectue.
+Par défault, cette valeur vaut <code>NULL</code>.</p>
+<p>Si <code>replace_na</code> vaut <code>TRUE</code> alors le remplacement commence dès que
 l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu,
 qu'il contienne des NA ou non à la fin.
 Si le vecteur <code>replacement</code> est de taille un sous-multiple de la différence
