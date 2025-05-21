@@ -29,7 +29,7 @@ ts2 <- ts(c(1:10), start = 2020, frequency = 4)
 stats::end(ts1)
 last_date(ts1)
 
-stats::end(ts1)
+stats::end(ts2)
 last_date(ts2)
 
 }

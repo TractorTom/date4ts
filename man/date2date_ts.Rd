@@ -13,8 +13,9 @@ date2date_ts(date, frequency_ts = 12L)
 trimestrielles et \code{12L} (ou \code{12.0}) pour les séries mensuelles.}
 }
 \value{
-En sortie, la fonction retourne la date au format \code{date_ts} (\code{c(AAAA, MM)} ou \code{c(AAAA, TT)}) avec le mois ou trimestre en cours selon l'argument
-\code{frequency_ts}.
+En sortie, la fonction retourne la date au format \code{date_ts}
+(\code{c(AAAA, MM)} ou \code{c(AAAA, TT)}) avec le mois ou trimestre en cours selon
+l'argument \code{frequency_ts}.
 }
 \description{
 La fonction \code{date2date_ts} prend en argument une date au format

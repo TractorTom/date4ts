@@ -64,8 +64,11 @@ as_yyyymm <- function(timeunits) {
 #'
 trim2mens <- function(date_ts) {
     # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency_ts = 4L,
-                              .var.name = "date_ts")
+    date_ts <- assert_date_ts(
+        x = date_ts,
+        frequency_ts = 4L,
+        .var.name = "date_ts"
+    )
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 4L
     trim <- (date_ts[2L] - 1L) %% 4L + 1L
@@ -78,8 +81,11 @@ trim2mens <- function(date_ts) {
 #'
 mens2trim <- function(date_ts) {
     # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency_ts = 12L,
-                              .var.name = "date_ts")
+    date_ts <- assert_date_ts(
+        x = date_ts,
+        frequency_ts = 12L,
+        .var.name = "date_ts"
+    )
 
     year <- date_ts[1L] + (date_ts[2L] - 1L) %/% 12L
     month <- (date_ts[2L] - 1L) %% 12L + 1L
@@ -88,8 +94,7 @@ mens2trim <- function(date_ts) {
 
 #' @title Conversion d'une date du format date_ts au format TimeUnits
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer` au format
-#' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @inheritParams trim2mens
 #' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
 #' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
 #'
@@ -118,13 +123,19 @@ mens2trim <- function(date_ts) {
 #' date_ts2timeunits(date_ts = c(1995L, 2L), frequency_ts = 4L)
 #'
 date_ts2timeunits <- function(date_ts, frequency_ts) {
-
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = NULL,
-                                     .var.name = "frequency_ts")
+    frequency_ts <- assert_frequency(
+        frequency_ts,
+        add = NULL,
+        .var.name = "frequency_ts"
+    )
     # Check du format date_ts
-    date_ts <- assert_date_ts(x = date_ts, frequency_ts  = frequency_ts,
-                              add = NULL, .var.name = "date_ts")
+    date_ts <- assert_date_ts(
+        x = date_ts,
+        frequency_ts = frequency_ts,
+        add = NULL,
+        .var.name = "date_ts"
+    )
 
     # date_ts must be of size 2 else:
     #   - an error would have been raised
@@ -157,14 +168,16 @@ date_ts2timeunits <- function(date_ts, frequency_ts) {
 #' date2date_ts(as.Date("2021-10-01"), frequency_ts = 4L)
 #'
 date2date_ts <- function(date, frequency_ts = 12L) {
-
     coll <- checkmate::makeAssertCollection()
 
     # Check de l'objet date
     assert_scalar_date(date, add = coll, .var.name = "date")
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll,
-                                     .var.name = "frequency_ts")
+    frequency_ts <- assert_frequency(
+        frequency_ts,
+        add = coll,
+        .var.name = "frequency_ts"
+    )
 
     checkmate::reportAssertions(coll)
 
@@ -199,7 +212,6 @@ date2date_ts <- function(date, frequency_ts = 12L) {
 #' substr_year(as.Date("2022-11-01"), n = 3L)
 #'
 substr_year <- function(date, n = 1L) {
-
     coll <- checkmate::makeAssertCollection()
 
     assert_scalar_date(date, add = coll, .var.name = "date")
@@ -213,20 +225,18 @@ substr_year <- function(date, n = 1L) {
 
     year <- as.integer(format(date, format = "%Y")) - before_leap
     years <- year:(year - n + 1L)
-    leap_year <- sum(as.logical((years %% 4 == 0L) -
-                                    (years %% 100 == 0L) +
-                                    (years %% 400 == 0L))
-    )
+    leap_year <- sum(as.logical(
+        (years %% 4 == 0L) -
+            (years %% 100 == 0L) +
+            (years %% 400 == 0L)
+    ))
 
     return(date - 365 * n - leap_year)
 }
 
 #' @title Conversion d'une date du format TS au format date
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer`, au format
-#' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
-#' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
+#' @inheritParams date_ts2timeunits
 #'
 #' @returns En sortie, la fonction retourne un objet de type Date (atomic) de
 #' longueur 1 qui correspond à l'objet `date_ts`.
@@ -238,16 +248,22 @@ substr_year <- function(date, n = 1L) {
 #' date_ts2date(date_ts = c(1995L, 2L), frequency_ts = 4L)
 #'
 date_ts2date <- function(date_ts, frequency_ts) {
-
     coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll,
-                                     .var.name = "frequency_ts")
+    frequency_ts <- assert_frequency(
+        frequency_ts,
+        add = coll,
+        .var.name = "frequency_ts"
+    )
     # Check du format date_ts
     if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
-        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll,
-                                  .var.name = "date_ts")
+        date_ts <- assert_date_ts(
+            x = date_ts,
+            frequency_ts,
+            add = coll,
+            .var.name = "date_ts"
+        )
     }
 
     checkmate::reportAssertions(coll)
@@ -274,7 +290,6 @@ date_ts2date <- function(date_ts, frequency_ts) {
 
 #' @keywords internal
 ts2df <- function(x) {
-
     # Check de l'objet x
     assert_ts(x, .var.name = "x", allow_mts = TRUE)
 
@@ -293,7 +308,11 @@ ts2df <- function(x) {
         first_date_ts <- as_yyyymm(first_timeunits)
     }
 
-    rownames_libelles <- libelles(date_ts = first_date_ts, frequency_ts = frequency_ts, n = length_series)
+    rownames_libelles <- libelles(
+        date_ts = first_date_ts,
+        frequency_ts = frequency_ts,
+        n = length_series
+    )
     x <- data.frame(date = rownames_libelles, x)
 
     return(x)

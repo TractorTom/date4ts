@@ -7,7 +7,7 @@
 normalize_date_ts(date_ts, frequency_ts, test = TRUE)
 }
 \arguments{
-\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format
+\item{date_ts}{un vecteur numérique, de préférence \code{integer}, au format
 \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
 \item{frequency_ts}{un entier qui vaut \code{4L} (ou \code{4.0}) pour les séries

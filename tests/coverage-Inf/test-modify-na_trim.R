@@ -10,23 +10,36 @@ for (typeA in list_type[-6L]) {
         A_content <- create_random_type(type = typeA, len = lenA)
         for (frequenceA in list_frequence) {
             for (startA in list_start) {
-                ts_without_na <- ts(A_content, start = startA, frequency = frequenceA)
+                ts_without_na <- ts(
+                    A_content,
+                    start = startA,
+                    frequency = frequenceA
+                )
                 for (param1 in list_len) {
-
                     test_name <- paste0(
                         "expected result with ",
-                        "\ntypeA = '", typeA,
-                        "'\nfrequenceA = ", frequenceA,
-                        "\nstartA = ", deparse(startA),
-                        "\nlenA = ", lenA,
-                        "\nparam1 = ", param1
+                        "\ntypeA = '",
+                        typeA,
+                        "'\nfrequenceA = ",
+                        frequenceA,
+                        "\nstartA = ",
+                        deparse(startA),
+                        "\nlenA = ",
+                        lenA,
+                        "\nparam1 = ",
+                        param1
                     )
 
                     testthat::test_that(desc = test_name, {
-
                         # Cas 1
-                        ts_with_na <- ts(c(A_content, create_NA_type(type = typeA, len = param1)),
-                                         start = startA, frequency = frequenceA)
+                        ts_with_na <- ts(
+                            c(
+                                A_content,
+                                create_NA_type(type = typeA, len = param1)
+                            ),
+                            start = startA,
+                            frequency = frequenceA
+                        )
                         res <- testthat::expect_silent(na_trim(ts_with_na))
                         testthat::expect_equal(
                             object = res,
@@ -34,8 +47,14 @@ for (typeA in list_type[-6L]) {
                         )
 
                         # Cas 2
-                        ts_with_na <- ts(c(create_NA_type(type = typeA, len = param1), A_content),
-                                         end = end(ts_without_na), frequency = frequenceA)
+                        ts_with_na <- ts(
+                            c(
+                                create_NA_type(type = typeA, len = param1),
+                                A_content
+                            ),
+                            end = end(ts_without_na),
+                            frequency = frequenceA
+                        )
                         res <- testthat::expect_silent(na_trim(ts_with_na))
                         testthat::expect_equal(
                             object = res,
@@ -44,15 +63,23 @@ for (typeA in list_type[-6L]) {
 
                         # Cas 3
                         for (param2 in list_len[2]) {
-                            ts_with_na <- ts(c(create_NA_type(type = typeA, len = param1),
-                                               A_content,
-                                               create_NA_type(type = typeA, len = param2)),
-                                             start = startA, frequency = frequenceA)
+                            ts_with_na <- ts(
+                                c(
+                                    create_NA_type(type = typeA, len = param1),
+                                    A_content,
+                                    create_NA_type(type = typeA, len = param2)
+                                ),
+                                start = startA,
+                                frequency = frequenceA
+                            )
 
                             if (length(startA) == 1L) startA <- c(startA, 1L)
                             startA[2L] <- startA[2L] + param1
-                            ts_without_na <- ts(A_content, start = c(startA, param1),
-                                                frequency = frequenceA)
+                            ts_without_na <- ts(
+                                A_content,
+                                start = c(startA, param1),
+                                frequency = frequenceA
+                            )
 
                             res <- testthat::expect_silent(na_trim(ts_with_na))
                             testthat::expect_equal(
@@ -91,7 +118,11 @@ testthat::test_that("Several dimensions are not allowed", {
                             )
                         )
                     } else {
-                        mts_B <- ts(B_content, start = startA, frequency = frequenceA)
+                        mts_B <- ts(
+                            B_content,
+                            start = startA,
+                            frequency = frequenceA
+                        )
                     }
 
                     testthat::expect_error(
@@ -121,13 +152,21 @@ testthat::test_that("miscellaneous series are not allowed", {
 testthat::test_that("series and date are temporally consistent", {
     for (typeA in list_type) {
         testthat::expect_error(na_trim(
-            series = create_random_ts(type = typeA, start = 2010 + 1 / 7, frequency = 12L)
+            series = create_random_ts(
+                type = typeA,
+                start = 2010 + 1 / 7,
+                frequency = 12L
+            )
         ))
     }
 
     for (typeA in list_type) {
         testthat::expect_error(na_trim(
-            series = create_random_ts(type = typeA, start = 2022 + 1 / 5, frequency = 4L)
+            series = create_random_ts(
+                type = typeA,
+                start = 2022 + 1 / 5,
+                frequency = 4L
+            )
         ))
     }
 })

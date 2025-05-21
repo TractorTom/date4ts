@@ -9,9 +9,11 @@ testthat::test_that("good result for integer date", {
         for (quarter in good_quarters) {
             real_quarter <- (quarter - 1L) %% 4L + 1L
             year_real <- good_year + (quarter - 1L) %/% 4L
-            date_expected <- as.integer(c(year_real, conversion_quarter_month[real_quarter, "month"]))
+            date_expected <- as.integer(c(
+                year_real,
+                conversion_quarter_month[real_quarter, "month"]
+            ))
             res <- trim2mens(c(good_year, quarter))
-
 
             testthat::expect_identical(res, date_expected)
             testthat::expect_type(res, "integer")
@@ -23,7 +25,9 @@ testthat::test_that("good result for integer date", {
 # Tests de résultats négatifs --------------------------------------------------
 
 testthat::test_that("detection of wrong dates", {
-    for (wrong_date in list_wrong_date_ts) testthat::expect_error(trim2mens(wrong_date))
+    for (wrong_date in list_wrong_date_ts) {
+        testthat::expect_error(trim2mens(wrong_date))
+    }
 })
 
 
@@ -41,7 +45,10 @@ testthat::test_that("warning for integer date", {
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- good_year + (warning_quarter - 1L) %/% 4L
-            date_expected <- as.integer(c(year_real, conversion_quarter_month[real_quarter, "month"]))
+            date_expected <- as.integer(c(
+                year_real,
+                conversion_quarter_month[real_quarter, "month"]
+            ))
 
             testthat::expect_identical(resMonthly, date_expected)
             testthat::expect_type(resMonthly, "integer")
@@ -61,7 +68,10 @@ testthat::test_that("warning for double date", {
 
             real_quarter <- (good_quarter - 1L) %% 4L + 1L
             year_real <- warning_year + (good_quarter - 1L) %/% 4L
-            date_expected <- as.integer(c(year_real, conversion_quarter_month[real_quarter, "month"]))
+            date_expected <- as.integer(c(
+                year_real,
+                conversion_quarter_month[real_quarter, "month"]
+            ))
 
             testthat::expect_identical(resMonthly, date_expected)
             testthat::expect_type(resMonthly, "integer")
@@ -79,7 +89,10 @@ testthat::test_that("warning for double date", {
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- good_year + (warning_quarter - 1L) %/% 4L
-            date_expected <- as.integer(c(year_real, conversion_quarter_month[real_quarter, "month"]))
+            date_expected <- as.integer(c(
+                year_real,
+                conversion_quarter_month[real_quarter, "month"]
+            ))
 
             testthat::expect_identical(resMonthly, date_expected)
             testthat::expect_type(resMonthly, "integer")
@@ -97,7 +110,10 @@ testthat::test_that("warning for double date", {
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- good_year + (warning_quarter - 1L) %/% 4L
-            date_expected <- as.integer(c(year_real, conversion_quarter_month[real_quarter, "month"]))
+            date_expected <- as.integer(c(
+                year_real,
+                conversion_quarter_month[real_quarter, "month"]
+            ))
 
             testthat::expect_identical(resMonthly, date_expected)
             testthat::expect_type(resMonthly, "integer")
@@ -111,19 +127,27 @@ testthat::test_that("several warning", {
             w <- testthat::capture_warnings({
                 resMonthly <- trim2mens(c(warning_year, warning_quarter))
             })
-            testthat::expect_match(object = w, regexp = message_double("date_ts"), all = FALSE)
+            testthat::expect_match(
+                object = w,
+                regexp = message_double("date_ts"),
+                all = FALSE
+            )
             testthat::expect_match(
                 object = w,
                 regexp = paste(
                     "Assertion on 'period' failed: Element 1 is not <= 4.",
-                    "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"
+                    "Assertion on 'period' failed: Element 1 is not >= 1.",
+                    sep = "|"
                 ),
                 all = FALSE
             )
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- warning_year + (warning_quarter - 1L) %/% 4L
-            date_expected <- as.integer(c(year_real, conversion_quarter_month[real_quarter, "month"]))
+            date_expected <- as.integer(c(
+                year_real,
+                conversion_quarter_month[real_quarter, "month"]
+            ))
 
             testthat::expect_identical(resMonthly, date_expected)
             testthat::expect_type(resMonthly, "integer")
@@ -135,19 +159,27 @@ testthat::test_that("several warning", {
             w <- testthat::capture_warnings({
                 resMonthly <- trim2mens(c(warning_year, warning_quarter))
             })
-            testthat::expect_match(object = w, regexp = message_double("date_ts"), all = FALSE)
+            testthat::expect_match(
+                object = w,
+                regexp = message_double("date_ts"),
+                all = FALSE
+            )
             testthat::expect_match(
                 object = w,
                 regexp = paste(
                     "Assertion on 'period' failed: Element 1 is not <= 4.",
-                    "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"
+                    "Assertion on 'period' failed: Element 1 is not >= 1.",
+                    sep = "|"
                 ),
                 all = FALSE
             )
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- warning_year + (warning_quarter - 1L) %/% 4L
-            date_expected <- as.integer(c(year_real, conversion_quarter_month[real_quarter, "month"]))
+            date_expected <- as.integer(c(
+                year_real,
+                conversion_quarter_month[real_quarter, "month"]
+            ))
 
             testthat::expect_identical(resMonthly, date_expected)
             testthat::expect_type(resMonthly, "integer")
@@ -159,19 +191,27 @@ testthat::test_that("several warning", {
             w <- testthat::capture_warnings({
                 resMonthly <- trim2mens(c(good_year, warning_quarter))
             })
-            testthat::expect_match(object = w, regexp = message_double("date_ts"), all = FALSE)
+            testthat::expect_match(
+                object = w,
+                regexp = message_double("date_ts"),
+                all = FALSE
+            )
             testthat::expect_match(
                 object = w,
                 regexp = paste(
                     "Assertion on 'period' failed: Element 1 is not <= 4.",
-                    "Assertion on 'period' failed: Element 1 is not >= 1.", sep = "|"
+                    "Assertion on 'period' failed: Element 1 is not >= 1.",
+                    sep = "|"
                 ),
                 all = FALSE
             )
 
             real_quarter <- (warning_quarter - 1L) %% 4L + 1L
             year_real <- good_year + (warning_quarter - 1L) %/% 4L
-            date_expected <- as.integer(c(year_real, conversion_quarter_month[real_quarter, "month"]))
+            date_expected <- as.integer(c(
+                year_real,
+                conversion_quarter_month[real_quarter, "month"]
+            ))
 
             testthat::expect_identical(resMonthly, date_expected)
             testthat::expect_type(resMonthly, "integer")

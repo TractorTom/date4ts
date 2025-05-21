@@ -16,3 +16,5 @@
 ^why\.Rmd$
 ^README\.Rmd$
 ^altdoc$
+^[\.]?air\.toml$
+^\.vscode$

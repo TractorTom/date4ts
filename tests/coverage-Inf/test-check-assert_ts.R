@@ -11,7 +11,9 @@ testthat::test_that("No warning nor error with expected with good TS", {
             for (startA in list_start) {
                 for (lenA in list_len[-1L]) {
                     ts_A <- create_random_ts(
-                        type = typeA, len = lenA, frequency = frequenceA,
+                        type = typeA,
+                        len = lenA,
+                        frequency = frequenceA,
                         start = startA
                     )
                     testthat::expect_silent(assert_ts(ts_A))
@@ -39,7 +41,10 @@ testthat::test_that("Result FALSE expected with mts", {
         for (lenA in list_len[-c(1L, 9L)]) {
             for (frequenceA in list_frequence) {
                 for (len2 in list_len[-c(1L, 2L, 9L)]) {
-                    A_content <- as.data.frame(lapply(seq_len(len2), function(i) create_random_type(type = typeA, len = lenA)))
+                    A_content <- as.data.frame(lapply(
+                        seq_len(len2),
+                        function(i) create_random_type(type = typeA, len = lenA)
+                    ))
                     startA <- create_random_date_ts()
                     if (typeA == "complex") {
                         mts_A <- do.call(
@@ -52,10 +57,17 @@ testthat::test_that("Result FALSE expected with mts", {
                             )
                         )
                     } else {
-                        mts_A <- ts(A_content, start = startA, frequency = frequenceA)
+                        mts_A <- ts(
+                            A_content,
+                            start = startA,
+                            frequency = frequenceA
+                        )
                     }
 
-                    testthat::expect_error(assert_ts(mts_A), regexp = "Variable 'mts_A': Must be of type 'atomic vector'")
+                    testthat::expect_error(
+                        assert_ts(mts_A),
+                        regexp = "Variable 'mts_A': Must be of type 'atomic vector'"
+                    )
                 }
             }
         }
@@ -71,7 +83,8 @@ testthat::test_that("Result FALSE expected with wrong frequency", {
             for (startA in list_start) {
                 for (lenA in list_len[-c(1L, 9L)]) {
                     ts_A <- create_random_ts(
-                        type = typeA, len = lenA,
+                        type = typeA,
+                        len = lenA,
                         frequency = wrong_freq,
                         start = startA
                     )
@@ -94,7 +107,10 @@ testthat::test_that("Result FALSE expected with wrong frequency", {
 
 testthat::test_that("Result FALSE expected with wrong type of ts", {
     for (wrong_ts in wrong_type_ts) {
-        testthat::expect_error(assert_ts(wrong_ts), regexp = "Variable 'wrong_ts': Must be of type 'atomic vector'")
+        testthat::expect_error(
+            assert_ts(wrong_ts),
+            regexp = "Variable 'wrong_ts': Must be of type 'atomic vector'"
+        )
     }
 })
 

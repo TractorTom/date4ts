@@ -1,13 +1,11 @@
 #' @title Ajuste un objet date_ts dans un format conforme.
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer` au format
-#' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
-#' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
+#' @inheritParams date_ts2timeunits
 #' @param test un booléen (Default is TRUE)
 #'
 #' @returns En sortie, la fonction retourne une date au même format que l'objet
 #' `date_ts` avec la période inclus entre 1 et la fréquence.
+#'
 #' @details Ici le formattage correspond à une réécriture de la date sans
 #' en changer la valeur. Alors que l'objet c(2020L, 12L) désigne le mois de
 #' décembre 2020 et c(2021L, 1L) le mois de janvier 2021, on peut imaginer que
@@ -31,18 +29,23 @@
 #' normalize_date_ts(c(2020L, 13L), frequency_ts = 4L) # janvier 2021
 #'
 normalize_date_ts <- function(date_ts, frequency_ts, test = TRUE) {
-
     if (test) {
-
         coll <- checkmate::makeAssertCollection()
 
         # Check de la fréquence
-        frequency_ts <- assert_frequency(frequency_ts, add = coll,
-                                         .var.name = "frequency_ts")
+        frequency_ts <- assert_frequency(
+            frequency_ts,
+            add = coll,
+            .var.name = "frequency_ts"
+        )
         # Check du format date_ts
         if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
-            date_ts <- assert_date_ts(x = date_ts, frequency_ts,
-                                      add = coll, .var.name = "date_ts")
+            date_ts <- assert_date_ts(
+                x = date_ts,
+                frequency_ts,
+                add = coll,
+                .var.name = "date_ts"
+            )
         }
 
         checkmate::reportAssertions(coll)

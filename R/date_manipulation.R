@@ -1,9 +1,6 @@
 #' @title Obtenir la date précédente
 #'
-#' @param date_ts un vecteur numérique, de préférence `integer` au format
-#' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
-#' @param frequency_ts un entier qui vaut `4L` (ou `4.0`) pour les séries
-#' trimestrielles et `12L` (ou `12.0`) pour les séries mensuelles.
+#' @inheritParams date_ts2timeunits
 #' @param lag un entier
 #'
 #' @returns En sortie, la fonction retourne un vecteur d'entier qui représente la
@@ -30,17 +27,23 @@
 #' previous_date_ts(c(2020L, 4L), frequency_ts = 12L, lag = 2L)
 #' previous_date_ts(c(2022L, 6L), frequency_ts = 12L, lag = 12L)
 previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
-
     coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll,
-                                     .var.name = "frequency_ts")
+    frequency_ts <- assert_frequency(
+        frequency_ts,
+        add = coll,
+        .var.name = "frequency_ts"
+    )
 
     # Check du format date_ts
     if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
-        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll,
-                                  .var.name = "date_ts")
+        date_ts <- assert_date_ts(
+            x = date_ts,
+            frequency_ts,
+            add = coll,
+            .var.name = "date_ts"
+        )
     }
 
     # Check l'argument lag
@@ -86,17 +89,23 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 #' next_date_ts(c(2020L, 4L), frequency_ts = 12L, lag = 2L)
 #' next_date_ts(c(2022L, 6L), frequency_ts = 12L, lag = 12L)
 next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
-
     coll <- checkmate::makeAssertCollection()
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll,
-                                     .var.name = "frequency_ts")
+    frequency_ts <- assert_frequency(
+        frequency_ts,
+        add = coll,
+        .var.name = "frequency_ts"
+    )
 
     # Check du format date_ts
     if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
-        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll,
-                                  .var.name = "date_ts")
+        date_ts <- assert_date_ts(
+            x = date_ts,
+            frequency_ts,
+            add = coll,
+            .var.name = "date_ts"
+        )
     }
 
     # Check l'argument lag
@@ -226,15 +235,17 @@ last_date <- function(series) {
 #' is_before(a = c(2022L, -3L), b = c(2021L, 8L), frequency_ts = 4L)
 #'
 is_before <- function(a, b, frequency_ts, strict = FALSE) {
-
     coll <- checkmate::makeAssertCollection()
 
     # Check de strict
     checkmate::assert_flag(strict, add = coll, .var.name = "replace_na")
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll,
-                                     .var.name = "frequency_ts")
+    frequency_ts <- assert_frequency(
+        frequency_ts,
+        add = coll,
+        .var.name = "frequency_ts"
+    )
 
     if (isTRUE(check_frequency(frequency_ts, warn = FALSE))) {
         # Check du format date_ts a
@@ -289,12 +300,14 @@ is_before <- function(a, b, frequency_ts, strict = FALSE) {
 #' diff_periode(a = c(2023L, 8L), b = c(2021L, 5L), frequency_ts = 12L)
 #'
 diff_periode <- function(a, b, frequency_ts) {
-
     coll <- NULL
 
     # Check de la fréquence
-    frequency_ts <- assert_frequency(frequency_ts, add = coll,
-                                     .var.name = "frequency_ts")
+    frequency_ts <- assert_frequency(
+        frequency_ts,
+        add = coll,
+        .var.name = "frequency_ts"
+    )
     # Check du format date_ts a
     a <- assert_date_ts(x = a, frequency_ts, add = coll, .var.name = "a")
     # Check du format date_ts b

@@ -4,9 +4,8 @@
 #' La fonction `set_value_ts` modifie la ou les valeurs d'un objet
 #' ts à une date donnée.
 #'
-#' @param series un objet ts unidimensionnel conforme aux règles de assert_ts
-#' @param date_ts un vecteur numérique, de préférence `integer` au format
-#' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
+#' @inheritParams first_date
+#' @inheritParams trim2mens
 #' @param replacement un vecteur de même type que le ts `series`
 #'
 #' @returns En sortie, la fonction retourne une copie de l'objet `series` modifié
@@ -21,15 +20,17 @@
 #' )
 #'
 set_value_ts <- function(series, date_ts, replacement) {
-
     coll <- checkmate::makeAssertCollection()
 
     # Check de l'objet series
     assert_ts(series, add = coll, .var.name = "series")
 
     # Check de l'objet replacement un vecteur atomic
-    checkmate::assert_atomic_vector(replacement, add = coll,
-                                    .var.name = "replacement")
+    checkmate::assert_atomic_vector(
+        replacement,
+        add = coll,
+        .var.name = "replacement"
+    )
 
     check_1 <- checkmate::check_atomic_vector(x = replacement)
     check_2 <- checkmate::anyMissing(x = replacement)
@@ -37,7 +38,8 @@ set_value_ts <- function(series, date_ts, replacement) {
         warning(
             "the argument replacement ",
             checkmate::check_atomic_vector(
-                x = replacement, any.missing = FALSE
+                x = replacement,
+                any.missing = FALSE
             )
         )
     }
@@ -67,7 +69,8 @@ set_value_ts <- function(series, date_ts, replacement) {
                 start = stats::start(ts_output),
                 frequency = stats::frequency(ts_output)
             ),
-            date_ts = date_ts, replacement = as.integer(replacement)
+            date_ts = date_ts,
+            replacement = as.integer(replacement)
         )
         ts_output <- stats::ts(
             data = as.raw(ts_output),
@@ -85,7 +88,8 @@ set_value_ts <- function(series, date_ts, replacement) {
             lag = length(replacement) - 1L
         )
         stats::window(
-            x = ts_output, start = start_ts,
+            x = ts_output,
+            start = start_ts,
             end = end_ts,
             extend = TRUE
         ) <- replacement
@@ -127,7 +131,6 @@ set_value_ts <- function(series, date_ts, replacement) {
 #' combine2ts(mens_1, mens_2)
 #'
 combine2ts <- function(a, b) {
-
     coll <- checkmate::makeAssertCollection()
 
     # Check de l'objet a
@@ -136,7 +139,6 @@ combine2ts <- function(a, b) {
     assert_ts(b, add = coll, .var.name = "b")
 
     if (isTRUE(check_ts(a)) && isTRUE(check_ts(b))) {
-
         # Check same frequency_ts
         if (!isTRUE(stats::frequency(a) == stats::frequency(b))) {
             error_message <- paste(
@@ -154,7 +156,6 @@ combine2ts <- function(a, b) {
             )
             coll$push(msg = error_message)
         }
-
     }
 
     checkmate::reportAssertions(coll)
@@ -185,8 +186,10 @@ combine2ts <- function(a, b) {
         # Fréquence entière
     } else if (isTRUE(checkmate::check_int(frequency_ts))) {
         stats::window(
-            x = ts_output, start = stats::start(b),
-            end = stats::end(b), extend = TRUE
+            x = ts_output,
+            start = stats::start(b),
+            end = stats::end(b),
+            extend = TRUE
         ) <- b
 
         # Fréquence décimale
@@ -202,10 +205,14 @@ combine2ts <- function(a, b) {
             data = df_output$res,
             frequency = frequency_ts,
             start = min(
-                date_ts2timeunits(as.integer(stats::start(a)),
-                                  frequency_ts = frequency_ts),
-                date_ts2timeunits(as.integer(stats::start(b)),
-                                  frequency_ts = frequency_ts)
+                date_ts2timeunits(
+                    as.integer(stats::start(a)),
+                    frequency_ts = frequency_ts
+                ),
+                date_ts2timeunits(
+                    as.integer(stats::start(b)),
+                    frequency_ts = frequency_ts
+                )
             )
         )
     }
@@ -217,22 +224,24 @@ combine2ts <- function(a, b) {
 #' @description
 #' La fonction `extend_ts` ajoute de nouvelles valeurs à un ts.
 #'
-#' @param series un objet ts unidimensionnel conforme aux règles de assert_ts
-#' @param replacement un vecteur de même type que le ts `series`
-#' @param date_ts un vecteur numérique, de préférence `integer` au format
-#' `date_ts` (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`). Désigne la date jusqu'à
-#' laquelle le remplacement s'effectue. (default NULL)
+#' @inheritParams set_value_ts
 #' @param replace_na un booléen
 #'
 #' @returns En sortie, la fonction retourne une copie de l'objet `series`
 #' complété avec le vecteur `replacement`.
-#' @details Si `replace_na` vaut `TRUE` alors le remplacement commence dès que
+#'
+#' @details
+#' \code{date_ts} désigne la date jusqu'à laquelle le remplacement s'effectue.
+#' Par défault, cette valeur vaut \code{NULL}.
+#'
+#' Si `replace_na` vaut `TRUE` alors le remplacement commence dès que
 #' l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu,
 #' qu'il contienne des NA ou non à la fin.
 #' Si le vecteur `replacement` est de taille un sous-multiple de la différence
 #' de période entre la date de fin de `series` et `date_ts`, le vecteur
 #' `replacement` est répété jusqu'à la date `date_ts`. Sinon une erreur est
 #' générée.
+#'
 #' @export
 #'
 #' @examples
@@ -250,14 +259,16 @@ combine2ts <- function(a, b) {
 #'           date_ts = c(2021L, 7L), replace_na = TRUE)
 #'
 extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
-
     coll <- checkmate::makeAssertCollection()
 
     # Check de l'objet series
     assert_ts(series, add = coll, .var.name = "series")
     # Check de l'objet replacement un vecteur atomic
-    checkmate::assert_atomic_vector(replacement, add = coll,
-                                    .var.name = "replacement")
+    checkmate::assert_atomic_vector(
+        replacement,
+        add = coll,
+        .var.name = "replacement"
+    )
     # Check de replace_na
     checkmate::assert_flag(replace_na, add = coll, .var.name = "replace_na")
 
@@ -275,26 +286,34 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
 
     # Check du format date_ts
     if (!is.null(date_ts)) {
-        date_ts <- assert_date_ts(x = date_ts, frequency_ts, add = coll,
-                                  .var.name = "date_ts")
+        date_ts <- assert_date_ts(
+            x = date_ts,
+            frequency_ts,
+            add = coll,
+            .var.name = "date_ts"
+        )
     }
 
     end_ts <- as.integer(stats::end(series))
 
     if (replace_na) {
         series <- na_trim(series = series, sides = "right")
-        start_replacement <- next_date_ts(last_date(series),
-                                          frequency_ts = frequency_ts)
+        start_replacement <- next_date_ts(
+            last_date(series),
+            frequency_ts = frequency_ts
+        )
     } else {
         start_replacement <- next_date_ts(end_ts, frequency_ts = frequency_ts)
     }
 
     if (!is.null(date_ts)) {
-        if (!is_before(start_replacement, date_ts,
-                       frequency_ts = frequency_ts)) {
-
-            stop(c("La date de fin de remplacement est",
-                   " ant\u00e9rieur \u00e0 la date de fin des donn\u00e9es."))
+        if (
+            !is_before(start_replacement, date_ts, frequency_ts = frequency_ts)
+        ) {
+            stop(c(
+                "La date de fin de remplacement est",
+                " ant\u00e9rieur \u00e0 la date de fin des donn\u00e9es."
+            ))
         }
         length_replacement <- diff_periode(
             a = start_replacement,
@@ -302,8 +321,10 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
             frequency_ts = frequency_ts
         )
         if (length_replacement %% length(replacement) != 0L) {
-            stop(c("number of values supplied is not a",
-                   " sub-multiple of the number of values to be replaced"))
+            stop(c(
+                "number of values supplied is not a",
+                " sub-multiple of the number of values to be replaced"
+            ))
         }
         end_replacement <- date_ts
         nb_replacement <- length_replacement %/% length(replacement)
@@ -316,8 +337,12 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
         nb_replacement <- 1L
     }
 
-    stats::window(series, start = start_replacement,
-                  end = end_replacement, extend = TRUE) <- replacement
+    stats::window(
+        series,
+        start = start_replacement,
+        end = end_replacement,
+        extend = TRUE
+    ) <- replacement
     return(series)
 }
 
@@ -327,7 +352,7 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
 #' La fonction `na_trim` supprime les NA en début et en fin de
 #' période.
 #'
-#' @param series un objet ts unidimensionnel conforme aux règles de assert_ts
+#' @inheritParams date_ts2timeunits
 #' @param sides une chaine de caractere qui spécifie quelle NA doivent être
 #' retirés (au début et à la fin ("both"), juste au début ("left") ou juste à
 #' la fin ("right"))
@@ -348,15 +373,17 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
 #' na_trim(ts3)
 #'
 na_trim <- function(series, sides = c("both", "left", "right")) {
-
     coll <- NULL
 
     # Check de l'objet series
     assert_ts(series, add = coll, .var.name = "series")
     # Check du contenu (pas que des NA)
-    checkmate::assert_atomic_vector(series,
-                                    all.missing = FALSE,
-                                    add = coll, .var.name = "series")
+    checkmate::assert_atomic_vector(
+        series,
+        all.missing = FALSE,
+        add = coll,
+        .var.name = "series"
+    )
     # Check de l'argument sides
     sides <- match.arg(sides)
 

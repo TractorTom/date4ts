@@ -150,7 +150,10 @@ testthat::test_that("warning for integer date", {
             warning_date <- c(good_year, warning_quarter)
             testthat::expect_warning(
                 {
-                    boolRes <- assert_date_ts(x = warning_date, frequency_ts = 4L)
+                    boolRes <- assert_date_ts(
+                        x = warning_date,
+                        frequency_ts = 4L
+                    )
                 },
                 regexp = invalid_quaterly_period
             )
@@ -174,7 +177,10 @@ testthat::test_that("warning for double date", {
             warning_date <- c(warning_year, good_quarter)
             testthat::expect_warning(
                 {
-                    boolRes <- assert_date_ts(x = warning_date, frequency_ts = 4L)
+                    boolRes <- assert_date_ts(
+                        x = warning_date,
+                        frequency_ts = 4L
+                    )
                 },
                 regexp = message_double("warning_date")
             )
@@ -187,7 +193,10 @@ testthat::test_that("warning for double date", {
             warning_date <- c(good_year, warning_quarter)
             testthat::expect_warning(
                 {
-                    boolRes <- assert_date_ts(x = warning_date, frequency_ts = 4L)
+                    boolRes <- assert_date_ts(
+                        x = warning_date,
+                        frequency_ts = 4L
+                    )
                 },
                 regexp = message_double("warning_date")
             )
@@ -200,7 +209,10 @@ testthat::test_that("warning for double date", {
             warning_date <- c(warning_year, warning_quarter)
             testthat::expect_warning(
                 {
-                    boolRes <- assert_date_ts(x = warning_date, frequency_ts = 4L)
+                    boolRes <- assert_date_ts(
+                        x = warning_date,
+                        frequency_ts = 4L
+                    )
                 },
                 regexp = message_double("warning_date")
             )
@@ -307,31 +319,42 @@ testthat::test_that("warning for integer date", {
 
 testthat::test_that("miscellaneous warn are not allowed", {
     for (wrong_warn in c(list(0., 0L), object_bank_R[-29L])) {
-        testthat::expect_error(assert_date_ts(x = 2020L, frequency_ts = 12L, warn = wrong_warn))
+        testthat::expect_error(assert_date_ts(
+            x = 2020L,
+            frequency_ts = 12L,
+            warn = wrong_warn
+        ))
     }
 })
 
 testthat::test_that("miscellaneous warn are not allowed in collection", {
     for (wrong_warn in c(list(0., 0L), object_bank_R[-29L])) {
         coll <- checkmate::makeAssertCollection()
-        assert_date_ts(x = 2020L, frequency_ts = 12L, warn = wrong_warn, add = coll)
+        assert_date_ts(
+            x = 2020L,
+            frequency_ts = 12L,
+            warn = wrong_warn,
+            add = coll
+        )
         testthat::expect_error(reportAssertions(coll))
     }
 })
 
 testthat::test_that("detection of wrong dates", {
-    for (wrong_date in c(list_wrong_date_ts,
-                         object_bank_R[-10L],
-                         rnorm(10L))) {
-        testthat::expect_error(assert_date_ts(x = wrong_date, frequency_ts = 12L))
-        testthat::expect_error(assert_date_ts(x = wrong_date, frequency_ts = 4L))
+    for (wrong_date in c(list_wrong_date_ts, object_bank_R[-10L], rnorm(10L))) {
+        testthat::expect_error(assert_date_ts(
+            x = wrong_date,
+            frequency_ts = 12L
+        ))
+        testthat::expect_error(assert_date_ts(
+            x = wrong_date,
+            frequency_ts = 4L
+        ))
     }
 })
 
 testthat::test_that("detection of wrong dates in collection", {
-    for (wrong_date in c(list_wrong_date_ts,
-                         object_bank_R[-10L],
-                         rnorm(10L))) {
+    for (wrong_date in c(list_wrong_date_ts, object_bank_R[-10L], rnorm(10L))) {
         coll <- checkmate::makeAssertCollection()
         assert_date_ts(x = wrong_date, frequency_ts = 12L, add = coll)
         testthat::expect_error(reportAssertions(coll))

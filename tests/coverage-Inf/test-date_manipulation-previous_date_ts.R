@@ -6,10 +6,8 @@ set.seed(2042L)
 # Tests de résultats positifs --------------------------------------------------
 
 testthat::test_that(desc = "Expect good result with monthly frequency", {
-
     for (year in good_years) {
         for (lag in list_lag) {
-
             date_a <- year
 
             minus_year <- (-lag) %/% 12L
@@ -18,10 +16,13 @@ testthat::test_that(desc = "Expect good result with monthly frequency", {
             date_b <- c(year + minus_year, minus_months)
 
             testthat::expect_identical(
-                object = previous_date_ts(date_a, frequency_ts = 12L, lag = lag),
+                object = previous_date_ts(
+                    date_a,
+                    frequency_ts = 12L,
+                    lag = lag
+                ),
                 expected = date_b
             )
-
 
             for (month in good_months) {
                 date_a <- c(year, month)
@@ -32,7 +33,11 @@ testthat::test_that(desc = "Expect good result with monthly frequency", {
                 date_b <- c(year + minus_year, minus_months)
 
                 testthat::expect_identical(
-                    object = previous_date_ts(date_a, frequency_ts = 12L, lag = lag),
+                    object = previous_date_ts(
+                        date_a,
+                        frequency_ts = 12L,
+                        lag = lag
+                    ),
                     expected = date_b
                 )
             }
@@ -41,10 +46,8 @@ testthat::test_that(desc = "Expect good result with monthly frequency", {
 })
 
 testthat::test_that(desc = "Expect good result with quaterly frequency", {
-
     for (year in good_years) {
         for (lag in list_lag) {
-
             date_a <- year
 
             minus_year <- (-lag) %/% 4L
@@ -57,7 +60,6 @@ testthat::test_that(desc = "Expect good result with quaterly frequency", {
                 expected = date_b
             )
 
-
             for (quarter in good_quarters) {
                 date_a <- c(year, quarter)
 
@@ -67,7 +69,11 @@ testthat::test_that(desc = "Expect good result with quaterly frequency", {
                 date_b <- c(year + minus_year, minus_quarters)
 
                 testthat::expect_identical(
-                    object = previous_date_ts(date_a, frequency_ts = 4L, lag = lag),
+                    object = previous_date_ts(
+                        date_a,
+                        frequency_ts = 4L,
+                        lag = lag
+                    ),
                     expected = date_b
                 )
             }
@@ -79,10 +85,8 @@ testthat::test_that(desc = "Expect good result with quaterly frequency", {
 # Tests de résultats positif avec warning --------------------------------------
 
 testthat::test_that(desc = "Warning with double years and monthly frequency", {
-
     for (year in double_years) {
         for (lag in list_lag) {
-
             date_a <- year
 
             minus_year <- (-lag) %/% 12L
@@ -92,7 +96,11 @@ testthat::test_that(desc = "Warning with double years and monthly frequency", {
 
             testthat::expect_warning(
                 object = {
-                    res <- previous_date_ts(date_a, frequency_ts = 12L, lag = lag)
+                    res <- previous_date_ts(
+                        date_a,
+                        frequency_ts = 12L,
+                        lag = lag
+                    )
                 },
                 regexp = message_double("date_ts")
             )
@@ -101,7 +109,6 @@ testthat::test_that(desc = "Warning with double years and monthly frequency", {
                 object = res,
                 expected = date_b
             )
-
 
             for (month in good_months) {
                 date_a <- c(year, month)
@@ -113,7 +120,11 @@ testthat::test_that(desc = "Warning with double years and monthly frequency", {
 
                 testthat::expect_warning(
                     object = {
-                        res <- previous_date_ts(date_a, frequency_ts = 12L, lag = lag)
+                        res <- previous_date_ts(
+                            date_a,
+                            frequency_ts = 12L,
+                            lag = lag
+                        )
                     },
                     regexp = message_double("date_ts")
                 )
@@ -128,10 +139,8 @@ testthat::test_that(desc = "Warning with double years and monthly frequency", {
 })
 
 testthat::test_that(desc = "Warning with double years and quaterly frequency", {
-
     for (year in double_years) {
         for (lag in list_lag) {
-
             date_a <- year
 
             minus_year <- (-lag) %/% 4L
@@ -141,7 +150,11 @@ testthat::test_that(desc = "Warning with double years and quaterly frequency", {
 
             testthat::expect_warning(
                 object = {
-                    res <- previous_date_ts(date_a, frequency_ts = 4L, lag = lag)
+                    res <- previous_date_ts(
+                        date_a,
+                        frequency_ts = 4L,
+                        lag = lag
+                    )
                 },
                 regexp = message_double("date_ts")
             )
@@ -150,7 +163,6 @@ testthat::test_that(desc = "Warning with double years and quaterly frequency", {
                 object = res,
                 expected = date_b
             )
-
 
             for (quarter in good_quarters) {
                 date_a <- c(year, quarter)
@@ -162,7 +174,11 @@ testthat::test_that(desc = "Warning with double years and quaterly frequency", {
 
                 testthat::expect_warning(
                     object = {
-                        res <- previous_date_ts(date_a, frequency_ts = 4L, lag = lag)
+                        res <- previous_date_ts(
+                            date_a,
+                            frequency_ts = 4L,
+                            lag = lag
+                        )
                     },
                     regexp = message_double("date_ts")
                 )
@@ -177,10 +193,8 @@ testthat::test_that(desc = "Warning with double years and quaterly frequency", {
 })
 
 testthat::test_that(desc = "Warning with frequency and monthly frequency", {
-
     for (year in good_years) {
         for (lag in list_lag) {
-
             date_a <- year
 
             minus_year <- (-lag) %/% 12L
@@ -190,7 +204,11 @@ testthat::test_that(desc = "Warning with frequency and monthly frequency", {
 
             testthat::expect_warning(
                 object = {
-                    res <- previous_date_ts(date_a, frequency_ts = 12, lag = lag)
+                    res <- previous_date_ts(
+                        date_a,
+                        frequency_ts = 12,
+                        lag = lag
+                    )
                 },
                 regexp = message_double("frequency_ts")
             )
@@ -199,7 +217,6 @@ testthat::test_that(desc = "Warning with frequency and monthly frequency", {
                 object = res,
                 expected = date_b
             )
-
 
             for (month in good_months) {
                 date_a <- c(year, month)
@@ -211,7 +228,11 @@ testthat::test_that(desc = "Warning with frequency and monthly frequency", {
 
                 testthat::expect_warning(
                     object = {
-                        res <- previous_date_ts(date_a, frequency_ts = 12, lag = lag)
+                        res <- previous_date_ts(
+                            date_a,
+                            frequency_ts = 12,
+                            lag = lag
+                        )
                     },
                     regexp = message_double("frequency_ts")
                 )
@@ -226,10 +247,8 @@ testthat::test_that(desc = "Warning with frequency and monthly frequency", {
 })
 
 testthat::test_that(desc = "Warning with frequency and quaterly frequency", {
-
     for (year in good_years) {
         for (lag in list_lag) {
-
             date_a <- year
 
             minus_year <- (-lag) %/% 4L
@@ -249,7 +268,6 @@ testthat::test_that(desc = "Warning with frequency and quaterly frequency", {
                 expected = date_b
             )
 
-
             for (quarter in good_quarters) {
                 date_a <- c(year, quarter)
 
@@ -260,7 +278,11 @@ testthat::test_that(desc = "Warning with frequency and quaterly frequency", {
 
                 testthat::expect_warning(
                     object = {
-                        res <- previous_date_ts(date_a, frequency_ts = 4, lag = lag)
+                        res <- previous_date_ts(
+                            date_a,
+                            frequency_ts = 4,
+                            lag = lag
+                        )
                     },
                     regexp = message_double("frequency_ts")
                 )
@@ -278,8 +300,16 @@ testthat::test_that(desc = "Warning with frequency and quaterly frequency", {
 
 testthat::test_that("miscellaneous date are not allowed", {
     for (wrong_date in list_wrong_date_ts) {
-        testthat::expect_error(previous_date_ts(date_ts = wrong_date, frequency_ts = 12L, lag = 4L))
-        testthat::expect_error(previous_date_ts(date_ts = wrong_date, frequency_ts = 12L, lag = 4L))
+        testthat::expect_error(previous_date_ts(
+            date_ts = wrong_date,
+            frequency_ts = 12L,
+            lag = 4L
+        ))
+        testthat::expect_error(previous_date_ts(
+            date_ts = wrong_date,
+            frequency_ts = 12L,
+            lag = 4L
+        ))
     }
 })
 
@@ -287,24 +317,26 @@ testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
         testthat::expect_error(previous_date_ts(
             date_ts = create_random_date_ts(),
-            frequency_ts = wrong_frequency, lag = 4L
+            frequency_ts = wrong_frequency,
+            lag = 4L
         ))
     }
 })
 
 testthat::test_that("miscellaneous frequency are not allowed", {
-
     for (wrong_lag in list_wrong_date_ts) {
         date_ts <- create_random_date_ts(frequency_ts = 12L)
         testthat::expect_error(previous_date_ts(
             date_ts = date_ts,
-            frequency_ts = 12L, lag = wrong_lag
+            frequency_ts = 12L,
+            lag = wrong_lag
         ))
 
         date_ts <- create_random_date_ts(frequency_ts = 4L)
         testthat::expect_error(previous_date_ts(
             date_ts = date_ts,
-            frequency_ts = 4L, lag = wrong_lag
+            frequency_ts = 4L,
+            lag = wrong_lag
         ))
     }
 })

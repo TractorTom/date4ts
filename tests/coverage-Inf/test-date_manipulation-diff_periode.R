@@ -137,7 +137,11 @@ testthat::test_that("warning with double years", {
             testthat::expect_identical(res1, abs(len) * 4L + 1L)
             testthat::expect_identical(res2, abs(len) * 4L + 1L)
 
-            for (month in c(warning_double_months, warning_integer_months, double_months)) {
+            for (month in c(
+                warning_double_months,
+                warning_integer_months,
+                double_months
+            )) {
                 date_a <- c(year, month)
                 date_b <- c(year, month + len)
 
@@ -175,7 +179,11 @@ testthat::test_that("warning with double years", {
                 testthat::expect_identical(res2, abs(len) + 1L)
             }
 
-            for (quarter in c(warning_double_quarters, warning_integer_quarters, double_quarters)) {
+            for (quarter in c(
+                warning_double_quarters,
+                warning_integer_quarters,
+                double_quarters
+            )) {
                 date_a <- c(year, quarter)
                 date_b <- c(year, quarter + len)
 
@@ -267,13 +275,21 @@ testthat::test_that("warning frequency", {
 
                 testthat::expect_warning(
                     object = {
-                        res1 <- diff_periode(date_a, date_b, frequency_ts = 12.0)
+                        res1 <- diff_periode(
+                            date_a,
+                            date_b,
+                            frequency_ts = 12.0
+                        )
                     },
                     regexp = message_double("frequency_ts")
                 )
                 testthat::expect_warning(
                     object = {
-                        res2 <- diff_periode(date_b, date_a, frequency_ts = 12.0)
+                        res2 <- diff_periode(
+                            date_b,
+                            date_a,
+                            frequency_ts = 12.0
+                        )
                     },
                     regexp = message_double("frequency_ts")
                 )
@@ -318,22 +334,47 @@ testthat::test_that("warning frequency", {
 
 testthat::test_that("miscellaneous date are not allowed", {
     for (wrong_date in list_wrong_date_ts) {
-        date_a <- create_random_date_ts() |> normalize_date_ts(frequency_ts = 12L, test = FALSE)
-        testthat::expect_error(diff_periode(a = wrong_date, b = date_a, frequency_ts = 12L))
-        testthat::expect_error(diff_periode(b = wrong_date, a = date_a, frequency_ts = 12L))
+        date_a <- create_random_date_ts() |>
+            normalize_date_ts(frequency_ts = 12L, test = FALSE)
+        testthat::expect_error(diff_periode(
+            a = wrong_date,
+            b = date_a,
+            frequency_ts = 12L
+        ))
+        testthat::expect_error(diff_periode(
+            b = wrong_date,
+            a = date_a,
+            frequency_ts = 12L
+        ))
 
-        date_a <- create_random_date_ts() |> normalize_date_ts(frequency_ts = 4L, test = FALSE)
-        date_b <- create_random_date_ts() |> normalize_date_ts(frequency_ts = 4L, test = FALSE)
-        testthat::expect_error(diff_periode(a = wrong_date, b = date_a, frequency_ts = 4L))
-        testthat::expect_error(diff_periode(b = wrong_date, a = date_a, frequency_ts = 4L))
+        date_a <- create_random_date_ts() |>
+            normalize_date_ts(frequency_ts = 4L, test = FALSE)
+        date_b <- create_random_date_ts() |>
+            normalize_date_ts(frequency_ts = 4L, test = FALSE)
+        testthat::expect_error(diff_periode(
+            a = wrong_date,
+            b = date_a,
+            frequency_ts = 4L
+        ))
+        testthat::expect_error(diff_periode(
+            b = wrong_date,
+            a = date_a,
+            frequency_ts = 4L
+        ))
     }
 })
 
 testthat::test_that("miscellaneous frequency are not allowed", {
     for (wrong_frequency in c(object_bank_R, weird_frequency)) {
-        date_a <- create_random_date_ts() |> normalize_date_ts(frequency_ts = 12L, test = FALSE)
-        date_b <- create_random_date_ts() |> normalize_date_ts(frequency_ts = 12L, test = FALSE)
+        date_a <- create_random_date_ts() |>
+            normalize_date_ts(frequency_ts = 12L, test = FALSE)
+        date_b <- create_random_date_ts() |>
+            normalize_date_ts(frequency_ts = 12L, test = FALSE)
 
-        testthat::expect_error(diff_periode(a = date_a, b = date_b, frequency_ts = wrong_frequency))
+        testthat::expect_error(diff_periode(
+            a = date_a,
+            b = date_b,
+            frequency_ts = wrong_frequency
+        ))
     }
 })

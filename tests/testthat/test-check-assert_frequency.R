@@ -1,4 +1,3 @@
-
 # Tests de résultats positifs --------------------------------------------------
 
 testthat::test_that("good result for integer frequency", {
@@ -37,7 +36,6 @@ testthat::test_that("good result for double frequency without warning", {
 # Tests positifs avec warning --------------------------------------------------
 
 testthat::test_that("warning for integer date", {
-
     testthat::expect_warning(
         object = {
             res <- assert_frequency(x = 12.0, warn = TRUE)
@@ -69,7 +67,6 @@ testthat::test_that("warning for integer date", {
         regexp = double_instead_of_integer
     )
     testthat::expect_identical(object = res, expected = 4L)
-
 })
 
 

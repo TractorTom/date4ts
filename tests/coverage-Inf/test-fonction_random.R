@@ -9,7 +9,6 @@ test_that("moy works", {
 })
 
 
-
 test_that("moy doesn't work", {
     expect_error(moy("a", 2))
     expect_error(moy(2))

@@ -9,7 +9,7 @@ set_value_ts(series, date_ts, replacement)
 \arguments{
 \item{series}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 
-\item{date_ts}{un vecteur numérique, de préférence \code{integer} au format
+\item{date_ts}{un vecteur numérique, de préférence \code{integer}, au format
 \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 
 \item{replacement}{un vecteur de même type que le ts \code{series}}
