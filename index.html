@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Wrangle and Modify Ts Object with Classic Frequencies and Exact Dates • TractorTsbox</title>
+<title>Wrangle and Modify Ts Object with Classic Frequencies and Exact Dates • date4ts</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -20,7 +20,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="index.html">TractorTsbox</a>
+    <a class="navbar-brand me-2" href="index.html">date4ts</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
@@ -38,7 +38,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/TractorTom/TractorTsbox/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/TractorTom/date4ts/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -47,12 +47,12 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="tractortsbox">TractorTsbox<a class="anchor" aria-label="anchor" href="#tractortsbox"></a>
+<div class="page-header"><h1 id="date4ts">date4ts<a class="anchor" aria-label="anchor" href="#date4ts"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p><a href="https://app.codecov.io/gh/TractorTom/TractorTsbox" class="external-link"><img src="https://codecov.io/gh/TractorTom/TractorTsbox/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://www.codefactor.io/repository/github/TractorTom/TractorTsbox" class="external-link"><img src="https://www.codefactor.io/repository/github/TractorTom/TractorTsbox/badge" alt="CodeFactor"></a> <a href="https://github.com/TractorTom/TractorTsbox/actions/workflows/lint.yaml" class="external-link"><img src="https://github.com/TractorTom/TractorTsbox/actions/workflows/lint.yaml/badge.svg" alt="lint"></a> <!-- badges: end --></p>
-<p>TractorTsbox est une boite à outils pour la manipulation des objets <code>ts</code> en R.</p>
+<p><a href="https://github.com/TractorTom/date4ts/actions/workflows/lint.yaml" class="external-link"><img src="https://github.com/TractorTom/date4ts/actions/workflows/lint.yaml/badge.svg" alt="lint"></a> <a href="https://app.codecov.io/gh/TractorTom/date4ts" class="external-link"><img src="https://codecov.io/gh/TractorTom/date4ts/graph/badge.svg" alt="Coverage"></a> <a href="https://www.codefactor.io/repository/github/TractorTom/date4ts" class="external-link"><img src="https://www.codefactor.io/repository/github/TractorTom/date4ts/badge" alt="CodeFactor"></a> <!-- badges: end --></p>
+<p>date4ts est une boite à outils pour la manipulation des objets <code>ts</code> en R.</p>
 <p>La motivation pour la création de ce package est le fait que pour créer un objet <code>ts</code> en R, il faut préciser la date sous le format <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>A</mi><mi>A</mi><mi>A</mi><mi>P</mi><mi>P</mi></mrow><annotation encoding="application/x-tex">AAAA PP</annotation></semantics></math> (avec <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>A</mi><mi>A</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">AAAA</annotation></semantics></math> l’année en 4 chiffres et <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>P</mi></mrow><annotation encoding="application/x-tex">PP</annotation></semantics></math> le numéro de la période).</p>
 <p>Par exemple, pour désigner le mois de septembre 2024, on utilise <code>c(2024, 9)</code> et pour désigner le mois de janvier 2025 on peut écrire <code>c(2025, 1)</code> ou <code>2025</code>.</p>
 <p>Mais on peut aussi utiliser le time-units (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>A</mi><mi>A</mi><mi>A</mi><mo>+</mo><mi>P</mi><mi>P</mi><mi>/</mi><mi>f</mi></mrow><annotation encoding="application/x-tex">AAAA + PP / f</annotation></semantics></math> avec <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math> la fréquence).</p>
@@ -60,16 +60,16 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of TractorTsbox from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of date4ts from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"TractorTom/TractorTsbox"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"TractorTom/date4ts"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/TractorTom/TractorTsbox" class="external-link">"TractorTsbox"</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/TractorTom/date4ts" class="external-link">"date4ts"</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="converting-dates">Converting Dates<a class="anchor" aria-label="anchor" href="#converting-dates"></a>
 </h3>
@@ -111,7 +111,7 @@
 <li>Find the first non-NA date in a time series:</li>
 </ul>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ts1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="cn">NA</span><span class="op">)</span>, start <span class="op">=</span> <span class="fl">2000</span>, frequency <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">ts1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="cn">NA</span><span class="op">)</span>, start <span class="op">=</span> <span class="fl">2000</span>, frequency <span class="op">=</span> <span class="fl">12L</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/first_date.html">first_date</a></span><span class="op">(</span><span class="va">ts1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 2000    4</span></span></code></pre></div>
 </div>
@@ -189,7 +189,7 @@
 <li>Combine two time series:</li>
 </ul>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">trim_1</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span>, start <span class="op">=</span> <span class="fl">2021</span>, frequency <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">trim_1</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span>, start <span class="op">=</span> <span class="fl">2021</span>, frequency <span class="op">=</span> <span class="fl">4L</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/combine2ts.html">combine2ts</a></span><span class="op">(</span><span class="va">ev_pib</span>, <span class="va">trim_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt;               Qtr1          Qtr2          Qtr3          Qtr4</span></span>
 <span><span class="co">#&gt; 1970            NA            NA            NA            NA</span></span>
@@ -249,7 +249,7 @@
 <li>Extend a time series with new values:</li>
 </ul>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ts1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA_integer_</span>, <span class="fl">3L</span><span class="op">)</span>, <span class="fl">1L</span><span class="op">:</span><span class="fl">10L</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA_integer_</span>, <span class="fl">3L</span><span class="op">)</span><span class="op">)</span>, start <span class="op">=</span> <span class="fl">2020</span>, frequency <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">ts1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html" class="external-link">ts</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA_integer_</span>, <span class="fl">3L</span><span class="op">)</span>, <span class="fl">1L</span><span class="op">:</span><span class="fl">10L</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA_integer_</span>, <span class="fl">3L</span><span class="op">)</span><span class="op">)</span>, start <span class="op">=</span> <span class="fl">2020</span>, frequency <span class="op">=</span> <span class="fl">12L</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">3L</span>, <span class="fl">2L</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/extend_ts.html">extend_ts</a></span><span class="op">(</span>series <span class="op">=</span> <span class="va">ts1</span>, replacement <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: extending time series when replacing values</span></span>
@@ -346,9 +346,8 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://cloud.r-project.org/package=TractorTsbox" class="external-link">View on CRAN</a></li>
-<li><a href="https://github.com/TractorTom/TractorTsbox/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/TractorTom/TractorTsbox/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/TractorTom/date4ts/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/TractorTom/date4ts/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -364,7 +363,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing TractorTsbox</a></li>
+<li><a href="authors.html#citation">Citing date4ts</a></li>
 </ul>
 </div>
 
@@ -378,9 +377,9 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://CRAN.R-project.org/package=TractorTsbox" class="external-link"><img src="https://www.r-pkg.org/badges/version/TractorTsbox" alt="CRAN status"></a></li>
-<li><a href="https://github.com/TractorTom/TractorTsbox/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/TractorTom/TractorTsbox/actions/workflows/pkgdown.yaml/badge.svg" alt="GH Pages built"></a></li>
-<li><a href="https://github.com/TractorTom/TractorTsbox/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/TractorTom/TractorTsbox/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://CRAN.R-project.org/package=date4ts" class="external-link"><img src="https://www.r-pkg.org/badges/version/date4ts" alt="CRAN status"></a></li>
+<li><a href="https://github.com/TractorTom/date4ts/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/TractorTom/date4ts/actions/workflows/pkgdown.yaml/badge.svg" alt="GH Pages built"></a></li>
+<li><a href="https://github.com/TractorTom/date4ts/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/TractorTom/date4ts/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
@@ -393,7 +392,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
