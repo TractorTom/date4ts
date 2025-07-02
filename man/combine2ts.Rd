@@ -28,10 +28,10 @@ le ts en sortie prendra NA sur cette période.
 }
 \examples{
 
-trim_1 <- stats::ts(rep(1, 4), start = 2021, frequency = 4)
+trim_1 <- stats::ts(rep(1, 4), start = 2021, frequency = 4L)
 
-mens_1 <- stats::ts(rep(1, 4), start = 2020, frequency = 12)
-mens_2 <- stats::ts(rep(2, 4), start = 2022, frequency = 12)
+mens_1 <- stats::ts(rep(1, 4), start = 2020, frequency = 12L)
+mens_2 <- stats::ts(rep(2, 4), start = 2022, frequency = 12L)
 
 # La série de PIB est écrasé par trim_1 sur la période temporelle de trim_1
 combine2ts(ev_pib, trim_1)

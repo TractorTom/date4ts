@@ -27,7 +27,7 @@ Les fonctions \code{assert_ts} et \code{check_ts} vérifient qu'un objet ts
 est bien conforme.
 }
 \details{
-Les fonctions du package TractorTsbox sont faites pour fonctionner
+Les fonctions du package date4ts sont faites pour fonctionner
 avec des times-series de fréquence mensuelle ou trimestrielle et basées sur
 le système des mois, trimestres et années classiques.
 On travaille avec des données numériques (integer, double ou logical) mais

@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library("testthat") # nolint unused_import_linter
-library("TractorTsbox") # nolint unused_import_linter
+library("date4ts") # nolint unused_import_linter
 
-test_check("TractorTsbox")
+test_check("date4ts")

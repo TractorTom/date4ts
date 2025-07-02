@@ -23,8 +23,8 @@ La date retournée en output est au format \code{date_ts}. Si l'objet
 }
 \examples{
 
-ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12)
-ts2 <- ts(c(1:10, NA), start = 2020, frequency = 4)
+ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12L)
+ts2 <- ts(c(1:10, NA), start = 2020, frequency = 4L)
 
 stats::start(ts1)
 first_date(ts1)

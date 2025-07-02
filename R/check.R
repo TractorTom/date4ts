@@ -13,7 +13,7 @@
 #'
 #' @returns En sortie la fonction retourne l'objet `x` de manière invisible ou
 #' une erreur.
-#' @details Les fonctions du package TractorTsbox sont faites pour fonctionner
+#' @details Les fonctions du package date4ts sont faites pour fonctionner
 #' avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le
 #' système des mois, trimestres et années classiques.
 #' On cherche donc à favoriser l'utilisation de vecteur `c(AAAA, MM)` pour
@@ -139,7 +139,7 @@ check_date_ts <- function(
     return(output)
 }
 
-#' @name check_date_ts
+#' @rdname check_date_ts
 #' @export
 #'
 assert_date_ts <- function(
@@ -267,7 +267,7 @@ assert_date_ts <- function(
 #'
 #' @returns En sortie la fonction retourne l'objet `x` de manière invisible ou
 #' une erreur.
-#' @details Les fonctions du package TractorTsbox sont faites pour fonctionner
+#' @details Les fonctions du package date4ts sont faites pour fonctionner
 #' avec des times-series de fréquence mensuelle ou trimestrielle et basées sur
 #' le système des mois, trimestres et années classiques.
 #' On travaille avec des données numériques (integer, double ou logical) mais
@@ -426,7 +426,7 @@ check_ts <- function(x, .var.name = checkmate::vname(x), allow_mts = FALSE) {
     return(output)
 }
 
-#' @name check_ts
+#' @rdname check_ts
 #' @export
 #'
 assert_ts <- function(
@@ -586,7 +586,7 @@ check_timeunits <- function(x, frequency_ts, .var.name = checkmate::vname(x)) {
     return(output)
 }
 
-#' @name check_timeunits
+#' @rdname check_timeunits
 #' @export
 #'
 assert_timeunits <- function(
@@ -733,7 +733,7 @@ check_frequency <- function(x, .var.name = checkmate::vname(x), warn = TRUE) {
     return(output)
 }
 
-#' @name check_frequency
+#' @rdname check_frequency
 #' @export
 #'
 assert_frequency <- function(
@@ -893,7 +893,7 @@ check_scalar_integer <- function(x, warn = TRUE) {
     return(output)
 }
 
-#' @name check_scalar_integer
+#' @rdname check_scalar_integer
 #' @export
 #'
 assert_scalar_integer <- function(
@@ -1031,7 +1031,7 @@ check_scalar_natural <- function(x, warn = TRUE) {
     return(output)
 }
 
-#' @name check_scalar_natural
+#' @rdname check_scalar_natural
 #' @export
 #'
 assert_scalar_natural <- function(
@@ -1155,7 +1155,7 @@ check_scalar_date <- function(x) {
     return(output)
 }
 
-#' @name check_scalar_date
+#' @rdname check_scalar_date
 #' @export
 #'
 assert_scalar_date <- function(x, add = NULL, .var.name = checkmate::vname(x)) {
@@ -1228,7 +1228,7 @@ check_expression <- function(expr) {
     return(TRUE)
 }
 
-#' @name check_expression
+#' @rdname check_expression
 #' @export
 #'
 assert_expression <- function(expr) {

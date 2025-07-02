@@ -118,10 +118,10 @@ set_value_ts <- function(series, date_ts, replacement) {
 #'
 #' @examples
 #'
-#' trim_1 <- stats::ts(rep(1, 4), start = 2021, frequency = 4)
+#' trim_1 <- stats::ts(rep(1, 4), start = 2021, frequency = 4L)
 #'
-#' mens_1 <- stats::ts(rep(1, 4), start = 2020, frequency = 12)
-#' mens_2 <- stats::ts(rep(2, 4), start = 2022, frequency = 12)
+#' mens_1 <- stats::ts(rep(1, 4), start = 2020, frequency = 12L)
+#' mens_2 <- stats::ts(rep(2, 4), start = 2022, frequency = 12L)
 #'
 #' # La série de PIB est écrasé par trim_1 sur la période temporelle de trim_1
 #' combine2ts(ev_pib, trim_1)
@@ -352,7 +352,7 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
 #' La fonction `na_trim` supprime les NA en début et en fin de
 #' période.
 #'
-#' @inheritParams date_ts2timeunits
+#' @inheritParams first_date
 #' @param sides une chaine de caractere qui spécifie quelle NA doivent être
 #' retirés (au début et à la fin ("both"), juste au début ("left") ou juste à
 #' la fin ("right"))
@@ -364,9 +364,9 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
 #'
 #' @examples
 #'
-#' ts1 <- ts(c(rep(NA, 3L), 1:10, rep(NA, 3L)), start = 2020, frequency = 12)
-#' ts2 <- ts(c(1:10, rep(NA, 3L)), start = c(2023, 2), frequency = 4)
-#' ts3 <- ts(c(rep(NA, 3L), 1:10), start = 2000, frequency = 12)
+#' ts1 <- ts(c(rep(NA, 3L), 1:10, rep(NA, 3L)), start = 2020, frequency = 12L)
+#' ts2 <- ts(c(1:10, rep(NA, 3L)), start = c(2023, 2), frequency = 4L)
+#' ts3 <- ts(c(rep(NA, 3L), 1:10), start = 2000, frequency = 12L)
 #'
 #' na_trim(ts1)
 #' na_trim(ts2)

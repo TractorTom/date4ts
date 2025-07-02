@@ -142,8 +142,8 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 #'
 #' @examples
 #'
-#' ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12)
-#' ts2 <- ts(c(1:10, NA), start = 2020, frequency = 4)
+#' ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12L)
+#' ts2 <- ts(c(1:10, NA), start = 2020, frequency = 4L)
 #'
 #' stats::start(ts1)
 #' first_date(ts1)
@@ -180,8 +180,8 @@ first_date <- function(series) {
 #'
 #' @examples
 #'
-#' ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12)
-#' ts2 <- ts(c(1:10), start = 2020, frequency = 4)
+#' ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12L)
+#' ts2 <- ts(c(1:10), start = 2020, frequency = 4L)
 #'
 #' stats::end(ts1)
 #' last_date(ts1)

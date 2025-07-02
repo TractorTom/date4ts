@@ -32,7 +32,7 @@ as_yyyytt <- function(timeunits) {
     return(as.integer(round(c(timeunits %/% 1L, (timeunits %% 1L) * 4L + 1L))))
 }
 
-#' @name as_yyyytt
+#' @rdname as_yyyytt
 #'
 #' @export
 #'
@@ -75,7 +75,7 @@ trim2mens <- function(date_ts) {
     return(as.integer(c(year, trim * 3L - 2L)))
 }
 
-#' @name trim2mens
+#' @rdname trim2mens
 #'
 #' @export
 #'

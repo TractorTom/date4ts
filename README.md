@@ -1,24 +1,23 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# TractorTsbox
+# date4ts
 
 <!-- badges: start -->
 
 [![CRAN
-status](https://www.r-pkg.org/badges/version/TractorTsbox)](https://CRAN.R-project.org/package=TractorTsbox)
+status](https://www.r-pkg.org/badges/version/date4ts)](https://CRAN.R-project.org/package=date4ts)
 [![GH Pages
-built](https://github.com/TractorTom/TractorTsbox/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/pkgdown.yaml)
-[![R-CMD-check](https://github.com/TractorTom/TractorTsbox/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/R-CMD-check.yaml)
+built](https://github.com/TractorTom/date4ts/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/TractorTom/date4ts/actions/workflows/pkgdown.yaml)
+[![R-CMD-check](https://github.com/TractorTom/date4ts/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/TractorTom/date4ts/actions/workflows/R-CMD-check.yaml)
 
-[![Codecov test
-coverage](https://codecov.io/gh/TractorTom/TractorTsbox/graph/badge.svg)](https://app.codecov.io/gh/TractorTom/TractorTsbox)
-[![CodeFactor](https://www.codefactor.io/repository/github/TractorTom/TractorTsbox/badge)](https://www.codefactor.io/repository/github/TractorTom/TractorTsbox)
-[![lint](https://github.com/TractorTom/TractorTsbox/actions/workflows/lint.yaml/badge.svg)](https://github.com/TractorTom/TractorTsbox/actions/workflows/lint.yaml)
+[![lint](https://github.com/TractorTom/date4ts/actions/workflows/lint.yaml/badge.svg)](https://github.com/TractorTom/date4ts/actions/workflows/lint.yaml)
+[![Coverage](https://codecov.io/gh/TractorTom/date4ts/graph/badge.svg)](https://app.codecov.io/gh/TractorTom/date4ts)
+[![CodeFactor](https://www.codefactor.io/repository/github/TractorTom/date4ts/badge)](https://www.codefactor.io/repository/github/TractorTom/date4ts)
 <!-- badges: end -->
 
-TractorTsbox est une boite à outils pour la manipulation des objets `ts`
-en R.
+date4ts est une boite à outils pour la manipulation des objets `ts` en
+R.
 
 La motivation pour la création de ce package est le fait que pour créer
 un objet `ts` en R, il faut préciser la date sous le format $AAAA PP$
@@ -36,18 +35,18 @@ conversion, de formattage mais aussi de modification des `ts`.
 
 ## Installation
 
-You can install the development version of TractorTsbox from
+You can install the development version of date4ts from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("TractorTom/TractorTsbox")
+remotes::install_github("TractorTom/date4ts")
 ```
 
 ## Usage
 
 ``` r
-library("TractorTsbox")
+library("date4ts")
 ```
 
 ### Converting Dates
@@ -91,7 +90,7 @@ next_date_ts(c(2020L, 4L), frequency_ts = 4L, lag = 2L)
 - Find the first non-NA date in a time series:
 
 ``` r
-ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12)
+ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12L)
 first_date(ts1)
 #> [1] 2000    4
 ```
@@ -170,7 +169,7 @@ set_value_ts(series = ev_pib, date_ts = c(2021L, 2L), replacement = c(1, 2, 3))
 - Combine two time series:
 
 ``` r
-trim_1 <- stats::ts(rep(1, 4), start = 2021, frequency = 4)
+trim_1 <- stats::ts(rep(1, 4), start = 2021, frequency = 4L)
 combine2ts(ev_pib, trim_1)
 #>               Qtr1          Qtr2          Qtr3          Qtr4
 #> 1970            NA            NA            NA            NA
@@ -231,7 +230,7 @@ combine2ts(ev_pib, trim_1)
 - Extend a time series with new values:
 
 ``` r
-ts1 <- ts(data = c(rep(NA_integer_, 3L), 1L:10L, rep(NA_integer_, 3L)), start = 2020, frequency = 12)
+ts1 <- ts(data = c(rep(NA_integer_, 3L), 1L:10L, rep(NA_integer_, 3L)), start = 2020, frequency = 12L)
 x <- rep(3L, 2L)
 extend_ts(series = ts1, replacement = x)
 #> Warning: extending time series when replacing values

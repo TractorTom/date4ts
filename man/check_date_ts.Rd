@@ -37,7 +37,7 @@ La fonction \code{assert_date_ts} vérifie qu'un objet est de type
 \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}
 }
 \details{
-Les fonctions du package TractorTsbox sont faites pour fonctionner
+Les fonctions du package date4ts sont faites pour fonctionner
 avec des times-series de fréquence mensuelle ou trimestrielle et basés sur le
 système des mois, trimestres et années classiques.
 On cherche donc à favoriser l'utilisation de vecteur \code{c(AAAA, MM)} pour
