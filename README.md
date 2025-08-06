@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# date4ts
+# {date4ts} <a href="https://tractortom.github.io/date4ts/"><img src="man/figures/logo.svg" align="right" height="150" style="float:right; height:150px;"/></a>
 
 <!-- badges: start -->
 
