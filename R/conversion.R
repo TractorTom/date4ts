@@ -52,7 +52,9 @@ as_yyyymm <- function(timeunits) {
 #' @param date_ts un vecteur numérique, de préférence `integer`, au format
 #' `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`
 #'
-#' @returns En sortie, la fonction retourne la date toujours au format `date_ts`.
+#' @returns En sortie, la fonction retourne la date toujours au format
+#' `date_ts`.
+#'
 #' @export
 #'
 #' @examples

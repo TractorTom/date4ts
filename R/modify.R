@@ -8,8 +8,10 @@
 #' @inheritParams trim2mens
 #' @param replacement un vecteur de même type que le ts `series`
 #'
-#' @returns En sortie, la fonction retourne une copie de l'objet `series` modifié
-#' avec les valeurs de `replacement` imputés à partir de la date `date_ts`.
+#' @returns En sortie, la fonction retourne une copie de l'objet `series`
+#' modifié avec les valeurs de `replacement` imputés à partir de la date
+#' `date_ts`.
+#'
 #' @export
 #'
 #' @examples
@@ -107,8 +109,8 @@ set_value_ts <- function(series, date_ts, replacement) {
 #' @param a un objet ts unidimensionnel conforme aux règles de assert_ts
 #' @param b un objet ts unidimensionnel conforme aux règles de assert_ts
 #'
-#' @returns En sortie, la fonction retourne un ts qui contient les valeurs de `a`
-#' aux temps de `a` et les valeurs de `b` aux temps de `b`.
+#' @returns En sortie, la fonction retourne un ts qui contient les valeurs de
+#' `a` aux temps de `a` et les valeurs de `b` aux temps de `b`.
 #' @details Si `a` et `b` ont une période en commun, les valeurs de `b` écrasent
 #' celles de a sur la période concernée.
 #' Si il existe une période sur laquelle ni `a` ni `b` ne prennent de valeur
@@ -357,8 +359,8 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
 #' retirés (au début et à la fin ("both"), juste au début ("left") ou juste à
 #' la fin ("right"))
 #'
-#' @returns En sortie, la fonction retourne une copie de l'objet `series` corrigé
-#' des NA et début et fin de série.
+#' @returns En sortie, la fonction retourne une copie de l'objet `series`
+#' corrigée des NA et début et fin de série.
 #' @details L'objet retourné commence et finis par des valeurs non manquantes.
 #' @export
 #'
