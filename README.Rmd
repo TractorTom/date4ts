@@ -90,6 +90,7 @@ ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12L)
 first_date(ts1)
 ```
 
+
 ### Data Retrieval and Modification
 
 - Retrieve values from a time series:
