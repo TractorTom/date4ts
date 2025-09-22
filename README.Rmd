@@ -18,11 +18,12 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/date4ts)](https://CRAN.R-project.org/package=date4ts)
 [![GH Pages built](https://github.com/TractorTom/date4ts/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/TractorTom/date4ts/actions/workflows/pkgdown.yaml)
-[![R-CMD-check](https://github.com/TractorTom/date4ts/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/TractorTom/date4ts/actions/workflows/R-CMD-check.yaml)
 
+[![R-CMD-check](https://github.com/TractorTom/date4ts/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/TractorTom/date4ts/actions/workflows/R-CMD-check.yaml)
 [![lint](https://github.com/TractorTom/date4ts/actions/workflows/lint.yaml/badge.svg)](https://github.com/TractorTom/date4ts/actions/workflows/lint.yaml)
 [![Coverage](https://codecov.io/gh/TractorTom/date4ts/graph/badge.svg)](https://app.codecov.io/gh/TractorTom/date4ts)
 [![CodeFactor](https://www.codefactor.io/repository/github/TractorTom/date4ts/badge)](https://www.codefactor.io/repository/github/TractorTom/date4ts)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/afab36ff8f064dc1b428efb06fa9f56c)](https://app.codacy.com/gh/TractorTom/date4ts/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 <!-- badges: end -->
 
 date4ts est une boite à outils pour la manipulation des objets `ts` en R.

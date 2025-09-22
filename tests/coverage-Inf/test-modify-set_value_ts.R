@@ -30,7 +30,9 @@ for (typeA in list_type) {
                         )
 
                         testthat::test_that(test_name, {
-                            if (length(startA) == 1L) startA <- c(startA, 1L)
+                            if (length(startA) == 1L) {
+                                startA <- c(startA, 1L)
+                            }
                             valueB <- create_random_type(
                                 type = typeA,
                                 len = lenB
@@ -370,7 +372,9 @@ testthat::test_that("Several dimensions are not allowed", {
                 for (lenA in list_len[-1L]) {
                     B_content <- as.data.frame(lapply(
                         X = 1L:5L,
-                        FUN = function(i) create_random_type(type = typeA, len = lenA)
+                        FUN = function(i) {
+                            create_random_type(type = typeA, len = lenA)
+                        }
                     ))
 
                     if (typeA == "complex") {

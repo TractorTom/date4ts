@@ -6,7 +6,9 @@ withr::with_envvar(new = c(lang = "en_US"), {
 
     create_random_type <- function(type = list_type, len = NULL) {
         type <- match.arg(type)
-        if (is.null(len)) len <- sample.int(n = 1000L, size = 1L)
+        if (is.null(len)) {
+            len <- sample.int(n = 1000L, size = 1L)
+        }
 
         output <- switch(
             EXPR = type,
@@ -59,10 +61,18 @@ withr::with_envvar(new = c(lang = "en_US"), {
         start = NULL,
         frequency = NULL
     ) {
-        if (is.null(type)) type <- sample(x = list_type, size = 1L)
-        if (is.null(len)) len <- sample.int(n = 1000L, size = 1L)
-        if (is.null(frequency)) frequency <- sample(c(4L, 12L), size = 1L)
-        if (is.null(start)) start <- create_random_date_ts()
+        if (is.null(type)) {
+            type <- sample(x = list_type, size = 1L)
+        }
+        if (is.null(len)) {
+            len <- sample.int(n = 1000L, size = 1L)
+        }
+        if (is.null(frequency)) {
+            frequency <- sample(c(4L, 12L), size = 1L)
+        }
+        if (is.null(start)) {
+            start <- create_random_date_ts()
+        }
 
         content <- create_random_type(type, len)
 

@@ -33,8 +33,9 @@ for (typeA in list_type[-c(5L, 7L)]) {
                             # Cas 1
                             if (param1 <= lenA & param1 > 0L) {
                                 date_from_1 <- end(ts_A) |> as.integer()
-                                if (length(date_from_1) == 1L)
+                                if (length(date_from_1) == 1L) {
                                     date_from_1 <- c(date_from_1, 1L)
+                                }
                                 date_from_1[2L] <- date_from_1[2L] -
                                     (param1 - 1L)
                                 date_from_1 <- c(
@@ -44,8 +45,9 @@ for (typeA in list_type[-c(5L, 7L)]) {
                                 )
 
                                 date_to_1 <- end(ts_A) |> as.integer()
-                                if (length(date_to_1) == 1L)
+                                if (length(date_to_1) == 1L) {
                                     date_to_1 <- c(date_to_1, 1L)
+                                }
                                 date_to_1[2L] <- date_to_1[2L] + param2
                                 date_to_1 <- c(
                                     date_to_1[1L] +
@@ -91,8 +93,9 @@ for (typeA in list_type[-c(5L, 7L)]) {
                             # Cas 2
                             if (param2 <= lenA & param2 > 0L) {
                                 date_from_2 <- start(ts_A) |> as.integer()
-                                if (length(date_from_2) == 1L)
+                                if (length(date_from_2) == 1L) {
                                     date_from_2 <- c(date_from_2, 1L)
+                                }
                                 date_from_2[2L] <- date_from_2[2L] - param1
                                 date_from_2 <- c(
                                     date_from_2[1L] +
@@ -101,8 +104,9 @@ for (typeA in list_type[-c(5L, 7L)]) {
                                 )
 
                                 date_to_2 <- start(ts_A) |> as.integer()
-                                if (length(date_to_2) == 1L)
+                                if (length(date_to_2) == 1L) {
                                     date_to_2 <- c(date_to_2, 1L)
+                                }
                                 date_to_2[2L] <- date_to_2[2L] + param2 - 1L
                                 date_to_2 <- c(
                                     date_to_2[1L] +
@@ -148,8 +152,9 @@ for (typeA in list_type[-c(5L, 7L)]) {
                             # Cas 3
                             if (param1 > 0L) {
                                 date_from_3 <- start(ts_A) |> as.integer()
-                                if (length(date_from_3) == 1L)
+                                if (length(date_from_3) == 1L) {
                                     date_from_3 <- c(date_from_3, 1L)
+                                }
                                 date_from_3[2L] <- date_from_3[2L] -
                                     param1 -
                                     param2
@@ -160,8 +165,9 @@ for (typeA in list_type[-c(5L, 7L)]) {
                                 )
 
                                 date_to_3 <- start(ts_A) |> as.integer()
-                                if (length(date_to_3) == 1L)
+                                if (length(date_to_3) == 1L) {
                                     date_to_3 <- c(date_to_3, 1L)
+                                }
                                 date_to_3[2L] <- date_to_3[2L] - param2 - 1L
                                 date_to_3 <- c(
                                     date_to_3[1L] +
@@ -207,8 +213,9 @@ for (typeA in list_type[-c(5L, 7L)]) {
                             # Cas 4
                             if (param2 > 0L) {
                                 date_from_4 <- end(ts_A) |> as.integer()
-                                if (length(date_from_4) == 1L)
+                                if (length(date_from_4) == 1L) {
                                     date_from_4 <- c(date_from_4, 1L)
+                                }
                                 date_from_4[2L] <- date_from_4[2L] + param1 + 1L
                                 date_from_4 <- c(
                                     date_from_4[1L] +
@@ -217,8 +224,9 @@ for (typeA in list_type[-c(5L, 7L)]) {
                                 )
 
                                 date_to_4 <- end(ts_A) |> as.integer()
-                                if (length(date_to_4) == 1L)
+                                if (length(date_to_4) == 1L) {
                                     date_to_4 <- c(date_to_4, 1L)
+                                }
                                 date_to_4[2L] <- date_to_4[2L] + param1 + param2
                                 date_to_4 <- c(
                                     date_to_4[1L] +
@@ -263,8 +271,9 @@ for (typeA in list_type[-c(5L, 7L)]) {
 
                             # Cas 5
                             date_from_5 <- start(ts_A) |> as.integer()
-                            if (length(date_from_5) == 1L)
+                            if (length(date_from_5) == 1L) {
                                 date_from_5 <- c(date_from_5, 1L)
+                            }
                             date_from_5[2L] <- date_from_5[2L] - param1
                             date_from_5 <- c(
                                 date_from_5[1L] +
@@ -273,8 +282,9 @@ for (typeA in list_type[-c(5L, 7L)]) {
                             )
 
                             date_to_5 <- end(ts_A) |> as.integer()
-                            if (length(date_to_5) == 1L)
+                            if (length(date_to_5) == 1L) {
                                 date_to_5 <- c(date_to_5, 1L)
+                            }
                             date_to_5[2L] <- date_to_5[2L] + param2
                             date_to_5 <- c(
                                 date_to_5[1L] +
@@ -311,8 +321,9 @@ for (typeA in list_type[-c(5L, 7L)]) {
                             # Cas 6
                             if (param1 + param2 <= lenA && param2 > 0) {
                                 date_from_6 <- start(ts_A) |> as.integer()
-                                if (length(date_from_6) == 1L)
+                                if (length(date_from_6) == 1L) {
                                     date_from_6 <- c(date_from_6, 1L)
+                                }
                                 date_from_6[2L] <- date_from_6[2L] + param1
                                 date_from_6 <- c(
                                     date_from_6[1L] +
@@ -321,8 +332,9 @@ for (typeA in list_type[-c(5L, 7L)]) {
                                 )
 
                                 date_to_6 <- start(ts_A) |> as.integer()
-                                if (length(date_to_6) == 1L)
+                                if (length(date_to_6) == 1L) {
                                     date_to_6 <- c(date_to_6, 1L)
+                                }
                                 date_to_6[2L] <- date_to_6[2L] +
                                     param1 +
                                     param2 -

@@ -446,7 +446,9 @@ testthat::test_that("Several dimensions are not allowed", {
                 for (lenA in list_len[-1L]) {
                     B_content <- as.data.frame(lapply(
                         X = 1L:5L,
-                        FUN = function(i) create_random_type(type = typeA, len = lenA)
+                        FUN = function(i) {
+                            create_random_type(type = typeA, len = lenA)
+                        }
                     ))
 
                     if (typeA == "complex") {
