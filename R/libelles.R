@@ -129,6 +129,6 @@ libelles <- function(date_ts, frequency_ts, n = 1L, warn = TRUE) {
     return(vapply(
         X = seq_len(n) - 1L,
         FUN = decale_libele,
-        FUN.VALUE = character(1)
+        FUN.VALUE = character(1L)
     ))
 }

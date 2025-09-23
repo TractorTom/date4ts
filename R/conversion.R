@@ -143,7 +143,7 @@ date_ts2timeunits <- function(date_ts, frequency_ts) {
     #   - an error would have been raised
     #   - or date_ts would have been modified
 
-    return(date_ts[1L] + (date_ts[2L] - 1) / frequency_ts)
+    return(date_ts[1L] + (date_ts[2L] - 1L) / frequency_ts)
 }
 
 #' @title Conversion d'une date au format TS
@@ -228,12 +228,12 @@ substr_year <- function(date, n = 1L) {
     year <- as.integer(format(date, format = "%Y")) - before_leap
     years <- year:(year - n + 1L)
     leap_year <- sum(as.logical(
-        (years %% 4 == 0L) -
-            (years %% 100 == 0L) +
-            (years %% 400 == 0L)
+        (years %% 4L == 0L) -
+            (years %% 100L == 0L) +
+            (years %% 400L == 0L)
     ))
 
-    return(date - 365 * n - leap_year)
+    return(date - 365L * n - leap_year)
 }
 
 #' @title Conversion d'une date du format TS au format date
