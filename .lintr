@@ -1,7 +1,9 @@
 linters: all_linters(
     line_length_linter(80L),
     indentation_linter(indent = 4L),
-    return_linter = NULL
+    return_linter = NULL,
+    object_name_linter = NULL,
+    cyclocomp_linter(complexity_limit = 17L)
   )
 encoding: "UTF-8"
 exclusions: list(

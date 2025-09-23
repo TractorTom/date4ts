@@ -107,7 +107,7 @@ check_date_ts <- function(
             expr = checkmate::assert_integer(x, .var.name = .var.name),
             silent = TRUE
         )
-        warning(attr(err, "condition")$message)
+        warning(attr(err, "condition")$message, call. = FALSE)
     }
 
     output <- add_check_collection(
@@ -135,7 +135,7 @@ check_date_ts <- function(
             ),
             silent = TRUE
         )
-        warning(attr(err, "condition")$message)
+        warning(attr(err, "condition")$message, call. = FALSE)
     }
 
     return(output)
@@ -227,7 +227,7 @@ assert_date_ts <- function(
                     expr = checkmate::assert_integer(x, .var.name = .var.name),
                     silent = TRUE
                 )
-                warning(attr(err, "condition")$message)
+                warning(attr(err, "condition")$message, call. = FALSE)
             }
 
             if (
@@ -247,7 +247,7 @@ assert_date_ts <- function(
                     ),
                     silent = TRUE
                 )
-                warning(attr(err, "condition")$message)
+                warning(attr(err, "condition")$message, call. = FALSE)
             }
         }
 
@@ -728,7 +728,7 @@ check_frequency <- function(x, .var.name = checkmate::vname(x), warn = TRUE) {
                 ),
                 silent = TRUE
             )
-            warning(attr(err, "condition")$message)
+            warning(attr(err, "condition")$message, call. = FALSE)
         }
     }
 
@@ -799,7 +799,7 @@ assert_frequency <- function(
                 expr = checkmate::assert_integer(x, .var.name = .var.name),
                 silent = TRUE
             )
-            warning(attr(err, "condition")$message)
+            warning(attr(err, "condition")$message, call. = FALSE)
         }
         x <- x_corr
     }
@@ -889,7 +889,7 @@ check_scalar_integer <- function(x, warn = TRUE) {
             checkmate::assert_integer(x),
             silent = TRUE
         )
-        warning(attr(err, "condition")$message)
+        warning(attr(err, "condition")$message, call. = FALSE)
     }
 
     return(output)
@@ -930,7 +930,7 @@ assert_scalar_integer <- function(
                 checkmate::assert_integer(x, .var.name = .var.name),
                 silent = TRUE
             )
-            warning(attr(err, "condition")$message)
+            warning(attr(err, "condition")$message, call. = FALSE)
         }
 
         x <- checkmate::assert_int(
@@ -1027,7 +1027,7 @@ check_scalar_natural <- function(x, warn = TRUE) {
             checkmate::assert_integer(x),
             silent = TRUE
         )
-        warning(attr(err, "condition")$message)
+        warning(attr(err, "condition")$message, call. = FALSE)
     }
 
     return(output)
@@ -1095,7 +1095,7 @@ assert_scalar_natural <- function(
             expr = checkmate::assert_integer(x, .var.name = .var.name),
             silent = TRUE
         )
-        warning(attr(err, "condition")$message)
+        warning(attr(err, "condition")$message, call. = FALSE)
     }
     x <- x_corr
 
@@ -1241,7 +1241,7 @@ assert_expression <- function(expr) {
     )
 
     if (inherits(out, "warning") || inherits(out, "error")) {
-        stop("Invalid expression :", deparse(substitute(expr)))
+        stop("Invalid expression :", deparse(substitute(expr)), call. = FALSE)
     }
 
     return(invisible(expr))

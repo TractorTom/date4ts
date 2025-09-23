@@ -42,7 +42,8 @@ set_value_ts <- function(series, date_ts, replacement) {
             checkmate::check_atomic_vector(
                 x = replacement,
                 any.missing = FALSE
-            )
+            ),
+            call. = FALSE
         )
     }
 
@@ -198,7 +199,8 @@ combine2ts <- function(a, b) {
     } else if (isTRUE(checkmate::check_number(frequency_ts))) {
         df_output <- as.data.frame(cbind(a, b))
         if (sum(is.na(df_output$a) & (!is.na(df_output$b))) > 0L) {
-            warning("extending time series when replacing values")
+            warning("extending time series when replacing values",
+                    call. = FALSE)
         }
         df_output$res <- df_output$a
         df_output$res[!is.na(df_output$b)] <- df_output$b[!is.na(df_output$b)]
@@ -312,10 +314,13 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
         if (
             !is_before(start_replacement, date_ts, frequency_ts = frequency_ts)
         ) {
-            stop(c(
-                "La date de fin de remplacement est",
-                " ant\u00e9rieur \u00e0 la date de fin des donn\u00e9es."
-            ))
+            stop(
+                c(
+                    "La date de fin de remplacement est",
+                    " ant\u00e9rieur \u00e0 la date de fin des donn\u00e9es."
+                ),
+                call. = FALSE
+            )
         }
         length_replacement <- diff_periode(
             a = start_replacement,
@@ -323,20 +328,21 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
             frequency_ts = frequency_ts
         )
         if (length_replacement %% length(replacement) != 0L) {
-            stop(c(
-                "number of values supplied is not a",
-                " sub-multiple of the number of values to be replaced"
-            ))
+            stop(
+                c(
+                    "number of values supplied is not a",
+                    " sub-multiple of the number of values to be replaced"
+                ),
+                call. = FALSE
+            )
         }
         end_replacement <- date_ts
-        nb_replacement <- length_replacement %/% length(replacement)
     } else {
         end_replacement <- next_date_ts(
             date_ts = start_replacement,
             lag = length(replacement) - 1L,
             frequency_ts = frequency_ts
         )
-        nb_replacement <- 1L
     }
 
     stats::window(

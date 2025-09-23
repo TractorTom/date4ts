@@ -39,10 +39,13 @@ get_value_ts <- function(series, date_from, date_to, n) {
     frequency_ts <- as.integer(stats::frequency(series))
 
     if ((missing(date_to) + missing(date_from) + missing(n)) != 1L) {
-        stop(c(
-            "Exactement 2 des arguments `date_from`, `date_to` et ",
-            "`n` doivent \u00eatre renseign\u00e9s et un manquant."
-        ))
+        stop(
+            c(
+                "Exactement 2 des arguments `date_from`, `date_to` et ",
+                "`n` doivent \u00eatre renseign\u00e9s et un manquant."
+            ),
+            call. = FALSE
+        )
     } else if (missing(date_from)) {
         # Check l'argument n
         n <- assert_scalar_natural(n, add = coll, .var.name = "n")
