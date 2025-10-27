@@ -1,16 +1,14 @@
-linters: lintr::all_linters(
-        indentation_linter = lintr::indentation_linter(indent = 4L),
-        # line_length_linter = lintr::line_length_linter(80L),
-        return_linter = NULL,
-        line_length_linter = lintr::line_length_linter(150L),
-        implicit_integer_linter = NULL,
-        nonportable_path_linter = NULL,
-        cyclocomp_linter = lintr::cyclocomp_linter(complexity_limit = 60L),
-        object_usage_linter = NULL,
-        object_name_linter = NULL,
-        expect_identical_linter = NULL,
-        commented_code_linter = NULL,
-        condition_call_linter = NULL,
-        unnecessary_nesting_linter = NULL
-    )
+linters: all_linters(
+    line_length_linter(80L),
+    indentation_linter(indent = 4L),
+    return_linter = NULL,
+    object_name_linter = NULL,
+    cyclocomp_linter(complexity_limit = 17L)
+  )
 encoding: "UTF-8"
+exclusions: list(
+    "tests" = list(
+        cyclocomp_linter = Inf,
+        line_length_linter = Inf
+    )
+  )

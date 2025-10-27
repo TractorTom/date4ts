@@ -7,8 +7,8 @@
 #' @inheritParams date_ts2timeunits
 #' @param warn un booleen
 #'
-#' @returns En sortie, la fonction retourne une chaîne de caractère de longueur 1
-#' qui correspond au libellé de la date `date_ts`.
+#' @returns En sortie, la fonction retourne une chaîne de caractère de longueur
+#' 1 qui correspond au libellé de la date `date_ts`.
 #'
 #' @details
 #' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de
@@ -129,6 +129,6 @@ libelles <- function(date_ts, frequency_ts, n = 1L, warn = TRUE) {
     return(vapply(
         X = seq_len(n) - 1L,
         FUN = decale_libele,
-        FUN.VALUE = character(1)
+        FUN.VALUE = character(1L)
     ))
 }

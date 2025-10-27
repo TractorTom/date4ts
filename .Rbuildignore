@@ -18,3 +18,4 @@
 ^altdoc$
 ^[\.]?air\.toml$
 ^\.vscode$
+^[.]?air[.]toml$

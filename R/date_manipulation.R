@@ -3,8 +3,8 @@
 #' @inheritParams date_ts2timeunits
 #' @param lag un entier
 #'
-#' @returns En sortie, la fonction retourne un vecteur d'entier qui représente la
-#' date à la période passée au format `date_ts`.
+#' @returns En sortie, la fonction retourne un vecteur d'entier qui représente
+#' la date à la période passée au format `date_ts`.
 #'
 #' @details Lorsqu'on parle de date précédente, on parle de date passée.
 #' L'argument `lag` est entier et désigne le nombre de décalage que l'on affecte
@@ -65,8 +65,8 @@ previous_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 #'
 #' @inheritParams previous_date_ts
 #'
-#' @returns En sortie, la fonction retourne un vecteur d'entier qui représente la
-#' date à la période future au format `date_ts`.
+#' @returns En sortie, la fonction retourne un vecteur d'entier qui représente
+#' la date à la période future au format `date_ts`.
 #'
 #' @details Lorsqu'on parle de date suivante, on parle de date future.
 #' L'argument `lag` est entier et désigne le nombre de décalage que l'on affecte
@@ -130,8 +130,8 @@ next_date_ts <- function(date_ts, frequency_ts, lag = 1L) {
 #'
 #' @param series un objet ts unidimensionnel conforme aux règles de assert_ts
 #'
-#' @returns En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`,
-#' `c(AAAA, MM)` ou `c(AAAA, TT)`)
+#' @returns En sortie, la fonction retourne un objet au format `date_ts`
+#' (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`)
 #'
 #' @details La date retournée en output est au format `date_ts`. Si l'objet
 #' `series` ne contient que des NAs, la fonction retourne une erreur.
@@ -168,8 +168,8 @@ first_date <- function(series) {
 #'
 #' @inheritParams first_date
 #'
-#' @returns En sortie, la fonction retourne un objet au format `date_ts` (`AAAA`,
-#' `c(AAAA, MM)` ou `c(AAAA, TT)`)
+#' @returns En sortie, la fonction retourne un objet au format `date_ts`
+#' (`AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`)
 #'
 #' @details La date retournée en output est au format `date_ts`. Si l'objet
 #' `series` ne contient que des NAs, la fonction retourne une erreur.

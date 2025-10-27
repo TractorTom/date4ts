@@ -37,8 +37,9 @@ for (typeA in list_type) {
                                     len = param1 + param2
                                 )
                                 startB1 <- end(ts_A)
-                                if (length(startB1) == 1L)
+                                if (length(startB1) == 1L) {
                                     startB1 <- c(startB1, 1L)
+                                }
                                 startB1[2L] <- startB1[2L] - (param1 - 1L)
                                 ts_B1 <- ts(
                                     B1_content,
@@ -108,8 +109,9 @@ for (typeA in list_type) {
                                     len = param1 + param2
                                 )
                                 startB2 <- startA
-                                if (length(startB2) == 1L)
+                                if (length(startB2) == 1L) {
                                     startB2 <- c(startB2, 1L)
+                                }
                                 startB2[2L] <- startB2[2L] - param1
                                 ts_B2 <- ts(
                                     B2_content,
@@ -169,8 +171,9 @@ for (typeA in list_type) {
                                     len = param1
                                 )
                                 startB3 <- startA
-                                if (length(startB3) == 1L)
+                                if (length(startB3) == 1L) {
                                     startB3 <- c(startB3, 1L)
+                                }
                                 startB3[2L] <- startB3[2L] - (param1 + param2)
                                 ts_B3 <- ts(
                                     B3_content,
@@ -298,8 +301,9 @@ for (typeA in list_type) {
                                     len = param2
                                 )
                                 startB4 <- end(ts_A)
-                                if (length(startB4) == 1L)
+                                if (length(startB4) == 1L) {
                                     startB4 <- c(startB4, 1L)
+                                }
                                 startB4[2L] <- startB4[2L] + param1 + 1L
                                 ts_B4 <- ts(
                                     B4_content,
@@ -426,7 +430,9 @@ for (typeA in list_type) {
                                 len = param1 + param2 + lenA
                             )
                             startB5 <- startA
-                            if (length(startB5) == 1L) startB5 <- c(startB5, 1L)
+                            if (length(startB5) == 1L) {
+                                startB5 <- c(startB5, 1L)
+                            }
                             startB5[2L] <- startB5[2L] - param1
                             ts_B5 <- ts(
                                 B5_content,
@@ -500,8 +506,9 @@ for (typeA in list_type) {
                                     len = param2
                                 )
                                 startB6 <- startA
-                                if (length(startB6) == 1L)
+                                if (length(startB6) == 1L) {
                                     startB6 <- c(startB6, 1L)
+                                }
                                 startB6[2L] <- startB6[2L] + param1
                                 ts_B6 <- ts(
                                     B6_content,
@@ -639,11 +646,12 @@ testthat::test_that("different input type are not allowed", {
         objA <- create_random_ts(type = typeA, frequency = 12L)
         for (typeB in list_type[-7L]) {
             objB <- create_random_ts(type = typeB, frequency = 12L)
-            if (typeA != typeB)
+            if (typeA != typeB) {
                 testthat::expect_error(
                     combine2ts(objA, objB),
                     regexp = "Les objets `a` et `b` doivent \u00eatre de m\u00eame type."
                 )
+            }
         }
     }
 })

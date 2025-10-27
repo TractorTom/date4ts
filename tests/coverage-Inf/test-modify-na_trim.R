@@ -73,7 +73,9 @@ for (typeA in list_type[-6L]) {
                                 frequency = frequenceA
                             )
 
-                            if (length(startA) == 1L) startA <- c(startA, 1L)
+                            if (length(startA) == 1L) {
+                                startA <- c(startA, 1L)
+                            }
                             startA[2L] <- startA[2L] + param1
                             ts_without_na <- ts(
                                 A_content,
@@ -104,7 +106,9 @@ testthat::test_that("Several dimensions are not allowed", {
                 for (lenA in list_len[-1L]) {
                     B_content <- as.data.frame(lapply(
                         X = 1L:5L,
-                        FUN = function(i) create_random_type(type = typeA, len = lenA)
+                        FUN = function(i) {
+                            create_random_type(type = typeA, len = lenA)
+                        }
                     ))
 
                     if (typeA == "complex") {

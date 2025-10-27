@@ -8,8 +8,10 @@
 #' @inheritParams trim2mens
 #' @param replacement un vecteur de même type que le ts `series`
 #'
-#' @returns En sortie, la fonction retourne une copie de l'objet `series` modifié
-#' avec les valeurs de `replacement` imputés à partir de la date `date_ts`.
+#' @returns En sortie, la fonction retourne une copie de l'objet `series`
+#' modifié avec les valeurs de `replacement` imputés à partir de la date
+#' `date_ts`.
+#'
 #' @export
 #'
 #' @examples
@@ -40,7 +42,8 @@ set_value_ts <- function(series, date_ts, replacement) {
             checkmate::check_atomic_vector(
                 x = replacement,
                 any.missing = FALSE
-            )
+            ),
+            call. = FALSE
         )
     }
 
@@ -107,8 +110,8 @@ set_value_ts <- function(series, date_ts, replacement) {
 #' @param a un objet ts unidimensionnel conforme aux règles de assert_ts
 #' @param b un objet ts unidimensionnel conforme aux règles de assert_ts
 #'
-#' @returns En sortie, la fonction retourne un ts qui contient les valeurs de `a`
-#' aux temps de `a` et les valeurs de `b` aux temps de `b`.
+#' @returns En sortie, la fonction retourne un ts qui contient les valeurs de
+#' `a` aux temps de `a` et les valeurs de `b` aux temps de `b`.
 #' @details Si `a` et `b` ont une période en commun, les valeurs de `b` écrasent
 #' celles de a sur la période concernée.
 #' Si il existe une période sur laquelle ni `a` ni `b` ne prennent de valeur
@@ -196,7 +199,8 @@ combine2ts <- function(a, b) {
     } else if (isTRUE(checkmate::check_number(frequency_ts))) {
         df_output <- as.data.frame(cbind(a, b))
         if (sum(is.na(df_output$a) & (!is.na(df_output$b))) > 0L) {
-            warning("extending time series when replacing values")
+            warning("extending time series when replacing values",
+                    call. = FALSE)
         }
         df_output$res <- df_output$a
         df_output$res[!is.na(df_output$b)] <- df_output$b[!is.na(df_output$b)]
@@ -310,10 +314,13 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
         if (
             !is_before(start_replacement, date_ts, frequency_ts = frequency_ts)
         ) {
-            stop(c(
-                "La date de fin de remplacement est",
-                " ant\u00e9rieur \u00e0 la date de fin des donn\u00e9es."
-            ))
+            stop(
+                c(
+                    "La date de fin de remplacement est",
+                    " ant\u00e9rieur \u00e0 la date de fin des donn\u00e9es."
+                ),
+                call. = FALSE
+            )
         }
         length_replacement <- diff_periode(
             a = start_replacement,
@@ -321,20 +328,21 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
             frequency_ts = frequency_ts
         )
         if (length_replacement %% length(replacement) != 0L) {
-            stop(c(
-                "number of values supplied is not a",
-                " sub-multiple of the number of values to be replaced"
-            ))
+            stop(
+                c(
+                    "number of values supplied is not a",
+                    " sub-multiple of the number of values to be replaced"
+                ),
+                call. = FALSE
+            )
         }
         end_replacement <- date_ts
-        nb_replacement <- length_replacement %/% length(replacement)
     } else {
         end_replacement <- next_date_ts(
             date_ts = start_replacement,
             lag = length(replacement) - 1L,
             frequency_ts = frequency_ts
         )
-        nb_replacement <- 1L
     }
 
     stats::window(
@@ -357,8 +365,8 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
 #' retirés (au début et à la fin ("both"), juste au début ("left") ou juste à
 #' la fin ("right"))
 #'
-#' @returns En sortie, la fonction retourne une copie de l'objet `series` corrigé
-#' des NA et début et fin de série.
+#' @returns En sortie, la fonction retourne une copie de l'objet `series`
+#' corrigée des NA et début et fin de série.
 #' @details L'objet retourné commence et finis par des valeurs non manquantes.
 #' @export
 #'
