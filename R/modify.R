@@ -229,21 +229,23 @@ combine2ts <- function(a, b) {
 #' La fonction `extend_ts` ajoute de nouvelles valeurs à un ts.
 #'
 #' @inheritParams set_value_ts
-#' @param replace_na un booléen
+#' @param replace_na un booléen.
+#' @param date_ts_to un vecteur numérique, de préférence `integer`, au format
+#' date_ts, c'est-à-dire `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`.
 #'
 #' @returns En sortie, la fonction retourne une copie de l'objet `series`
 #' complété avec le vecteur `replacement`.
 #'
 #' @details
-#' \code{date_ts} désigne la date jusqu'à laquelle le remplacement s'effectue.
+#' \code{date_ts_to} désigne la date jusqu'à laquelle le remplacement s'effectue.
 #' Par défault, cette valeur vaut \code{NULL}.
 #'
 #' Si `replace_na` vaut `TRUE` alors le remplacement commence dès que
 #' l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu,
 #' qu'il contienne des NA ou non à la fin.
 #' Si le vecteur `replacement` est de taille un sous-multiple de la différence
-#' de période entre la date de fin de `series` et `date_ts`, le vecteur
-#' `replacement` est répété jusqu'à la date `date_ts`. Sinon une erreur est
+#' de période entre la date de fin de `series` et `date_ts_to`, le vecteur
+#' `replacement` est répété jusqu'à la date `date_ts_to`. Sinon une erreur est
 #' générée.
 #'
 #' @export
@@ -260,9 +262,9 @@ combine2ts <- function(a, b) {
 #' extend_ts(series = ts1, replacement = x)
 #' extend_ts(series = ts1, replacement = x, replace_na = FALSE)
 #' extend_ts(series = ts1, replacement = x,
-#'           date_ts = c(2021L, 7L), replace_na = TRUE)
+#'           date_ts_to = c(2021L, 7L), replace_na = TRUE)
 #'
-extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
+extend_ts <- function(series, replacement, date_ts_to = NULL, replace_na = TRUE) {
     coll <- checkmate::makeAssertCollection()
 
     # Check de l'objet series
@@ -288,31 +290,32 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
 
     frequency_ts <- as.integer(stats::frequency(series))
 
-    # Check du format date_ts
-    if (!is.null(date_ts)) {
-        date_ts <- assert_date_ts(
-            x = date_ts,
+    # Check du format date_ts_to
+    if (!is.null(date_ts_to)) {
+        date_ts_to <- assert_date_ts(
+            x = date_ts_to,
             frequency_ts,
             add = coll,
-            .var.name = "date_ts"
+            .var.name = "date_ts_to"
         )
     }
 
-    end_ts <- as.integer(stats::end(series))
-
     if (replace_na) {
-        series <- na_trim(series = series, sides = "right")
+        series_without_na <- na_trim(series = series, sides = "right")
         start_replacement <- next_date_ts(
-            last_date(series),
+            date_ts = last_date(series_without_na),
             frequency_ts = frequency_ts
         )
     } else {
-        start_replacement <- next_date_ts(end_ts, frequency_ts = frequency_ts)
+        start_replacement <- next_date_ts(
+            date_ts = as.integer(stats::end(series)),
+            frequency_ts = frequency_ts
+        )
     }
 
-    if (!is.null(date_ts)) {
+    if (!is.null(date_ts_to)) {
         if (
-            !is_before(start_replacement, date_ts, frequency_ts = frequency_ts)
+            !is_before(start_replacement, date_ts_to, frequency_ts = frequency_ts)
         ) {
             stop(
                 c(
@@ -324,7 +327,7 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
         }
         length_replacement <- diff_periode(
             a = start_replacement,
-            b = date_ts,
+            b = date_ts_to,
             frequency_ts = frequency_ts
         )
         if (length_replacement %% length(replacement) != 0L) {
@@ -336,7 +339,7 @@ extend_ts <- function(series, replacement, date_ts = NULL, replace_na = TRUE) {
                 call. = FALSE
             )
         }
-        end_replacement <- date_ts
+        end_replacement <- date_ts_to
     } else {
         end_replacement <- next_date_ts(
             date_ts = start_replacement,

@@ -14,7 +14,8 @@ mens2trim(date_ts)
 \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}}
 }
 \value{
-En sortie, la fonction retourne la date toujours au format \code{date_ts}.
+En sortie, la fonction retourne la date toujours au format
+\code{date_ts}.
 }
 \description{
 Les fonctions \code{trim2mens} et \code{mens2trim} convertissent une

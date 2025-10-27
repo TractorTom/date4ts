@@ -16,8 +16,8 @@ trimestrielles et \code{12L} (ou \code{12.0}) pour les séries mensuelles.}
 \item{lag}{un entier}
 }
 \value{
-En sortie, la fonction retourne un vecteur d'entier qui représente la
-date à la période passée au format \code{date_ts}.
+En sortie, la fonction retourne un vecteur d'entier qui représente
+la date à la période passée au format \code{date_ts}.
 }
 \description{
 Obtenir la date précédente

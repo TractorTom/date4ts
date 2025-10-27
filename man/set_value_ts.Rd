@@ -15,8 +15,9 @@ set_value_ts(series, date_ts, replacement)
 \item{replacement}{un vecteur de même type que le ts \code{series}}
 }
 \value{
-En sortie, la fonction retourne une copie de l'objet \code{series} modifié
-avec les valeurs de \code{replacement} imputés à partir de la date \code{date_ts}.
+En sortie, la fonction retourne une copie de l'objet \code{series}
+modifié avec les valeurs de \code{replacement} imputés à partir de la date
+\code{date_ts}.
 }
 \description{
 La fonction \code{set_value_ts} modifie la ou les valeurs d'un objet

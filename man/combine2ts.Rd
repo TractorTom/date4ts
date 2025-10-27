@@ -12,8 +12,8 @@ combine2ts(a, b)
 \item{b}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 }
 \value{
-En sortie, la fonction retourne un ts qui contient les valeurs de \code{a}
-aux temps de \code{a} et les valeurs de \code{b} aux temps de \code{b}.
+En sortie, la fonction retourne un ts qui contient les valeurs de
+\code{a} aux temps de \code{a} et les valeurs de \code{b} aux temps de \code{b}.
 }
 \description{
 La fonction \code{combine2ts} combine (comme c()) 2 time series de

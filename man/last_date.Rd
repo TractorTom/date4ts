@@ -10,8 +10,8 @@ last_date(series)
 \item{series}{un objet ts unidimensionnel conforme aux règles de assert_ts}
 }
 \value{
-En sortie, la fonction retourne un objet au format \code{date_ts} (\code{AAAA},
-\code{c(AAAA, MM)} ou \code{c(AAAA, TT)})
+En sortie, la fonction retourne un objet au format \code{date_ts}
+(\code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)})
 }
 \description{
 Cette fonction calcule la dernière date pour laquelle l'objet

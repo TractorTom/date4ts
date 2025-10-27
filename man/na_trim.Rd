@@ -14,8 +14,8 @@ retirés (au début et à la fin ("both"), juste au début ("left") ou juste à
 la fin ("right"))}
 }
 \value{
-En sortie, la fonction retourne une copie de l'objet \code{series} corrigé
-des NA et début et fin de série.
+En sortie, la fonction retourne une copie de l'objet \code{series}
+corrigée des NA et début et fin de série.
 }
 \description{
 La fonction \code{na_trim} supprime les NA en début et en fin de
