@@ -6,6 +6,8 @@ set.seed(2044L)
 # Tests de résultat avec start vecteur d'entiers -------------------------------
 
 typeA <- "raw"
+# Pour le type raw, le NA vaut 00 (comme Inf et 0L)
+# Donc on ne peut pas traiter les NA et on retire ces cas là.
 
 for (frequenceA in list_frequence) {
     for (startA in list_start) {
@@ -45,7 +47,7 @@ for (frequenceA in list_frequence) {
                             res <- extend_ts(
                                 series = ts_A,
                                 replacement = B_content,
-                                date_ts = NULL,
+                                date_ts_to = NULL,
                                 replace_na = FALSE
                             )
                         },
@@ -76,7 +78,7 @@ for (frequenceA in list_frequence) {
                     testthat::expect_equal(expected = res_theo, object = res)
 
                     # Cas 2 : with with NA
-                    for (param1 in list_len) {
+                    for (param1 in c(0L)) {#list_len) {
                         ts_A <- ts(
                             c(
                                 A_content,
@@ -99,7 +101,7 @@ for (frequenceA in list_frequence) {
                                 res <- extend_ts(
                                     series = ts_A,
                                     replacement = B_content,
-                                    date_ts = NULL,
+                                    date_ts_to = NULL,
                                     replace_na = FALSE
                                 )
                             },
@@ -112,7 +114,7 @@ for (frequenceA in list_frequence) {
                     }
 
                     # Cas 2.5 : with with NA (by default)
-                    for (param1 in list_len) {
+                    for (param1 in c(0L)) {#list_len) {
                         ts_A <- ts(
                             c(
                                 A_content,
@@ -147,7 +149,7 @@ for (frequenceA in list_frequence) {
                     }
 
                     # Cas 3 : with without NA
-                    for (param1 in list_len) {
+                    for (param1 in c(0L)) {#list_len) {
                         ts_A <- ts(
                             c(
                                 A_content,
@@ -167,7 +169,7 @@ for (frequenceA in list_frequence) {
                                 res <- extend_ts(
                                     series = ts_A,
                                     replacement = B_content,
-                                    date_ts = NULL,
+                                    date_ts_to = NULL,
                                     replace_na = TRUE
                                 )
                             },
@@ -181,7 +183,7 @@ for (frequenceA in list_frequence) {
                     }
 
                     # Cas 3.5 : with without NA (by default)
-                    for (param1 in list_len) {
+                    for (param1 in c(0L)) {#list_len) {
                         ts_A <- ts(
                             c(
                                 A_content,
@@ -242,7 +244,7 @@ for (frequenceA in list_frequence) {
                                 res <- extend_ts(
                                     series = ts_A,
                                     replacement = B_content,
-                                    date_ts = date_end_replacement,
+                                    date_ts_to = date_end_replacement,
                                     replace_na = FALSE
                                 )
                             },
@@ -255,7 +257,7 @@ for (frequenceA in list_frequence) {
                     }
 
                     # Cas 5 : date_ts with with NA
-                    for (param1 in list_len) {
+                    for (param1 in c(0L)) {#list_len) {
                         ts_A <- ts(
                             c(
                                 A_content,
@@ -297,7 +299,7 @@ for (frequenceA in list_frequence) {
                                     res <- extend_ts(
                                         series = ts_A,
                                         replacement = B_content,
-                                        date_ts = date_end_replacement,
+                                        date_ts_to = date_end_replacement,
                                         replace_na = FALSE
                                     )
                                 },
@@ -311,7 +313,7 @@ for (frequenceA in list_frequence) {
                     }
 
                     # Cas 6 : date_ts with without NA
-                    for (param1 in list_len) {
+                    for (param1 in c(0L)) {#list_len) {
                         ts_A <- ts(
                             c(
                                 A_content,
@@ -350,7 +352,7 @@ for (frequenceA in list_frequence) {
                                     res <- extend_ts(
                                         series = ts_A,
                                         replacement = B_content,
-                                        date_ts = date_end_replacement,
+                                        date_ts_to = date_end_replacement,
                                         replace_na = TRUE
                                     )
                                 },
@@ -364,7 +366,7 @@ for (frequenceA in list_frequence) {
                     }
 
                     # Cas 6.5 : date_ts with without NA (by default)
-                    for (param1 in list_len) {
+                    for (param1 in c(0L)) {#list_len) {
                         ts_A <- ts(
                             c(
                                 A_content,
@@ -403,7 +405,7 @@ for (frequenceA in list_frequence) {
                                     res <- extend_ts(
                                         series = ts_A,
                                         replacement = B_content,
-                                        date_ts = date_end_replacement
+                                        date_ts_to = date_end_replacement
                                     )
                                 },
                                 regexp = warning_extend

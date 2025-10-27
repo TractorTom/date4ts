@@ -300,6 +300,29 @@ extend_ts <- function(series, replacement, date_ts_to = NULL, replace_na = TRUE)
         )
     }
 
+    if (is.raw(series)) {
+        new_series <- stats::ts(
+            data = as.integer(series),
+            start = stats::start(series),
+            frequency = frequency_ts
+        )
+        new_replacement <- as.integer(replacement)
+        ts_output <- extend_ts(
+            series = new_series,
+            replacement = new_replacement,
+            date_ts_to = date_ts_to,
+            replace_na = replace_na
+        )
+
+        ts_output <- stats::ts(
+            data = as.raw(ts_output),
+            start = stats::start(ts_output),
+            frequency = frequency_ts
+        )
+
+        return(ts_output)
+    }
+
     if (replace_na) {
         series_without_na <- na_trim(series = series, sides = "right")
         start_replacement <- next_date_ts(
