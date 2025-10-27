@@ -199,8 +199,10 @@ combine2ts <- function(a, b) {
     } else if (isTRUE(checkmate::check_number(frequency_ts))) {
         df_output <- as.data.frame(cbind(a, b))
         if (sum(is.na(df_output$a) & (!is.na(df_output$b))) > 0L) {
-            warning("extending time series when replacing values",
-                    call. = FALSE)
+            warning(
+                "extending time series when replacing values",
+                call. = FALSE
+            )
         }
         df_output$res <- df_output$a
         df_output$res[!is.na(df_output$b)] <- df_output$b[!is.na(df_output$b)]
@@ -264,7 +266,12 @@ combine2ts <- function(a, b) {
 #' extend_ts(series = ts1, replacement = x,
 #'           date_ts_to = c(2021L, 7L), replace_na = TRUE)
 #'
-extend_ts <- function(series, replacement, date_ts_to = NULL, replace_na = TRUE) {
+extend_ts <- function(
+    series,
+    replacement,
+    date_ts_to = NULL,
+    replace_na = TRUE
+) {
     coll <- checkmate::makeAssertCollection()
 
     # Check de l'objet series
@@ -338,7 +345,11 @@ extend_ts <- function(series, replacement, date_ts_to = NULL, replace_na = TRUE)
 
     if (!is.null(date_ts_to)) {
         if (
-            !is_before(start_replacement, date_ts_to, frequency_ts = frequency_ts)
+            !is_before(
+                start_replacement,
+                date_ts_to,
+                frequency_ts = frequency_ts
+            )
         ) {
             stop(
                 c(

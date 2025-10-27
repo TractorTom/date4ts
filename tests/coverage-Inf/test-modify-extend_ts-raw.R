@@ -78,7 +78,8 @@ for (frequenceA in list_frequence) {
                     testthat::expect_equal(expected = res_theo, object = res)
 
                     # Cas 2 : with with NA
-                    for (param1 in c(0L)) {#list_len) {
+                    for (param1 in c(0L)) {
+                        #list_len) {
                         ts_A <- ts(
                             c(
                                 A_content,
@@ -114,7 +115,8 @@ for (frequenceA in list_frequence) {
                     }
 
                     # Cas 2.5 : with with NA (by default)
-                    for (param1 in c(0L)) {#list_len) {
+                    for (param1 in c(0L)) {
+                        #list_len) {
                         ts_A <- ts(
                             c(
                                 A_content,
@@ -149,7 +151,8 @@ for (frequenceA in list_frequence) {
                     }
 
                     # Cas 3 : with without NA
-                    for (param1 in c(0L)) {#list_len) {
+                    for (param1 in c(0L)) {
+                        #list_len) {
                         ts_A <- ts(
                             c(
                                 A_content,
@@ -183,7 +186,8 @@ for (frequenceA in list_frequence) {
                     }
 
                     # Cas 3.5 : with without NA (by default)
-                    for (param1 in c(0L)) {#list_len) {
+                    for (param1 in c(0L)) {
+                        #list_len) {
                         ts_A <- ts(
                             c(
                                 A_content,
@@ -257,7 +261,8 @@ for (frequenceA in list_frequence) {
                     }
 
                     # Cas 5 : date_ts with with NA
-                    for (param1 in c(0L)) {#list_len) {
+                    for (param1 in c(0L)) {
+                        #list_len) {
                         ts_A <- ts(
                             c(
                                 A_content,
@@ -313,7 +318,8 @@ for (frequenceA in list_frequence) {
                     }
 
                     # Cas 6 : date_ts with without NA
-                    for (param1 in c(0L)) {#list_len) {
+                    for (param1 in c(0L)) {
+                        #list_len) {
                         ts_A <- ts(
                             c(
                                 A_content,
@@ -366,7 +372,8 @@ for (frequenceA in list_frequence) {
                     }
 
                     # Cas 6.5 : date_ts with without NA (by default)
-                    for (param1 in c(0L)) {#list_len) {
+                    for (param1 in c(0L)) {
+                        #list_len) {
                         ts_A <- ts(
                             c(
                                 A_content,
