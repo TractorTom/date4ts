@@ -38,7 +38,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extend_ts</span><span class="op">(</span><span class="va">series</span>, <span class="va">replacement</span>, date_ts <span class="op">=</span> <span class="cn">NULL</span>, replace_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extend_ts</span><span class="op">(</span><span class="va">series</span>, <span class="va">replacement</span>, date_ts_to <span class="op">=</span> <span class="cn">NULL</span>, replace_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -53,13 +53,13 @@
 <dd><p>un vecteur de même type que le ts <code>series</code></p></dd>
 
 
-<dt id="arg-date-ts">date_ts<a class="anchor" aria-label="anchor" href="#arg-date-ts"></a></dt>
+<dt id="arg-date-ts-to">date_ts_to<a class="anchor" aria-label="anchor" href="#arg-date-ts-to"></a></dt>
 <dd><p>un vecteur numérique, de préférence <code>integer</code>, au format
-<code>AAAA</code>, <code>c(AAAA, MM)</code> ou <code>c(AAAA, TT)</code></p></dd>
+date_ts, c'est-à-dire <code>AAAA</code>, <code>c(AAAA, MM)</code> ou <code>c(AAAA, TT)</code>.</p></dd>
 
 
 <dt id="arg-replace-na">replace_na<a class="anchor" aria-label="anchor" href="#arg-replace-na"></a></dt>
-<dd><p>un booléen</p></dd>
+<dd><p>un booléen.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -69,14 +69,14 @@ complété avec le vecteur <code>replacement</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><code>date_ts</code> désigne la date jusqu'à laquelle le remplacement s'effectue.
+    <p><code>date_ts_to</code> désigne la date jusqu'à laquelle le remplacement s'effectue.
 Par défault, cette valeur vaut <code>NULL</code>.</p>
 <p>Si <code>replace_na</code> vaut <code>TRUE</code> alors le remplacement commence dès que
 l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu,
 qu'il contienne des NA ou non à la fin.
 Si le vecteur <code>replacement</code> est de taille un sous-multiple de la différence
-de période entre la date de fin de <code>series</code> et <code>date_ts</code>, le vecteur
-<code>replacement</code> est répété jusqu'à la date <code>date_ts</code>. Sinon une erreur est
+de période entre la date de fin de <code>series</code> et <code>date_ts_to</code>, le vecteur
+<code>replacement</code> est répété jusqu'à la date <code>date_ts_to</code>. Sinon une erreur est
 générée.</p>
     </div>
 
@@ -91,17 +91,16 @@ générée.</p>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">3L</span>, <span class="fl">2L</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">extend_ts</span><span class="op">(</span>series <span class="op">=</span> <span class="va">ts1</span>, replacement <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>extending time series when replacing values</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2020  NA  NA  NA   1   2   3   4   5   6   7   8   9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2021  10   3   3                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2021  10   3   3  NA                                </span>
 <span class="r-in"><span><span class="fu">extend_ts</span><span class="op">(</span>series <span class="op">=</span> <span class="va">ts1</span>, replacement <span class="op">=</span> <span class="va">x</span>, replace_na <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>extending time series when replacing values</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2020  NA  NA  NA   1   2   3   4   5   6   7   8   9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2021  10  NA  NA  NA   3   3                        </span>
 <span class="r-in"><span><span class="fu">extend_ts</span><span class="op">(</span>series <span class="op">=</span> <span class="va">ts1</span>, replacement <span class="op">=</span> <span class="va">x</span>,</span></span>
-<span class="r-in"><span>          date_ts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2021L</span>, <span class="fl">7L</span><span class="op">)</span>, replace_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>          date_ts_to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2021L</span>, <span class="fl">7L</span><span class="op">)</span>, replace_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>extending time series when replacing values</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2020  NA  NA  NA   1   2   3   4   5   6   7   8   9</span>
