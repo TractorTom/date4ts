@@ -236,7 +236,7 @@ combine2ts <- function(a, b) {
 #' date_ts, c'est-à-dire `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`.
 #' @param times un entier qui précise le nombre de fois où \code{replacement}
 #' doit être répété, le vecteur entier.
-#' @param times un entier qui précise le nombre de fois où \code{replacement}
+#' @param each un entier qui précise le nombre de fois où \code{replacement}
 #' doit être répété mais élément par élément.
 #'
 #' @returns En sortie, la fonction retourne une copie de l'objet `series`

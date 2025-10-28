@@ -24,6 +24,9 @@ date_ts, c'est-à-dire \code{AAAA}, \code{c(AAAA, MM)} ou \code{c(AAAA, TT)}.}
 \item{replace_na}{un booléen.}
 
 \item{times}{un entier qui précise le nombre de fois où \code{replacement}
+doit être répété, le vecteur entier.}
+
+\item{each}{un entier qui précise le nombre de fois où \code{replacement}
 doit être répété mais élément par élément.}
 }
 \value{
