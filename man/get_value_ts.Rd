@@ -29,6 +29,9 @@ Il faut qu'exactement 2 arguments parmi \code{date_to}, \code{date_to} et \code{
 renseignés. L'argument \code{n} combiné avec \code{date_to} ou \code{date_from} permet de
 déterminer combien de période seront retourné à partir de ou jusqu'à la date
 renseignée.
+
+Il faudrait parler d'extraction car contrairement à la fonction
+\code{window}, ici on retourne un vecteur devaleur et plus un objet ts.
 }
 \examples{
 

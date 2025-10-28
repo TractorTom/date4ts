@@ -19,7 +19,7 @@
 #' On cherche donc à favoriser l'utilisation de vecteur `c(AAAA, MM)` pour
 #' désigner la date choisie.
 #' Lorsque l'objet `x` en entrée est au mauvais format, il est corrigé pendant
-#' la vérification et l'objet en sortie est au bon format.
+#' la checks et l'objet en sortie est au bon format.
 #' Si l'argument `warn` est `FALSE`, alors la fonction ne retournera pas de
 #' warning lors de l'évaluation.
 #'
@@ -1248,12 +1248,73 @@ assert_expression <- function(expr) {
     return(invisible(expr))
 }
 
+#' @title Crée une collection de checks
+#'
+#' @description
+#' Initialise une collection vide destinée à stocker les résultats des checks
+#' des différents arguments, fonctions et contenus.
+#' Cette collection peut ensuite être enrichie progressivement à l’aide de
+#' la fonction [add_check_collection()].
+#'
+#' @details
+#' La collection de vérifications est représentée par une valeur logique `TRUE`
+#' au moment de son initialisation. Cela indique qu’aucune erreur ou alerte
+#' n’a encore été détectée.
+#' Lorsqu’un contrôle échoue, des messages sont ajoutés à cette collection
+#' sous forme de chaînes de caractères.
+#'
+#' @return
+#' Un objet logique `TRUE` représentant une collection vide de vérifications.
+#'
+#' @seealso [add_check_collection()]
+#'
+#' @examples
+#' coll <- make_check_collection()
+#' coll
+#'
 #' @keywords internal
+#' @noRd
 make_check_collection <- function() {
     return(TRUE)
 }
 
+#' @title Ajoute un résultat de checks à une collection
+#'
+#' @description
+#' Ajoute un message de checks à une collection existante créée par
+#' [make_check_collection()].
+#' Cette fonction permet d’agréger plusieurs messages d’erreurs ou
+#' d’avertissements dans un seul objet, utile pour des fonctions de validation
+#' interne.
+#'
+#' @param coll Une collection de checks, généralement créée avec
+#' [make_check_collection()].
+#' Peut être une valeur logique (`TRUE`) ou une chaîne de caractères contenant
+#' déjà des messages.
+#' @param check_output Résultat du contrôle. Doit être `TRUE` si le contrôle
+#' est validé, ou une chaîne de caractères décrivant le problème sinon.
+#' @param .var.name (optionnel) Nom de la variable ou de l’objet concerné
+#' par le contrôle. Si fourni, il est ajouté au début du message.
+#'
+#' @details
+#' Si `check_output` vaut `TRUE`, la collection est retournée telle quelle.
+#' Dans le cas contraire, le message est ajouté au texte existant dans la
+#' collection. Le résultat final est une chaîne de caractères contenant
+#' l’ensemble des messages, séparés par des sauts de ligne.
+#'
+#' @return
+#' Une chaîne de caractères contenant tous les messages de checks,
+#' ou `TRUE` si aucun problème n’a été détecté.
+#'
+#' @seealso [make_check_collection()]
+#'
+#' @examples
+#' coll <- make_check_collection()
+#' coll <- add_check_collection(coll, "Valeur hors intervalle", .var.name = "x")
+#' coll
+#'
 #' @keywords internal
+#' @noRd
 add_check_collection <- function(coll, check_output, .var.name = NULL) {
     if (isTRUE(check_output)) {
         return(coll)
