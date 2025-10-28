@@ -1254,7 +1254,7 @@ assert_expression <- function(expr) {
 #' Initialise une collection vide destinée à stocker les résultats des checks
 #' des différents arguments, fonctions et contenus.
 #' Cette collection peut ensuite être enrichie progressivement à l’aide de
-#' la fonction [add_check_collection()].
+#' la fonction \code{add_check_collection()}.
 #'
 #' @details
 #' La collection de vérifications est représentée par une valeur logique `TRUE`
@@ -1265,8 +1265,6 @@ assert_expression <- function(expr) {
 #'
 #' @return
 #' Un objet logique `TRUE` représentant une collection vide de vérifications.
-#'
-#' @seealso [add_check_collection()]
 #'
 #' @examples
 #' coll <- make_check_collection()
@@ -1282,13 +1280,13 @@ make_check_collection <- function() {
 #'
 #' @description
 #' Ajoute un message de checks à une collection existante créée par
-#' [make_check_collection()].
+#' \code{make_check_collection()}.
 #' Cette fonction permet d’agréger plusieurs messages d’erreurs ou
 #' d’avertissements dans un seul objet, utile pour des fonctions de validation
 #' interne.
 #'
 #' @param coll Une collection de checks, généralement créée avec
-#' [make_check_collection()].
+#' \code{make_check_collection()}.
 #' Peut être une valeur logique (`TRUE`) ou une chaîne de caractères contenant
 #' déjà des messages.
 #' @param check_output Résultat du contrôle. Doit être `TRUE` si le contrôle
@@ -1305,8 +1303,6 @@ make_check_collection <- function() {
 #' @return
 #' Une chaîne de caractères contenant tous les messages de checks,
 #' ou `TRUE` si aucun problème n’a été détecté.
-#'
-#' @seealso [make_check_collection()]
 #'
 #' @examples
 #' coll <- make_check_collection()
