@@ -234,6 +234,10 @@ combine2ts <- function(a, b) {
 #' @param replace_na un booléen.
 #' @param date_ts_to un vecteur numérique, de préférence `integer`, au format
 #' date_ts, c'est-à-dire `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`.
+#' @param times un entier qui précise le nombre de fois où \code{replacement}
+#' doit être répété, le vecteur entier.
+#' @param times un entier qui précise le nombre de fois où \code{replacement}
+#' doit être répété mais élément par élément.
 #'
 #' @returns En sortie, la fonction retourne une copie de l'objet `series`
 #' complété avec le vecteur `replacement`.
@@ -249,6 +253,11 @@ combine2ts <- function(a, b) {
 #' de période entre la date de fin de `series` et `date_ts_to`, le vecteur
 #' `replacement` est répété jusqu'à la date `date_ts_to`. Sinon une erreur est
 #' générée.
+#'
+#' Les arguments \code{times} et \code{each} en sont utilisé que si
+#' \code{date_ts} est manquant (non fourni par l'utilisateur). Si tel est le
+#' cas, ils se comporte comme si \code{replacement} devenait
+#' \code{rep(replacement, times = times, each = each)}.
 #'
 #' @export
 #'
@@ -270,7 +279,9 @@ extend_ts <- function(
     series,
     replacement,
     date_ts_to = NULL,
-    replace_na = TRUE
+    replace_na = TRUE,
+    times = 1L,
+    each = 1L
 ) {
     coll <- checkmate::makeAssertCollection()
 
@@ -305,6 +316,8 @@ extend_ts <- function(
             add = coll,
             .var.name = "date_ts_to"
         )
+    } else {
+        replacement <- rep(replacement, times = times, each = each)
     }
 
     if (is.raw(series)) {
