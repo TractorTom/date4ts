@@ -38,7 +38,14 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extend_ts</span><span class="op">(</span><span class="va">series</span>, <span class="va">replacement</span>, date_ts_to <span class="op">=</span> <span class="cn">NULL</span>, replace_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extend_ts</span><span class="op">(</span></span>
+<span>  <span class="va">series</span>,</span>
+<span>  <span class="va">replacement</span>,</span>
+<span>  date_ts_to <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  replace_na <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  times <span class="op">=</span> <span class="fl">1L</span>,</span>
+<span>  each <span class="op">=</span> <span class="fl">1L</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -61,6 +68,11 @@ date_ts, c'est-à-dire <code>AAAA</code>, <code>c(AAAA, MM)</code> ou <code>c(AA
 <dt id="arg-replace-na">replace_na<a class="anchor" aria-label="anchor" href="#arg-replace-na"></a></dt>
 <dd><p>un booléen.</p></dd>
 
+
+<dt id="arg-times">times<a class="anchor" aria-label="anchor" href="#arg-times"></a></dt>
+<dd><p>un entier qui précise le nombre de fois où <code>replacement</code>
+doit être répété mais élément par élément.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -69,8 +81,8 @@ complété avec le vecteur <code>replacement</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><code>date_ts_to</code> désigne la date jusqu'à laquelle le remplacement s'effectue.
-Par défault, cette valeur vaut <code>NULL</code>.</p>
+    <p><code>date_ts_to</code> désigne la date jusqu'à laquelle le remplacement
+s'effectue. Par défault, cette valeur vaut <code>NULL</code>.</p>
 <p>Si <code>replace_na</code> vaut <code>TRUE</code> alors le remplacement commence dès que
 l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu,
 qu'il contienne des NA ou non à la fin.
@@ -78,6 +90,10 @@ Si le vecteur <code>replacement</code> est de taille un sous-multiple de la diff
 de période entre la date de fin de <code>series</code> et <code>date_ts_to</code>, le vecteur
 <code>replacement</code> est répété jusqu'à la date <code>date_ts_to</code>. Sinon une erreur est
 générée.</p>
+<p>Les arguments <code>times</code> et <code>each</code> en sont utilisé que si
+<code>date_ts</code> est manquant (non fourni par l'utilisateur). Si tel est le
+cas, ils se comporte comme si <code>replacement</code> devenait
+<code>rep(replacement, times = times, each = each)</code>.</p>
     </div>
 
     <div class="section level2">
