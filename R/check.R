@@ -1101,6 +1101,7 @@ assert_scalar_natural <- function(
 
     return(invisible(x))
 }
+
 #' @title Vérifie la conformité d'une date scalaire
 #'
 #' @param x un objet de type `Date`.

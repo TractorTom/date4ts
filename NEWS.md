@@ -17,6 +17,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * The argument `date_ts` of `extend_ts()` is renamed `date_ts_to`
 * `extend_ts()` leaves the trailing NAs if `na_replace = TRUE` and `replacement` doesn't cover the full range
 * `extend_ts()` works fully with raw.
+* new arguments for `extend_ts()` : `times` and `each` to repeat the replacement pattern several times
 
 
 ## [0.1.0] - 2024-09-12

@@ -18,6 +18,9 @@
 #' déterminer combien de période seront retourné à partir de ou jusqu'à la date
 #' renseignée.
 #'
+#' Il faudrait parler d'extraction car contrairement à la fonction
+#' \code{window}, ici on retourne un vecteur devaleur et plus un objet ts.
+#'
 #' @export
 #'
 #' @examples

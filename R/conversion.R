@@ -290,7 +290,20 @@ date_ts2date <- function(date_ts, frequency_ts) {
     }
 }
 
+#' @title Convertit un objet \code{ts} en \code{data.frame}
+#'
+#' @param x un objet de type \code{ts}.
+#'
+#' @returns En sortie la fonction retourne un \code{data.frame} avec autant de
+#' colonnes que \code{x} et une de plus pour la date.
+#'
+#' @examples
+#'
+#' ts2df(AirPassengers)
+#'
 #' @keywords internal
+#' @noRd
+#'
 ts2df <- function(x) {
     # Check de l'objet x
     assert_ts(x, .var.name = "x", allow_mts = TRUE)
