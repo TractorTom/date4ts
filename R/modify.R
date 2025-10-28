@@ -239,8 +239,8 @@ combine2ts <- function(a, b) {
 #' complété avec le vecteur `replacement`.
 #'
 #' @details
-#' \code{date_ts_to} désigne la date jusqu'à laquelle le remplacement s'effectue.
-#' Par défault, cette valeur vaut \code{NULL}.
+#' \code{date_ts_to} désigne la date jusqu'à laquelle le remplacement
+#' s'effectue. Par défault, cette valeur vaut \code{NULL}.
 #'
 #' Si `replace_na` vaut `TRUE` alors le remplacement commence dès que
 #' l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu,
