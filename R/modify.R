@@ -330,18 +330,14 @@ extend_ts <- function(
         return(ts_output)
     }
 
-    if (replace_na) {
-        series_without_na <- na_trim(series = series, sides = "right")
-        start_replacement <- next_date_ts(
-            date_ts = last_date(series_without_na),
-            frequency_ts = frequency_ts
-        )
-    } else {
-        start_replacement <- next_date_ts(
-            date_ts = as.integer(stats::end(series)),
-            frequency_ts = frequency_ts
-        )
-    }
+    start_replacement <- next_date_ts(
+        date_ts = ifelse(
+            test = replace_na,
+            yes = last_date(series),
+            no = as.integer(stats::end(series))
+        ),
+        frequency_ts = frequency_ts
+    )
 
     if (!is.null(date_ts_to)) {
         if (
