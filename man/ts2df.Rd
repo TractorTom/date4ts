@@ -17,7 +17,6 @@ colonnes que \code{x} et une de plus pour la date.
 Convertit un objet \code{ts} en \code{data.frame}
 }
 \examples{
-
 ts2df(AirPassengers)
 
 }

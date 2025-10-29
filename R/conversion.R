@@ -298,8 +298,9 @@ date_ts2date <- function(date_ts, frequency_ts) {
 #' colonnes que \code{x} et une de plus pour la date.
 #'
 #' @examples
-#'
 #' ts2df(AirPassengers)
+#'
+#' @export
 #'
 ts2df <- function(x) {
     # Check de l'objet x
