@@ -1,7 +1,7 @@
 Package: date4ts
 Title: 
     Wrangle and Modify Ts Object with Classic Frequencies and Exact Dates 
-Version: 0.1.1
+Version: 0.1.1.9000
 Authors@R: 
     person("Tanguy", "Barthelemy", email = "tangbarth@hotmail.fr", role = c("aut", "cre"))
 Description: The ts objects in R are managed using a very specific date format (in the form c(2022, 9) for September 2022 or c(2021, 2) for the second quarter of 2021, depending on the frequency, for example). We focus solely on monthly and quarterly series to manage the dates of ts objects. The general idea is to offer a set of functions to manage this date format without it being too restrictive or too imprecise depending on the rounding. This is a compromise between simplicity, precision and use of the basic 'stats' functions for creating and managing time series (ts(), window()).
