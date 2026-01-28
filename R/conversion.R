@@ -299,6 +299,7 @@ date_ts2date <- function(date_ts, frequency_ts) {
 #'
 #' @examples
 #' ts2df(AirPassengers)
+#' ts2df(Seatbelts)
 #'
 #' @export
 #'

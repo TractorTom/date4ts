@@ -18,5 +18,6 @@ Convertit un objet \code{ts} en \code{data.frame}
 }
 \examples{
 ts2df(AirPassengers)
+ts2df(Seatbelts)
 
 }
