@@ -198,7 +198,7 @@ combine2ts <- function(a, b) {
         # Fréquence décimale
     } else if (isTRUE(checkmate::check_number(frequency_ts))) {
         df_output <- as.data.frame(cbind(a, b))
-        if (sum(is.na(df_output$a) & (!is.na(df_output$b))) > 0L) {
+        if (any(is.na(df_output$a) & (!is.na(df_output$b)))) {
             warning(
                 "extending time series when replacing values",
                 call. = FALSE
