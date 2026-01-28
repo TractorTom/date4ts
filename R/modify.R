@@ -198,7 +198,7 @@ combine2ts <- function(a, b) {
         # Fréquence décimale
     } else if (isTRUE(checkmate::check_number(frequency_ts))) {
         df_output <- as.data.frame(cbind(a, b))
-        if (sum(is.na(df_output$a) & (!is.na(df_output$b))) > 0L) {
+        if (any(is.na(df_output$a) & (!is.na(df_output$b)))) {
             warning(
                 "extending time series when replacing values",
                 call. = FALSE
@@ -234,13 +234,17 @@ combine2ts <- function(a, b) {
 #' @param replace_na un booléen.
 #' @param date_ts_to un vecteur numérique, de préférence `integer`, au format
 #' date_ts, c'est-à-dire `AAAA`, `c(AAAA, MM)` ou `c(AAAA, TT)`.
+#' @param times un entier qui précise le nombre de fois où \code{replacement}
+#' doit être répété, le vecteur entier.
+#' @param each un entier qui précise le nombre de fois où \code{replacement}
+#' doit être répété mais élément par élément.
 #'
 #' @returns En sortie, la fonction retourne une copie de l'objet `series`
 #' complété avec le vecteur `replacement`.
 #'
 #' @details
-#' \code{date_ts_to} désigne la date jusqu'à laquelle le remplacement s'effectue.
-#' Par défault, cette valeur vaut \code{NULL}.
+#' \code{date_ts_to} désigne la date jusqu'à laquelle le remplacement
+#' s'effectue. Par défault, cette valeur vaut \code{NULL}.
 #'
 #' Si `replace_na` vaut `TRUE` alors le remplacement commence dès que
 #' l'objet ne contient que des NA. Dans le cas contraire, le ts est étendu,
@@ -249,6 +253,11 @@ combine2ts <- function(a, b) {
 #' de période entre la date de fin de `series` et `date_ts_to`, le vecteur
 #' `replacement` est répété jusqu'à la date `date_ts_to`. Sinon une erreur est
 #' générée.
+#'
+#' Les arguments \code{times} et \code{each} en sont utilisé que si
+#' \code{date_ts} est manquant (non fourni par l'utilisateur). Si tel est le
+#' cas, ils se comporte comme si \code{replacement} devenait
+#' \code{rep(replacement, times = times, each = each)}.
 #'
 #' @export
 #'
@@ -270,7 +279,9 @@ extend_ts <- function(
     series,
     replacement,
     date_ts_to = NULL,
-    replace_na = TRUE
+    replace_na = TRUE,
+    times = 1L,
+    each = 1L
 ) {
     coll <- checkmate::makeAssertCollection()
 
@@ -305,6 +316,8 @@ extend_ts <- function(
             add = coll,
             .var.name = "date_ts_to"
         )
+    } else {
+        replacement <- rep(replacement, times = times, each = each)
     }
 
     if (is.raw(series)) {
@@ -330,18 +343,14 @@ extend_ts <- function(
         return(ts_output)
     }
 
-    if (replace_na) {
-        series_without_na <- na_trim(series = series, sides = "right")
-        start_replacement <- next_date_ts(
-            date_ts = last_date(series_without_na),
-            frequency_ts = frequency_ts
-        )
-    } else {
-        start_replacement <- next_date_ts(
-            date_ts = as.integer(stats::end(series)),
-            frequency_ts = frequency_ts
-        )
-    }
+    start_replacement <- next_date_ts(
+        date_ts = ifelse(
+            test = replace_na,
+            yes = last_date(series),
+            no = as.integer(stats::end(series))
+        ),
+        frequency_ts = frequency_ts
+    )
 
     if (!is.null(date_ts_to)) {
         if (

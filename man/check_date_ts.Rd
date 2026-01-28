@@ -43,7 +43,7 @@ système des mois, trimestres et années classiques.
 On cherche donc à favoriser l'utilisation de vecteur \code{c(AAAA, MM)} pour
 désigner la date choisie.
 Lorsque l'objet \code{x} en entrée est au mauvais format, il est corrigé pendant
-la vérification et l'objet en sortie est au bon format.
+la checks et l'objet en sortie est au bon format.
 Si l'argument \code{warn} est \code{FALSE}, alors la fonction ne retournera pas de
 warning lors de l'évaluation.
 

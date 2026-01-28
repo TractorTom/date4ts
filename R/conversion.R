@@ -290,7 +290,19 @@ date_ts2date <- function(date_ts, frequency_ts) {
     }
 }
 
-#' @keywords internal
+#' @title Convertit un objet \code{ts} en \code{data.frame}
+#'
+#' @param x un objet de type \code{ts}.
+#'
+#' @returns En sortie la fonction retourne un \code{data.frame} avec autant de
+#' colonnes que \code{x} et une de plus pour la date.
+#'
+#' @examples
+#' ts2df(AirPassengers)
+#' ts2df(Seatbelts)
+#'
+#' @export
+#'
 ts2df <- function(x) {
     # Check de l'objet x
     assert_ts(x, .var.name = "x", allow_mts = TRUE)
@@ -306,8 +318,18 @@ ts2df <- function(x) {
 
     if (frequency_ts == 12L) {
         first_date_ts <- as_yyyymm(first_timeunits)
+        date_vec <- seq.Date(
+            from = date_ts2date(first_date_ts, frequency_ts = 12L),
+            length.out = length_series,
+            by = "month"
+        )
     } else if (frequency_ts == 4L) {
         first_date_ts <- as_yyyymm(first_timeunits)
+        date_vec <- seq.Date(
+            from = date_ts2date(first_date_ts, frequency_ts = 4L),
+            length.out = length_series,
+            by = "quarter"
+        )
     }
 
     rownames_libelles <- libelles(
@@ -315,7 +337,8 @@ ts2df <- function(x) {
         frequency_ts = frequency_ts,
         n = length_series
     )
-    x <- data.frame(date = rownames_libelles, x)
+    x <- data.frame(date = date_vec, x)
+    rownames(x) <- rownames_libelles
 
     return(x)
 }
