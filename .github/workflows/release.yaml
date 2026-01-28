@@ -18,7 +18,7 @@ jobs:
 
     steps:
 
-      - uses: TanguyBarthelemy/r-release-action@c3770d729b4bf3f07e7fbca7db77af3d328ec65b
+      - uses: TanguyBarthelemy/r-release-action@f77941570f04229a774d7b87b8990d02a91dd2eb
         with:
           tag: ${{ github.event.inputs.tag }}
           gh_repo: "TractorTom/date4ts"
