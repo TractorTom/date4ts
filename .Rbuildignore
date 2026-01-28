@@ -19,3 +19,5 @@
 ^[\.]?air\.toml$
 ^\.vscode$
 ^[.]?air[.]toml$
+^CRAN-SUBMISSION$
+^cran-comments\.md$
