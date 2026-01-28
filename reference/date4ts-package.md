@@ -1,0 +1,34 @@
+# date4ts: Wrangle and Modify Ts Object with Classic Frequencies and Exact Dates
+
+The ts objects in R are managed using a very specific date format (in
+the form c(2022, 9) for September 2022 or c(2021, 2) for the second
+quarter of 2021, depending on the frequency, for example). We focus
+solely on monthly and quarterly series to manage the dates of ts
+objects. The general idea is to offer a set of functions to manage this
+date format without it being too restrictive or too imprecise depending
+on the rounding. This is a compromise between simplicity, precision and
+use of the basic 'stats' functions for creating and managing time series
+(ts(), window()). Les objets ts en R sont gérés par un format de date
+très particulier (sous la forme c(2022, 9) pour septembre 2022 ou
+c(2021, 2) pour le deuxième trimestre 2021 selon la fréquence par
+exemple). On se concentre uniquement sur les séries mensuelles et
+trimestrielles pour gérer les dates des objets ts. Lidée générale est de
+proposer un ensemble de fonctions pour gérer ce format de date sans que
+ce soit trop contraignant ou trop imprécis selon les arrondis. Cest un
+compromis entre simplicité, précision et utilisation des fonctions du
+package 'stats' de création et de gestion des séries temporelles (ts(),
+window()).
+
+## See also
+
+Useful links:
+
+- <https://github.com/TractorTom/date4ts>
+
+- <https://tractortom.github.io/date4ts/>
+
+- Report bugs at <https://github.com/TractorTom/date4ts/issues>
+
+## Author
+
+**Maintainer**: Tanguy Barthelemy <tangbarth@hotmail.fr>
