@@ -7,16 +7,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/TractorTom/date4ts/blob/v0.1.1/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/TractorTom/date4ts/blob/develop/DESCRIPTION)
 
 Barthelemy T (2026). *date4ts: Wrangle and Modify Ts Object with Classic
-Frequencies and Exact Dates*. R package version 0.1.1,
+Frequencies and Exact Dates*. R package version 0.1.1.9000,
 <https://github.com/TractorTom/date4ts>.
 
     @Manual{,
       title = {date4ts: Wrangle and Modify Ts Object with Classic Frequencies and Exact Dates},
       author = {Tanguy Barthelemy},
       year = {2026},
-      note = {R package version 0.1.1},
+      note = {R package version 0.1.1.9000},
       url = {https://github.com/TractorTom/date4ts},
     }
