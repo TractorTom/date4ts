@@ -39,12 +39,20 @@ L'idée est d'uniformiser les dates avec un ensemble de fonction de conversion, 
 
 ## Installation
 
-You can install the development version of date4ts from [GitHub](https://github.com/) with:
+🎉 {date4ts} is now available on CRAN! 🎉
 
-``` r
+To install it, you have to launch the following command line:
+```{r, eval = FALSE}
+install.packages("date4ts")
+```
+
+You can install the development version of {date4ts} from [GitHub](https://github.com/) with:
+
+```{r, eval = FALSE}
 # install.packages("remotes")
 remotes::install_github("TractorTom/date4ts")
 ```
+
 
 ## Usage
 
