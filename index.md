@@ -1,8 +1,11 @@
 # {date4ts}
 
+[![R-CMD-check](https://github.com/TractorTom/date4ts/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/TractorTom/date4ts/actions/workflows/R-CMD-check.yaml)
 [![lint](https://github.com/TractorTom/date4ts/actions/workflows/lint.yaml/badge.svg)](https://github.com/TractorTom/date4ts/actions/workflows/lint.yaml)
 [![Coverage](https://codecov.io/gh/TractorTom/date4ts/graph/badge.svg)](https://app.codecov.io/gh/TractorTom/date4ts)
 [![CodeFactor](https://www.codefactor.io/repository/github/TractorTom/date4ts/badge)](https://www.codefactor.io/repository/github/TractorTom/date4ts)
+[![Codacy
+Badge](https://app.codacy.com/project/badge/Grade/afab36ff8f064dc1b428efb06fa9f56c)](https://app.codacy.com/gh/TractorTom/date4ts/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 date4ts est une boite à outils pour la manipulation des objets `ts` en
 R.
@@ -23,7 +26,15 @@ conversion, de formattage mais aussi de modification des `ts`.
 
 ## Installation
 
-You can install the development version of date4ts from
+🎉 {date4ts} is now available on CRAN! 🎉
+
+To install it, you have to launch the following command line:
+
+``` r
+install.packages("date4ts")
+```
+
+You can install the development version of {date4ts} from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -221,10 +232,9 @@ combine2ts(ev_pib, trim_1)
 ts1 <- ts(data = c(rep(NA_integer_, 3L), 1L:10L, rep(NA_integer_, 3L)), start = 2020, frequency = 12L)
 x <- rep(3L, 2L)
 extend_ts(series = ts1, replacement = x)
-#> Warning: extending time series when replacing values
 #>      Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
 #> 2020  NA  NA  NA   1   2   3   4   5   6   7   8   9
-#> 2021  10   3   3
+#> 2021  10   3   3  NA
 ```
 
 ### Formatting and Labels
@@ -233,8 +243,7 @@ extend_ts(series = ts1, replacement = x)
 
 ``` r
 normalize_date_ts(c(2020L, 0L), frequency_ts = 4L) # 4th quarter of 2019
-#> Warning in assert_date_ts(x = date_ts, frequency_ts, add = coll, .var.name =
-#> "date_ts"): Assertion on 'period' failed: Element 1 is not >= 1.
+#> Warning: Assertion on 'period' failed: Element 1 is not >= 1.
 #> [1] 2019    4
 normalize_date_ts(c(2020L, 0L), frequency_ts = 4L, test = FALSE) # 4th quarter of 2019
 #> [1] 2019    4

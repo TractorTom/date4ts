@@ -17,6 +17,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - New logo
 - export
   [`ts2df()`](https://tractortom.github.io/date4ts/reference/ts2df.md)
+- First CRAN release
 
 #### Changed
 
