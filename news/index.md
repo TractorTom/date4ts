@@ -1,8 +1,6 @@
 # Changelog
 
-## date4ts 0.1.2
-
-CRAN release: 2026-04-29
+## date4ts 0.1.2.9000
 
 All notable changes to this project will be documented in this file.
 
