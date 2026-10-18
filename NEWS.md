@@ -8,6 +8,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+* Language section in DESCRIPTION file
+
 
 ## [0.1.1] - 2026-01-28
 

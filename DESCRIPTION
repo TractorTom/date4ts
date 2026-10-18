@@ -1,6 +1,5 @@
 Package: date4ts
-Title: 
-    Wrangle and Modify Ts Object with Classic Frequencies and Exact Dates 
+Title: Wrangle and Modify Ts Object with Classic Frequencies and Exact Dates 
 Version: 0.1.1.9000
 Authors@R: 
     person("Tanguy", "Barthelemy", email = "tangbarth@hotmail.fr", role = c("aut", "cre"))
