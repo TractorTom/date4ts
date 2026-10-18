@@ -36,6 +36,7 @@ est au format numérique (Exemple : le troisième trimestre s'écrit 3)
 ## Examples
 
 ``` r
+
 # Avril 2020
 date_ts2timeunits(date_ts = c(2020L, 4L), frequency_ts = 12L)
 #> [1] 2020.25

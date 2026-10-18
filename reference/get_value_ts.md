@@ -46,6 +46,7 @@ Il faudrait parler d'extraction car contrairement à la fonction
 ## Examples
 
 ``` r
+
 ts1 <- ts(1:100, start = 2012L, frequency = 12L)
 ts2 <- ts(letters, start = 2014L, frequency = 4L)
 ts3 <- ts(exp(-(1:50)), start = 2015L, frequency = 12L)

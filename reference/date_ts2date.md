@@ -28,6 +28,7 @@ longueur 1 qui correspond à l'objet `date_ts`.
 ## Examples
 
 ``` r
+
 date_ts2date(date_ts = c(2020L, 11L), frequency_ts = 12L)
 #> [1] "2020-11-01"
 date_ts2date(date_ts = c(1995L, 2L), frequency_ts = 4L)

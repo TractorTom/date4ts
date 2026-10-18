@@ -47,6 +47,7 @@ retourne les périodes passées et non futures.
 ## Examples
 
 ``` r
+
 next_date_ts(c(2020L, 4L), frequency_ts = 4L, lag = 2L)
 #> [1] 2021    2
 next_date_ts(c(2021L, 1L), frequency_ts = 4L, lag = -2L)

@@ -74,6 +74,7 @@ Selon le préfixe de la fonction :
 ## Examples
 
 ``` r
+
 # Avec des entier integer
 assert_scalar_natural(1L)
 assert_scalar_natural(100L)

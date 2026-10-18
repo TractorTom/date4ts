@@ -30,6 +30,7 @@ selon l'argument `frequency_ts`.
 ## Examples
 
 ``` r
+
 date2date_ts(as.Date("2000-01-01"))
 #> [1] 2000    1
 date2date_ts(as.Date("2000-01-01"), frequency_ts = 12L)

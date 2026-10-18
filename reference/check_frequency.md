@@ -69,6 +69,7 @@ Selon le préfixe de la fonction :
 ## Examples
 
 ``` r
+
 assert_frequency(4L)
 assert_frequency(12L)
 

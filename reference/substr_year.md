@@ -26,6 +26,7 @@ longueur 1.
 ## Examples
 
 ``` r
+
 substr_year(as.Date("2000-02-29"), n = 1L)
 #> [1] "1999-02-28"
 substr_year(as.Date("2000-02-29"), n = 3L)

@@ -47,6 +47,7 @@ Selon le préfixe de la fonction :
 ## Examples
 
 ``` r
+
 assert_expression(expr = {2 + 2})
 assert_expression(expr = {is.integer(1L)})
 try(assert_expression(expr = {log("a")}), silent = TRUE)

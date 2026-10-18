@@ -46,6 +46,7 @@ Dans le cas d'une fréquence mensuelle, c'est l'inverse. Si `strict` vaut
 ## Examples
 
 ``` r
+
 is_before(a = c(2020L, 3L), b = c(2022L, 4L), frequency_ts = 12L)
 #> [1] TRUE
 is_before(a = c(2022L, 3L), b = c(2010L, 1L), frequency_ts = 4L)

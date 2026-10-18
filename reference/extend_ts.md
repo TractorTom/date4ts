@@ -69,6 +69,7 @@ comporte comme si `replacement` devenait
 ## Examples
 
 ``` r
+
 ts1 <- ts(
     data = c(rep(NA_integer_, 3L), 1L:10L, rep(NA_integer_, 3L)),
     start = 2020,

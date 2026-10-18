@@ -75,6 +75,7 @@ Selon le préfixe de la fonction :
 ## Examples
 
 ``` r
+
 assert_scalar_integer(1L)
 assert_scalar_integer(100L)
 assert_scalar_integer(-4L)

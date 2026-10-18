@@ -55,6 +55,7 @@ Selon le préfixe de la fonction :
 ## Examples
 
 ``` r
+
 assert_scalar_date(as.Date("2018-01-24"))
 assert_scalar_date(as.Date("2000-02-29"))
 assert_scalar_date(Sys.Date())

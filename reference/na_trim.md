@@ -32,6 +32,7 @@ L'objet retourné commence et finis par des valeurs non manquantes.
 ## Examples
 
 ``` r
+
 ts1 <- ts(c(rep(NA, 3L), 1:10, rep(NA, 3L)), start = 2020, frequency = 12L)
 ts2 <- ts(c(1:10, rep(NA, 3L)), start = c(2023, 2), frequency = 4L)
 ts3 <- ts(c(rep(NA, 3L), 1:10), start = 2000, frequency = 12L)

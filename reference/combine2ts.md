@@ -35,6 +35,7 @@ prendra NA sur cette période.
 ## Examples
 
 ``` r
+
 trim_1 <- stats::ts(rep(1, 4), start = 2021, frequency = 4L)
 
 mens_1 <- stats::ts(rep(1, 4), start = 2020, frequency = 12L)

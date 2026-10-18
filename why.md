@@ -13,6 +13,7 @@ les `check`s.
 Un petit exemple illustratif :
 
 ``` r
+
 library("checkmate")
 ```
 
@@ -21,6 +22,7 @@ library("checkmate")
 ```
 
 ``` r
+
 # Un check un peu random fait à la main
 check_inf_2 <- function(x, .var.name = checkmate::vname(x)) {
     cond1 <- check_integerish(x, lower = 1, upper = 2)
@@ -37,6 +39,7 @@ print(check_inf_2(1, .var.name = "Nom bizarre"))
 ```
 
 ``` r
+
 print(check_inf_2(3, .var.name = "Nom bizarre"))
 ```
 
@@ -45,6 +48,7 @@ print(check_inf_2(3, .var.name = "Nom bizarre"))
 ```
 
 ``` r
+
 assert_inf_2(1, .var.name = "Nom bizarre")
 ```
 
@@ -53,6 +57,7 @@ assert_inf_2(1, .var.name = "Nom bizarre")
 ```
 
 ``` r
+
 assert_inf_2(3, .var.name = "Nom bizarre")
 ```
 
@@ -67,6 +72,7 @@ Un autre possibilité serait de ne pas utiliser de `.var.name` pour les
 `check`s mais :
 
 ``` r
+
 # Un check sans .var.name (donc "normal")
 check_inf_2 <- function(x) {
     return(check_integerish(x, lower = 1, upper = 2))
@@ -98,6 +104,7 @@ assert_objet <- makeAssertionFunction(check_objet)
 ```
 
 ``` r
+
 check_objet(4)
 ```
 
@@ -106,6 +113,7 @@ check_objet(4)
 ```
 
 ``` r
+
 check_objet(c(1, 1, 2))
 ```
 
@@ -117,6 +125,7 @@ Remarque : La fonction de `check` marche bien mais uniquement parce
 qu’on l’a doté de `.var.name`.
 
 ``` r
+
 assert_objet(4)
 ```
 
@@ -125,6 +134,7 @@ assert_objet(4)
 ```
 
 ``` r
+
 assert_objet(c(1, 1, 2))
 ```
 
@@ -137,6 +147,7 @@ Mais on remarque alors que le message d’erreur n’est pas très clair…
 Pire :
 
 ``` r
+
 assert_objet(c(4, 1, 2))
 ```
 
@@ -148,6 +159,7 @@ assert_objet(c(4, 1, 2))
 Dernière solution : faire des fonctions mixtes :
 
 ``` r
+
 # Un check avec .var.name
 check_inf_2 <- function(x, .var.name = checkmate::vname(x)) {
     cond1 <- check_integerish(x, lower = 1, upper = 2)
@@ -181,6 +193,7 @@ assert_objet <- makeAssertionFunction(check_objet)
 ```
 
 ``` r
+
 print(check_objet(c(1, 1, 2)))
 ```
 
@@ -189,6 +202,7 @@ print(check_objet(c(1, 1, 2)))
 ```
 
 ``` r
+
 assert_objet(c(1, 1, 2))
 ```
 
@@ -197,6 +211,7 @@ assert_objet(c(1, 1, 2))
 ```
 
 ``` r
+
 assert_objet(c(4, 1, 2))
 ```
 

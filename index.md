@@ -11,15 +11,15 @@ date4ts est une boite à outils pour la manipulation des objets `ts` en
 R.
 
 La motivation pour la création de ce package est le fait que pour créer
-un objet `ts` en R, il faut préciser la date sous le format $AAAAPP$
-(avec $AAAA$ l’année en 4 chiffres et $PP$ le numéro de la période).
+un objet `ts` en R, il faut préciser la date sous le format $`AAAA PP`$
+(avec $`AAAA`$ l’année en 4 chiffres et $`PP`$ le numéro de la période).
 
 Par exemple, pour désigner le mois de septembre 2024, on utilise
 `c(2024, 9)` et pour désigner le mois de janvier 2025 on peut écrire
 `c(2025, 1)` ou `2025`.
 
-Mais on peut aussi utiliser le time-units ($AAAA + PP/f$ avec $f$ la
-fréquence).
+Mais on peut aussi utiliser le time-units ($`AAAA + PP / f`$ avec $`f`$
+la fréquence).
 
 L’idée est d’uniformiser les dates avec un ensemble de fonction de
 conversion, de formattage mais aussi de modification des `ts`.
@@ -31,6 +31,7 @@ conversion, de formattage mais aussi de modification des `ts`.
 To install it, you have to launch the following command line:
 
 ``` r
+
 install.packages("date4ts")
 ```
 
@@ -38,6 +39,7 @@ You can install the development version of {date4ts} from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("TractorTom/date4ts")
 ```
@@ -45,6 +47,7 @@ remotes::install_github("TractorTom/date4ts")
 ## Usage
 
 ``` r
+
 library("date4ts")
 ```
 
@@ -53,6 +56,7 @@ library("date4ts")
 - Convert a date from TimeUnits format to `date_ts` format:
 
 ``` r
+
 as_yyyytt(2019.75) # 4th quarter 2019
 #> [1] 2019    4
 as_yyyytt(2020) # 1st quarter 2020
@@ -64,6 +68,7 @@ as_yyyytt(2022 + 1 / 4) # 2nd quarter 2022
 - Convert a monthly date to a quarterly date:
 
 ``` r
+
 trim2mens(c(2019L, 4L)) # 4th quarter 2019 -> October 2019
 #> [1] 2019   10
 mens2trim(c(2020L, 11L)) # November 2020 -> 4th quarter 2020
@@ -75,6 +80,7 @@ mens2trim(c(2020L, 11L)) # November 2020 -> 4th quarter 2020
 - Get the previous date:
 
 ``` r
+
 previous_date_ts(c(2020L, 4L), frequency_ts = 4L, lag = 2L)
 #> [1] 2020    2
 ```
@@ -82,6 +88,7 @@ previous_date_ts(c(2020L, 4L), frequency_ts = 4L, lag = 2L)
 - Get the next date:
 
 ``` r
+
 next_date_ts(c(2020L, 4L), frequency_ts = 4L, lag = 2L)
 #> [1] 2021    2
 ```
@@ -89,6 +96,7 @@ next_date_ts(c(2020L, 4L), frequency_ts = 4L, lag = 2L)
 - Find the first non-NA date in a time series:
 
 ``` r
+
 ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12L)
 first_date(ts1)
 #> [1] 2000    4
@@ -99,6 +107,7 @@ first_date(ts1)
 - Retrieve values from a time series:
 
 ``` r
+
 ts1 <- ts(1:100, start = 2012L, frequency = 12L)
 get_value_ts(series = ts1, date_from = c(2015L, 7L), date_to = c(2018L, 6L))
 #>  [1] 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67
@@ -108,6 +117,7 @@ get_value_ts(series = ts1, date_from = c(2015L, 7L), date_to = c(2018L, 6L))
 - Set values in a time series:
 
 ``` r
+
 set_value_ts(series = ev_pib, date_ts = c(2021L, 2L), replacement = c(1, 2, 3))
 #>               Qtr1          Qtr2          Qtr3          Qtr4
 #> 1970            NA            NA            NA            NA
@@ -168,6 +178,7 @@ set_value_ts(series = ev_pib, date_ts = c(2021L, 2L), replacement = c(1, 2, 3))
 - Combine two time series:
 
 ``` r
+
 trim_1 <- stats::ts(rep(1, 4), start = 2021, frequency = 4L)
 combine2ts(ev_pib, trim_1)
 #>               Qtr1          Qtr2          Qtr3          Qtr4
@@ -229,6 +240,7 @@ combine2ts(ev_pib, trim_1)
 - Extend a time series with new values:
 
 ``` r
+
 ts1 <- ts(data = c(rep(NA_integer_, 3L), 1L:10L, rep(NA_integer_, 3L)), start = 2020, frequency = 12L)
 x <- rep(3L, 2L)
 extend_ts(series = ts1, replacement = x)
@@ -242,6 +254,7 @@ extend_ts(series = ts1, replacement = x)
 - Normalize a date:
 
 ``` r
+
 normalize_date_ts(c(2020L, 0L), frequency_ts = 4L) # 4th quarter of 2019
 #> Warning: Assertion on 'period' failed: Element 1 is not >= 1.
 #> [1] 2019    4
@@ -252,6 +265,7 @@ normalize_date_ts(c(2020L, 0L), frequency_ts = 4L, test = FALSE) # 4th quarter o
 - Generate labels for a period:
 
 ``` r
+
 libelles(date_ts = c(2019L, 10L), frequency_ts = 12L, n = 9L)
 #> [1] "Oct 2019" "Nov 2019" "Dec 2019" "Jan 2020" "Feb 2020" "Mar 2020" "Apr 2020"
 #> [8] "May 2020" "Jun 2020"
@@ -262,6 +276,7 @@ libelles(date_ts = c(2019L, 10L), frequency_ts = 12L, n = 9L)
 - Evolution of French GDP until Q1 2022:
 
 ``` r
+
 ev_pib
 #>               Qtr1          Qtr2          Qtr3          Qtr4
 #> 1970            NA            NA            NA            NA

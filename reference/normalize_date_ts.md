@@ -41,6 +41,7 @@ les données en entrée.
 ## Examples
 
 ``` r
+
 # Formattage inchangée
 normalize_date_ts(c(2020L, 1L), frequency_ts = 4L) # 1er trimestre de 2020
 #> [1] 2020    1

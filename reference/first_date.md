@@ -32,6 +32,7 @@ ne contient que des NAs, la fonction retourne une erreur.
 ## Examples
 
 ``` r
+
 ts1 <- ts(c(NA, NA, NA, 1:10, NA), start = 2000, frequency = 12L)
 ts2 <- ts(c(1:10, NA), start = 2020, frequency = 4L)
 

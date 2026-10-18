@@ -60,6 +60,7 @@ Selon le préfixe de la fonction :
 ## Examples
 
 ``` r
+
 assert_timeunits(2020.5, frequency_ts = 12L)
 assert_timeunits(2020.5, frequency_ts = 4L)
 assert_timeunits(2023., frequency_ts = 12L)
