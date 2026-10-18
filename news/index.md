@@ -10,6 +10,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### [Unreleased](https://github.com/TractorTom/date4ts/compare/v0.1.1...HEAD)
 
+#### Added
+
+- Language section in DESCRIPTION file
+
 ### [0.1.1](https://github.com/TractorTom/date4ts/compare/v0.1.0...v0.1.1) - 2026-01-28
 
 #### Added
