@@ -10,7 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### [Unreleased](https://github.com/TractorTom/date4ts/compare/0.1.2...HEAD)
 
-### [0.1.2](https://github.com/TractorTom/date4ts/compare/v0.1.1...0.1.2) - 2026-10-18
+### [0.1.2](https://github.com/TractorTom/date4ts/compare/v0.1.1...0.1.2) - 2026-04-29
 
 #### Added
 
